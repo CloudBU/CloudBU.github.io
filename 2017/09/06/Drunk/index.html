@@ -6,22 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（三） | 拙言</title>
+  <title>春风沉醉的夜晚 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="3. 环境抽象层环境抽象层（EAL）为底层资源如硬件和存储空间的访问提供了接口。这些接口为上层应用程序和库隐藏了不同环境的特殊性。初始化程序负责决定如何分配这些资源（即内存空间、PCI设备、计时器、控制台等扥）。 EAL提供的服务如下：  DPDK的加载和启动：DPDK和特定的应用程序链接成一个独立进程，并以某种方式加载。 CPU亲和性和分配处理：EAL提供了将执行单元分配给特定Core及创建执行">
-<meta name="keywords" content="数据平面,DPDK">
+  <meta name="description" content="假如你来找我，我是说假如，那么，上半夜我会请你喝茶，下半夜我会请你喝酒，然后，在天亮时各自睡去。 我给你倒茶，你给我讲这些年高兴的事情，我们坐在沙发上聊天，礼貌地回忆过往。 倒满酒，我们一起碰杯，让酒微微溢出，喝到涕泪横流。 天亮的时候，我们各自睡去。 你若不来，春天就过去了。  PS: 写于多年前的某个夜晚。">
+<meta name="keywords" content="自以为诗,心情,随笔">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（三）">
-<meta property="og:url" content="http://lockless.github.io/2017/09/05/dpdk-pg-3/index.html">
+<meta property="og:title" content="春风沉醉的夜晚">
+<meta property="og:url" content="http://lockless.github.io/2017/09/06/Drunk/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="3. 环境抽象层环境抽象层（EAL）为底层资源如硬件和存储空间的访问提供了接口。这些接口为上层应用程序和库隐藏了不同环境的特殊性。初始化程序负责决定如何分配这些资源（即内存空间、PCI设备、计时器、控制台等扥）。 EAL提供的服务如下：  DPDK的加载和启动：DPDK和特定的应用程序链接成一个独立进程，并以某种方式加载。 CPU亲和性和分配处理：EAL提供了将执行单元分配给特定Core及创建执行">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-82ad9dd9f64cc07d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-c5e296da8bb52243.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-09-06T03:48:19.057Z">
+<meta property="og:description" content="假如你来找我，我是说假如，那么，上半夜我会请你喝茶，下半夜我会请你喝酒，然后，在天亮时各自睡去。 我给你倒茶，你给我讲这些年高兴的事情，我们坐在沙发上聊天，礼貌地回忆过往。 倒满酒，我们一起碰杯，让酒微微溢出，喝到涕泪横流。 天亮的时候，我们各自睡去。 你若不来，春天就过去了。  PS: 写于多年前的某个夜晚。">
+<meta property="og:updated_time" content="2017-09-06T11:24:12.462Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（三）">
-<meta name="twitter:description" content="3. 环境抽象层环境抽象层（EAL）为底层资源如硬件和存储空间的访问提供了接口。这些接口为上层应用程序和库隐藏了不同环境的特殊性。初始化程序负责决定如何分配这些资源（即内存空间、PCI设备、计时器、控制台等扥）。 EAL提供的服务如下：  DPDK的加载和启动：DPDK和特定的应用程序链接成一个独立进程，并以某种方式加载。 CPU亲和性和分配处理：EAL提供了将执行单元分配给特定Core及创建执行">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-82ad9dd9f64cc07d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="春风沉醉的夜晚">
+<meta name="twitter:description" content="假如你来找我，我是说假如，那么，上半夜我会请你喝茶，下半夜我会请你喝酒，然后，在天亮时各自睡去。 我给你倒茶，你给我讲这些年高兴的事情，我们坐在沙发上聊天，礼貌地回忆过往。 倒满酒，我们一起碰杯，让酒微微溢出，喝到涕泪横流。 天亮的时候，我们各自睡去。 你若不来，春天就过去了。  PS: 写于多年前的某个夜晚。">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -173,154 +170,34 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-3" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Drunk" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（三）
+      春风沉醉的夜晚
     </h1>
   
 
         
-        <a href="/2017/09/05/dpdk-pg-3/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
+        <a href="/2017/09/06/Drunk/" class="archive-article-date">
+  	<time datetime="2017-09-06T11:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="3-环境抽象层"><a href="#3-环境抽象层" class="headerlink" title="3. 环境抽象层"></a>3. 环境抽象层</h1><p>环境抽象层（EAL）为底层资源如硬件和存储空间的访问提供了接口。这些接口为上层应用程序和库隐藏了不同环境的特殊性。初始化程序负责决定如何分配这些资源（即内存空间、PCI设备、计时器、控制台等扥）。</p>
-<p>EAL提供的服务如下：</p>
-<ul>
-<li>DPDK的加载和启动：DPDK和特定的应用程序链接成一个独立进程，并以某种方式加载。</li>
-<li>CPU亲和性和分配处理：EAL提供了将执行单元分配给特定Core及创建执行实例的机制。 </li>
-<li>系统内存预留：EAL实现了不同区域内存预留，例如用于设备交互的物理内存。</li>
-<li>PCI地址抽象：EAL提供了对PCI地址空间的访问接口</li>
-<li>跟踪调试功能：日志信息，堆栈打印、异常挂起等等。</li>
-<li>公用功能：提供了标准Libc库缺失的自旋锁、原子计数器等。</li>
-<li>CPU特征识别：运行时确定是否支持指定功能，如Intel AVX。确定当前CPU是否支持二进制编译的功能集。</li>
-<li>中断处理：提供接口用于向中断注册/解注册中断处理回调函数。</li>
-<li>告警功能：提供接口用于设置/取消指定时间环境下运行的毁掉函数。</li>
-</ul>
-<a id="more"></a>
-<h2 id="3-1-Linux用户执行环境中的EAL"><a href="#3-1-Linux用户执行环境中的EAL" class="headerlink" title="3.1. Linux用户执行环境中的EAL"></a>3.1. Linux用户执行环境中的EAL</h2><p>在Linux用户空间环境中，DPDK应用程序通过pthread库作为一个用户态程序运行。设备的PCI信息和地址空间通过/sys内核接口及内核模块如uio_pci_generic或igb_uio来发现的。详细信息请参阅Linux内核文档中UIO描述，设备的UIO信息是在程序中用mmap重新映射的。</p>
-<p>EAL使用mmap接口从hugetlb中实现物理内存的分配。这部分内存暴露给DPDK服务层，如<a href="http://www.jianshu.com/writer#_内存池库" target="_blank" rel="external">内存池库</a>。</p>
-<p>据此，DPDK服务层可以完成初始化，接着通过设置线程亲和性调用，每个执行单元将会分配给特定的逻辑核，以一个user-level等级的线程来运行。</p>
-<p>定时器是通过CPU的时间戳计数器TSC或者通过mmap调用内核的HPET系统接口实现。</p>
-<h3 id="3-1-1-初始化及核心启动"><a href="#3-1-1-初始化及核心启动" class="headerlink" title="3.1.1.初始化及核心启动]"></a>3.1.1.初始化及核心启动]</h3><p>部分初始化操作从Glibc的开始函数处就执行了。初始化过程中还执行一个检查，用于保证配置文件所选择的微架构类型是本CPU所支持的，然后才开始调用main()函数。Core的初始化和运行是在rte_eal_init()接口上执行的（参考API文档）。它包括对pthread库的调用（更具体的说是pthread_self(),pthread_create()和pthread_setaffinity_np()）。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-82ad9dd9f64cc07d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure3‑1EAL Initialization in a Linux Application Environment"></p>
-<p>注意：对象的初始化，例如内存区间、ring、内存池、lpm表或hash表等，必须作为整个程序初始化的一部分，在主逻辑核上完成。创建和初始化这些对象的函数不是多线程安全的，但是，一旦初始化完成，这些对象本身可以作为安全线程运行。</p>
-<h3 id="3-1-2-多进程支持"><a href="#3-1-2-多进程支持" class="headerlink" title="3.1.2.多进程支持"></a>3.1.2.多进程支持</h3><p>Linuxapp EAL允许多进程和多线程部署模式。详细信息请参阅“多进程支持”章节描述。</p>
-<h3 id="3-1-3-内存映射发现及内存预留"><a href="#3-1-3-内存映射发现及内存预留" class="headerlink" title="3.1.3.内存映射发现及内存预留"></a>3.1.3.内存映射发现及内存预留</h3><p>大型连续的物理内存分配是通过hugetlbfs内核文件系统来实现的。EAL提供了相应的接口用于预留指定名字的连续内存空间。这个API同时会将这段连续空间的地址返回给用户程序。</p>
-<p>注意：内存申请是使用rte_malloc接口来做的，它也是hugetlbfs文件系统大页支持的。</p>
-<h3 id="3-1-4-无Huge-TLB的Xen-Domain-0支持"><a href="#3-1-4-无Huge-TLB的Xen-Domain-0支持" class="headerlink" title="3.1.4.无Huge-TLB的Xen Domain 0支持"></a>3.1.4.无Huge-TLB的Xen Domain 0支持</h3><p>现有的内存管理是基于Linux内核的大页机制。然而，Xen Dom0并不支持大页，所以要将一个新的内核模块rte_dom0_mem加载上，以便避开这个限制。</p>
-<p>EAL使用IOCTL接口用于通告Linux内核模块rte_mem_dom0去申请指定大小的内存块，并从该模块中获取内存段的信息。EAL使用MMAP接口来映射这段内存。对于申请到的内存段，在其内的物理地址都是连续的，但是实际上，硬件地址只在2M内连续。</p>
-<h3 id="3-1-5-PCI访问"><a href="#3-1-5-PCI访问" class="headerlink" title="3.1.5.PCI访问"></a>3.1.5.PCI访问</h3><p>EAL使用Linux内核提供的文件系统/sys/bus/pci来扫描PCI总线上的内容。内核模块uio_pci_generic提供了/dev/uioX设备文件及/sys下对应的资源文件用于访问PCI设备。DPDK特有的igb_uio模块也提供了相同的功能用于PCI设备的访问。这两个驱动模块都用到了Linux内核提供的uio特性（用户空间驱动）。</p>
-<h3 id="3-1-6-每逻辑核变量和共享变量"><a href="#3-1-6-每逻辑核变量和共享变量" class="headerlink" title="3.1.6.每逻辑核变量和共享变量"></a>3.1.6.每逻辑核变量和共享变量</h3><p>注意： 逻辑核就是处理器的逻辑单元，有时也称为硬件线程。<br>默认的做法是使用共享变量。每逻辑核变量的实现则是通过线程局部存储技术TLS来实现的，它提供了每个线程本地存储的功能。</p>
-<h3 id="3-1-7-日志"><a href="#3-1-7-日志" class="headerlink" title="3.1.7.日志"></a>3.1.7.日志</h3><p>EAL提供了日志信息接口。默认情况下，在Linux应用程序中，日志信息被发送到syslog和console中。当然，用户可以通过使用不同的日志机制来重写DPDK中的日志函数。</p>
-<h4 id="3-1-7-1-跟踪与调试功能"><a href="#3-1-7-1-跟踪与调试功能" class="headerlink" title="3.1.7.1.跟踪与调试功能"></a>3.1.7.1.跟踪与调试功能</h4><p>Glibc中提供了一些调试函数用于打印堆栈信息。Rte_panic()函数可以产生一个SIG_ABORT信号，这个信号可以触发产生coredump文件，我们可以通过gdb来加载调试。</p>
-<h3 id="3-1-8-CPU特性标识"><a href="#3-1-8-CPU特性标识" class="headerlink" title="3.1.8.CPU特性标识"></a>3.1.8.CPU特性标识</h3><p>EAL可以在运行时查询CPU状态（使用rte_cpu_get_feature()接口），用于判断哪个CPU特性可用。</p>
-<h3 id="3-1-9-用户空间中断事件"><a href="#3-1-9-用户空间中断事件" class="headerlink" title="3.1.9.用户空间中断事件"></a>3.1.9.用户空间中断事件</h3><h4 id="3-1-9-1-主机线程中的用户空间中断和报警处理"><a href="#3-1-9-1-主机线程中的用户空间中断和报警处理" class="headerlink" title="3.1.9.1.主机线程中的用户空间中断和报警处理"></a>3.1.9.1.主机线程中的用户空间中断和报警处理</h4><p>EAL创建一个主机线程用于轮询UIO设备描述文件描述符以检测中断。可以通过EAL提供的函数为特定的中断事件注册或注销回调函数，回掉函数在主机线程中被异步调用。EAL同时也允许像NIC中断那样定时调用中断处理回调。</p>
-<p>注意： 在DPDK的PMD中，主机线程只对连接状态改变的中断处理，例如网卡的打开和关闭，以及设备突然移除中断。</p>
-<h4 id="3-1-9-2-RX中断事件"><a href="#3-1-9-2-RX中断事件" class="headerlink" title="3.1.9.2.RX中断事件"></a>3.1.9.2.RX中断事件</h4><p>PMD提供的报文收发程序并不只限制于轮询模式下执行。为了缓解小吞吐量下轮询模式对CPU资源的浪费，暂停轮询并等待唤醒事件发生是一种有效的手段。收包中断是这种场景的一种很好的选择，当然也不是唯一的。</p>
-<p>EAL为事件驱动模式提供了相关的API。以Linuxapp为例，其实现依赖于epoll技术。每个线程可以监控一个epoll实例，而在实例中可以添加所有需要的wake-up事件文件描述符。事件文件描述符根据UIO/VFIO规范创建并映射到指定的中断向量上。从bspapp角度看，可以使用kqueue来代替，但是目前尚未实现。</p>
-<p>EAL初始化中断向量和事件文件描述符之间的映射关系，同时每个设备初始化中断向量和队列之间的映射关系，这样，EAL实际上并不知道在指定向量上发生的中断，由设备驱动负责执行后面的映射。</p>
-<p>注意：每队列RX中断事件只有VFIO模式支持，VFIO支持多个MSI-X向量。在UIO中，RX中断和其他中断共享中断向量，因此，当RX中断和LSC（连接状态改变）中断同时发生时（(intr_conf.lsc == 1 &amp;&amp; intr_conf.rxq == 1），只有前者才有能力区分。RX中断由API（rte_eth_dev_rx<em>intr</em>*）来实现控制、使能、关闭。当PMD不支持时，这些API返回失败。Intr_conf.rxq标识用于打开每个设备的RX中断。</p>
-<h4 id="3-1-9-3-设备移除事件"><a href="#3-1-9-3-设备移除事件" class="headerlink" title="3.1.9.3.设备移除事件"></a>3.1.9.3.设备移除事件</h4><p>当总线上的设备被移除时就出发该事件。设备底层资源可能不再可用（即PCI映射未完成）。PMD必须保证在这种情况下，应用程序仍然可以安全地使用其中断回调。<br>可以使用链接状态改变中断事件相同的方式来订阅这个中断事件。执行上下文是相同的，即专用的中断线程。</p>
-<p>考虑到，应用程序可能想要关闭发出设备删除事件的设备，在这种情况下，调用rte_eth_dev_close()可能触发它注销自己的设备删除事件回调。因此，必须注意不要在中断处理程序上下文中关闭设备。必须重新安排这种关闭操作。</p>
-<h3 id="3-1-10-黑名单"><a href="#3-1-10-黑名单" class="headerlink" title="3.1.10.黑名单"></a>3.1.10.黑名单</h3><p>EAL PCI设备的黑名单功能是用于标识指定的NIC端口，以便DPDK忽略该端口。可以使用PCIe设备地址描述符（Domain:Bus:Device:Function）将对应端口标记为黑名单。</p>
-<h3 id="3-1-11-杂项功能"><a href="#3-1-11-杂项功能" class="headerlink" title="3.1.11.杂项功能"></a>3.1.11.杂项功能</h3><p>每个架构不同的锁和原子操作（i686和x86_64）。</p>
-<h2 id="3-2-内存段和内存区域"><a href="#3-2-内存段和内存区域" class="headerlink" title="3.2.内存段和内存区域"></a>3.2.内存段和内存区域</h2><p>物理内存映射就是通过EAL的这个特性实现的。物理内存块之间可能是不连续的，所有的内存通过一个内存描述符表进行管理，且表中的每个描述符指向一块连续的物理内存。</p>
-<p>基于此，内存区域分配器的作用就是保证分配到一块连续的物理内存。这些区域被分配出来时会用一个唯一的名字来标识。</p>
-<p>Rte_memzone描述符也在配置结构体中，可以通过rte_eal_get_configuration()接口来获取。通过名字访问一个内存区域会返回对应内存区域的描述符。</p>
-<p>内存分配可以从指定开始地址和对齐方式来预留（默认是cache line大小对齐），对齐一般是以2的次幂来的，并且不小于高速缓存行的大小（64字节）对齐。内存区域也可以从2M或1G大小的内大页内存中获取，这两者系统都支持。</p>
-<h2 id="3-3-多线程"><a href="#3-3-多线程" class="headerlink" title="3.3.多线程"></a>3.3.多线程</h2><p>DPDK通常为每个Core指定一个线程，以避免任务切换的开销。这有利于性能的提升，但不总是有效的，并且缺乏灵活性。</p>
-<p>电源管理通过限制CPU的运行频率来提升CPU的工作效率。当然，我们也可以通过充分利用CPU的空闲周期来使用CPU的全部功能。</p>
-<p>通过使用cgroup技术，CPU的使用量可以很方便的分配，这也提供了新的方法来提升CPU性能，但是这里有个前提，DPDK必须处理每个核上多个线程的上下文切换。</p>
-<p>想要更多的灵活性，就要设置线程的CPU亲和性是针对对CPU集合而不是CPU了。</p>
-<h3 id="3-3-1-EAL线程与逻辑核亲和性"><a href="#3-3-1-EAL线程与逻辑核亲和性" class="headerlink" title="3.3.1.EAL线程与逻辑核亲和性"></a>3.3.1.EAL线程与逻辑核亲和性</h3><p>术语“lcore”指一个EAL线程，这是一个真正意义上的Linux/FreeBSD pthread。“EAL pthread”由EAL创建和管理，并执行remote_launch发出的任务。在每个EAL pthread中，有一个称为_lcore_id的TLS（线程本地存储）用于唯一标识线程。由于EAL pthread通常将物理CPU绑定为1：1，所以_locore_id通常等于CPU ID。</p>
-<p>但是，当使用多线程时，EAL pthread和指定的物理CPU之间的绑定不再总是1：1了。EAL pthread可能与一组CPU相关，因此_lcore_id将不同于CPU ID。基于这个原因，EAL有一个运行参数选项“-lcores”用来定义分配的CPU亲和性。对于执行的lcore ID或ID组，该选项允许设置该EAL pthread的CPU组。</p>
-<p>设置格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">注意：</div><div class="line">-lcores=’[@cpu_set][,[@cpu_set],…]”</div><div class="line">其中lcore_set和cpu_set可以是单个数值，区间或者组。</div><div class="line">数值可以是“digit([0-9]+)”</div><div class="line">区间可以是“-”</div><div class="line">组可以是“([,,...])”</div></pre></td></tr></table></figure></p>
-<p>如果‘@cpu_set’值未指定，‘cpu_set’的值默认与‘lcore_set’相等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">举例：&quot;--lcores=&apos;1,2@(5-7),(3-5)@(0,2),(0,6),7-8&apos;&quot;表示启动了9个EAL pthread：</div><div class="line">lcore 0运行于CPU组0x41，也就是CPU（0，6）</div><div class="line">lcore 1运行于CPU组0x2，也就是CPU（1）</div><div class="line">lcore 2运行于CPU组0xe0，也就是CPU（5，6，7）</div><div class="line">lcore 3-5运行于CPU组0x5也就是CPU（0，2）</div><div class="line">lcore 6运行于CPU组0x41，也就是CPU（0，6）</div><div class="line">lcore 7运行于CPU组0x80，也就是CPU（7）</div><div class="line">lcore 8运行于CPU组0x100，也就是CPU（8）</div><div class="line">使用这个选项，对于给定的lcore</div><div class="line">ID，可以分配对应的CPU组。它也兼容corelist（&apos; - l&apos;）选项的模式。</div></pre></td></tr></table></figure></p>
-<h3 id="3-3-2-非EAL线程支持"><a href="#3-3-2-非EAL线程支持" class="headerlink" title="3.3.2.非EAL线程支持"></a>3.3.2.非EAL线程支持</h3><p>可以在任何用户线程（non-EAL线程）上执行DPDK任务上下文。在non-EAL pthread中，<em>_lcore_id</em>始终是LCORE_ID_ANY，它标识一个no-EAL线程的有效、唯一的<em>_lcore_id</em>。有些库可会使用一个唯一的ID替代（如TID），有些库将不受影响，有些库则会受到限制（如定时器和内存池库）。</p>
-<p>所有这些影响将在“已知问题”章节中提到。</p>
-<h3 id="3-3-3-公用线程API"><a href="#3-3-3-公用线程API" class="headerlink" title="3.3.3.公用线程API"></a>3.3.3.公用线程API</h3><p>DPDK为线程操作引入了两个公共API rte_thread_set_affinity() rte_pthread_get_affinity()。当他们在任何线程上下文中调用时，将获取或设置线程本地存储(TLS)。</p>
-<p>这些TLS包括_cpuset和_socket_id：</p>
-<ul>
-<li>_cpuset存储了与线程亲和的CPU位图。</li>
-<li>_socket_id存储了CPU set所在的NUMA节点。如果CPU set中的cpu属于不同的NUMA节点, _socket_id将设置为SOCKET_ID_ANY。</li>
-</ul>
-<h3 id="3-3-4-已知问题"><a href="#3-3-4-已知问题" class="headerlink" title="3.3.4.已知问题"></a>3.3.4.已知问题</h3><ul>
-<li>lrte_mempool<br>rte_mempool在mempool中使用per-lcore缓存。对于non-EAL pthread，rte_lcore_id()无法返回一个合法的值。因此，当rte_mempool与non-EAL线程一起使用时，put/get操作将绕过默认的mempool缓存，这个旁路操作将造成性能损失。结合rte_mempool_generic_put()和rte_mempool_generic_get()可以在non-EAL线程中使用用户拥有的外部缓存。</li>
-<li>rte_ring<br>rte_ring支持多生产者入队和多消费者出队操作。然而，这是非抢占的，这使得rte_mempool操作都是非抢占的。<br>注意：“非抢占”意味着：</li>
-</ul>
-<ul>
-<li>在给定的ring上做入队操作的pthread不能被另一个在同一个ring上做入队的pthread抢占</li>
-<li>在给定ring上做出对操作的pthread不能被另一个在同一ring上做出队的pthread抢占<br>绕过此约束则可能造成第二个进程自旋等待，知道第一个进程再次被调度为止。此外，如果第一个线程被优先级较高的上下文抢占，甚至可能造成死锁。</li>
-</ul>
-<p>这并不意味着不能使用它，简单讲，当同一个core上的多线程使用时，需要缩小这种情况.</p>
-<ol>
-<li>它可以用于任一单一生产者或者单一消费者的情况。</li>
-<li>它可以由多生产者/多消费者使用，要求调度策略都是SCHED_OTHER(cfs)。用户需要预先了解性能损失。</li>
-<li>它不能被调度策略是SCHED_FIFO或SCHED_RR的多生产者/多消费者使用。</li>
-</ol>
-<ul>
-<li>lrte_timer<br>不允许在non-EAL pthread上运行rte_timer_manager()。但是，允许在non-EAL pthread上重置/停止定时器。</li>
-<li>lrte_log<br>在non-EAL pthread上，没有per thread<br>loglevel和logtype，但是global<br>loglevels可以使用。</li>
-<li>lMisc<br>在non-EAL pthread上不支持rte_ring,<br>rte_mempool和rte_timer的调试统计信息。</li>
-</ul>
-<h3 id="3-3-5-cgroup控制"><a href="#3-3-5-cgroup控制" class="headerlink" title="3.3.5.cgroup控制"></a>3.3.5.cgroup控制</h3><p>以下是cgroup控件使用的简单示例，在同一个核心($CPU)上两个线程(t0 and t1)执行数据包I/O。我们期望只有50%的CPU消耗在数据包IO操作上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mkdir /sys/fs/cgroup/cpu/pkt_io</div><div class="line">mkdir  /sys/fs/cgroup/cpuset/pkt_io</div><div class="line">echo $cpu  &gt; /sys/fs/cgroup/cpuset/cpuset.cpus</div><div class="line">echo $t0  &gt; /sys/fs/cgroup/cpu/pkt_io/tasks</div><div class="line">echo $t0  &gt; /sys/fs/cgroup/cpuset/pkt_io/tasks</div><div class="line">echo $t1  &gt; /sys/fs/cgroup/cpu/pkt_io/tasks</div><div class="line">echo $t1  &gt; /sys/fs/cgroup/cpuset/pkt_io/tasks</div><div class="line">cd  /sys/fs/cgroup/cpu/pkt_io</div><div class="line">echo 100000  &gt; pkt_io/cpu.cfs_period_us</div><div class="line">echo50000 &gt; pkt_io/cpu.cfs_quota_us</div></pre></td></tr></table></figure></p>
-<h3 id="3-4-内存申请操作"><a href="#3-4-内存申请操作" class="headerlink" title="3.4.内存申请操作"></a>3.4.内存申请操作</h3><p>EAL提供了一个malloc API用于申请任意大小内存。</p>
-<p>这个API的目的是提供类似malloc的功能，以允许从hugepage中分配内存并方便应用程序移植。《DPDK API参考手册》详细介绍了接口的功能。</p>
-<p>通常，这些类型的分配操作不应该在数据面处理中进行，因为他们比基于池的分配慢，并且在分配和释放路径中使用了锁操作。但是，他们可以在配置代码中使用。<br>更多信息请参阅《DPDKAPI参考手册》中rte_malloc()函数描述。</p>
-<h1 id="3-4-1-Cookies"><a href="#3-4-1-Cookies" class="headerlink" title="3.4.1.Cookies"></a>3.4.1.Cookies</h1><p>当CONFIG_RTE_MALLOC_DEBUG开启时，分配的内存包括保护字段，这个字段用于帮助识别缓冲区溢出。</p>
-<h3 id="3-4-2-对齐和NUMA限制"><a href="#3-4-2-对齐和NUMA限制" class="headerlink" title="3.4.2.对齐和NUMA限制"></a>3.4.2.对齐和NUMA限制</h3><p>接口rte_malloc()传入一个对齐参数，该参数用于请求在该值的倍数上对齐的内存区域(这个值必须是2的幂次)。</p>
-<p>在支持NUMA的系统上，对rte_malloc()接口调用将返回在调用函数的Core所在的插槽上分配的内存。DPDK还提供了另一组API，以允许在指定NUMA插槽上直接显式分配内存，或者分配另一个NUAM插槽上的内存。</p>
-<h3 id="3-4-3-用例"><a href="#3-4-3-用例" class="headerlink" title="3.4.3.用例"></a>3.4.3.用例</h3><p>这个API旨在由初始化时需要类似malloc功能的应用程序调用。<br>需要在运行时分配/释放数据，在应用程序的快速路径中，应该使用内存池库。</p>
-<h3 id="3-4-4-内部实现"><a href="#3-4-4-内部实现" class="headerlink" title="3.4.4.内部实现"></a>3.4.4.内部实现</h3><h4 id="3-4-4-1-数据结构"><a href="#3-4-4-1-数据结构" class="headerlink" title="3.4.4.1.数据结构"></a>3.4.4.1.数据结构</h4><p>Malloc库中内部使用两种数据结构类型：</p>
-<ul>
-<li>lstruct malloc_heap：用于在每个插槽上跟踪可用内存空间</li>
-<li>lstruct malloc_elem：库内部分配和释放空间跟踪的基本要素</li>
-</ul>
-<h5 id="3-4-4-1-1-malloc-heap"><a href="#3-4-4-1-1-malloc-heap" class="headerlink" title="3.4.4.1.1.malloc_heap"></a>3.4.4.1.1.malloc_heap</h5><p>数据结构malloc_heap用于管理每个插槽上的可用内存空间。在内部，每个NUMA节点有一个堆结构，这允许我们根据此线程运行的NUMA节点为线程分配内存。虽然这并不能保证在NUMA节点上使用内存，但是它并不比内存总是在固定或随机节点上的方案更糟。</p>
-<p>堆结构及其关键字段和功能描述如下：</p>
-<ul>
-<li>llock：需要锁来同步对堆结构的访问。假定使用链表来跟踪堆中的可用空间，我们需要一个锁来防止多个线程同时处理该链表。</li>
-<li>lfree_head：指向这个malloc堆的空闲结点链表中的第一个元素。</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-c5e296da8bb52243.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure3‑2Example of a malloc heap and malloc elements within the malloclibrary"></p>
-<p>注意：数据结构malloc_heap并不会跟踪使用的内存块，因为除了要再次释放它们之外，它们不会i被接触，需要释放时，将指向块的指针作为参数传递给free函数。</p>
-<h5 id="3-4-4-1-2-malloc-elem"><a href="#3-4-4-1-2-malloc-elem" class="headerlink" title="3.4.4.1.2.malloc_elem"></a>3.4.4.1.2.malloc_elem</h5><p>数据结构malloc_elem用作各种内存块的通用头结构。它以三种不同的方式使用，如上图所示：</p>
-<ul>
-<li>作为一个释放/申请内存的头部，正常使用</li>
-<li>作为内存块内部填充头</li>
-<li>作为内存结尾标记</li>
-</ul>
-<p>结构中重要的字段和使用方法如下所述：</p>
-<ul>
-<li>heap：这个指针指向了该内存块从哪个堆申请。它被用于正常的内存块，当他们被释放时，将新释放的块添加到堆的空闲列表中。</li>
-<li>prev：这个指针用于指向紧跟着当前memseg的头元素。当释放一个内存块时，该指针用于引用上一个内存块，检查上一个块是否也是空闲。如果空闲，则将两个空闲块合并成一个大块。</li>
-<li>next_free：这个指针用于将空闲块列表连接在一起。它用于正常的内存块，在malloc()接口中用于找到一个合适的空闲块申请出来，在free()函数中用于将内存块添加到空闲链表。</li>
-<li>state：该字段可以有三个可能值：FREE, BUSY或PAD。前两个是指示正常内存块的分配状态，后者用于指示元素结构是在块开始填充结束时的虚拟结构，即，由于对齐限制，块内的数据开始的地方不在块本身的开始处。在这种情况下，pad头用于定位块的实际malloc元素头。对于结尾的结构，这个字段总是BUSY，它确保没有元素在释放之后搜索超过memseg的结尾以供其它块合并到更大的空闲块。</li>
-<li>pad：这个字段为块开始处的填充长度。在正常块头部情况下，它被添加到头结构的结尾，以给出数据区的开始地址，即在malloc上传回的地址。在填充虚拟头部时，存储相同的值，并从虚拟头部的地址中减去实际块头部的地址。</li>
-<li>size：数据块的大小，包括头部本身。对于结尾结构，这个大小需要指定为0，虽然从未使用。对于正在释放的正常内存块，使用此大小值替代“next”指针，以标识下一个块的存储位置，在FREE情况下，可以合并两个空闲块。</li>
-</ul>
-<h4 id="3-4-4-2-内存申请"><a href="#3-4-4-2-内存申请" class="headerlink" title="3.4.4.2.内存申请"></a>3.4.4.2.内存申请</h4><p>在EAL初始化时，所有memseg都将作为malloc堆的一部分进行设置。这个设置包括在BUSY状态结束时放置一个虚拟结构，如果启用了CONFIG_RTE_MALLOC_DEBUG，它可能包含一个哨兵值，并在开始时为每个memseg指定一个适当的元素头。然后将FREE元素添加到malloc堆的空闲链表中。</p>
-<p>当应用程序调用类似malloc功能的函数时，malloc函数将首先为调用线程索引lcore_config结构，并确定该线程的NUMA节点。NUMA节点将作为参数传给heap_alloc()函数，用于索引malloc_heap结构数组。参与索引参数还有大小、类型、对齐方式和边界参数。</p>
-<p>函数heap_alloc()将扫描堆的空闲链表，尝试找到一个适用于所请求的大小、对齐方式和边界约束的内存块。</p>
-<p>当已经识别出合适的空闲元素时，将计算要返回给用户的指针。紧跟在该指针之前的内存的高速缓存行填充了一个malloc_elem头部。由于对齐和边界约束，在元素的开头和结尾可能会有空闲的空间，这将导致已下行为：</p>
-<ul>
-<li>检查尾随空间。如果尾部空间足够大，例如&gt; 128字节，那么空闲元素将被分割。否则，仅仅忽略它（浪费空间）。</li>
-<li>检查元素开始处的空间。如果起始处的空间很小，&lt;=128字节，那么使用填充头，这部分空间被浪费。但是，如果空间很大，那么空闲元素将被分割。</li>
-</ul>
-<p>从现有元素的末尾分配内存的优点是不需要调整空闲链表，空闲链表中现有元素仅调整大小指针，并且后面的元素使用“prev”指针重定向到新创建的元素位置。</p>
-<h4 id="3-4-4-3-内存释放"><a href="#3-4-4-3-内存释放" class="headerlink" title="3.4.4.3.内存释放"></a>3.4.4.3.内存释放</h4><p>要释放内存，将指向数据区开始的指针传递给free函数。从该指针中减去malloc_elem结构的大小，以获得内存块元素头部。如果这个头部类型是PAD，那么进一步减去pad长度，以获得整个块的正确元素头。</p>
-<p>从这个元素头中，我们获得指向块所分配的堆的指针及必须被释放的位置，以及指向前一个元素的指针，并且通过size字段，可以计算下一个元素的指针。这意味着我们永远不会有两个相邻的FREE内存块，因为他们总是会被合并成一个大的块。</p>
-<p>同时发布于简书：<a href="http://www.jianshu.com/p/273e99f61e97" target="_blank" rel="external">DPDK编程指南（三）</a> 。</p>
+        <blockquote>
+<p>假如你来找我，<br>我是说假如，<br>那么，<br>上半夜我会请你喝茶，<br>下半夜我会请你喝酒，<br>然后，<br>在天亮时各自睡去。</p>
+<p>我给你倒茶，<br>你给我讲这些年高兴的事情，<br>我们坐在沙发上聊天，<br>礼貌地回忆过往。</p>
+<p>倒满酒，<br>我们一起碰杯，<br>让酒微微溢出，<br>喝到涕泪横流。</p>
+<p>天亮的时候，<br>我们各自睡去。</p>
+<p>你若不来，<br>春天就过去了。</p>
+</blockquote>
+<p>PS: 写于多年前的某个夜晚。</p>
 
       
 
@@ -334,11 +211,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">自以为诗</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
         		</li>
       		
 		</ul>
@@ -394,7 +275,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/05/dpdk-pg-3/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/06/Drunk/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -408,18 +289,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/09/05/dpdk-pg-4/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（四）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/05/dpdk-pg-2/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二）</div>
+    <a href="/2017/09/06/Do-Not-Go-Gentle-into-That-Good-Night/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">不要温和地走入那个良夜</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -449,7 +321,7 @@
   
 
   
-  <div id="SOHUCS" sid="dpdk-pg-3" ></div> 
+  <div id="SOHUCS" sid="Drunk" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 
