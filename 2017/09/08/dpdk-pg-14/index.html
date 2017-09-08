@@ -6,18 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Tag: 数据平面 | 拙言</title>
+  <title>DPDK编程指南（十四） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/tags/数据平面/index.html">
+  <meta name="description" content="14.LPM库DPDK LPM库组件实现了32位Key的最长前缀匹配（LPM）表搜索方法，该方法通常用于在IP转发应用程序中找到最佳路由。">
+<meta name="keywords" content="数据平面,DPDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK编程指南（十四）">
+<meta property="og:url" content="http://lockless.github.io/2017/09/08/dpdk-pg-14/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="14.LPM库DPDK LPM库组件实现了32位Key的最长前缀匹配（LPM）表搜索方法，该方法通常用于在IP转发应用程序中找到最佳路由。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-1635d24de606de4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-09-08T09:48:45.837Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="DPDK编程指南（十四）">
+<meta name="twitter:description" content="14.LPM库DPDK LPM库组件实现了32位Key的最长前缀匹配（LPM）表搜索方法，该方法通常用于在IP转发应用程序中找到最佳路由。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-1635d24de606de4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -179,78 +182,100 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dpdk-pg-14" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-15/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-15/">DPDK编程指南（十五）</a>
+    <h1 class="article-title" itemprop="name">
+      DPDK编程指南（十四）
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-14/" class="archive-article-date">
+        
+        <a href="/2017/09/08/dpdk-pg-14/" class="archive-article-date">
   	<time datetime="2017-09-08T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-14/">DPDK编程指南（十四）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="14-LPM库"><a href="#14-LPM库" class="headerlink" title="14.LPM库"></a>14.LPM库</h1><p>DPDK LPM库组件实现了32位Key的最长前缀匹配（LPM）表搜索方法，该方法通常用于在IP转发应用程序中找到最佳路由。</p>
+<a id="more"></a>
+<h2 id="14-1-LPM-API概述"><a href="#14-1-LPM-API概述" class="headerlink" title="14.1.LPM API概述"></a>14.1.LPM API概述</h2><p>LPM组件实例的主要配置参数是要支持的最大数量的规则。LPM前缀由一对参数（32位Key，深度）表示，深度范围为1到32。LPM规则由LPM前缀和与前缀相关联的一些用户数据表示。该前缀作为LPM规则的唯一标识符。在该实现中，用户数据为1字节长，被称为下一跳，与其在路由表条目中存储下一跳的ID的主要用途相关。</p>
+<p>LPM组件导出的主要方法有：</p>
+<ul>
+<li>添加LPM规则：LPM规则作为输入参数。如果表中没有存在相同前缀的规则，则将新规则添加到LPM表中。如果表中已经存在具有相同前缀的规则，则会更新规则的下一跳。当没有可用的规则空间时，返回错误。</li>
+<li>删除LPM规则：LPM规则的前缀作为输入参数。如果具有指定前缀的规则存在于LPM表中，则会被删除。</li>
+<li>LPM规则查找：32位Key作为输入参数。该算法用于选择给定Key的最佳匹配的LPM规则，并返回该规则的下一跳。在LPM表中具有多个相同32位Key的规则的情况下，算法将最高深度的规则选为最佳匹配规则（最长前缀匹配），这意味着该规则Key和输入的Key之间具有最高有效位的匹配。</li>
+</ul>
+<h2 id="14-2-实现细节"><a href="#14-2-实现细节" class="headerlink" title="14.2.实现细节"></a>14.2.实现细节</h2><p>目前的实现使用DIR-24-8算法的变体，可以改善内存使用量，以提高LPM查找速度。该算法允许以典型的单个存储器读访问来执行查找操作。在统计上看，即便是不常出现的情况，当即最佳匹配规则的深度大于24时，查找操作也仅需要两次内存读取访问。因此，特定存储器位置是否存在于处理器高速缓存中将很大程度上影响LPM查找操作的性能。</p>
+<p>主要数据结构使用以下元素构建：</p>
+<ul>
+<li>一个2^24个条目的表。</li>
+<li>多个表（RTE_LPM_TBL8_NUM_GROUPS），每个表有2 ^ 8个条目。</li>
+</ul>
+<p>第一个表，称为tbl24，使用要查找的IP地址的前24位进行索引；而第二个表，称为tbl8使用IP地址的最后8位进行索引。这意味着根据输入数据包的IP地址与存储在tbl24中的规则进行匹配的结果，我们可能需要在第二级继续查找过程。</p>
+<p>由于tbl24的每个条目都可以指向tbl8，理想情况下，我们将具有2 ^ 24 tbl8，这与具有2 ^ 32个条目的单个表占用空间相同。因为资源限制，这显然是不可行的。相反，这种组织方法就是利用了超过24位的规则是非常罕见的这一特定。通过将这个过程分为两个不同的表/级别并限制tbl8的数量，我们可以大大降低内存消耗，同时保持非常好的查找速度（大部分时间仅一个内存访问）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7246758-1635d24de606de4b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 14 1 Table split into different levels"></p>
+<p>tbl24中的条目包含以下字段：</p>
+<ul>
+<li>下一跳，或者下一级查找表tbl8的索引值。</li>
+<li>有效标志。</li>
+<li>外部条目标志。</li>
+<li>规则深度。</li>
+</ul>
+<p>第一个字段可以包含指示查找过程应该继续的tbl8的数字，或者如果已经找到最长的前缀匹配，则可以包含下一跳本身。两个标志字段用于确定条目是否有效，以及搜索过程是否分别完成。规则的深度或长度是存储在特定条目中的规则的位数。</p>
+<p>tbl8中的条目包含以下字段：</p>
+<ul>
+<li>下一跳。</li>
+<li>有效标志。</li>
+<li>有效组。</li>
+<li>深度。</li>
+</ul>
+<p>下一跳和深度包含与tbl24中相同的信息。两个标志字段显示条目和表分别是否有效。</p>
+<p>其他主要数据结构是包含有关规则（IP和下一跳）的主要信息的表。这是一个更高级别的表，用于不同的东西：</p>
+<ul>
+<li>在添加或删除之前，检查规则是否已经存在，而无需实际执行查找。</li>
+<li>删除时，检查是否存在包含要删除的规则。这很重要，因为主数据结构必须相应更新。</li>
+</ul>
+<h3 id="14-2-1-添加"><a href="#14-2-1-添加" class="headerlink" title="14.2.1.添加"></a>14.2.1.添加</h3><p>添加规则时，存在不同的可能性。如果规则的深度恰好是24位，那么：</p>
+<ul>
+<li>使用规则（IP地址）作为tbl24的索引。</li>
+<li>如果条目无效（即它不包含规则），则将其下一跳设置为其值，将有效标志设置为1（表示此条目正在使用中），并将外部条目标志设置为0（表示查找 此过程结束，因为这是匹配的最长的前缀）。</li>
+</ul>
+<p>如果规则的深度正好是32位，那么：</p>
+<ul>
+<li>使用规则的前24位作为tbl24的索引。</li>
+<li>如果条目无效（即它不包含规则），则查找一个空闲的tbl8，将该值的tbl8的索引设置为该值，将有效标志设置为1（表示此条目正在使用中），并将外部 条目标志为1（意味着查找过程必须继续，因为规则尚未被完全探测）。</li>
+</ul>
+<p>如果规则的深度是任何其他值，则必须执行前缀扩展。这意味着规则被复制到所有下一级条目（只要它们不被使用），这也将导致匹配。</p>
+<p>作为一个简单的例子，我们假设深度是20位。这意味着有可能导致匹配的IP地址的前24位的2 ^（24 - 20）= 16种不同的组合。因此，在这种情况下，我们将完全相同的条目复制到由这些组合索引的每个位置。</p>
+<p>通过这样做，我们确保在查找过程中，如果存在与IP地址匹配的规则，则可以在一个或两个内存访问中找到，具体取决于是否需要移动到下一个表。前缀扩展是该算法的关键之一，因为它通过添加冗余来显着提高速度。</p>
+<h3 id="14-2-2-查询"><a href="#14-2-2-查询" class="headerlink" title="14.2.2.查询"></a>14.2.2.查询</h3><p>查找过程要简单得多，速度更快。在这种情况下：</p>
+<ul>
+<li>使用IP地址的前24位作为tbl24的索引。如果该条目未被使用，那么这意味着我们没有匹配此IP的规则。如果它有效并且外部条目标志设置为0，则返回下一跳。<br>    如果它是有效的并且外部条目标志被设置为1，那么我们使用tbl8索引来找出要检查的tbl8，并且将该IP地址的最后8位作为该表的索引。类似地，如果条目未被使用，那么我们没有与该IP地址匹配的规则。如果它有效，则返回下一跳。</li>
+</ul>
+<h3 id="14-2-3-规则数目的限制"><a href="#14-2-3-规则数目的限制" class="headerlink" title="14.2.3.规则数目的限制"></a>14.2.3.规则数目的限制</h3><p>规则数量受到诸多不同因素的限制。第一个是规则的最大数量，这是通过API传递的参数。一旦达到这个数字，就不可能再添加任何更多的规则到路由表，除非有一个或多个删除。</p>
+<p>第二个因素是算法的内在限制。如前所述，为了避免高内存消耗，tbl8的数量在编译时间有限（此值默认为256）。如果我们耗尽tbl8，我们将无法再添加任何规则。特定路由表中需要多少路由表是很难提前确定的。</p>
+<p>只要我们有一个深度大于24的新规则，并且该规则的前24位与先前添加的规则的前24位不同，就会消耗tbl8。如果相同，那么新规则将与前一个规则共享相同的tbl8，因为两个规则之间的唯一区别是在最后一个字节内。</p>
+<p>默认值为256情况下，我们最多可以有256个规则，长度超过24位，且前三个字节都不同。由于长度超过24位的路由不太可能，因此在大多数设置中不应该是一个问题。即便如此，tbl8的数量也可以通过设置更改。</p>
+<h2 id="14-3-用例：IPv4转发"><a href="#14-3-用例：IPv4转发" class="headerlink" title="14.3.用例：IPv4转发"></a>14.3.用例：IPv4转发</h2><p>LPM算法用于实现IPv4转发的路由器所使用的无类别域间路由（CIDR）策略。</p>
+<h2 id="14-4-参考"><a href="#14-4-参考" class="headerlink" title="14.4.参考"></a>14.4.参考</h2><ul>
+<li>RFC1519 Classless Inter-Domain Routing (CIDR): an Address Assignment and Aggregation Strategy，<a href="http://www.ietf.org/rfc/rfc1519" target="_blank" rel="external">链接</a></li>
+<li>Pankaj Gupta, Algorithms for Routing Lookups and Packet Classification, PhD Thesis, Stanford University, 2000（<a href="http://klamath.stanford.edu/~pankaj/thesis/ thesis_1sided.pdf" target="_blank" rel="external">链接</a>）</li>
+</ul>
+<p>同时发布于简书：<a href="http://www.jianshu.com/p/694a387956a0" target="_blank" rel="external">DPDK编程指南（十四）</a> 。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -266,358 +291,123 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/08/dpdk-pg-14/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-12/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2017/09/08/dpdk-pg-15/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          DPDK编程指南（十五）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/08/dpdk-pg-12/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（十二）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-12/">DPDK编程指南（十二）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-10/" class="archive-article-date">
-  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-10/">DPDK编程指南（十）</a>
-    </h1>
+  <div id="SOHUCS" sid="dpdk-pg-14" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-11/" class="archive-article-date">
-  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-11/">DPDK编程指南（十一）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/dpdk-pg-8/" class="archive-article-date">
-  	<time datetime="2017-09-07T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/dpdk-pg-8/">DPDK编程指南（八）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/dpdk-pg-7/" class="archive-article-date">
-  	<time datetime="2017-09-07T00:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/dpdk-pg-7/">DPDK编程指南（七）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/dpdk-pg-6/" class="archive-article-date">
-  	<time datetime="2017-09-06T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/dpdk-pg-6/">DPDK编程指南（六）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/dpdk-pg-5/" class="archive-article-date">
-  	<time datetime="2017-09-06T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/dpdk-pg-5/">DPDK编程指南（五）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/dpdk-pg-4/" class="archive-article-date">
-  	<time datetime="2017-09-05T15:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/dpdk-pg-4/">DPDK编程指南（四）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/tags/数据平面/page/2/">2</a><a class="extend next" rel="next" href="/tags/数据平面/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -641,9 +431,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
