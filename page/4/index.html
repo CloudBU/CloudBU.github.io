@@ -181,6 +181,98 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dpdk-pg-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/05/dpdk-pg-3/">DPDK编程指南（三）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/05/dpdk-pg-3/" class="archive-article-date">
+  	<time datetime="2017-09-05T14:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="3-环境抽象层"><a href="#3-环境抽象层" class="headerlink" title="3. 环境抽象层"></a>3. 环境抽象层</h1><p>环境抽象层（EAL）为底层资源如硬件和存储空间的访问提供了接口。这些接口为上层应用程序和库隐藏了不同环境的特殊性。初始化程序负责决定如何分配这些资源（即内存空间、PCI设备、计时器、控制台等扥）。</p>
+<p>EAL提供的服务如下：</p>
+<ul>
+<li>DPDK的加载和启动：DPDK和特定的应用程序链接成一个独立进程，并以某种方式加载。</li>
+<li>CPU亲和性和分配处理：EAL提供了将执行单元分配给特定Core及创建执行实例的机制。 </li>
+<li>系统内存预留：EAL实现了不同区域内存预留，例如用于设备交互的物理内存。</li>
+<li>PCI地址抽象：EAL提供了对PCI地址空间的访问接口</li>
+<li>跟踪调试功能：日志信息，堆栈打印、异常挂起等等。</li>
+<li>公用功能：提供了标准Libc库缺失的自旋锁、原子计数器等。</li>
+<li>CPU特征识别：运行时确定是否支持指定功能，如Intel AVX。确定当前CPU是否支持二进制编译的功能集。</li>
+<li>中断处理：提供接口用于向中断注册/解注册中断处理回调函数。</li>
+<li>告警功能：提供接口用于设置/取消指定时间环境下运行的毁掉函数。</li>
+</ul>
+        
+          <a class="article-more-a" href="/2017/09/05/dpdk-pg-3/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/05/dpdk-pg-3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dpdk-pg-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -542,10 +634,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
@@ -567,6 +655,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
             
             <div class="clearfix"></div>

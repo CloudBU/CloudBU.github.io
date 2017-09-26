@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Tag: 数据平面 | 拙言</title>
+  <title>DPDK编程指南（二十四） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/tags/数据平面/page/3/index.html">
+  <meta name="description" content="24.电源管理DPDK电源管理功能允许用户空间应用程序通过动态调整CPU频率或进入不同的C-State来节省功耗。  根据RX队列的利用率动态调整CPU频率。 根据自适应算法进入不同层次的C-State，以推测在没有收到数据包的情况下暂停应用的短暂时间段。  调整CPU频率的接口位于电源管理库中。C-State控制是根据不同用例实现的。">
+<meta name="keywords" content="数据平面,DPDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK编程指南（二十四）">
+<meta property="og:url" content="http://lockless.github.io/2017/09/26/dpdk-pg-24/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="24.电源管理DPDK电源管理功能允许用户空间应用程序通过动态调整CPU频率或进入不同的C-State来节省功耗。  根据RX队列的利用率动态调整CPU频率。 根据自适应算法进入不同层次的C-State，以推测在没有收到数据包的情况下暂停应用的短暂时间段。  调整CPU频率的接口位于电源管理库中。C-State控制是根据不同用例实现的。">
+<meta property="og:updated_time" content="2017-09-26T11:49:25.367Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="DPDK编程指南（二十四）">
+<meta name="twitter:description" content="24.电源管理DPDK电源管理功能允许用户空间应用程序通过动态调整CPU频率或进入不同的C-State来节省功耗。  根据RX队列的利用率动态调整CPU频率。 根据自适应算法进入不同层次的C-State，以推测在没有收到数据包的情况下暂停应用的短暂时间段。  调整CPU频率的接口位于电源管理库中。C-State控制是根据不同用例实现的。">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -179,36 +180,76 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dpdk-pg-24" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/dpdk-pg-2/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/dpdk-pg-2/">DPDK编程指南（二）</a>
+    <h1 class="article-title" itemprop="name">
+      DPDK编程指南（二十四）
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/09/26/dpdk-pg-24/" class="archive-article-date">
+  	<time datetime="2017-09-26T11:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="24-电源管理"><a href="#24-电源管理" class="headerlink" title="24.电源管理"></a>24.电源管理</h1><p>DPDK电源管理功能允许用户空间应用程序通过动态调整CPU频率或进入不同的C-State来节省功耗。</p>
+<ul>
+<li>根据RX队列的利用率动态调整CPU频率。</li>
+<li>根据自适应算法进入不同层次的C-State，以推测在没有收到数据包的情况下暂停应用的短暂时间段。</li>
+</ul>
+<p>调整CPU频率的接口位于电源管理库中。C-State控制是根据不同用例实现的。</p>
+<a id="more"></a>
+<h2 id="24-1CPU频率缩放"><a href="#24-1CPU频率缩放" class="headerlink" title="24.1CPU频率缩放"></a>24.1CPU频率缩放</h2><p>Linux内核提供了一个用于每个lcore的CPU频率缩放的cpufreq模块。例如，对于cpuX, /sys/devices/system/cpu/cpuX/cpufreq/具有以下用于频率缩放的sys文件：</p>
+<ul>
+<li>fected_cpus</li>
+<li>os_limit</li>
+<li>uinfo_cur_freq</li>
+<li>uinfo_max_freq</li>
+<li>uinfo_min_freq</li>
+<li>uinfo_transition_latency</li>
+<li>lated_cpus</li>
+<li>aling_available_frequencies</li>
+<li>aling_available_governors</li>
+<li>aling_cur_freq</li>
+<li>aling_driver</li>
+<li>aling_governor</li>
+<li>aling_max_freq</li>
+<li>aling_min_freq</li>
+<li>aling_setspeed</li>
+</ul>
+<p>在DPDK中，scaling_governor在用户空间中配置。然后，用户空间应用程序可以通过写入scaling_setspeed来提示内核以根据用户空间应用程序定义的策略来调整CPU频率。</p>
+<h2 id="24-2-通过C-States调节Core负载"><a href="#24-2-通过C-States调节Core负载" class="headerlink" title="24.2. 通过C-States调节Core负载"></a>24.2. 通过C-States调节Core负载</h2><p>只要指定的lcore无任务执行，可以通过设置睡眠来改变Core状态。在DPDK中，如果在轮询后没有接收到分组，则可以根据用户空间应用定义的策略来触发睡眠。</p>
+<h2 id="24-3-电源管理库API概述"><a href="#24-3-电源管理库API概述" class="headerlink" title="24.3.电源管理库API概述"></a>24.3.电源管理库API概述</h2><p>电源管理库导出的主要方法是CPU频率缩放，包括：</p>
+<ul>
+<li>频率上升：提示内核扩大特定lcore的频率。</li>
+<li>频率下降：提示内核缩小特定lcore的频率。</li>
+<li>频率最大：提示内核将特定lcore的频率最大化。</li>
+<li>频率最小：提示内核将特定lcore的频率降至最低。</li>
+<li>获取有效的频率：从sys文件中读取特定lcore的可用频率。</li>
+<li>Freq获取：获取当前的特定lcore的频率。</li>
+<li>频率设置：提示内核为特定的lcore设置频率。</li>
+</ul>
+<h2 id="24-3-示例"><a href="#24-3-示例" class="headerlink" title="24.3.示例"></a>24.3.示例</h2><p>电源管理机制可用于在进行L3转发时节省功耗。</p>
+<h2 id="24-4-参考"><a href="#24-4-参考" class="headerlink" title="24.4.参考"></a>24.4.参考</h2><ul>
+<li>l3fwd-power: DPDK提供的示例应用程序，实现功耗管理下的L3转发。</li>
+<li>“功耗管理下的L3转发”章节请参阅《DPDK Sample Application’s User Guide》。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -224,64 +265,114 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/26/dpdk-pg-24/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/dpdk-pg-1/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/25/Autumn-Rain/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">秋雨</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/dpdk-pg-1/">DPDK编程指南（一）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
+  <div id="SOHUCS" sid="dpdk-pg-24" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/tags/数据平面/page/2/">&laquo; Prev</a><a class="page-number" href="/tags/数据平面/">1</a><a class="page-number" href="/tags/数据平面/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
+  
+
   
 
 
@@ -305,9 +396,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
