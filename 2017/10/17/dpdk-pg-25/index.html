@@ -6,22 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（二十一） | 拙言</title>
+  <title>DPDK编程指南（二十五） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="21.内核网络接口卡接口DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。 使用DPDK KNI的好处是：  比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。 允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK">
+  <meta name="description" content="25. 报文分类及访问控制DPDK提供了一个访问控制库，它能够根据一组分类规则对输入数据包进行分类。 ACL库用于对具有多个类别的一组规则执行N元组搜索，并为每个类别找到最佳匹配（最高优先级）。 库API提供以下基本操作：  创建一个新的访问控制（AC）上下文 向上下文中添加一条规则 对上下文中的所有规则，构建执行数据包分类所需的运行时结构 执行输入数据包分类 释放AC上下文及其运行时结构和相关的">
 <meta name="keywords" content="数据平面,DPDK">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（二十一）">
-<meta property="og:url" content="http://lockless.github.io/2017/09/09/dpdk-pg-21/index.html">
+<meta property="og:title" content="DPDK编程指南（二十五）">
+<meta property="og:url" content="http://lockless.github.io/2017/10/17/dpdk-pg-25/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="21.内核网络接口卡接口DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。 使用DPDK KNI的好处是：  比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。 允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-9235b72250c12f8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-e697b5ee24ed4227.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-09-09T05:03:17.480Z">
+<meta property="og:description" content="25. 报文分类及访问控制DPDK提供了一个访问控制库，它能够根据一组分类规则对输入数据包进行分类。 ACL库用于对具有多个类别的一组规则执行N元组搜索，并为每个类别找到最佳匹配（最高优先级）。 库API提供以下基本操作：  创建一个新的访问控制（AC）上下文 向上下文中添加一条规则 对上下文中的所有规则，构建执行数据包分类所需的运行时结构 执行输入数据包分类 释放AC上下文及其运行时结构和相关的">
+<meta property="og:updated_time" content="2017-10-17T09:20:37.564Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（二十一）">
-<meta name="twitter:description" content="21.内核网络接口卡接口DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。 使用DPDK KNI的好处是：  比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。 允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-9235b72250c12f8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="DPDK编程指南（二十五）">
+<meta name="twitter:description" content="25. 报文分类及访问控制DPDK提供了一个访问控制库，它能够根据一组分类规则对输入数据包进行分类。 ACL库用于对具有多个类别的一组规则执行N元组搜索，并为每个类别找到最佳匹配（最高优先级）。 库API提供以下基本操作：  创建一个新的访问控制（AC）上下文 向上下文中添加一条规则 对上下文中的所有规则，构建执行数据包分类所需的运行时结构 执行输入数据包分类 释放AC上下文及其运行时结构和相关的">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -183,74 +180,115 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-21" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-dpdk-pg-25" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（二十一）
+      DPDK编程指南（二十五）
     </h1>
   
 
         
-        <a href="/2017/09/09/dpdk-pg-21/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
+        <a href="/2017/10/17/dpdk-pg-25/" class="archive-article-date">
+  	<time datetime="2017-10-17T04:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="21-内核网络接口卡接口"><a href="#21-内核网络接口卡接口" class="headerlink" title="21.内核网络接口卡接口"></a>21.内核网络接口卡接口</h1><p>DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。</p>
-<p>使用DPDK KNI的好处是：</p>
+        <h1 id="25-报文分类及访问控制"><a href="#25-报文分类及访问控制" class="headerlink" title="25. 报文分类及访问控制"></a>25. 报文分类及访问控制</h1><p>DPDK提供了一个访问控制库，它能够根据一组分类规则对输入数据包进行分类。</p>
+<p>ACL库用于对具有多个类别的一组规则执行N元组搜索，并为每个类别找到最佳匹配（最高优先级）。 库API提供以下基本操作：</p>
 <ul>
-<li>比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。</li>
-<li>允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK端口。</li>
-<li>允许与内核网络堆栈的接口。</li>
+<li>创建一个新的访问控制（AC）上下文</li>
+<li>向上下文中添加一条规则</li>
+<li>对上下文中的所有规则，构建执行数据包分类所需的运行时结构</li>
+<li>执行输入数据包分类</li>
+<li>释放AC上下文及其运行时结构和相关的内存</li>
 </ul>
 <a id="more"></a>
-<p>使用DPDK内核NIC接口的应用程序的组件如图所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-9235b72250c12f8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 21-1 Components of a DPDK KNI Application"></p>
-<h2 id="21-1-DPDK-KNI内核模块"><a href="#21-1-DPDK-KNI内核模块" class="headerlink" title="21.1.DPDK KNI内核模块"></a>21.1.DPDK KNI内核模块</h2><p>KNI内核可加载模块支持两种类型的设备：</p>
+<h2 id="25-1-概述"><a href="#25-1-概述" class="headerlink" title="25.1. 概述"></a>25.1. 概述</h2><h3 id="25-1-1-规则定义"><a href="#25-1-1-规则定义" class="headerlink" title="25.1.1. 规则定义"></a>25.1.1. 规则定义</h3><p>当前的实现允许每个AC上下文的用户指定其自己的规则，通过该规则将执行数据包分类。 尽管规则字段布局几乎没有限制：</p>
 <ul>
-<li>其他设备：<ul>
-<li>创建网络设备（通过ioctl调用）。</li>
-<li>维护所有KNI实例共享的内核线程上下文（模拟网络驱动程序的RX端）。</li>
-<li>对于单内核线程模式，维护所有KNI实例共享的内核线程上下文（模拟网络驱动程序的RX端）。</li>
-<li>对于多个内核线程模式，为每个KNI实例（模拟新驱动程序的RX侧）维护一个内核线程上下文。</li>
+<li>规则定义中的第一个字段必须是一个字节长。</li>
+<li>所有后续字段必须分组为4个连续字节的集合。</li>
+</ul>
+<p>这两个约束主要是出于性能原因 - 搜索函数将第一个输入字节作为流程设置的一部分进行处理，然后展开搜索函数的内部循环以一次处理四个输入字节。</p>
+<p>为了定义AC规则中的各个字段，可以使用以下的数据结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct rte_acl_field_def &#123;</div><div class="line">    uint8_t type;         /*&lt; type - ACL_FIELD_TYPE. */</div><div class="line">    uint8_t size;         /*&lt; size of field 1,2,4, or 8. */</div><div class="line">    uint8_t field_index;  /*&lt; index of field inside the rule. */</div><div class="line">    uint8_t input_index;  /*&lt; 0-N input index. */</div><div class="line">    uint32_t offset;      /*&lt; offset to start of field. */</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>各个字段的含义如下：</p>
+<ul>
+<li>type<br>这个字段可以有如下三种选择：<ul>
+<li>_MASK - 用于像IP地址这种具有值和掩码字段</li>
+<li>_RANGE - 用于像port这种具有上下限期间的字段</li>
+<li>_BITMASK - 用于像协议标识符这种具有值和位掩码的字段</li>
 </ul>
 </li>
-<li>网络设备：<ul>
-<li>通过实现由struct net_device定义的诸如netdev_ops，header_ops，ethtool_ops之类的几个操作提供的Net功能，包括支持DPDK mbufs和FIFO。</li>
-<li>接口名称由用户空间提供。</li>
-<li>MAC地址可以是真正的NIC MAC地址或随机的。</li>
+<li>size<br>size参数定义了字段的字节数，可用的值为1, 2, 4, 或8字节。 注意，由于输入字节分组，必须将1或2字节的字段定义为构成4个连续输入字节的连续字段。 并且，最好将8个或更多个字节的字段定义为4个字节字段，以便构建过程可以消除额外的字段。</li>
+<li>field_index 表示规则中字段位置的基于零的值; 0到N-1为N字段。</li>
+<li>input_index 如上所示，所有输入字段，除了第一个，必须是4个连续字节的组。 输入索引则指定了该字段属于哪个输入组。</li>
+<li>offset 偏移定义了该字段的偏移值。该偏移从buffer参数开始算起。</li>
 </ul>
-</li>
-</ul>
-<p>21.2.    KNI创建及删除<br>KNI接口由DPDK应用程序动态创建。接口名称和FIFO详细信息由应用程序通过ioctl调用使用rte_kni_device_info结构提供，该结构包含：</p>
+<p>举例，为了定义IPv4 5元组分类结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct ipv4_5tuple &#123;</div><div class="line">    uint8_t proto;</div><div class="line">    uint32_t ip_src;</div><div class="line">    uint32_t ip_dst;</div><div class="line">    uint16_t port_src;</div><div class="line">    uint16_t port_dst;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>可以使用以下数组字段定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">struct rte_acl_field_def ipv4_defs[5] = &#123;</div><div class="line">    /* first input field - always one byte long. */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_BITMASK,</div><div class="line">        .size = sizeof (uint8_t),</div><div class="line">        .field_index = 0,</div><div class="line">        .input_index = 0,</div><div class="line">        .offset = offsetof (struct ipv4_5tuple, proto),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /* next input field (IPv4 source address) - 4 consecutive bytes. */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">        .size = sizeof (uint32_t),</div><div class="line">        .field_index = 1,</div><div class="line">        .input_index = 1,</div><div class="line">       .offset = offsetof (struct ipv4_5tuple, ip_src),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /* next input field (IPv4 destination address) - 4 consecutive bytes. */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">        .size = sizeof (uint32_t),</div><div class="line">        .field_index = 2,</div><div class="line">        .input_index = 2,</div><div class="line">       .offset = offsetof (struct ipv4_5tuple, ip_dst),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /*</div><div class="line">     * Next 2 fields (src &amp; dst ports) form 4 consecutive bytes.</div><div class="line">     * They share the same input index.</div><div class="line">     */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_RANGE,</div><div class="line">        .size = sizeof (uint16_t),</div><div class="line">        .field_index = 3,</div><div class="line">        .input_index = 3,</div><div class="line">        .offset = offsetof (struct ipv4_5tuple, port_src),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_RANGE,</div><div class="line">        .size = sizeof (uint16_t),</div><div class="line">        .field_index = 4,</div><div class="line">        .input_index = 3,</div><div class="line">        .offset = offsetof (struct ipv4_5tuple, port_dst),</div><div class="line">    &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这个IPv4 五元组的一个典型实例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">source addr/mask  destination addr/mask  source ports dest ports protocol/mask</div><div class="line">192.168.1.0/24    192.168.2.31/32        0:65535      1234:1234  17/0xff</div></pre></td></tr></table></figure></p>
+<p>任何IPv4报文，具有协议ID为 17(UDP)，源IP为 192.168.1.[0-255]，目的IP为 192.168.2.31，源端口为 [0-65535] 且目的端口为 1234 的报文都匹配这个条目。</p>
+<p>为了定义如下的IPv6 头部使用的2-元组分类: <protocol, ipv6="" source="" address=""> ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">struct struct ipv6_hdr &#123;</div><div class="line">    uint32_t vtc_flow;     /* IP version, traffic class &amp; flow label. */</div><div class="line">    uint16_t payload_len;  /* IP packet length - includes sizeof(ip_header). */</div><div class="line">    uint8_t proto;         /* Protocol, next header. */</div><div class="line">    uint8_t hop_limits;    /* Hop limits. */</div><div class="line">    uint8_t src_addr[16];  /* IP address of source host. */</div><div class="line">    uint8_t dst_addr[16];  /* IP address of destination host(s). */</div><div class="line">&#125; __attribute__((__packed__));</div></pre></td></tr></table></figure></protocol,></p>
+<p>可以使用以下的数组字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">struct struct rte_acl_field_def ipv6_2tuple_defs[5] = &#123;</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_BITMASK,</div><div class="line">        .size = sizeof (uint8_t),</div><div class="line">        .field_index = 0,</div><div class="line">        .input_index = 0,</div><div class="line">        .offset = offsetof (struct ipv6_hdr, proto),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">        .size = sizeof (uint32_t),</div><div class="line">        .field_index = 1,</div><div class="line">        .input_index = 1,</div><div class="line">        .offset = offsetof (struct ipv6_hdr, src_addr[0]),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">        .size = sizeof (uint32_t),</div><div class="line">        .field_index = 2,</div><div class="line">        .input_index = 2,</div><div class="line">        .offset = offsetof (struct ipv6_hdr, src_addr[4]),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">        .size = sizeof (uint32_t),</div><div class="line">        .field_index = 3,</div><div class="line">        .input_index = 3,</div><div class="line">       .offset = offsetof (struct ipv6_hdr, src_addr[8]),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    &#123;</div><div class="line">       .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">       .size = sizeof (uint32_t),</div><div class="line">       .field_index = 4,</div><div class="line">       .input_index = 4,</div><div class="line">       .offset = offsetof (struct ipv6_hdr, src_addr[12]),</div><div class="line">    &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>典型实例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">source addr/mask                              protocol/mask</div><div class="line">2001:db8:1234:0000:0000:0000:0000:0000/48     6/0xff</div></pre></td></tr></table></figure></p>
+<p>任何IPv6报文，具有协议ID为6 (TCP)，且源IP在范围 [2001:db8:1234:0000:0000:0000:0000:0000 - 2001:db8:1234:ffff:ffff:ffff:ffff:ffff] 内的报文都将匹配这个规则。</p>
+<p>在下面的例子中，搜索键值的最后一个元素是8bit，因此，出现输入字段的4个字节未完全占用的情况。 分类结构为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">struct acl_key &#123;</div><div class="line">    uint8_t ip_proto;</div><div class="line">    uint32_t ip_src;</div><div class="line">    uint32_t ip_dst;</div><div class="line">    uint8_t tos;      /*&lt; 这里通常是32bit的元素 */</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>可以使用以下的数组字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">struct rte_acl_field_def ipv4_defs[4] = &#123;</div><div class="line">    /* first input field - always one byte long. */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_BITMASK,</div><div class="line">        .size = sizeof (uint8_t),</div><div class="line">        .field_index = 0,</div><div class="line">        .input_index = 0,</div><div class="line">        .offset = offsetof (struct acl_key, ip_proto),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /* next input field (IPv4 source address) - 4 consecutive bytes. */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">        .size = sizeof (uint32_t),</div><div class="line">        .field_index = 1,</div><div class="line">        .input_index = 1,</div><div class="line">       .offset = offsetof (struct acl_key, ip_src),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /* next input field (IPv4 destination address) - 4 consecutive bytes. */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_MASK,</div><div class="line">        .size = sizeof (uint32_t),</div><div class="line">        .field_index = 2,</div><div class="line">        .input_index = 2,</div><div class="line">       .offset = offsetof (struct acl_key, ip_dst),</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /*</div><div class="line">     * 尽管tos字段只需要1个字节，但是我们仍旧要申请4字节</div><div class="line">     */</div><div class="line">    &#123;</div><div class="line">        .type = RTE_ACL_FIELD_TYPE_BITMASK,</div><div class="line">        .size = sizeof (uint32_t), /* All the 4 consecutive bytes are allocated */</div><div class="line">        .field_index = 3,</div><div class="line">        .input_index = 3,</div><div class="line">        .offset = offsetof (struct acl_key, tos),</div><div class="line">    &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>典型实例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">source addr/mask  destination addr/mask  tos/mask protocol/mask</div><div class="line">192.168.1.0/24    192.168.2.31/32        1/0xff   6/0xff</div></pre></td></tr></table></figure></p>
+<p>任何IPv4报文，协议ID为6 (TCP)，源IP为192.168.1.[0-255]，目的IP为192.168.2.31，ToS 为1都匹配该规则。</p>
+<p>当创建一组规则时，对于每个规则，还必须提供附加信息：</p>
 <ul>
-<li>接口名称。</li>
-<li>相关FIFO的相应存储器的物理地址。</li>
-<li>Mbuf mempool详细信息，包括物理和虚拟（计算mbuf指针的偏移量）。</li>
-<li>PCI信息。</li>
-<li>Core。</li>
+<li>priority: 衡量规则优先级的权重值，该值越大，优先级越高。 如果输入元组匹配多个规则，则返回优先级较高的规则。 请注意，如果输入元组匹配多于一个规则，并且这些规则具有相同的优先级，则未定义哪个规则作为匹配返回。 建议为每个规则分配唯一的优先级。</li>
+<li>category_mask: 每个规则使用位掩码值来选择规则的相关类别。 当执行查找时，返回每个类别的结果。 如果例如有四个不同的ACL规则集，一个用于访问控制，一个用于路由等，则通过使单个搜索能够返回多个结果来有效地提供“并行查找”。 每个集合可以被分配自己的类别，并且通过将它们组合成单个数据库，一个查找返回四个集合中的每一个的结果。</li>
+<li>userdata: 用户定义的数值。 对于每个类别，成功匹配返回最高优先级匹配规则的userdata字段。当没有规则匹配时，返回值为零。</li>
 </ul>
-<p>有关详细信息，请参阅DPDK源代码中的rte_kni_common.h。</p>
-<p>物理地址将重新映射到内核地址空间，并存储在单独的KNI上下文中。</p>
-<p>内核RX线程（单线程和多线程模式）的亲和力由force_bind和core_id配置参数控制。</p>
-<p>创建后，DPDK应用程序可以动态删除KNI接口。此外，所有未删除的KNI接口将在杂项设备（DPDK应用程序关闭时）的释放操作中被删除。</p>
-<h2 id="21-3-DPDK缓冲区流"><a href="#21-3-DPDK缓冲区流" class="headerlink" title="21.3.DPDK缓冲区流"></a>21.3.DPDK缓冲区流</h2><p>为了最小化在内核空间中运行的DPDK代码的数量，mbuf mempool仅在用户空间中进行管理。内核模块可以感知mbufs，但是所有mbuf分配和释放操作将仅由DPDK应用程序处理。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-e697b5ee24ed4227.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 21-2 Packet Flow via mbufs in the DPDK KNI"></p>
-<h2 id="21-4-用例-Ingress"><a href="#21-4-用例-Ingress" class="headerlink" title="21.4.用例: Ingress"></a>21.4.用例: Ingress</h2><p>在DPDK RX侧，mbuf由PMD在RX线程上下文中分配。该线程将mbuf入队到rx_q FIFO中。 KNI线程将轮询所有KNI活动设备。如果mbuf出队，它将被转换为sk_buff，并通过netif_rx()发送到网络协议栈。必须释放出队的mbuf，将指针返回到free_q FIFO中。</p>
-<p>RX线程在相同的主循环中轮询该FIFO，并在出队之后释放mbuf。</p>
-<h2 id="21-5-用例-Egress"><a href="#21-5-用例-Egress" class="headerlink" title="21.5.用例: Egress"></a>21.5.用例: Egress</h2><p>对于数据包出口，DPDK应用程序必须首先入队几个mbufs才能在内核端创建一个mbuf缓存。</p>
-<p>通过调用kni_net_tx()回调，从Linux网络堆栈接收数据包。mbuf出队（因为使用缓存，所以无需等待），并填充了来自sk_buff的数据。然后释放sk_buff，并将mbuf发送到tx_q FIFO。</p>
-<p>DPDK TX线程执行mbuf出队，并将其发送到PMD（通过rte_eth_tx_burst()）。 然后将mbuf放回缓存中。</p>
-<h2 id="21-6-以太网工具"><a href="#21-6-以太网工具" class="headerlink" title="21.6.以太网工具"></a>21.6.以太网工具</h2><p>Ethtool是Linux专用工具，在内核中具有相应的支持，每个网络设备必须为支持的操作注册自己的回调。目前的实现使用igb / ixgbe修改的Linux驱动程序进行ethtool支持。i40e和VM（VF或EM设备）不支持Ethtool。</p>
-<h2 id="21-7-链路状态及MTU改变"><a href="#21-7-链路状态及MTU改变" class="headerlink" title="21.7.链路状态及MTU改变"></a>21.7.链路状态及MTU改变</h2><p>链路状态和MTU变化是通常通过ifconfig完成的网络接口操作。该请求是从内核端（在ifconfig进程的上下文中）发起的，由用户空间DPDK应用程序处理。应用程序轮询请求，调用应用程序处理程序并将响应返回到内核空间。</p>
-<p>应用处理程序可以在创建接口时注册，也可以在运行时再注册/卸载。这提供了多进程方案（其中KNI在primary process中创建，在secondary process中处理回调）的灵活性。约束是单个进程可以注册和处理请求。</p>
+<p>注意：</p>
+<ul>
+<li>将新规则添加到ACL上下文中时，所有字段必须是主机字节顺序（LSB）。</li>
+<li>当为输入元组执行搜索时，该元组中的所有字段必须是网络字节顺序（MSB）。</li>
+</ul>
+<h3 id="25-1-2-RT-内存大小限制"><a href="#25-1-2-RT-内存大小限制" class="headerlink" title="25.1.2. RT 内存大小限制"></a>25.1.2. RT 内存大小限制</h3><p>构建阶段 (rte_acl_build()) 为给定的一组规则创建内部结构以供运行时遍历。 当前的实现是一组多分枝树，分枝为8. 根据规则集，可能会消耗大量的内存。 为了节省一些空间，ACL构建过程尝试将给定的规则集拆分为几个不相交的子集，并为每个子集构建一个单独的trie。 根据规则集，它可能会减少RT内存需求，但可能会增加分类时间。 在构建时有可能为给定的AC上下文指定内部RT结构的最大内存限制。 可以通过 rte_acl_config 结构的 max_size 字段来完成。 将其设置为大于0的值以指示 rte_acl_build() ：</p>
+<ul>
+<li>尝试最小化RT表中的尝试次数，但是</li>
+<li>确保RT表的大小不会超过给定值。</li>
+</ul>
+<p>将其设置为零可使rte_acl_build（）使用默认行为：尝试最小化RT结构的大小，但不会暴露任何硬限制。<br>这使用户能够对性能/空间权衡做出决定。</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">struct rte_acl_ctx * acx;</div><div class="line">struct rte_acl_config cfg;</div><div class="line">int ret;</div><div class="line"></div><div class="line">/*</div><div class="line"> * assuming that acx points to already created and</div><div class="line"> * populated with rules AC context and cfg filled properly.</div><div class="line"> */</div><div class="line"></div><div class="line"> /* try to build AC context, with RT structures less then 8MB. */</div><div class="line"> cfg.max_size = 0x800000;</div><div class="line"> ret = rte_acl_build(acx, &amp;cfg);</div><div class="line"></div><div class="line"> /*</div><div class="line">  * RT structures can&apos;t fit into 8MB for given context.</div><div class="line">  * Try to build without exposing any hard limit.</div><div class="line">  */</div><div class="line"> if (ret == -ERANGE) &#123;</div><div class="line">    cfg.max_size = 0;</div><div class="line">    ret = rte_acl_build(acx, &amp;cfg);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="25-1-3-Classification-方法"><a href="#25-1-3-Classification-方法" class="headerlink" title="25.1.3. Classification 方法"></a>25.1.3. Classification 方法</h3><p>在给定的AC上下文成功完成rte_acl_build()之后，它可以用于执行分类 - 搜索比输入数据高优先级的规则。</p>
+<p>有几种分类算法实现：</p>
+<ul>
+<li>RTE_ACL_CLASSIFY_SCALAR: 通用实现，不需要任何特殊的硬件支持</li>
+<li>RTE_ACL_CLASSIFY_SSE: vector实现，可以实现8条流并行，需要 SSE 4.1 支持</li>
+<li>RTE_ACL_CLASSIFY_AVX2: vector实现，可以实现16条流并行，需要 AVX2 支持</li>
+</ul>
+<p>纯粹是运行时决定哪种方法来选择，没有建立时间的差异。 所有实现都在相同的内部RT结构上运行，并使用类似的原理。 主要区别在于矢量实现可以手动利用IA SIMD指令并并行处理多个输入数据流。 在启动时，ACL库确定给定平台的最高可用分类方法，并将其设置为默认的。 虽然用户有能力覆盖给定ACL上下文的默认分类器功能，或使用非默认分类方法执行特定搜索。 在这种情况下，用户有责任确保给定的平台支持选定的分类实现。</p>
+<p>25.2. API用法<br>注意：关于 Access Control API 的更多纤细信息，请参考 DPDK API Reference 。<br>以下示例演示了更详细的多个类别的上面定义的规则的IPv4，5元组分类。</p>
+<p>25.2.1. 多类别报文分类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line">struct rte_acl_ctx * acx;</div><div class="line">struct rte_acl_config cfg;</div><div class="line">int ret;</div><div class="line"></div><div class="line">/* define a structure for the rule with up to 5 fields. */</div><div class="line"></div><div class="line">RTE_ACL_RULE_DEF(acl_ipv4_rule, RTE_DIM(ipv4_defs));</div><div class="line"></div><div class="line">/* AC context creation parameters. */</div><div class="line"></div><div class="line">struct rte_acl_param prm = &#123;</div><div class="line">    .name = &quot;ACL_example&quot;,</div><div class="line">    .socket_id = SOCKET_ID_ANY,</div><div class="line">    .rule_size = RTE_ACL_RULE_SZ(RTE_DIM(ipv4_defs)),</div><div class="line"></div><div class="line">    /* number of fields per rule. */</div><div class="line"></div><div class="line">    .max_rule_num = 8, /* maximum number of rules in the AC context. */</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct acl_ipv4_rule acl_rules[] = &#123;</div><div class="line"></div><div class="line">    /* matches all packets traveling to 192.168.0.0/16, applies for categories: 0,1 */</div><div class="line">    &#123;</div><div class="line">        .data = &#123;.userdata = 1, .category_mask = 3, .priority = 1&#125;,</div><div class="line"></div><div class="line">        /* destination IPv4 */</div><div class="line">        .field[2] = &#123;.value.u32 = IPv4(192,168,0,0),. mask_range.u32 = 16,&#125;,</div><div class="line"></div><div class="line">        /* source port */</div><div class="line">        .field[3] = &#123;.value.u16 = 0, .mask_range.u16 = 0xffff,&#125;,</div><div class="line"></div><div class="line">        /* destination port */</div><div class="line">       .field[4] = &#123;.value.u16 = 0, .mask_range.u16 = 0xffff,&#125;,</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /* matches all packets traveling to 192.168.1.0/24, applies for categories: 0 */</div><div class="line">    &#123;</div><div class="line">        .data = &#123;.userdata = 2, .category_mask = 1, .priority = 2&#125;,</div><div class="line"></div><div class="line">        /* destination IPv4 */</div><div class="line">        .field[2] = &#123;.value.u32 = IPv4(192,168,1,0),. mask_range.u32 = 24,&#125;,</div><div class="line"></div><div class="line">        /* source port */</div><div class="line">        .field[3] = &#123;.value.u16 = 0, .mask_range.u16 = 0xffff,&#125;,</div><div class="line"></div><div class="line">        /* destination port */</div><div class="line">        .field[4] = &#123;.value.u16 = 0, .mask_range.u16 = 0xffff,&#125;,</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /* matches all packets traveling from 10.1.1.1, applies for categories: 1 */</div><div class="line">    &#123;</div><div class="line">        .data = &#123;.userdata = 3, .category_mask = 2, .priority = 3&#125;,</div><div class="line"></div><div class="line">        /* source IPv4 */</div><div class="line">        .field[1] = &#123;.value.u32 = IPv4(10,1,1,1),. mask_range.u32 = 32,&#125;,</div><div class="line"></div><div class="line">        /* source port */</div><div class="line">        .field[3] = &#123;.value.u16 = 0, .mask_range.u16 = 0xffff,&#125;,</div><div class="line"></div><div class="line">        /* destination port */</div><div class="line">        .field[4] = &#123;.value.u16 = 0, .mask_range.u16 = 0xffff,&#125;,</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line">/* create an empty AC context  */</div><div class="line"></div><div class="line">if ((acx = rte_acl_create(&amp;prm)) == NULL) &#123;</div><div class="line"></div><div class="line">    /* handle context create failure. */</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">/* add rules to the context */</div><div class="line"></div><div class="line">ret = rte_acl_add_rules(acx, acl_rules, RTE_DIM(acl_rules));</div><div class="line">if (ret != 0) &#123;</div><div class="line">   /* handle error at adding ACL rules. */</div><div class="line">&#125;</div><div class="line"></div><div class="line">/* prepare AC build config. */</div><div class="line"></div><div class="line">cfg.num_categories = 2;</div><div class="line">cfg.num_fields = RTE_DIM(ipv4_defs);</div><div class="line"></div><div class="line">memcpy(cfg.defs, ipv4_defs, sizeof (ipv4_defs));</div><div class="line"></div><div class="line">/* build the runtime structures for added rules, with 2 categories. */</div><div class="line"></div><div class="line">ret = rte_acl_build(acx, &amp;cfg);</div><div class="line">if (ret != 0) &#123;</div><div class="line">   /* handle error at build runtime structures for ACL context. */</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对于源IP地址：10.1.1.1和目标IP地址：192.168.1.15的元组，一旦执行如下操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">uint32_t results[4]; /* make classify for 4 categories. */</div><div class="line">rte_acl_classify(acx, data, results, 1, 4);</div></pre></td></tr></table></figure></p>
+<p>结果数组包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">results[4] = &#123;2, 3, 0, 0&#125;;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>对于类别0，规则1和2都匹配，但规则2具有较高的优先级，因此[0]包含规则2的用户数据。</li>
+<li>对于类别1，规则1和3都匹配，但规则3具有较高的优先级，因此[1]包含规则3的用户数据。</li>
+<li>对于类别2和3，没有匹配，结果[2]和结果[3]包含零，这表明没有找到匹配的那些类别。</li>
+</ul>
+<p>对于源IP地址为192.168.1.1和目标IP地址：192.168.2.11的元组，一旦执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">uint32_t results[4]; /* make classify by 4 categories. */</div><div class="line">rte_acl_classify(acx, data, results, 1, 4);</div></pre></td></tr></table></figure></p>
+<p>结果数组包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">results[4] = &#123;1, 1, 0, 0&#125;;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>对于0和1类，只有规则1匹配。</li>
+<li>对于类别2和3，没有匹配。</li>
+</ul>
+<p>对于源IP地址：10.1.1.1和目标IP地址：201.212.111.12的元组，一旦执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">uint32_t results[4]; /* make classify by 4 categories. */</div><div class="line">rte_acl_classify(acx, data, results, 1, 4);</div></pre></td></tr></table></figure></p>
+<p>结果数组包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">results[4] = &#123;0, 3, 0, 0&#125;;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>对于类别1，只有规则3匹配。</li>
+<li>对于0,2和3类，没有匹配。</li>
+</ul>
 
       
 
@@ -324,7 +362,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/09/dpdk-pg-21/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/10/17/dpdk-pg-25/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -338,18 +376,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/09/dpdk-pg-22/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（二十二）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/09/dpdk-pg-20/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十）</div>
+    <a href="/2017/09/26/dpdk-pg-24/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（二十四）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -379,7 +408,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="dpdk-pg-21" ></div> 
+  <div id="SOHUCS" sid="dpdk-pg-25" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 

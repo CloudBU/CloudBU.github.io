@@ -6,22 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（二十一） | 拙言</title>
+  <title>Archives: 2017/10 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="21.内核网络接口卡接口DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。 使用DPDK KNI的好处是：  比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。 允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK">
-<meta name="keywords" content="数据平面,DPDK">
-<meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（二十一）">
-<meta property="og:url" content="http://lockless.github.io/2017/09/09/dpdk-pg-21/index.html">
+  <meta name="description" content="本博客主要关注">
+<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
+<meta property="og:type" content="website">
+<meta property="og:title" content="拙言">
+<meta property="og:url" content="http://lockless.github.io/archives/2017/10/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="21.内核网络接口卡接口DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。 使用DPDK KNI的好处是：  比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。 允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-9235b72250c12f8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-e697b5ee24ed4227.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-09-09T05:03:17.480Z">
+<meta property="og:description" content="本博客主要关注">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（二十一）">
-<meta name="twitter:description" content="21.内核网络接口卡接口DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。 使用DPDK KNI的好处是：  比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。 允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-9235b72250c12f8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="拙言">
+<meta name="twitter:description" content="本博客主要关注">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -183,82 +179,36 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-21" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      DPDK编程指南（二十一）
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/10/17/dpdk-pg-25/" class="archive-article-date">
+  	<time datetime="2017-10-17T04:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-17</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/10/17/dpdk-pg-25/">DPDK编程指南（二十五）</a>
     </h1>
   
 
-        
-        <a href="/2017/09/09/dpdk-pg-21/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="21-内核网络接口卡接口"><a href="#21-内核网络接口卡接口" class="headerlink" title="21.内核网络接口卡接口"></a>21.内核网络接口卡接口</h1><p>DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。</p>
-<p>使用DPDK KNI的好处是：</p>
-<ul>
-<li>比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。</li>
-<li>允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK端口。</li>
-<li>允许与内核网络堆栈的接口。</li>
-</ul>
-<a id="more"></a>
-<p>使用DPDK内核NIC接口的应用程序的组件如图所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-9235b72250c12f8b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 21-1 Components of a DPDK KNI Application"></p>
-<h2 id="21-1-DPDK-KNI内核模块"><a href="#21-1-DPDK-KNI内核模块" class="headerlink" title="21.1.DPDK KNI内核模块"></a>21.1.DPDK KNI内核模块</h2><p>KNI内核可加载模块支持两种类型的设备：</p>
-<ul>
-<li>其他设备：<ul>
-<li>创建网络设备（通过ioctl调用）。</li>
-<li>维护所有KNI实例共享的内核线程上下文（模拟网络驱动程序的RX端）。</li>
-<li>对于单内核线程模式，维护所有KNI实例共享的内核线程上下文（模拟网络驱动程序的RX端）。</li>
-<li>对于多个内核线程模式，为每个KNI实例（模拟新驱动程序的RX侧）维护一个内核线程上下文。</li>
-</ul>
-</li>
-<li>网络设备：<ul>
-<li>通过实现由struct net_device定义的诸如netdev_ops，header_ops，ethtool_ops之类的几个操作提供的Net功能，包括支持DPDK mbufs和FIFO。</li>
-<li>接口名称由用户空间提供。</li>
-<li>MAC地址可以是真正的NIC MAC地址或随机的。</li>
-</ul>
-</li>
-</ul>
-<p>21.2.    KNI创建及删除<br>KNI接口由DPDK应用程序动态创建。接口名称和FIFO详细信息由应用程序通过ioctl调用使用rte_kni_device_info结构提供，该结构包含：</p>
-<ul>
-<li>接口名称。</li>
-<li>相关FIFO的相应存储器的物理地址。</li>
-<li>Mbuf mempool详细信息，包括物理和虚拟（计算mbuf指针的偏移量）。</li>
-<li>PCI信息。</li>
-<li>Core。</li>
-</ul>
-<p>有关详细信息，请参阅DPDK源代码中的rte_kni_common.h。</p>
-<p>物理地址将重新映射到内核地址空间，并存储在单独的KNI上下文中。</p>
-<p>内核RX线程（单线程和多线程模式）的亲和力由force_bind和core_id配置参数控制。</p>
-<p>创建后，DPDK应用程序可以动态删除KNI接口。此外，所有未删除的KNI接口将在杂项设备（DPDK应用程序关闭时）的释放操作中被删除。</p>
-<h2 id="21-3-DPDK缓冲区流"><a href="#21-3-DPDK缓冲区流" class="headerlink" title="21.3.DPDK缓冲区流"></a>21.3.DPDK缓冲区流</h2><p>为了最小化在内核空间中运行的DPDK代码的数量，mbuf mempool仅在用户空间中进行管理。内核模块可以感知mbufs，但是所有mbuf分配和释放操作将仅由DPDK应用程序处理。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-e697b5ee24ed4227.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 21-2 Packet Flow via mbufs in the DPDK KNI"></p>
-<h2 id="21-4-用例-Ingress"><a href="#21-4-用例-Ingress" class="headerlink" title="21.4.用例: Ingress"></a>21.4.用例: Ingress</h2><p>在DPDK RX侧，mbuf由PMD在RX线程上下文中分配。该线程将mbuf入队到rx_q FIFO中。 KNI线程将轮询所有KNI活动设备。如果mbuf出队，它将被转换为sk_buff，并通过netif_rx()发送到网络协议栈。必须释放出队的mbuf，将指针返回到free_q FIFO中。</p>
-<p>RX线程在相同的主循环中轮询该FIFO，并在出队之后释放mbuf。</p>
-<h2 id="21-5-用例-Egress"><a href="#21-5-用例-Egress" class="headerlink" title="21.5.用例: Egress"></a>21.5.用例: Egress</h2><p>对于数据包出口，DPDK应用程序必须首先入队几个mbufs才能在内核端创建一个mbuf缓存。</p>
-<p>通过调用kni_net_tx()回调，从Linux网络堆栈接收数据包。mbuf出队（因为使用缓存，所以无需等待），并填充了来自sk_buff的数据。然后释放sk_buff，并将mbuf发送到tx_q FIFO。</p>
-<p>DPDK TX线程执行mbuf出队，并将其发送到PMD（通过rte_eth_tx_burst()）。 然后将mbuf放回缓存中。</p>
-<h2 id="21-6-以太网工具"><a href="#21-6-以太网工具" class="headerlink" title="21.6.以太网工具"></a>21.6.以太网工具</h2><p>Ethtool是Linux专用工具，在内核中具有相应的支持，每个网络设备必须为支持的操作注册自己的回调。目前的实现使用igb / ixgbe修改的Linux驱动程序进行ethtool支持。i40e和VM（VF或EM设备）不支持Ethtool。</p>
-<h2 id="21-7-链路状态及MTU改变"><a href="#21-7-链路状态及MTU改变" class="headerlink" title="21.7.链路状态及MTU改变"></a>21.7.链路状态及MTU改变</h2><p>链路状态和MTU变化是通常通过ifconfig完成的网络接口操作。该请求是从内核端（在ifconfig进程的上下文中）发起的，由用户空间DPDK应用程序处理。应用程序轮询请求，调用应用程序处理程序并将响应返回到内核空间。</p>
-<p>应用处理程序可以在创建接口时注册，也可以在运行时再注册/卸载。这提供了多进程方案（其中KNI在primary process中创建，在secondary process中处理回调）的灵活性。约束是单个进程可以注册和处理请求。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -274,124 +224,19 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/09/dpdk-pg-21/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/09/09/dpdk-pg-22/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（二十二）
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/09/09/dpdk-pg-20/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十）</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-  <div id="SOHUCS" sid="dpdk-pg-21" ></div> 
-<script type="text/javascript"> 
-(function(){ 
-var appid = "cytcwNIfK"; 
-var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
-var width = window.innerWidth || document.documentElement.clientWidth; 
-if (width < 960) { 
-window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -414,8 +259,8 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
