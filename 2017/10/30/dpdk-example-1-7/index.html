@@ -6,19 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（二十二） | 拙言</title>
+  <title>DPDK示例(1~7) | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="22.DPDK功能的线程安全DPDK由几个库组成。这些库中的某些功能可以同时被多个线程安全地调用，而另一部分则不能。 本节介绍开发人员在构建自己的应用程序时考虑这些问题。 DPDK的运行时环境通常是每个逻辑核上的单个线程。但是，在某些情况下，它不仅是多线程的，而且是多进程的。通常，最好避免在在线程和/或进程之间共享数据结构。如果不可能，则执行块必须以线程安全的方式访问数据。可以使用诸如原子操作或锁">
+  <meta name="description" content="1.    简介本文档描述了数据平面开发工具包（DPDK）中包含的示例应用程序。每章描述了一个示例应用程序，它展示了具体的功能，并提供了有关如何编译，运行和使用示例应用程序的说明。 ##　1.1.    文档路线图以下是一份建议顺序阅读的DPDK参考文档列表:  发行公告：提供特定发行版本的信息，包括支持的特性、限制条件、修复的问题、已知的问题等等。此外，还以FAQ的方式提供了常见问题的解决方法。">
 <meta name="keywords" content="数据平面,DPDK">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（二十二）">
-<meta property="og:url" content="http://lockless.github.io/2017/09/09/dpdk-pg-22/index.html">
+<meta property="og:title" content="DPDK示例(1~7)">
+<meta property="og:url" content="http://lockless.github.io/2017/10/30/dpdk-example-1-7/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="22.DPDK功能的线程安全DPDK由几个库组成。这些库中的某些功能可以同时被多个线程安全地调用，而另一部分则不能。 本节介绍开发人员在构建自己的应用程序时考虑这些问题。 DPDK的运行时环境通常是每个逻辑核上的单个线程。但是，在某些情况下，它不仅是多线程的，而且是多进程的。通常，最好避免在在线程和/或进程之间共享数据结构。如果不可能，则执行块必须以线程安全的方式访问数据。可以使用诸如原子操作或锁">
-<meta property="og:updated_time" content="2017-09-09T05:04:07.851Z">
+<meta property="og:description" content="1.    简介本文档描述了数据平面开发工具包（DPDK）中包含的示例应用程序。每章描述了一个示例应用程序，它展示了具体的功能，并提供了有关如何编译，运行和使用示例应用程序的说明。 ##　1.1.    文档路线图以下是一份建议顺序阅读的DPDK参考文档列表:  发行公告：提供特定发行版本的信息，包括支持的特性、限制条件、修复的问题、已知的问题等等。此外，还以FAQ的方式提供了常见问题的解决方法。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-e9720de5fa99e778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-65b133d0160d3999.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-95db541abb9eb637.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-10-31T01:29:40.024Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（二十二）">
-<meta name="twitter:description" content="22.DPDK功能的线程安全DPDK由几个库组成。这些库中的某些功能可以同时被多个线程安全地调用，而另一部分则不能。 本节介绍开发人员在构建自己的应用程序时考虑这些问题。 DPDK的运行时环境通常是每个逻辑核上的单个线程。但是，在某些情况下，它不仅是多线程的，而且是多进程的。通常，最好避免在在线程和/或进程之间共享数据结构。如果不可能，则执行块必须以线程安全的方式访问数据。可以使用诸如原子操作或锁">
+<meta name="twitter:title" content="DPDK示例(1~7)">
+<meta name="twitter:description" content="1.    简介本文档描述了数据平面开发工具包（DPDK）中包含的示例应用程序。每章描述了一个示例应用程序，它展示了具体的功能，并提供了有关如何编译，运行和使用示例应用程序的说明。 ##　1.1.    文档路线图以下是一份建议顺序阅读的DPDK参考文档列表:  发行公告：提供特定发行版本的信息，包括支持的特性、限制条件、修复的问题、已知的问题等等。此外，还以FAQ的方式提供了常见问题的解决方法。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-e9720de5fa99e778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -180,37 +184,245 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-22" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-dpdk-example-1-7" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（二十二）
+      DPDK示例(1~7)
     </h1>
   
 
         
-        <a href="/2017/09/09/dpdk-pg-22/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
+        <a href="/2017/10/30/dpdk-example-1-7/" class="archive-article-date">
+  	<time datetime="2017-10-30T11:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="22-DPDK功能的线程安全"><a href="#22-DPDK功能的线程安全" class="headerlink" title="22.DPDK功能的线程安全"></a>22.DPDK功能的线程安全</h1><p>DPDK由几个库组成。这些库中的某些功能可以同时被多个线程安全地调用，而另一部分则不能。 本节介绍开发人员在构建自己的应用程序时考虑这些问题。</p>
-<p>DPDK的运行时环境通常是每个逻辑核上的单个线程。但是，在某些情况下，它不仅是多线程的，而且是多进程的。通常，最好避免在在线程和/或进程之间共享数据结构。如果不可能，则执行块必须以线程安全的方式访问数据。可以使用诸如原子操作或锁的机制，这将允许执行块串行操作。但是，这可能会对应用程序的性能产生影响。</p>
+        <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1.    简介"></a>1.    简介</h1><p>本文档描述了数据平面开发工具包（DPDK）中包含的示例应用程序。每章描述了一个示例应用程序，它展示了具体的功能，并提供了有关如何编译，运行和使用示例应用程序的说明。</p>
+<p>##　1.1.    文档路线图<br>以下是一份建议顺序阅读的DPDK参考文档列表:</p>
+<ul>
+<li><em>发行公告</em>：提供特定发行版本的信息，包括支持的特性、限制条件、修复的问题、已知的问题等等。此外，还以FAQ的方式提供了常见问题的解决方法。</li>
+<li><em>入门指南</em>：介绍如何安装及配置DPDK软件，旨在帮助用户快速上手。</li>
+<li><em>FreeBSD 入门指南</em>：DPDK1.6.0发布版本之后添加了FreeBSD<em> 平台上的入门指南。有关如何在FreeBSD</em> 上安装配置DPDK，请参阅这个文档。</li>
+<li>编程指南（本文档），描述了如下内容：<ul>
+<li>软件架构以及如何使用（示例介绍），特别是在Linux用户环境中的使用</li>
+<li>DPDK的主要内容，系统构建（包括可以在DPDK根目录Makefile中用来构建工具包和应用程序的命令）及应用移植细则。</li>
+<li>软件中使用的，以及新开发中需要考虑的一些优化。</li>
+</ul>
+</li>
+<li><em>API参考</em>：提供有关DPDK功能、数据结构和其他编程结构的详细信息。</li>
+<li><em>示例程序用户指南</em>：描述了一组例程。每个章节描述了一个用例，展示了具体的功能，并提供了有关编译、运行和使用的说明。</li>
+</ul>
 <a id="more"></a>
-<h2 id="22-1-快速路径API"><a href="#22-1-快速路径API" class="headerlink" title="22.1.快速路径API"></a>22.1.快速路径API</h2><p>在数据面中运行的应用程序对性能敏感，但这些库中的某些函数可能不会多线程并发调用。PMD中的Hash，LPM和mempool库以及RX / TX都是这样的例子。</p>
-<p>通过设计，Hash和LPM库线程不安全，不能并行调用，以保持性能。然而，如果需要，开发人员可以在这些库之上添加封装层以提供线程安全性。在所有情况下都不需要锁，并且在哈希和LPM库中，可以在多个线程中并行执行值的查找。但是，当访问单个哈希表或LPM表时，添加，删除或修改值不能不使用锁在多个线程中完成。锁的另一个替代方法是创建这些表的多个实例，允许每个线程自己的副本。</p>
-<p>PMD的RX和TX是DPDK应用程序中最关键的方面，建议不要使用锁，因为它会影响性能。但是请注意，当每个线程在不同的NIC队列上执行I/O时，这些功能可以安全地从多个线程使用。如果多个线程在同一个NIC端口上使用相同的硬件队列，则需要锁定或某种其他形式的互斥。</p>
-<p>Ring库的实现基于无锁缓冲算法，保持其原有的线程安全设计。此外，它可以为多个或单个消费者/生产者入队/出队操作提供高性能。mempool库基于DPDK无锁ring库，因此也是多线程安全的。</p>
-<h2 id="22-2-非性能敏感API"><a href="#22-2-非性能敏感API" class="headerlink" title="22.2.非性能敏感API"></a>22.2.非性能敏感API</h2><p>在第25.1节描述的性能敏感区域之外，DPDK为大多数其他库提供线程安全的API。例如，malloc和memzone功能可以安全地用于多线程和多进程环境中。</p>
-<p>PMD的设置和配置不是性能敏感的，但也不是线程安全的。在多线程环境中PMD设置和配置期间的多次读/写可能会被破坏。由于这不是性能敏感的，开发人员可以选择添加自己的层，以提供线程安全的设置和配置。预计在大多数应用中，网络端口的初始配置将由启动时的单个线程完成。</p>
-<h2 id="22-3-库初始化"><a href="#22-3-库初始化" class="headerlink" title="22.3.库初始化"></a>22.3.库初始化</h2><p>建议DPDK库在应用程序启动时在主线程中初始化，而不是随后在转发线程中初始化。但是，DPDK会执行检查，以确保库仅被初始化一次。如果尝试多次初始化，则返回错误。<br>在多进程情况下，共享内存的配置信息只能由primary process初始化。此后，primary process和secondary process都可以分配/释放最终依赖于rte_malloc或memzone的任何内存对象。</p>
-<h2 id="22-4-中断线程"><a href="#22-4-中断线程" class="headerlink" title="22.4.中断线程"></a>22.4.中断线程</h2><p>DPDK在轮询模式下几乎完全用于Linux用户空间。对于诸如接收PMD链路状态改变通知的某些不经常的操作，可以在主DPDK处理线程外部的附加线程中调用回调。这些函数回调应避免操作也由普通DPDK线程管理的DPDK对象，如果需要这样做，应用程序就可以为这些对象提供适当的锁定或互斥限制。</p>
+<h1 id="2-Command-Line"><a href="#2-Command-Line" class="headerlink" title="2.    Command Line"></a>2.    Command Line</h1><p>本章介绍了作为数据平面开发工具包（DPDK）的一部分的命令行示例应用程序。</p>
+<h2 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1. 概述"></a>2.1. 概述</h2><p>命令行示例应用程序是提供在DPDK中使用命令行界面的简单应用程序。该应用程序是一种类似于readline的接口，可用于在Linux *应用程序环境中调试DPDK应用程序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">注意：rte_cmdline库不应在生产代码中使用，因为没有按照其他DPDK库的相同标准验证过。</div><div class="line">请参阅发行说明的“已知问题”部分中的“rte_cmdline库不应在生产代码中由于有限的测试使用”项目。</div></pre></td></tr></table></figure></p>
+<p>命令行示例应用程序支持GNU readline库的一些功能，例如，完成，剪切/粘贴和其他使配置和调试更快更容易的特殊绑定。</p>
+<p>该应用程序显示如何扩展rte_cmdline应用程序来处理对象列表。有三个简单的命令：</p>
+<ul>
+<li>add obj_name IP: Add a new object with an IP/IPv6 address associated to it</li>
+<li>del obj_name: Delete the specified object.</li>
+<li>show obj_name: Show the IP associated with the specified object.<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">注意：终止程序，使用ctrl+d</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="2-2-编译程序"><a href="#2-2-编译程序" class="headerlink" title="2.2. 编译程序"></a>2.2. 编译程序</h2><ol>
+<li><p>进入到用例目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export RTE_SDK=/path/to/rte_sdk</div><div class="line">cd $&#123;RTE_SDK&#125;/examples/cmdline</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置target，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export RTE_TARGET=x86_64-native-linuxapp-gcc</div></pre></td></tr></table></figure>
+</li>
+<li><p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="2-3-运行程序"><a href="#2-3-运行程序" class="headerlink" title="2.3. 运行程序"></a>2.3. 运行程序</h2><p>使用以下命令运行应用程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./build/cmdline -l 0-3 -n 4</div></pre></td></tr></table></figure></p>
+<p>可以参考DPDK入门指南获取参数信息及用法。<br>上面的参数为在逻辑核0～3上运行程序，每个处理器插槽上内存通道数目为4。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">注意，必须先分配hugepage才能正确运行程序。</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7246758-e9720de5fa99e778.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="error.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7246758-65b133d0160d3999.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="正确运行.png"></p>
+<h2 id="2-4-代码逻辑"><a href="#2-4-代码逻辑" class="headerlink" title="2.4. 代码逻辑"></a>2.4. 代码逻辑</h2><p>第一个任务就是创建环境适配层，初始化环境：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int main(int argc, char **argv)</div><div class="line">&#123;</div><div class="line">	int ret;</div><div class="line">	struct cmdline *cl;</div><div class="line"></div><div class="line">	ret = rte_eal_init(argc, argv);</div><div class="line">	if (ret &lt; 0)</div><div class="line">		rte_panic(&quot;Cannot init EAL\n&quot;);</div></pre></td></tr></table></figure></p>
+<p>然后，创建一个新的命令行对象并开始通过控制台与用户进行交互：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">	cl = cmdline_stdin_new(main_ctx, &quot;example&gt; &quot;);</div><div class="line">	if (cl == NULL)</div><div class="line">		rte_panic(&quot;Cannot create cmdline instance\n&quot;);</div><div class="line">	cmdline_interact(cl);</div><div class="line">	cmdline_stdin_exit(cl);</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>cmd line_interact（）函数在用户键入Ctrl-d时返回，在这种情况下，应用程序退出。</p>
+<p>一个命令行上下文就是列在非终止表中的命令，如下所示：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cmdline_parse_ctx_t main_ctx[] = &#123;</div><div class="line">	(cmdline_parse_inst_t *)&amp;cmd_obj_del_show,</div><div class="line">	(cmdline_parse_inst_t *)&amp;cmd_obj_add,</div><div class="line">	(cmdline_parse_inst_t *)&amp;cmd_help,</div><div class="line">	NULL,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>每个命令都是静态定义的。它包含一个指针，指向命令解析时需要执行的函数，一个不透明指针，一个帮助字符串和参数列表。</p>
+<p>rte_cmdline应用程序提供了一个预定义的参数类型列表：</p>
+<ul>
+<li>String Token: Match a static string, a list of static strings or any string</li>
+<li>Number Token: Match a number that can be signed or unsigned, from 8-bit to 32-bit.</li>
+<li>IP Address Token: Match an IPv4 or IPv6 address or network.</li>
+<li>Ethernet* Address Token: Match a MAC address.</li>
+</ul>
+<p>在本例子中，新的对象类型及其实现在parse_obj_list.c及parse_obj_list.c中。</p>
+<p>如，cmd_obj_del_show定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">cmdline_parse_inst_t cmd_obj_del_show = &#123;</div><div class="line">	.f = cmd_obj_del_show_parsed,  /* function to call */</div><div class="line">	.data = NULL,      /* 2nd arg of func */</div><div class="line">	.help_str = &quot;Show/del an object&quot;,</div><div class="line">	.tokens = &#123;        /* token list, NULL terminated */</div><div class="line">		(void *)&amp;cmd_obj_action,</div><div class="line">		(void *)&amp;cmd_obj_obj,</div><div class="line">		NULL,</div><div class="line">	&#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct cmd_obj_del_show_result &#123;</div><div class="line">	cmdline_fixed_string_t action;</div><div class="line">	struct object *obj;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">static void cmd_obj_del_show_parsed(void *parsed_result,</div><div class="line">				    struct cmdline *cl,</div><div class="line">				    __attribute__((unused)) void *data)</div><div class="line">&#123;</div><div class="line">  ……</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该命令有两个输入参数：</p>
+<ul>
+<li>第一个表示是del还是show</li>
+<li>第二个为obj，表示前面用add命令添加的对象<br>一旦命令被解析，rte_cmdline应用程序填充一个cmd_obj_del_show_result结构体。指向这个结构体的指针作为回调函数的参数。</li>
+</ul>
+<h1 id="3-Ethtool"><a href="#3-Ethtool" class="headerlink" title="3.    Ethtool"></a>3.    Ethtool</h1><p>Ethtool示例程序展示了类似ethtool的API实现，并提供了一个控制台环境，允许查询和更改以太网卡的参数。该示例程序基于简单的L2框架反射器。</p>
+<h2 id="3-1-编译程序"><a href="#3-1-编译程序" class="headerlink" title="3.1. 编译程序"></a>3.1. 编译程序</h2><h2 id="3-2-运行程序"><a href="#3-2-运行程序" class="headerlink" title="3.2. 运行程序"></a>3.2. 运行程序</h2><h2 id="3-3-代码逻辑"><a href="#3-3-代码逻辑" class="headerlink" title="3.3.代码逻辑"></a>3.3.代码逻辑</h2><p>程序使用控制台来驱动，具体控制带命令的实现，可以参考第二章Command Line用例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">void ethapp_main(void)</div><div class="line">&#123;</div><div class="line">	struct cmdline *ctx_cmdline;</div><div class="line"></div><div class="line">	ctx_cmdline = cmdline_stdin_new(list_prompt_commands, &quot;EthApp&gt; &quot;);</div><div class="line">	cmdline_interact(ctx_cmdline);</div><div class="line">	cmdline_stdin_exit(ctx_cmdline);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>支持如下命令：</p>
+<ul>
+<li>drvinfo：打印驱动信息</li>
+<li>eeprom：将EEPROM输出到文件</li>
+<li>link：打印端口link状态</li>
+<li>macaddr：获取/设置MAC地址</li>
+<li>mtu：设置NIC的MTU</li>
+<li>open：开启端口</li>
+<li>pause：获取/设置端口pause状态</li>
+<li>portstats：打印端口统计信息</li>
+<li>regs：打印端口寄存器到文件</li>
+<li>ringparam：获取/设置ring参数</li>
+<li>rxmode：反转端口RX模式</li>
+<li>stop：停止端口</li>
+<li>validate：检查给定的MAC地址是否合法单播地址</li>
+<li>vlan：添加/移除VLAN ID</li>
+<li>quit：退出程序</li>
+</ul>
+<p>整个程序分成两部分，一部分是后台程序，packet reflector，运行于slave core；另一部分是前台的ethtool shell程序，运行于master core。</p>
+<h3 id="3-3-1-Packet-Reflector"><a href="#3-3-1-Packet-Reflector" class="headerlink" title="3.3.1. Packet Reflector"></a>3.3.1. Packet Reflector</h3><p>后台数据包反射器旨在演示由ethtool控制的基本数据包处理。每个传入的MAC帧被重写，使得它被传回发送端，使用接收端的MAC地址作为源地址，然后在相同的端口上发送出去。</p>
+<h3 id="3-3-2-Ethtool-Shell"><a href="#3-3-2-Ethtool-Shell" class="headerlink" title="3.3.2. Ethtool Shell"></a>3.3.2. Ethtool Shell</h3><p>Ethtool示例的前台部分是基于Command Line的界面，可以接收程序中定义的命令。单个回调函数处理与每个命令相关联的详细信息，这些命令利用了ethtool接口中定义的功能和DPDK功能。</p>
+<h3 id="3-3-3-Ethtool实现的接口"><a href="#3-3-3-Ethtool实现的接口" class="headerlink" title="3.3.3. Ethtool实现的接口"></a>3.3.3. Ethtool实现的接口</h3><ul>
+<li>rte_ethtool_get_drvinfo()</li>
+<li>rte_ethtool_get_regs_len()</li>
+<li>rte_ethtool_get_regs()</li>
+<li>rte_ethtool_get_link()</li>
+<li>rte_ethtool_get_eeprom_len()</li>
+<li>rte_ethtool_get_eeprom()</li>
+<li>rte_ethtool_set_eeprom()</li>
+<li>rte_ethtool_get_pauseparam()</li>
+<li>rte_ethtool_set_pauseparam()</li>
+<li>rte_ethtool_net_open()</li>
+<li>rte_ethtool_net_stop()</li>
+<li>rte_ethtool_net_get_mac_addr()</li>
+<li>rte_ethtool_net_set_mac_addr()</li>
+<li>rte_ethtool_net_validate_addr()</li>
+<li>rte_ethtool_net_change_mtu()</li>
+<li>rte_ethtool_net_get_stats64()</li>
+<li>rte_ethtool_net_vlan_rx_add_vid()</li>
+<li>rte_ethtool_net_vlan_rx_kill_vid()</li>
+<li>rte_ethtool_net_set_rx_mode()</li>
+<li>rte_ethtool_get_ringparam()</li>
+<li>rte_ethtool_set_ringparam()
+ <h1 id="4-Exception-Path"><a href="#4-Exception-Path" class="headerlink" title="4.    Exception Path"></a>4.    Exception Path</h1>Exception Path示例旨在展示如何使用DPDK设置数据包穿过Linux内核。这是通过虚拟的TAP网络接口实现的。可以由DPDK应用程序读取和写入，并作为标准网络接口呈现给内核。</li>
+</ul>
+<h2 id="4-1-概述"><a href="#4-1-概述" class="headerlink" title="4.1. 概述"></a>4.1. 概述</h2><p>应用程序为每个网卡接口创建了两个线程，一个线程从接口中读取并写数据到线程指定的TAP接口上。另一个线程从TAP接口读取并写数据到NIC端口上。</p>
+<p>报文流的路径如下图所示：<img src="http://upload-images.jianshu.io/upload_images/7246758-95db541abb9eb637.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="报文路径"><br>为了进行吞吐测量，必须设置内核网桥以实现在网桥之间转发数据。</p>
+<h2 id="4-2-编译程序"><a href="#4-2-编译程序" class="headerlink" title="4.2. 编译程序"></a>4.2. 编译程序</h2><h2 id="4-3-运行程序"><a href="#4-3-运行程序" class="headerlink" title="4.3. 运行程序"></a>4.3. 运行程序</h2><p>按照如下命令运行程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.build/exception_path [EAL options] -- -p PORTMASK -i IN_CORES -o OUT_CORES</div></pre></td></tr></table></figure></p>
+<p>其中：<br>-p PORTMASK：端口掩码，表示使用的端口，十六进制表示<br>-i IN_CORES：从网卡中读数据的core掩码<br>-o OUT_CORES：向网卡中写数据的core掩码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">注意，-c参数或-l参数指定的程序运行core列表需要包含IN_CORES和OUT_CORES。且IN_CORES和OUT_CORES中不能有相同的core。端口和core之间的亲和性从每个掩码的最低有效位开始设置，也就是说，由PORTMASK中的最低位表示的端口由IN_CORES中的最低位表示的core读取，并由core写入由OUT_CORES中的最低位表示。</div></pre></td></tr></table></figure></p>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./build/exception_path -l 0-3 -n 4 -- -p 3 -i 3 -o c</div></pre></td></tr></table></figure></p>
+<p>当程序运行时，报文收发统计信息可以通过发送SIGUSER1给程序来展示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">killall -USR1 exception_path</div></pre></td></tr></table></figure></p>
+<p>通过发送SIGUSER2信号来重置统计信息。</p>
+<h2 id="4-4-代码逻辑"><a href="#4-4-代码逻辑" class="headerlink" title="4.4. 代码逻辑"></a>4.4. 代码逻辑</h2><h3 id="4-4-1-初始化"><a href="#4-4-1-初始化" class="headerlink" title="4.4.1. 初始化"></a>4.4.1. 初始化</h3><p>创建mbuf pool、驱动、队列与L2转发用例一样。此外，需要创建TAP接口。每个lcore上需要创建一个TAP接口。代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Create a tap network interface, or use existing one with same name.</div><div class="line"> * If name[0]=&apos;\0&apos; then a name is automatically assigned and returned in name.</div><div class="line"> */</div><div class="line">static int tap_create(char *name)</div><div class="line">&#123;</div><div class="line">	struct ifreq ifr;</div><div class="line">	int fd, ret;</div><div class="line"></div><div class="line">	fd = open(&quot;/dev/net/tun&quot;, O_RDWR);</div><div class="line">	if (fd &lt; 0)</div><div class="line">		return fd;</div><div class="line"></div><div class="line">	memset(&amp;ifr, 0, sizeof(ifr));</div><div class="line"></div><div class="line">	/* TAP device without packet information */</div><div class="line">	ifr.ifr_flags = IFF_TAP | IFF_NO_PI;</div><div class="line"></div><div class="line">	if (name &amp;&amp; *name)</div><div class="line">		snprintf(ifr.ifr_name, IFNAMSIZ, &quot;%s&quot;, name);</div><div class="line"></div><div class="line">	ret = ioctl(fd, TUNSETIFF, (void *) &amp;ifr);</div><div class="line">	if (ret &lt; 0) &#123;</div><div class="line">		close(fd);</div><div class="line">		return ret;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if (name)</div><div class="line">		snprintf(name, IFNAMSIZ, &quot;%s&quot;, ifr.ifr_name);</div><div class="line"></div><div class="line">	return fd;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>初始化程序的另一个操作是为每个port关联两个core：</p>
+<ul>
+<li>一个用于从port读取并写数据到TAP接口</li>
+<li>一个用于从TAP接口读取并写数据到port</li>
+</ul>
+<p>这是通过port_ids[]数组实现的，该数据由lcore ID作为索引，具体操作代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">/* Record affinities between ports and lcores in global port_ids[] array */</div><div class="line">static void</div><div class="line">setup_port_lcore_affinities(void)</div><div class="line">&#123;</div><div class="line">	unsigned long i;</div><div class="line">	uint8_t tx_port = 0;</div><div class="line">	uint8_t rx_port = 0;</div><div class="line"></div><div class="line">	/* Setup port_ids[] array, and check masks were ok */</div><div class="line">	RTE_LCORE_FOREACH(i) &#123;</div><div class="line">		if (input_cores_mask &amp; (1ULL &lt;&lt; i)) &#123;</div><div class="line">			/* Skip ports that are not enabled */</div><div class="line">			while ((ports_mask &amp; (1 &lt;&lt; rx_port)) == 0) &#123;</div><div class="line">				rx_port++;</div><div class="line">				if (rx_port &gt; (sizeof(ports_mask) * 8))</div><div class="line">					goto fail; /* not enough ports */</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			port_ids[i] = rx_port++;</div><div class="line">		&#125; else if (output_cores_mask &amp; (1ULL &lt;&lt; (i &amp; 0x3f))) &#123;</div><div class="line">			/* Skip ports that are not enabled */</div><div class="line">			while ((ports_mask &amp; (1 &lt;&lt; tx_port)) == 0) &#123;</div><div class="line">				tx_port++;</div><div class="line">				if (tx_port &gt; (sizeof(ports_mask) * 8))</div><div class="line">					goto fail; /* not enough ports */</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			port_ids[i] = tx_port++;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if (rx_port != tx_port)</div><div class="line">		goto fail; /* uneven number of cores in masks */</div><div class="line"></div><div class="line">	if (ports_mask &amp; (~((1 &lt;&lt; rx_port) - 1)))</div><div class="line">		goto fail; /* unused ports */</div><div class="line"></div><div class="line">	return;</div><div class="line">fail:</div><div class="line">	FATAL_ERROR(&quot;Invalid core/port masks specified on command line&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="4-4-2-报文转发"><a href="#4-4-2-报文转发" class="headerlink" title="4.4.2. 报文转发"></a>4.4.2. 报文转发</h3><p>初始化完成之后，每个lcore都会运行main_loop函数。该函数首先检查lcore_id及用户提供的input_core_mask和output_core_mask，以确定该core是contTAP读取还是想TAP写入数据。</p>
+<p>对于从NIC port读取的情况，数据包的接收与L2FWD用例相同。通过使用适当的TAP接口的文件描述符调用write来完成数据包的传输，然后将mbuf释放会池中。</p>
+<pre><code>/* Loop forever reading from NIC and writing to tap */
+for (;;) {
+    struct rte_mbuf *pkts_burst[PKT_BURST_SZ];
+    unsigned i;
+    const unsigned nb_rx =
+            rte_eth_rx_burst(port_ids[lcore_id], 0,
+                pkts_burst, PKT_BURST_SZ);
+    lcore_stats[lcore_id].rx += nb_rx;
+    for (i = 0; likely(i &lt; nb_rx); i++) {
+        struct rte_mbuf *m = pkts_burst[i];
+        /* Ignore return val from write() */
+        int ret = write(tap_fd,
+                        rte_pktmbuf_mtod(m, void*),
+                        rte_pktmbuf_data_len(m));
+        rte_pktmbuf_free(m);
+        if (unlikely(ret &lt; 0))
+            lcore_stats[lcore_id].dropped++;
+        else
+            lcore_stats[lcore_id].tx++;
+    }
+}
+</code></pre><p>反之，对于从TAP接口读取，并写数据到NIC port的core，通过条用read接口从TAP接口文件描述符中读取报文，填充到mbuf。代码逻辑如下：<br>        /<em> Loop forever reading from tap and writing to NIC </em>/<br>        for (;;) {<br>            int ret;<br>            struct rte_mbuf *m = rte_pktmbuf_alloc(pktmbuf_pool);<br>            if (m == NULL)<br>                continue;</p>
+<pre><code>    ret = read(tap_fd, rte_pktmbuf_mtod(m, void *),
+        MAX_PACKET_SZ);
+    lcore_stats[lcore_id].rx++;
+    if (unlikely(ret &lt; 0)) {
+        FATAL_ERROR(&quot;Reading from %s interface failed&quot;,
+                    tap_name);
+    }
+    m-&gt;nb_segs = 1;
+    m-&gt;next = NULL;
+    m-&gt;pkt_len = (uint16_t)ret;
+    m-&gt;data_len = (uint16_t)ret;
+    ret = rte_eth_tx_burst(port_ids[lcore_id], 0, &amp;m, 1);
+    if (unlikely(ret &lt; 1)) {
+        rte_pktmbuf_free(m);
+        lcore_stats[lcore_id].dropped++;
+    }
+    else {
+        lcore_stats[lcore_id].tx++;
+    }
+}
+</code></pre><p>为了创建环路，测试吞吐量，TAP接口可以通过网桥连接。</p>
+<h3 id="4-4-3-管理TAP接口和桥接"><a href="#4-4-3-管理TAP接口和桥接" class="headerlink" title="4.4.3. 管理TAP接口和桥接"></a>4.4.3. 管理TAP接口和桥接</h3><p>Exception Path用例创建TAP接口，TAP接口名称为tap_dpdk_nn，其中nn为lcore_ID，这些TAP接口需要配置才能使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ifconfig tap_dpdk_00 up</div></pre></td></tr></table></figure></p>
+<p>在两个接口间创建桥接，那么发往其中一个接口的报文可以从另一个接口上收到。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">brctl addbr &quot;br0&quot;</div><div class="line">brctl addif br0 tap_dpdk_00</div><div class="line">brctl addif br0 tap_dpdk_03</div><div class="line">ifconfig br0 up</div></pre></td></tr></table></figure></p>
+<p>示例程序创建的TAP接口只有当程序运行是才存在，所以上面的步骤需要在程序运行之后重复执行。为了避免这种情况，TAP接口可以通过openvpn命令来创建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openvpn --mktun --dev tap_dpdk_00</div></pre></td></tr></table></figure></p>
+<p>使用这种方法，上面的步骤只需要执行一次，且TAP接口可以被程序重复利用。如果需要移除TAP接口，可以使用以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ifconfig br0 down</div><div class="line">brctl delbr br0</div><div class="line">openvpn --rmtun --dev tap_dpdk_00</div></pre></td></tr></table></figure></p>
+<h1 id="5-Hello-World"><a href="#5-Hello-World" class="headerlink" title="5. Hello World"></a>5. Hello World</h1><h2 id="5-1-编译程序"><a href="#5-1-编译程序" class="headerlink" title="5.1. 编译程序"></a>5.1. 编译程序</h2><h2 id="5-2-运行程序"><a href="#5-2-运行程序" class="headerlink" title="5.2. 运行程序"></a>5.2. 运行程序</h2><h2 id="5-3-代码逻辑"><a href="#5-3-代码逻辑" class="headerlink" title="5.3. 代码逻辑"></a>5.3. 代码逻辑</h2><ol>
+<li>初始化eal</li>
+<li>一旦eal初始化完成，应用程序就可以在lcore上开始运行。在这个例子中，lcore_hell函数在每个可用的lcore上调用</li>
+<li>在每个lcore上执行，使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/* call lcore_hello() on every slave lcore */</div><div class="line">	RTE_LCORE_FOREACH_SLAVE(lcore_id) &#123;</div><div class="line">		rte_eal_remote_launch(lcore_hello, NULL, lcore_id);</div><div class="line">	&#125;</div><div class="line">	/* call it on master lcore too */</div><div class="line">	lcore_hello(NULL);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="6-Basic-Forwarding"><a href="#6-Basic-Forwarding" class="headerlink" title="6.    Basic Forwarding"></a>6.    Basic Forwarding</h1><p>Basci Forwarding示例程序是转发应用程序的简单框架示例。它旨在演示DPDK转发应用程序的基本组件，有关更详细的实现，请参阅L2和L3转发示例。</p>
+<h2 id="6-1-编译程序"><a href="#6-1-编译程序" class="headerlink" title="6.1. 编译程序"></a>6.1. 编译程序</h2><h2 id="6-2-运行程序"><a href="#6-2-运行程序" class="headerlink" title="6.2. 运行程序"></a>6.2. 运行程序</h2><h2 id="6-3-代码逻辑"><a href="#6-3-代码逻辑" class="headerlink" title="6.3. 代码逻辑"></a>6.3. 代码逻辑</h2><h3 id="6-3-1-主函数"><a href="#6-3-1-主函数" class="headerlink" title="6.3.1. 主函数"></a>6.3.1. 主函数</h3><p>主函数执行初始化操作，并为每个lcore调用执行线程。</p>
+<p>首先是初始化环境失配层EAL，argc和argv参数都是传递给rte_eal_init()函数的。</p>
+<pre><code>/* Initialize the Environment Abstraction Layer (EAL). */
+int ret = rte_eal_init(argc, argv);
+if (ret &lt; 0)
+    rte_exit(EXIT_FAILURE, &quot;Error with EAL initialization\n&quot;);
+</code></pre><p>Main函数中还申请了内存池以提供程序中使用的mbuf。</p>
+<pre><code>/* Creates a new mempool in memory to hold the mbufs. */
+mbuf_pool = rte_pktmbuf_pool_create(&quot;MBUF_POOL&quot;, NUM_MBUFS * nb_ports,
+    MBUF_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
+
+if (mbuf_pool == NULL)
+    rte_exit(EXIT_FAILURE, &quot;Cannot create mbuf pool\n&quot;);
+</code></pre><p>Mbuf是DPDK中所使用的报文缓冲区数据结构。</p>
+<p>Main函数中还需要初始化程序要用到的端口：</p>
+<pre><code>/* Initialize all ports. */
+for (portid = 0; portid &lt; nb_ports; portid++)
+    if (port_init(portid, mbuf_pool) != 0)
+        rte_exit(EXIT_FAILURE, &quot;Cannot init port %&quot;PRIu8 &quot;\n&quot;,
+                portid);
+</code></pre><p>一旦这些初始化都完成之后，应用程序就可以在指定的lcore上开始运行了。在这个程序中，只运行于单个lcore。</p>
+<h3 id="6-3-2-端口初始化函数"><a href="#6-3-2-端口初始化函数" class="headerlink" title="6.3.2. 端口初始化函数"></a>6.3.2. 端口初始化函数</h3><p>端口初始化函数代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Initializes a given port using global settings and with the RX buffers</div><div class="line"> * coming from the mbuf_pool passed as a parameter.</div><div class="line"> */</div><div class="line">static inline int</div><div class="line">port_init(uint8_t port, struct rte_mempool *mbuf_pool)</div><div class="line">&#123;</div><div class="line">	struct rte_eth_conf port_conf = port_conf_default;</div><div class="line">	const uint16_t rx_rings = 1, tx_rings = 1;</div><div class="line">	int retval;</div><div class="line">	uint16_t q;</div><div class="line"></div><div class="line">	if (port &gt;= rte_eth_dev_count())</div><div class="line">		return -1;</div><div class="line"></div><div class="line">	/* Configure the Ethernet device. */</div><div class="line">	retval = rte_eth_dev_configure(port, rx_rings, tx_rings, &amp;port_conf);</div><div class="line">	if (retval != 0)</div><div class="line">		return retval;</div><div class="line"></div><div class="line">	/* Allocate and set up 1 RX queue per Ethernet port. */</div><div class="line">	for (q = 0; q &lt; rx_rings; q++) &#123;</div><div class="line">		retval = rte_eth_rx_queue_setup(port, q, RX_RING_SIZE,</div><div class="line">				rte_eth_dev_socket_id(port), NULL, mbuf_pool);</div><div class="line">		if (retval &lt; 0)</div><div class="line">			return retval;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* Allocate and set up 1 TX queue per Ethernet port. */</div><div class="line">	for (q = 0; q &lt; tx_rings; q++) &#123;</div><div class="line">		retval = rte_eth_tx_queue_setup(port, q, TX_RING_SIZE,</div><div class="line">				rte_eth_dev_socket_id(port), NULL);</div><div class="line">		if (retval &lt; 0)</div><div class="line">			return retval;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* Start the Ethernet port. */</div><div class="line">	retval = rte_eth_dev_start(port);</div><div class="line">	if (retval &lt; 0)</div><div class="line">		return retval;</div><div class="line"></div><div class="line"> ……</div><div class="line"></div><div class="line">	/* Enable RX in promiscuous mode for the Ethernet device. */</div><div class="line">	rte_eth_promiscuous_enable(port);</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>以太网端口使用rte_eth_dev_configure及port_conf_default进行默认配置。默认配置中只配置了收包长度1518。</li>
+<li>在这个例子中，每个端口创建了1个RX队列和1个TX队列。</li>
+<li>使用rte_eth_dev_start来启动端口。</li>
+</ol>
+<h3 id="6-3-3-主循环"><a href="#6-3-3-主循环" class="headerlink" title="6.3.3. 主循环"></a>6.3.3. 主循环</h3><p>所有初始化做完之后，在lcore上开启主循环。在本例中，只在一个lcore上运行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * The lcore main. This is the main thread that does the work, reading from</div><div class="line"> * an input port and writing to an output port.</div><div class="line"> */</div><div class="line">static __attribute__((noreturn)) void lcore_main(void)</div><div class="line">&#123;</div><div class="line">	const uint8_t nb_ports = rte_eth_dev_count();</div><div class="line">	uint8_t port;</div><div class="line"></div><div class="line">	/*</div><div class="line">	 * Check that the port is on the same NUMA node as the polling thread</div><div class="line">	 * for best performance.</div><div class="line">	 */</div><div class="line">	for (port = 0; port &lt; nb_ports; port++)</div><div class="line">		if (rte_eth_dev_socket_id(port) &gt; 0 &amp;&amp; rte_eth_dev_socket_id(port) != (int)rte_socket_id())</div><div class="line">			printf(&quot;WARNING, port %u is on remote NUMA node to &quot;</div><div class="line">					&quot;polling thread.\n\tPerformance will not be optimal.\n&quot;, port);</div><div class="line"></div><div class="line">	printf(&quot;\nCore %u forwarding packets. [Ctrl+C to quit]\n&quot;, rte_lcore_id());</div><div class="line"></div><div class="line">	/* Run until the application is quit or killed. */</div><div class="line">	for (;;) &#123;</div><div class="line">		/*</div><div class="line">		 * Receive packets on a port and forward them on the paired</div><div class="line">		 * port. The mapping is 0 -&gt; 1, 1 -&gt; 0, 2 -&gt; 3, 3 -&gt; 2, etc.</div><div class="line">		 */</div><div class="line">		for (port = 0; port &lt; nb_ports; port++) &#123;</div><div class="line"></div><div class="line">			/* Get burst of RX packets, from first port of pair. */</div><div class="line">			struct rte_mbuf *bufs[BURST_SIZE];</div><div class="line">			const uint16_t nb_rx = rte_eth_rx_burst(port, 0, bufs, BURST_SIZE);</div><div class="line"></div><div class="line">			if (unlikely(nb_rx == 0))</div><div class="line">				continue;</div><div class="line"></div><div class="line">			/* Send burst of TX packets, to second port of pair. */</div><div class="line">			const uint16_t nb_tx = rte_eth_tx_burst(port ^ 1, 0, bufs, nb_rx);</div><div class="line"></div><div class="line">			/* Free any unsent packets. */</div><div class="line">			if (unlikely(nb_tx &lt; nb_rx)) &#123;</div><div class="line">				uint16_t buf;</div><div class="line">				for (buf = nb_tx; buf &lt; nb_rx; buf++)</div><div class="line">					rte_pktmbuf_free(bufs[buf]);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里的port^1操作，是将port 0收到的报文发往port 1，port 1收到的报文发往port 0；port 2收到的报文发往port 3，port 3收到的报文发往port 2。</p>
+<p>发送函数rte_eth_tx_burst将自动释放报文缓存，如果报文发送失败，则需要手动调用rte_pktmbuf_free来释放报文缓存。</p>
+<p>可以使用Ctrl+C来终止程序。
+ </p>
+<h1 id="7-RX-RX-Callbacks"><a href="#7-RX-RX-Callbacks" class="headerlink" title="7.    RX/RX Callbacks"></a>7.    RX/RX Callbacks</h1><p>RX/TX Callback示例是报文转发用例，展示了使用用户自定义的回调函数来接收和发送报文。用例实现了一个简单的时延检查，使用自定义的回调函数，用于确定报文在程序中的耗时。</p>
+<p>在示例中，用户定义的回调函数给每个接收报文提供了一个时间戳，在报文传输之前，回调函数对所有的数据包计算CPU周期。</p>
+<h2 id="7-1-编译程序"><a href="#7-1-编译程序" class="headerlink" title="7.1. 编译程序"></a>7.1. 编译程序</h2><p>注意RX/TX Callback示例需要配置CONFIG_RTE_ETHDEV_RXTX_CALLBACKS，该配置在/config/comman_config中，通常情况下，默认是开启这个配置的。</p>
+<h2 id="7-2-运行程序"><a href="#7-2-运行程序" class="headerlink" title="7.2. 运行程序"></a>7.2. 运行程序</h2><h2 id="7-3-代码逻辑"><a href="#7-3-代码逻辑" class="headerlink" title="7.3. 代码逻辑"></a>7.3. 代码逻辑</h2><p>RX/TX Callback示例是简单的转发用例，基于Basic Forwarding程序。</p>
+<h3 id="7-3-1-主函数"><a href="#7-3-1-主函数" class="headerlink" title="7.3.1. 主函数"></a>7.3.1. 主函数</h3><p>Main函数执行初始化操作，在每个指定的lcore上调用执行线程。具体过程与Basic Forwarding一样。<br>主循环也基本一样。<br>主要的差别在于端口初始化部分，在这里我们添加了回调函数。</p>
+<h3 id="7-3-2-端口初始化函数"><a href="#7-3-2-端口初始化函数" class="headerlink" title="7.3.2. 端口初始化函数"></a>7.3.2. 端口初始化函数</h3><p>端口初始化的代码逻辑也可以参考上一个用例，只是在最后，我们添加了以下两行代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rte_eth_add_rx_callback(port, 0, add_timestamps, NULL);</div><div class="line">rte_eth_add_tx_callback(port, 0, calc_latency, NULL);</div></pre></td></tr></table></figure></p>
+<p>显然，在每个端口的队列0上添加了RX/TX回调。<br>注意，可以添加一个或多个回调函数，且可以向回调函数传入void*参数，本例子中传入的是NULL参数。</p>
+<h3 id="7-3-3-RX-Callback"><a href="#7-3-3-RX-Callback" class="headerlink" title="7.3.3. RX Callback"></a>7.3.3. RX Callback</h3><p>本例子中，添加了add_timestamps回调，当每个报文收到时，将执行这个函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">static uint16_t</div><div class="line">add_timestamps(uint8_t port __rte_unused, uint16_t qidx __rte_unused,</div><div class="line">		struct rte_mbuf **pkts, uint16_t nb_pkts,</div><div class="line">		uint16_t max_pkts __rte_unused, void *_ __rte_unused)</div><div class="line">&#123;</div><div class="line">	unsigned i;</div><div class="line">	uint64_t now = rte_rdtsc();</div><div class="line"></div><div class="line">	for (i = 0; i &lt; nb_pkts; i++)</div><div class="line">		pkts[i]-&gt;udata64 = now;</div><div class="line">	return nb_pkts;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="7-3-4-TX-Callback"><a href="#7-3-4-TX-Callback" class="headerlink" title="7.3.4. TX Callback"></a>7.3.4. TX Callback</h3><p>本例中，添加了TX回调calc_latency，当每个报文发送之前，计算耗时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">static uint16_t</div><div class="line">calc_latency(uint8_t port __rte_unused, uint16_t qidx __rte_unused,</div><div class="line">		struct rte_mbuf **pkts, uint16_t nb_pkts, void *_ __rte_unused)</div><div class="line">&#123;</div><div class="line">	uint64_t cycles = 0;</div><div class="line">	uint64_t now = rte_rdtsc();</div><div class="line">	unsigned i;</div><div class="line"></div><div class="line">	for (i = 0; i &lt; nb_pkts; i++)</div><div class="line">		cycles += now - pkts[i]-&gt;udata64;</div><div class="line">	latency_numbers.total_cycles += cycles;</div><div class="line">	latency_numbers.total_pkts += nb_pkts;</div><div class="line"></div><div class="line">	if (latency_numbers.total_pkts &gt; (100 * 1000 * 1000ULL)) &#123;</div><div class="line">		printf(&quot;Latency = %&quot;PRIu64&quot; cycles\n&quot;,</div><div class="line">		latency_numbers.total_cycles / latency_numbers.total_pkts);</div><div class="line">		latency_numbers.total_cycles = latency_numbers.total_pkts = 0;</div><div class="line">	&#125;</div><div class="line">	return nb_pkts;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当一亿个报文发送时，打印出平均耗时，并重置计数。</p>
 
       
 
@@ -284,7 +496,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/09/dpdk-pg-22/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/10/30/dpdk-example-1-7/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -298,18 +510,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/09/dpdk-pg-23/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（二十三）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/09/dpdk-pg-21/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十一）</div>
+    <a href="/2017/10/17/dpdk-pg-25/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（二十五）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -339,7 +542,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="dpdk-pg-22" ></div> 
+  <div id="SOHUCS" sid="dpdk-example-1-7" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 

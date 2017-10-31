@@ -181,6 +181,100 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dpdk-example-1-7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/30/dpdk-example-1-7/">DPDK示例(1~7)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/30/dpdk-example-1-7/" class="archive-article-date">
+  	<time datetime="2017-10-30T11:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1.    简介"></a>1.    简介</h1><p>本文档描述了数据平面开发工具包（DPDK）中包含的示例应用程序。每章描述了一个示例应用程序，它展示了具体的功能，并提供了有关如何编译，运行和使用示例应用程序的说明。</p>
+<p>##　1.1.    文档路线图<br>以下是一份建议顺序阅读的DPDK参考文档列表:</p>
+<ul>
+<li><em>发行公告</em>：提供特定发行版本的信息，包括支持的特性、限制条件、修复的问题、已知的问题等等。此外，还以FAQ的方式提供了常见问题的解决方法。</li>
+<li><em>入门指南</em>：介绍如何安装及配置DPDK软件，旨在帮助用户快速上手。</li>
+<li><em>FreeBSD 入门指南</em>：DPDK1.6.0发布版本之后添加了FreeBSD<em> 平台上的入门指南。有关如何在FreeBSD</em> 上安装配置DPDK，请参阅这个文档。</li>
+<li>编程指南（本文档），描述了如下内容：<ul>
+<li>软件架构以及如何使用（示例介绍），特别是在Linux用户环境中的使用</li>
+<li>DPDK的主要内容，系统构建（包括可以在DPDK根目录Makefile中用来构建工具包和应用程序的命令）及应用移植细则。</li>
+<li>软件中使用的，以及新开发中需要考虑的一些优化。</li>
+</ul>
+</li>
+<li><em>API参考</em>：提供有关DPDK功能、数据结构和其他编程结构的详细信息。</li>
+<li><em>示例程序用户指南</em>：描述了一组例程。每个章节描述了一个用例，展示了具体的功能，并提供了有关编译、运行和使用的说明。</li>
+</ul>
+        
+          <a class="article-more-a" href="/2017/10/30/dpdk-example-1-7/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/30/dpdk-example-1-7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dpdk-pg-25" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -929,92 +1023,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dpdk-pg-21" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/09/dpdk-pg-21/">DPDK编程指南（二十一）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/09/dpdk-pg-21/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="21-内核网络接口卡接口"><a href="#21-内核网络接口卡接口" class="headerlink" title="21.内核网络接口卡接口"></a>21.内核网络接口卡接口</h1><p>DPDK Kernel NIC Interface（KNI）允许用户空间应用程序访问Linux *控制面。</p>
-<p>使用DPDK KNI的好处是：</p>
-<ul>
-<li>比现有的Linux TUN / TAP接口更快（通过消除系统调用和copy_to_user()/copy_from_user()操作）。</li>
-<li>允许使用标准Linux网络工具（如ethtool，ifconfig和tcpdump）管理DPDK端口。</li>
-<li>允许与内核网络堆栈的接口。</li>
-</ul>
-        
-          <a class="article-more-a" href="/2017/09/09/dpdk-pg-21/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/09/dpdk-pg-21/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1140,15 +1148,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
