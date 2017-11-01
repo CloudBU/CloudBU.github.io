@@ -265,6 +265,94 @@ var _hmt = _hmt || [];
 
 
   
+    <article id="post-dpdk-pg-11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/08/dpdk-pg-11/">DPDK编程指南（十一）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/08/dpdk-pg-11/" class="archive-article-date">
+  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="11-定时器库"><a href="#11-定时器库" class="headerlink" title="11.定时器库"></a>11.定时器库</h1><p>定时器库为DPDK执行单元提供定时器服务，使得执行单元可以为异步操作执行回调函数。定时器库的特性如下：</p>
+<ul>
+<li>定时器可以周期执行，也可以执行一次。</li>
+<li>定时器可以在一个核心加载并在另一个核心执行。但是必须在调用rte_timer_reset()中指定它。</li>
+<li>定时器提供高精度（取决于检查本地核心的定时器到期的rte_timer_manage()的调用频率）。</li>
+<li>如果应用程序不需要，可以在编译时禁用定时器，并且程序中不调用rte_timer_manage()来提高性能。</li>
+</ul>
+<p>定时器库使用rte_get_timer_cycles()获取高精度事件定时器（HPET）或CPU时间戳计数器（TSC）提供的可靠时间参考。</p>
+<p>该库提供了添加，删除和重新启动定时器的接口。API基于BSD callout()，可能会有一些差异。详细请参考callout手册。</p>
+        
+          <a class="article-more-a" href="/2017/09/08/dpdk-pg-11/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/08/dpdk-pg-11/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-So-Called-Love" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -912,87 +1000,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/06/Do-Not-Go-Gentle-into-That-Good-Night/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dpdk-pg-6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/dpdk-pg-6/">DPDK编程指南（六）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/06/dpdk-pg-6/" class="archive-article-date">
-  	<time datetime="2017-09-06T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="6-报文缓冲区库"><a href="#6-报文缓冲区库" class="headerlink" title="6.报文缓冲区库"></a>6.报文缓冲区库</h1><p>报文缓冲区库（Mbuf）提供了申请和释放缓冲区的功能，DPDK应用程序使用这些buffer存储消息缓冲。消息缓冲存储在mempool中，使用内存池库 。</p>
-<p>数据结构rte_mbuf可以承载网络数据包buffer或者通用控制消息buffer(由CTRL_MBUF_FLAG指示)。也可以扩展到其他类型。rte_mbuf头部结构尽可能小，目前只使用两个缓存行，最常用的字段位于第一个缓存行中。</p>
-        
-          <a class="article-more-a" href="/2017/09/06/dpdk-pg-6/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/06/dpdk-pg-6/">展开全文 >></a>
         </p>
       
 

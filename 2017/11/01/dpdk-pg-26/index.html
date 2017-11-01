@@ -6,18 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Tag: 数据平面 | 拙言</title>
+  <title>DPDK编程指南（二十六） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/tags/数据平面/page/2/index.html">
+  <meta name="description" content="26. 报文框架26.1. 设计目标DPDK数据包框架的主要设计目标是：  提供标准方法来构建复杂的数据包处理流水线。 为常用的流水线功能模块提供可重复使用和可扩展的模板； 提供在同一流水线功能模块上在纯软件和硬件加速实现之间的切换能力； 提供灵活性和高性能之间的最佳权衡。 硬编码流水线通常提供最佳性能，但是不够灵活，而开发灵活的框架通常性能又较低； 提供一个逻辑上类似于Open Flow的框架。">
+<meta name="keywords" content="数据平面,DPDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK编程指南（二十六）">
+<meta property="og:url" content="http://lockless.github.io/2017/11/01/dpdk-pg-26/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="26. 报文框架26.1. 设计目标DPDK数据包框架的主要设计目标是：  提供标准方法来构建复杂的数据包处理流水线。 为常用的流水线功能模块提供可重复使用和可扩展的模板； 提供在同一流水线功能模块上在纯软件和硬件加速实现之间的切换能力； 提供灵活性和高性能之间的最佳权衡。 硬编码流水线通常提供最佳性能，但是不够灵活，而开发灵活的框架通常性能又较低； 提供一个逻辑上类似于Open Flow的框架。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-7c8dd91e8c179d90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-50c59cc4f77b3d99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-01T09:34:38.892Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="DPDK编程指南（二十六）">
+<meta name="twitter:description" content="26. 报文框架26.1. 设计目标DPDK数据包框架的主要设计目标是：  提供标准方法来构建复杂的数据包处理流水线。 为常用的流水线功能模块提供可重复使用和可扩展的模板； 提供在同一流水线功能模块上在纯软件和硬件加速实现之间的切换能力； 提供灵活性和高性能之间的最佳权衡。 硬编码流水线通常提供最佳性能，但是不够灵活，而开发灵活的框架通常性能又较低； 提供一个逻辑上类似于Open Flow的框架。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-7c8dd91e8c179d90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -179,36 +183,227 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dpdk-pg-26" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DPDK编程指南（二十六）
+    </h1>
+  
+
+        
+        <a href="/2017/11/01/dpdk-pg-26/" class="archive-article-date">
+  	<time datetime="2017-11-01T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="26-报文框架"><a href="#26-报文框架" class="headerlink" title="26. 报文框架"></a>26. 报文框架</h1><h2 id="26-1-设计目标"><a href="#26-1-设计目标" class="headerlink" title="26.1. 设计目标"></a>26.1. 设计目标</h2><p>DPDK数据包框架的主要设计目标是：</p>
+<ul>
+<li>提供标准方法来构建复杂的数据包处理流水线。 为常用的流水线功能模块提供可重复使用和可扩展的模板；</li>
+<li>提供在同一流水线功能模块上在纯软件和硬件加速实现之间的切换能力；</li>
+<li>提供灵活性和高性能之间的最佳权衡。 硬编码流水线通常提供最佳性能，但是不够灵活，而开发灵活的框架通常性能又较低；</li>
+<li>提供一个逻辑上类似于Open Flow的框架。</li>
+</ul>
+<a id="more"></a>
+<h2 id="26-2-概述"><a href="#26-2-概述" class="headerlink" title="26.2. 概述"></a>26.2. 概述</h2><p>报文处理应用程序通常被设计为多级流水线，每个阶段的逻辑围绕查找表进行。 对于每个传入的数据包，查找表定义了要应用于数据包的一组操作，以及数据包处理的下一个阶段。</p>
+<p>DPDK数据包框架通过定义流水线开发的标准方法，以及为常用的流水线模块提供可重用的模板库来最大限度地减少 构建数据包流水线所需要的开发工作量。</p>
+<p>将一组输入端口和一组输出端口通过树形拓扑中的一组查找表来连接以构成流水线。 作为当前报文查找表的查找结果，其中一个表条目（查找命中）或默认条目（查找缺失）提供了要对当前数据包应用的一组操作， 以及数据包的下一跳，可以是另一个表，输出端口或者是丢弃报文。</p>
+<p>数据包处理流程的一个例子如下:<img src="http://upload-images.jianshu.io/upload_images/7246758-7c8dd91e8c179d90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输入端口0和1通过表0和表1与输出端口0，1和2连接的数据包流水线示例"></p>
+<h2 id="26-3-端口库设计"><a href="#26-3-端口库设计" class="headerlink" title="26.3. 端口库设计"></a>26.3. 端口库设计</h2><h3 id="26-3-1-端口类型"><a href="#26-3-1-端口类型" class="headerlink" title="26.3.1. 端口类型"></a>26.3.1. 端口类型</h3><p>下表是可以使用Packet Framework实现的端口的非穷尽列表。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">#</th>
+<th style="text-align:center">端口类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">SW ring</td>
+<td style="text-align:center">软件环形缓冲区用于应用程序之间的消息传递。使用DPDK的rte_ring。可能也是最常用的port类型</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">HW ring</td>
+<td style="text-align:center">用于与NIC、交换机或加速端口交互的缓冲区描述符队列。对于NIC端口，它使用rte_eth_rx_queue 或者rte_eth_tx_queue</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">IP reassembly</td>
+<td style="text-align:center">输入数据包是完整的数据报或者片段。输出数据包则是完整的IP数据报。</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">IP fragmentation</td>
+<td style="text-align:center">输入数据包是Jumbo帧 (IP 数据报，长度大于 MTU) 或者非Jumbo帧。输出数据包是非Jumbo帧。</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">Traffic manager</td>
+<td style="text-align:center">连接到特定NIC输出端口的流量管理器，根据预定义的SLA执行拥塞管理和分级调度。</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">KNI</td>
+<td style="text-align:center">接收/发送数据包到/从Linux内核空间</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">Source</td>
+<td style="text-align:center">输入端口用作数据包生成器。 类似于Linux内核 /dev/zero 设备</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">Sink</td>
+<td style="text-align:center">输出端口，用于删除所有的输入数据包。类似于Linux内核的 /dev/null 字符设备。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="26-3-2-端口操作"><a href="#26-3-2-端口操作" class="headerlink" title="26.3.2. 端口操作"></a>26.3.2. 端口操作</h3><p>每个端口是单向的，即输入端口或输出端口。 需要每个输入/输出端口来实现定义端口的初始化和运行时操作的抽象接口。 端口抽象接口描述于下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">#</th>
+<th style="text-align:center">端口操作</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">Create</td>
+<td style="text-align:center">创建低级端口对象 (如，队列)，可以内部分配内存。</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">Free</td>
+<td style="text-align:center">释放低级端口对象使用的资源 (如，内存)</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">RX</td>
+<td style="text-align:center">读取一串输入数据包。只有输入端口才有这个操作。</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">TX</td>
+<td style="text-align:center">写一串输入数据包。非阻塞操作，只有输出端口有这个操作。</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">Flush</td>
+<td style="text-align:center">刷新输出缓冲区，只有输出端口有这个操作。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="26-4-表库设计"><a href="#26-4-表库设计" class="headerlink" title="26.4. 表库设计"></a>26.4. 表库设计</h2><h3 id="26-4-1-表类型"><a href="#26-4-1-表类型" class="headerlink" title="26.4.1. 表类型"></a>26.4.1. 表类型</h3><p>下表是可以用Packet Framework实现的表类型的非穷举列表。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">#</th>
+<th style="text-align:center">表类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">Hash table</td>
+<td style="text-align:center">查找关键字是n-元组。通常，查找key使用哈希算法以产生用于标识查找结果的索引值。与每个数据包查找关键字相关的数据可以从数据包中读取（预先计算的），或者在表查找时计算。表查找、添加条目和删除条目操作，以及预先计算Key的任何流水线模块 都必须使用相同的哈希算法。哈希表通常用于实现流分类表、ARP缓存、隧道协议路由表等。</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">Longest Prefix Match (LPM)</td>
+<td style="text-align:center">查找键值是IP地址。表中的每个条目具有一个相关联的IP前缀。表查找操作选择由查找键值匹配的IP前缀；在多个匹配的情况下，具有最长前缀匹配的条目获胜。通常用于实现IP路由表。</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">Access Control List (ACLs)</td>
+<td style="text-align:center">查找键值是7-元组，包括两个 VLAN/MPLS 标签，目的IP，源IP，L4协议，L4目的端口，L4源端口。每个表条目具有相关联的ACL优先级。ACL包含VLAN/ MPLS标签的位掩码，IP目的地址的IP前缀，IP源地址的IP前缀，L4协议和位掩码，L4目的端口和位掩码，L4源端口和位掩码。表查找操作选择与查找键匹配的ACL; 在多个匹配的情况下，优先级最高的条目胜出。通常用于实现防火墙等规则数据库。</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">Pattern matching search</td>
+<td style="text-align:center">查找键值为报文负载。表示一个模式数据库，每个模式都有一个相关联的优先级。表查找操作选择与输入报文匹配的模式，在多个匹配的情况下，最高优先级匹配胜出</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">Array</td>
+<td style="text-align:center">查询键是表条目索引本身。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="26-4-2-表操作接口"><a href="#26-4-2-表操作接口" class="headerlink" title="26.4.2. 表操作接口"></a>26.4.2. 表操作接口</h3><p>每个表都需要实现一个定义表的初始化和运行时操作的抽象接口。 表的抽象接口如下表所述：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">#</th>
+<th style="text-align:center">表操作</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">Create</td>
+<td style="text-align:center">创建查找表的低级数据结构。 可以内部分配内存。</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">Free</td>
+<td style="text-align:center">释放查找表使用的所有资源。</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">Add entry</td>
+<td style="text-align:center">向查找表添加新条目。</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">Delete entry</td>
+<td style="text-align:center">从查找表中删除特定条目。</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">Lookup</td>
+<td style="text-align:center">查找一组输入数据包，并返回一个指定每个数据包的查找操作结果的位掩码。一个位表示相应数据包的查找命中，而一个清除位被查找错过 对于每个查找命中数据包，查找操作也返回指向被命中的表条目的指针，其中包含要应用于数据包的操作和任何关联的元数据。对于每个查找缺失数据包，要应用于数据包的操作和任何关联的元数据由预先配置为查找缺失的默认表条目指定</td>
+</tr>
+</tbody>
+</table>
+<h3 id="26-4-3-哈希表设计"><a href="#26-4-3-哈希表设计" class="headerlink" title="26.4.3. 哈希表设计"></a>26.4.3. 哈希表设计</h3><h4 id="26-4-3-1-哈希表概述"><a href="#26-4-3-1-哈希表概述" class="headerlink" title="26.4.3.1. 哈希表概述"></a>26.4.3.1. 哈希表概述</h4><p>哈希表很重要，因为查找操作针对速度进行了优化：搜索操作仅限于表中的某个哈希桶，而不是在表中所有元素间进行线性查找。</p>
+<p><strong>关联数组</strong></p>
+<p>关联数组是一个可以被指定为一组（键，值）对的函数，每个键最多可以存在一个可能的输入键集合。 对于给定的一个关联数组，可能的操作如下：</p>
+<ul>
+<li><em>添加 (key, value)</em>: 当没有value与当前 <em>key</em>相关联时，(key, <em>value</em> ) 关联将被创建。 当 <em>key</em> 已经关联了 <em>value0</em>，那么 (<em>key</em>, <em>value0</em>) 将被移除，并重新创建关联 <em>(key, value)</em> 。</li>
+<li><em>删除 key</em>: 假如当前没有value关联到 <em>key</em>，这个操作将不起作用。 当 <em>key</em> 已经关联了 <em>value</em>，那么 <em>(key, value)</em> 将被移除。</li>
+<li><em>查找 key</em>: 假如当前 <em>key</em>没有关联的value，那么这个操作返回查找缺失。 当 <em>key</em> 关联 <em>value</em>，那么这个操作将返回 <em>value</em>。 键值对 <em>(key, value)</em> 不做任何改变。</li>
+</ul>
+<p>用于将输入key与关联数组中的key进行匹配的规则是 <em>精确匹配</em>，也就是说，key的大小及key值都必须精确匹配。</p>
+<p><strong>哈希函数</strong></p>
+<p>哈希函数确定性地将可变长度（密钥）的数据映射到固定大小的数据（散列值或密钥签名）。 通常地，key的大小要大于散列值的大小。 散列函数基本上将长key压缩成短哈希值。 几个key可以共享相同的哈希值，这就是哈希碰撞（哈希冲突）。</p>
+<p>高质量散列函数可以做到均匀分布。 对于大量的key，当将哈希值的空间划分成固定数量的相等间隔（哈希桶）时，希望将哈希值均匀分布在这些间隔（均匀分布）上，而不是大多数哈希值 只分布在几个哈希桶中，其余的哈希桶在很大程度上没有使用（不均匀分布）。</p>
+<p><strong>哈希表</strong><br>哈希表是使用散列函数进行操作的关联数组。 使用散列函数的原因是通过最小化必须与输入键进行比较的表键的数量来优化查找操作的性能。</p>
+<p>哈希表不是将(key, value)对存储在单个链表中，而是保留多个链表（哈希桶）。 对于任意给定的key，存在单个哈希桶，并且该桶是基于key的哈希值唯一标识的。 一旦计算了哈希值，并且标识了哈希桶，key或者位于该桶中，或者根本不存在哈希表中，因此，根据key搜索可以从当前哈希表中唯一确认一个值。</p>
+<p>哈希表查找的性能大大提高，前提是哈希表均匀分布在各个哈希桶之间，这个可以使用均匀分布的哈希函数来实现。 将key映射成哈希值的规则就是哈希函数，最简单的获取哈希桶的方式方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*bucket_id = f_hash(key) % n_buckets;*</div></pre></td></tr></table></figure></p>
+<p>通过选择桶的数量为2的幂，模运算符可以由按位AND逻辑来代替：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*bucket_id = f_hash(key) &amp; (n_buckets - 1);*</div></pre></td></tr></table></figure></p>
+<p>为了减少哈希冲突，需要增加哈希表中哈希桶的数目。</p>
+<p>在数据包处理上下文中，哈希表操作设计的操作顺序如下所示:<br><img src="http://upload-images.jianshu.io/upload_images/7246758-50c59cc4f77b3d99.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="报文处理上下文中哈希表操作的步骤顺序"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-17/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-17/">DPDK编程指南（十七）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -224,400 +419,114 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/01/dpdk-pg-26/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-16/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/10/30/dpdk-example-1-7/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK示例(1~7)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-16/">DPDK编程指南（十六）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-15/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-15/">DPDK编程指南（十五）</a>
-    </h1>
+  <div id="SOHUCS" sid="dpdk-pg-26" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-14/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-14/">DPDK编程指南（十四）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-12/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-12/">DPDK编程指南（十二）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-10/" class="archive-article-date">
-  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-10/">DPDK编程指南（十）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-11/" class="archive-article-date">
-  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-11/">DPDK编程指南（十一）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/dpdk-pg-8/" class="archive-article-date">
-  	<time datetime="2017-09-07T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/dpdk-pg-8/">DPDK编程指南（八）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/dpdk-pg-7/" class="archive-article-date">
-  	<time datetime="2017-09-07T00:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/dpdk-pg-7/">DPDK编程指南（七）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/06/dpdk-pg-6/" class="archive-article-date">
-  	<time datetime="2017-09-06T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/06/dpdk-pg-6/">DPDK编程指南（六）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/tags/数据平面/">&laquo; Prev</a><a class="page-number" href="/tags/数据平面/">1</a><span class="page-number current">2</span><a class="page-number" href="/tags/数据平面/page/3/">3</a><a class="extend next" rel="next" href="/tags/数据平面/page/3/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -641,9 +550,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
