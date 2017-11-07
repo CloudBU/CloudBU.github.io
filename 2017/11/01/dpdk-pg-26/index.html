@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-0ef88aa730d93aba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-45c8e04f440accbd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-7c301619313fef1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-11-07T08:44:31.150Z">
+<meta property="og:updated_time" content="2017-11-07T08:58:35.791Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（二十六）">
 <meta name="twitter:description" content="26. 报文框架26.1. 设计目标DPDK数据包框架的主要设计目标是：  提供标准方法来构建复杂的数据包处理流水线。 为常用的流水线功能模块提供可重复使用和可扩展的模板； 提供在同一流水线功能模块上在纯软件和硬件加速实现之间的切换能力； 提供灵活性和高性能之间的最佳权衡。 硬编码流水线通常提供最佳性能，但是不够灵活，而开发灵活的框架通常性能又较低； 提供一个逻辑上类似于Open Flow的框架。">
@@ -468,13 +468,13 @@ var _hmt = _hmt || [];
 </table>
 <h5 id="26-4-3-3-1-哈希桶溢出问题"><a href="#26-4-3-3-1-哈希桶溢出问题" class="headerlink" title="26.4.3.3.1. 哈希桶溢出问题"></a>26.4.3.3.1. 哈希桶溢出问题</h5><p>在初始化时，为每个哈希表的桶分配4个keys的空间。 随着keys被添加到哈希表中，可能出现某个哈希桶中已经有4个keys的情况。 可以使用的方法有：</p>
 <ol>
-<li><strong>LRU哈希表</strong></li>
-</ol>
+<li><p><strong>LRU哈希表</strong></p>
 <p>哈希桶中现有的key之一将被删除以添加新的key到他的位置。 每个哈希桶中的key数目不会超过4个。选择要丢弃的key的规则是LRU。 哈希表查找操作维护同一个哈希桶中不同key命中的顺序，所以，每当命中key时，该key就成为最近使用的key（MRU），因此LRU的key通常在链表尾部。 当一个key被添加到哈希桶中时，它也成为新的MRU。 当需要选取和丢弃一个key时，第一个丢弃候选者，即当前的LRU Key总是被挑选出来丢弃。 LRU逻辑需要维护每个桶的特殊数据结构。</p>
-<ol>
-<li><strong>可扩展桶的哈希表.</strong></li>
-</ol>
+</li>
+<li><p><strong>可扩展桶的哈希表.</strong></p>
 <p>哈希桶可以扩展空间，以存储4个以上的key。 这是通过在表初始化时分配额外的内存来实现的，这个内存用于创建一个空闲的key池（这个池的大小可配置，总是是4的倍数）。 在添加key操作中，可以分配一组（4个key）的空间，如果空间不足，则添加失败。 在删除key操作中，当要删除的key是一组4个key中唯一使用的key时，将密钥删除，并将这组空间释放回key池。 在查找key操作中，如果当前存储的哈希桶处于扩展状态，并且在第一组4个key中找不到匹配项，则搜索将在后续的key中继续进行，知道桶中所有的key都被检查。 可扩展桶的哈希表需要维护每个表和每个存储哈希桶的特定数据结构。</p>
+</li>
+</ol>
 <p>可扩展桶散列表特定的配置参数</p>
 <table>
 <thead>
@@ -494,10 +494,10 @@ var _hmt = _hmt || [];
 </table>
 <h5 id="26-4-3-3-2-哈希值计算"><a href="#26-4-3-3-2-哈希值计算" class="headerlink" title="26.4.3.3.2. 哈希值计算"></a>26.4.3.3.2. 哈希值计算</h5><p>哈希值计算的可用方法包括：</p>
 <ol>
-<li><p><strong>预选计算的哈希值</strong></p>
+<li><p><strong>预选计算的哈希值.</strong></p>
 <p>Key查找操作被拆分到两个cpu core上。 第一个cpu core（通常是执行数据包接收的cpu core）从输入数据包中提取key，计算哈希值，并肩key和哈希值保存在接受数据包的缓冲区中作为数据包元数据。 第二个cpu core从数据包元数据中读取key和哈希值，并执行key查找操作。</p>
 </li>
-<li><p><strong>查找过程中计算的哈希值</strong></p>
+<li><p><strong>查找过程中计算的哈希值.</strong></p>
 <p>相同的cpu core从数据包元数据中读取key，用它来计算哈希值，并执行key查找操作。</p>
 </li>
 </ol>
@@ -521,9 +521,7 @@ var _hmt = _hmt || [];
 <h5 id="26-4-3-3-3-Key大小优化的哈希表"><a href="#26-4-3-3-3-Key大小优化的哈希表" class="headerlink" title="26.4.3.3.3. Key大小优化的哈希表"></a>26.4.3.3.3. Key大小优化的哈希表</h5><p>对于特定的key大小，key查找操作的数据结构和算法可以进行特殊的处理，以进一步提高性能，因此有如下选项：</p>
 <ol>
 <li><strong>支持可配置密钥大小的实现</strong></li>
-<li><p><strong>实现支持单个密钥大小</strong></p>
-<p>通常key大小为8B或者16B。</p>
-</li>
+<li><strong>实现支持单个密钥大小</strong><br> 通常key大小为8B或者16B。</li>
 </ol>
 <h4 id="26-4-3-4-可配置Key大小的哈希表查找操作"><a href="#26-4-3-4-可配置Key大小的哈希表查找操作" class="headerlink" title="26.4.3.4. 可配置Key大小的哈希表查找操作"></a>26.4.3.4. 可配置Key大小的哈希表查找操作</h4><p>哈希桶搜索的性能是影响key查找的最要因素之一。 数据结构和算法旨在充分利用Intel CPU架构资源如：缓冲区存储结构，缓冲区存储带宽，外部存储器带宽，并行工作的多个执行单元，无序指令执行，特殊CPU指令等等。</p>
 <p>哈希桶搜索逻辑并行处理多个输入数据包。 它被构建为几个阶段（3或者4阶段）流水线，每个流水线阶段处理来自突发输入的两个报文。 在每个流水线迭代中，数据包被推送到下一个流水线阶段：对于4阶段的流水线，两个数据包（刚刚完成阶段3）退出流水线，两个数据包（刚刚完成阶段2）正在执行阶段3，两个数据包（刚刚完成阶段1）正在执行阶段2，两个数据包（刚刚完成阶段0）正在执行阶段1，两个数据包（从输入数据包中读取）正在执行阶段0。 流水线持续迭代，直到来自输入分组的所有报文全部出流水线。</p>
@@ -772,7 +770,33 @@ var _hmt = _hmt || [];
 </tbody>
 </table>
 <p>输入的 <em>mask</em> 哈希 bit X (X = 0 .. 3) 设置为 1，如果输入的哈希值等于桶的哈希值X，否则则设置为0。<br>输出的 <em>match</em>, <em>match_many</em> 及 <em>match_pos</em> 是 1 bit, 1 bit 和 2 bits大小，其意义如上表描述。</p>
-<p>如下表所描述的， <em>match</em> 和 <em>match_many</em> 的查找表可以折叠成一个32bit的值，<em>match_pos</em>可以折叠成一个64bit的值。 给定输入的 <em>mask</em>，<em>match</em> 的值<br> <em>match_many</em> 和 <em>match_pos</em> 的值可以通过索引他们各自的比特数来获得，分别用无分支逻辑取1，1和2 bits。<br>|   | Bit array | Hexadecimal value |<br>| — | — | — |<br>| match | 1111_1111_1111_1110 | 0xFFFELLU |<br>| match_many | 1111_1110_1110_1000 | 0xFEE8LLU |<br>| match_pos | 0001_0010_0001_0011__0001_0010_0001_0000 | 0x12131210LLU |</p>
+<p>如下表所描述的， <em>match</em> 和 <em>match_many</em> 的查找表可以折叠成一个32bit的值，<em>match_pos</em>可以折叠成一个64bit的值。 给定输入的 <em>mask</em>，<em>match</em> 的值<br> <em>match_many</em> 和 <em>match_pos</em> 的值可以通过索引他们各自的比特数来获得，分别用无分支逻辑取1，1和2 bits。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Bit array</th>
+<th>Hexadecimal value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>match</td>
+<td>1111_1111_1111_1110</td>
+<td>0xFFFELLU</td>
+</tr>
+<tr>
+<td>match_many</td>
+<td>1111_1110_1110_1000</td>
+<td>0xFEE8LLU</td>
+</tr>
+<tr>
+<td>match_pos</td>
+<td>0001_0010_0001_0011__0001_0010_0001_0000</td>
+<td>0x12131210LLU</td>
+</tr>
+</tbody>
+</table>
 <p>计算match, match_many 和 match_pos 的伪代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">match = (0xFFFELLU &gt;&gt; mask) &amp; 1;</div><div class="line">match_many = (0xFEE8LLU &gt;&gt; mask) &amp; 1;</div><div class="line">match_pos = (0x12131210LLU &gt;&gt; (mask &lt;&lt; 1)) &amp; 3;</div></pre></td></tr></table></figure></p>
 <h5 id="26-4-3-4-2-单一Key大小的哈希表"><a href="#26-4-3-4-2-单一Key大小的哈希表" class="headerlink" title="26.4.3.4.2. 单一Key大小的哈希表"></a>26.4.3.4.2. 单一Key大小的哈希表</h5><p>下面图表详细描述了用于实现8B和16B Key的哈希表的主要的数据结构(包括LRU或扩展桶表，预先计算哈希值或”do-sig”)。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/7246758-0ef88aa730d93aba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8B Key哈希表数据结构"></p>
@@ -1229,11 +1253,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1245,15 +1269,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
