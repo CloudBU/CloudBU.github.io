@@ -6,26 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（二十三） | 拙言</title>
+  <title>DPDK编程指南（二十七） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="23. QoS框架本章介绍了DPDK服务质量（QoS）框架。 23.1. 支持QoS的数据包水线具有QoS支持的复杂报文处理流水线的示例如下图所示。">
+  <meta name="description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
 <meta name="keywords" content="数据平面,DPDK">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（二十三）">
-<meta property="og:url" content="http://lockless.github.io/2017/09/09/dpdk-pg-23/index.html">
+<meta property="og:title" content="DPDK编程指南（二十七）">
+<meta property="og:url" content="http://lockless.github.io/2017/11/01/dpdk-pg-27/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="23. QoS框架本章介绍了DPDK服务质量（QoS）框架。 23.1. 支持QoS的数据包水线具有QoS支持的复杂报文处理流水线的示例如下图所示。">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-befa4a4248bd163c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-21904cb581c5800e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-c8fe518a29462660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-edf7e6f0ebe3e789.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-029b7bca6b8ad297.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-22846a56d6b5f8fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-09-09T05:06:17.800Z">
+<meta property="og:description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
+<meta property="og:updated_time" content="2017-11-10T09:24:05.121Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（二十三）">
-<meta name="twitter:description" content="23. QoS框架本章介绍了DPDK服务质量（QoS）框架。 23.1. 支持QoS的数据包水线具有QoS支持的复杂报文处理流水线的示例如下图所示。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-befa4a4248bd163c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="DPDK编程指南（二十七）">
+<meta name="twitter:description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -193,502 +186,98 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-23" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-dpdk-pg-27" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（二十三）
+      DPDK编程指南（二十七）
     </h1>
   
 
         
-        <a href="/2017/09/09/dpdk-pg-23/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
+        <a href="/2017/11/01/dpdk-pg-27/" class="archive-article-date">
+  	<time datetime="2017-11-01T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="23-QoS框架"><a href="#23-QoS框架" class="headerlink" title="23. QoS框架"></a>23. QoS框架</h1><p>本章介绍了DPDK服务质量（QoS）框架。</p>
-<h2 id="23-1-支持QoS的数据包水线"><a href="#23-1-支持QoS的数据包水线" class="headerlink" title="23.1. 支持QoS的数据包水线"></a>23.1. 支持QoS的数据包水线</h2><p>具有QoS支持的复杂报文处理流水线的示例如下图所示。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-befa4a4248bd163c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 23 1 Complex Packet Processing Pipeline with QoS Support"></p>
-<a id="more"></a>
-<p>这个水线使用可重复使用的DPDK软件库构建。在这个流程中实现QoS的主要模块有：策略器，缓存器和调度器。下表列出了各块的功能描述。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Block</th>
-<th style="text-align:left">Functional Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Packet I/O RX &amp; TX</td>
-<td style="text-align:left">多个NIC端口的报文接收/传输。用于Intel 1GbE/10GbE NIC的轮询模式驱动程序（PMD）。</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">Packet parser</td>
-<td style="text-align:left">识别输入数据包的协议栈。检查数据包头部的完整性。</td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">Flow classification</td>
-<td style="text-align:left">将输入数据包映射到已知流量上。使用可配置散列函数（jhash，CRC等）和桶逻辑来处理冲突的精确匹配表查找。</td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td style="text-align:left">Policer</td>
-<td style="text-align:left">使用srTCM（RFC 2697）或trTCM（RFC2698）算法进行数据包测量。</td>
-</tr>
-<tr>
-<td style="text-align:left">5</td>
-<td style="text-align:left">Load Balancer</td>
-<td style="text-align:left">将输入数据包分发给应用程序worker。为每个worker提供统一的负载。保持流量对worker的亲和力和每个流程中的数据包顺序。</td>
-</tr>
-<tr>
-<td style="text-align:left">6</td>
-<td style="text-align:left">Worker threads</td>
-<td style="text-align:left">客户指定的应用工作负载的占位符（例如IP堆栈等）。</td>
-</tr>
-<tr>
-<td style="text-align:left">7</td>
-<td style="text-align:left">Dropper</td>
-<td style="text-align:left">拥塞管理使用随机早期检测（RED）算法（Sally Floyd-Van Jacobson的论文）或加权RED（WRED）。根据当前调度程序队列的负载级别和报文优先级丢弃报文。当遇到拥塞时，首先丢弃优先级较低的数据包。</td>
-</tr>
-<tr>
-<td style="text-align:left">8</td>
-<td style="text-align:left">Hierarchical Scheduler</td>
-<td style="text-align:left">具有数千（通常为64K）叶节点（队列）的5级分层调度器（级别为：输出端口，子端口，管道，流量类和队列）。实现流量整形（用于子站和管道级），严格优先级（对于流量级别）和加权循环（WRR）（用于每个管道流量类中的队列）。</td>
-</tr>
-</tbody>
-</table>
-<p>整个数据包处理流程中使用的基础架构块如下表所示。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Block</th>
-<th style="text-align:left">Functional Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Buffer manager</td>
-<td style="text-align:left">支持全局缓冲池和专用的每线程缓存缓存。</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">Queue manager</td>
-<td style="text-align:left">支持水线之间的消息传递。</td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">Power saving</td>
-<td style="text-align:left">在低活动期间支持节能。</td>
-</tr>
-</tbody>
-</table>
-<p>水线块到CPU cores的映射可以根据每个特定应用程序所需的性能级别和为每个块启用的功能集进行配置。一些块可能会消耗多个CPU cores（每个CPU core在不同的输入数据包上运行同一个块的不同实例），而另外的几个块可以映射到同一个CPU core。</p>
-<h2 id="23-2-分层调度"><a href="#23-2-分层调度" class="headerlink" title="23.2. 分层调度"></a>23.2. 分层调度</h2><p>分层调度块（当存在时）通常位于发送阶段之前的TX侧。其目的是根据每个网络节点的服务级别协议（SLA）指定的策略来实现不同用户和不同流量类别的数据包传输。</p>
-<h3 id="23-2-1-概述"><a href="#23-2-1-概述" class="headerlink" title="23.2.1. 概述"></a>23.2.1. 概述</h3><p>分层调度类似于网络处理器使用的流量管理，通常实现每个流（或每组流）分组排队和调度。它像缓冲区一样工作，能够在传输之前临时存储大量数据包（入队操作）；由于NIC TX正在请求更多的数据包进行传输，所以这些数据包随后被移出，并且随着分组选择逻辑观察预定义的SLA（出队操作）而交给NIC TX。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-21904cb581c5800e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 23 2 Hierarchical Scheduler Block Internal Diagram"></p>
-<p>分层调度针对大量报文队列进行了优化。当只需要少量的队列时，应该使用消息传递队列而不是这个模块。有关更多详细的讨论，请参阅“Worst Case Scenarios for Performance”。</p>
-<h3 id="23-2-2-调度层次"><a href="#23-2-2-调度层次" class="headerlink" title="23.2.2. 调度层次"></a>23.2.2. 调度层次</h3><p>调度层次结构如下图所示。层次结构的第一级是以太网TX端口1/10/40 GbE，后续层次级别定义为子端口，管道，流量类和队列。</p>
-<p>通常，每个子端口表示预定义的用户组，而每个管道表示单个用户/订户。每个流量类是具有特定丢失率，延迟和抖动要求（例如语音，视频或数据传输）的不同流量类型的表示。每个队列都承载属于同一用户的同一类型的一个或多个连接的数据包。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-c8fe518a29462660.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
-Figure 23 3 Scheduling Hierarchy per Port"></p>
-<p>下表列出了各层次的功能。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Level</th>
-<th style="text-align:left">Siblings per Parent</th>
-<th style="text-align:left">Functional Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Port</td>
-<td style="text-align:left"></td>
-<td style="text-align:left">1.输出以太网端口1/10/40 GbE。2.多个端口以轮询方式调度，所有端口具有相同的优先级。</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">Subport</td>
-<td style="text-align:left">Configurable (default: 8)</td>
-<td style="text-align:left">1.流量整形使用令牌桶算法（每个子口一个令牌桶）。2.Subport层对每个流量类（TC）强制执行上限。3.    较低优先级的TC能够重用较高优先级的TC当前未使用的子端口带宽。</td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">Pipe</td>
-<td style="text-align:left">Configurable (default: 4K)</td>
-<td style="text-align:left">使用令牌桶算法进行流量整形（每个pipe一个令牌桶）</td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td style="text-align:left">TC</td>
-<td style="text-align:left">4</td>
-<td style="text-align:left">1.相同pipe的TC以严格的优先级顺序处理。2.在pipe级别每TC执行上限。3.较低优先级的TC能够重用当前未被较高优先级的TC使用的pipe带宽。4.当子卡TC超额（配置时间事件）时，管道TC上限被限制为由所有子端口管道共享的动态调整值。</td>
-</tr>
-<tr>
-<td style="text-align:left">5</td>
-<td style="text-align:left">Queue</td>
-<td style="text-align:left">4</td>
-<td style="text-align:left">根据预定权重，使用加权循环（WRR）对相同TC的队列进行服务。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="23-2-3-编程接口"><a href="#23-2-3-编程接口" class="headerlink" title="23.2.3. 编程接口"></a>23.2.3. 编程接口</h3><h4 id="23-2-3-1-Port调度配置API"><a href="#23-2-3-1-Port调度配置API" class="headerlink" title="23.2.3.1. Port调度配置API"></a>23.2.3.1. Port调度配置API</h4><p>rte_sched.h文件包含port，subport和pipe的配置功能。</p>
-<h4 id="23-2-3-2-Port调度入队API"><a href="#23-2-3-2-Port调度入队API" class="headerlink" title="23.2.3.2. Port调度入队API"></a>23.2.3.2. Port调度入队API</h4><p>Port调度入队API非常类似于DPDK PMD TX功能的API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int rte_sched_port_enqueue(struct rte_sched_port *port, struct rte_mbuf **pkts, uint32_t n_pkts);</div></pre></td></tr></table></figure></p>
-<h4 id="23-2-3-3-Port调度出队API"><a href="#23-2-3-3-Port调度出队API" class="headerlink" title="23.2.3.3. Port调度出队API"></a>23.2.3.3. Port调度出队API</h4><p>Port调度入队API非常类似于DPDK PMD RX功能的API。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int rte_sched_port_dequeue(struct rte_sched_port *port, struct rte_mbuf **pkts, uint32_t n_pkts);</div></pre></td></tr></table></figure></p>
-<h4 id="23-2-3-4-用例"><a href="#23-2-3-4-用例" class="headerlink" title="23.2.3.4. 用例"></a>23.2.3.4. 用例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">/* File &quot;application.c&quot; */</div><div class="line"></div><div class="line">#define N_PKTS_RX   64</div><div class="line">#define N_PKTS_TX   48</div><div class="line">#define NIC_RX_PORT 0</div><div class="line">#define NIC_RX_QUEUE 0</div><div class="line">#define NIC_TX_PORT 1</div><div class="line">#define NIC_TX_QUEUE 0</div><div class="line"></div><div class="line">struct rte_sched_port *port = NULL;</div><div class="line">struct rte_mbuf *pkts_rx[N_PKTS_RX], *pkts_tx[N_PKTS_TX];</div><div class="line">uint32_t n_pkts_rx, n_pkts_tx;</div><div class="line"></div><div class="line">/* Initialization */</div><div class="line"></div><div class="line">&lt;initialization code&gt;</div><div class="line"></div><div class="line">/* Runtime */</div><div class="line">while (1) &#123;</div><div class="line">    /* Read packets from NIC RX queue */</div><div class="line">    n_pkts_rx = rte_eth_rx_burst(NIC_RX_PORT, NIC_RX_QUEUE, pkts_rx, N_PKTS_RX);</div><div class="line"></div><div class="line">    /* Hierarchical scheduler enqueue */</div><div class="line">    rte_sched_port_enqueue(port, pkts_rx, n_pkts_rx);</div><div class="line"></div><div class="line">    /* Hierarchical scheduler dequeue */</div><div class="line">    n_pkts_tx = rte_sched_port_dequeue(port, pkts_tx, N_PKTS_TX);</div><div class="line"></div><div class="line">    /* Write packets to NIC TX queue */</div><div class="line">    rte_eth_tx_burst(NIC_TX_PORT, NIC_TX_QUEUE, pkts_tx, n_pkts_tx);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="23-2-4-实现"><a href="#23-2-4-实现" class="headerlink" title="23.2.4.    实现"></a>23.2.4.    实现</h3><p>内部数据结构示意图，详细内容如下。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-edf7e6f0ebe3e789.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 23 4 Internal Data Structures per Port"></p>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>数据结构</th>
-<th>大小</th>
-<th>Per port</th>
-<th>Access type End</th>
-<th>Access type Deq</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>子接口表条目</td>
-<td>64</td>
-<td># subports per port</td>
-<td></td>
-<td>Rd, Wr</td>
-<td>持续的子接口数据（信用，等）</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Pipe表条目</td>
-<td>64</td>
-<td># pipes per port</td>
-<td></td>
-<td>Rd, Wr</td>
-<td>在运行时更新的pip，其TC及其队列的持久数据（信用等）。pipe配置参数在运行时不改变。 相同的pipe配置参数由多个pipe共享，因此它们不是pipe表条目的一部分。</td>
-</tr>
-<tr>
-<td>3</td>
-<td>队列条目</td>
-<td>4</td>
-<td>#queues per port</td>
-<td>Rd, Wr</td>
-<td>Rd, Wr</td>
-<td>持续的队列数据（读写指针）。对于所有队列，每个TC的队列大小相同，允许使用快速公式计算队列基地址，因此这两个参数不是队列表条目的一部分。任何给定pipe的队列表条目都存储在同一个高速缓存行中。</td>
-</tr>
-<tr>
-<td>4</td>
-<td>队列存储空间</td>
-<td>Config (64x8)</td>
-<td># queues per port</td>
-<td>Wr</td>
-<td>Rd</td>
-<td>每个队列的元素数组; 每个元素的大小是8字节（mbuf指针）。</td>
-</tr>
-<tr>
-<td>5</td>
-<td>活动队列位图</td>
-<td>1 bit per queue</td>
-<td>1</td>
-<td>Wr(set)</td>
-<td>Rd, Wr (Clear)</td>
-<td>位图为每个队列维护一个状态位：队列不活动（队列为空）或队列活动（队列不为空）。队列位由调度程序入队设置，并在队列变空时由调度程序清除。位图扫描操作返回下一个非空pipe及其状态（pipe中活动队列的16位掩码）。</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Grinder</td>
-<td>~128</td>
-<td>Config (default: 8)</td>
-<td></td>
-<td>Rd, Wr</td>
-<td>目前正在处理的活动pipe列表。grinder在pipe加工过程中包含临时数据。一旦当前pipe排出数据包或信用点，它将从位图中的另一个活动管道替换。</td>
-</tr>
-</tbody>
-</table>
-<h4 id="23-2-4-1-多核缩放策略"><a href="#23-2-4-1-多核缩放策略" class="headerlink" title="23.2.4.1. 多核缩放策略"></a>23.2.4.1. 多核缩放策略</h4><p>多核缩放策略如下：</p>
-<ol>
-<li>在不同线程上操作不同的物理端口。但是同一个端口的入队和出队由同一个线程执行。</li>
-<li>通过在不同线程上操作相同物理端口（虚拟端口）的不同组的子端口，可以将相同的物理端口拆分到不同的线程。类似地，子端口可以被分割成更多个子端口，每个子端口由不同的线程运行。但是同一个端口的入队和出队由同一个线程运行。仅当出于性能考虑，不可能使用单个core处理完整端口时，才这样处理。</li>
-</ol>
-<h5 id="23-2-4-1-1-同一输出端口的出队和入队"><a href="#23-2-4-1-1-同一输出端口的出队和入队" class="headerlink" title="23.2.4.1.1. 同一输出端口的出队和入队"></a>23.2.4.1.1. 同一输出端口的出队和入队</h5><p>上面强调过，同一个端口的出队和入队需要由同一个线程执行。因为，在不同core上对同一个输出端口执行出队和入队操作，可能会对调度程序的性能造成重大影响，因此不推荐这样做。</p>
-<p>同一端口的入队和出队操作共享以下数据结构的访问权限：</p>
-<ol>
-<li>报文描述符</li>
-<li>队列表</li>
-<li>队列存储空区</li>
-<li>活动队列位图</li>
-</ol>
-<p>可能存在使性能下降的原因如下：</p>
-<ol>
-<li>需要使队列和位图操作线程安全，这可能需要使用锁以保证访问顺序（例如，自旋锁/信号量）或使用原子操作进行无锁访问（例如，Test and Set或Compare and Swap命令等））。前一种情况对性能影响要严重得多。</li>
-<li>在两个core之间对存储共享数据结构的缓存行执行乒乓操作（由MESI协议缓存一致性CPU硬件透明地完成）。</li>
-</ol>
-<p>当调度程序入队和出队操作必须在同一个线程运行，允许队列和位图操作非线程安全，并将调度程序数据结构保持在同一个core上，可以很大程度上保证性能。</p>
-<h4 id="23-2-4-2-性能缩放"><a href="#23-2-4-2-性能缩放" class="headerlink" title="23.2.4.2. 性能缩放"></a>23.2.4.2. 性能缩放</h4><p>扩展NIC端口数量只需要保证用于流量调度的CPU内核数量按比例增加即可。</p>
-<h4 id="23-2-4-3-入队水线"><a href="#23-2-4-3-入队水线" class="headerlink" title="23.2.4.3. 入队水线"></a>23.2.4.3. 入队水线</h4><p>每个数据包的入队步骤：</p>
-<ol>
-<li>访问mbuf以读取标识数据包的目标队列所需的字段。这些字段包括port，subport，traffic class及queue，并且通常由报文分类阶段设置。</li>
-<li>访问队列结构以识别队列数组中的写入位置。如果队列已满，则丢弃该数据包。</li>
-<li>访问队列阵列位置以存储数据包（即写入mbuf指针）。</li>
-</ol>
-<p>应该注意到这些步骤之间具有很强的数据依赖性，因为步骤2和3在步骤1和2的结果变得可用之前无法启动，这样就无法使用处理器乱序执行引擎上提供任何显着的性能优化。</p>
-<p>考虑这样一种情况，给定的输入报文速率很高，队列数量大，可以想象得到，入队当前数据包需要访问的数据结构不存在于当前core的L1或L2 data cache中，此时，上述3个内存访问操作将会产生L1和L2 data cache miss。就性能考虑而言，每个数据包出现3次L1 / L2 data cache miss是不可接受的。</p>
-<p>解决方法是提前预取所需的数据结构。预取操作具有执行延迟，在此期间处理器不应尝试访问当前正在进行预取的数据结构，此时处理器转向执行其他工作。可用的其他工作可以是对其他输入报文执行不同阶段的入队序列，从而实现入队操作的流水线实现。</p>
-<p>下图展示出了具有4级水线的入队操作实现，并且每个阶段操作2个不同的输入报文。在给定的时间点上，任何报文只能在水线某个阶段进行处理。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-029b7bca6b8ad297.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 23 5 Prefetch Pipeline for the Hierarchical Scheduler Enqueue Operation"></p>
-<p>由上图描述的入队水线实现的拥塞管理方案是非常基础的：数据包排队入队，直到指定队列变满为止；当满时，到这个队列的所有数据包将被丢弃，直到队列中有数据包出队。可以通过使用RED/WRED作为入队水线的一部分来改进，该流程查看队列占用率和报文优先级，以便产生特定数据包的入队/丢弃决定（与入队所有数据包/不加区分地丢弃所有数据包不一样）。</p>
-<h4 id="23-2-4-4-出队状态机"><a href="#23-2-4-4-出队状态机" class="headerlink" title="23.2.4.4. 出队状态机"></a>23.2.4.4. 出队状态机</h4><p>从当前pipe调度下一个数据包的步骤如下：</p>
-<ol>
-<li>使用位图扫描操作识别出下一个活动的pipe（prefetch pipe）。</li>
-<li>读取pipe数据结构。更新当前pipe及其subport的信用。识别当前pipe中的第一个active traffic class，使用WRR选择下一个queue，为当前pipe的所有16个queue预取队列指针。</li>
-<li>从当前WRR queue读取下一个元素，并预取其数据包描述符。</li>
-<li>从包描述符（mbuf结构）读取包长度。根据包长度和可用信用（当前pipe，pipe traffic class，subport及subport traffic class），对当前数据包进行是否调度决策。</li>
-</ol>
-<p>为了避免cache miss，上述数据结构（pipe，queue，queue array，mbufs）在被访问之前被预取。隐藏预取操作的延迟的策略是在为当前pipe发出预取后立即从当前pipe（在grinder A中）切换到另一个pipe（在grinderB中）。这样就可以在执行切换回pipe（grinder A）之前，有足够的时间完成预取操作。</p>
-<p>出pipe状态机将数据存在处理器高速缓存中，因此它尝试从相同的pipe TC和pipe（尽可能多的数据包和信用）发送尽可能多的数据包，然后再移动到下一个活动TC pipe（如果有）或另一个活动pipe。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-22846a56d6b5f8fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 23 6 Pipe Prefetch State Machine for the Hierarchical Scheduler Dequeue Operation"></p>
-<h4 id="23-2-4-5-时间和同步"><a href="#23-2-4-5-时间和同步" class="headerlink" title="23.2.4.5. 时间和同步"></a>23.2.4.5. 时间和同步</h4><p>输出端口被建模为字节槽的传送带，需要由调度器填充用于传输的数据。对于10GbE，每秒需要由调度器填充12.5亿个字节的槽位。如果调度程序填充不够快，只要存在足够的报文和信用，则一些时隙将被闲置并且带宽将被浪费。</p>
-<p>原则上，层次调度程序出队操作应由NIC TX触发。通常，一旦NIC TX输入队列的占用率下降到预定义的阈值以下，端口调度器将被唤醒（基于中断或基于轮询，通过连续监视队列占用）来填充更多的数据包进入队列。</p>
-<h5 id="23-2-4-5-1-内部时间引用"><a href="#23-2-4-5-1-内部时间引用" class="headerlink" title="23.2.4.5.1. 内部时间引用"></a>23.2.4.5.1. 内部时间引用</h5><p>调度器需要跟踪信用逻辑的时间演化，因为信用需要基于时间更新（例如，子流量和管道流量整形，流量级上限执行等）。</p>
-<p>每当调度程序决定将数据包发送到NIC TX进行传输时，调度器将相应地增加其内部时间参考。因此，以字节为单位保持内部时间基准是方便的，其中字节表示物理接口在传输介质上发送字节所需的持续时间。这样，当报文被调度用于传输时，时间以（n + h）递增，其中n是以字节为单位的报文长度，h是每个报文的成帧开销字节数。</p>
-<h5 id="23-2-4-5-2-内部时间参考重新同步"><a href="#23-2-4-5-2-内部时间参考重新同步" class="headerlink" title="23.2.4.5.2. 内部时间参考重新同步"></a>23.2.4.5.2. 内部时间参考重新同步</h5><p>调度器需要将其内部时间参考对齐到端口传送带的步速。原因是要确保调度程序不以比物理介质的线路速率更多的字节来馈送NIC TX，以防止数据包丢失。</p>
-<p>调度程序读取每个出队调用的当前时间。可以通过读取时间戳计数器（TSC）寄存器或高精度事件定时器（HPET）寄存器来获取CPU时间戳。 当前CPU时间戳将CPU时钟数转换为字节数：time_bytes = time_cycles / cycles_per_byte，其中cycles_per_byte是等效于线上一个字节的传输时间的CPU周期数（例如CPU频率 2 GHz和10GbE端口，<em> cycles_per_byte = 1.6 </em>）。</p>
-<p>调度程序维护NIC time的内部时间参考。 每当分组被调度时，NIC time随分组长度（包括帧开销）增加。在每次出队调用时，调度程序将检查其NIC time的内部引用与当前时间的关系：</p>
-<ol>
-<li>如果NIC time未来（NIC time&gt; =当前时间），则不需要调整NIC time。这意味着调度程序能够在NIC实际需要这些数据包之前安排NIC数据包，因此NIC TX提供了数据包;</li>
-<li>如果NIC time过去（NIC时间&lt;当前时间），则NIC time应通过将其设置为当前时间来进行调整。 这意味着调度程序不能跟上NIC字节传送带的速度，因此由于NIC TX的数据包供应不足，所以NIC带宽被浪费了。</li>
-</ol>
-<h5 id="23-2-4-5-3-调度器精度和粒度"><a href="#23-2-4-5-3-调度器精度和粒度" class="headerlink" title="23.2.4.5.3. 调度器精度和粒度"></a>23.2.4.5.3. 调度器精度和粒度</h5><p>调度器往返延迟（SRTD）是指调度器在同一个pipe的两次连续检验之间的时间（CPU周期数）。</p>
-<p>为了跟上输出端口（即避免带宽丢失），调度程序应该能够比NIC TX发送的n个数据包更快地调度n个数据包。</p>
-<p>假设没有端口超过流量，调度程序需要跟上管道令牌桶配置的每个管道的速率。这意味着管道令牌桶的大小应该设置得足够高，以防止它由于大的SRTD而溢出，因为这将导致管道的信用损失（带宽损失）。</p>
-<h4 id="23-2-4-6-信用逻辑"><a href="#23-2-4-6-信用逻辑" class="headerlink" title="23.2.4.6. 信用逻辑"></a>23.2.4.6. 信用逻辑</h4><h5 id="23-2-4-6-1-调度决策"><a href="#23-2-4-6-1-调度决策" class="headerlink" title="23.2.4.6.1. 调度决策"></a>23.2.4.6.1. 调度决策</h5><p>当满足以下所有条件时，从（subport S，pipe P，traffic class TC，queue Q）发送下一个分组的调度决定（分组被发送）：</p>
+        <h1 id="27-Vhost-库"><a href="#27-Vhost-库" class="headerlink" title="27. Vhost 库"></a>27. Vhost 库</h1><p>Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现：</p>
+<p>访问guest内存：</p>
 <ul>
-<li>Subport S的Pipe P目前由一个端口调度选择；</li>
-<li>流量类TC是管道P的最高优先级的主要流量类别；</li>
-<li>队列Q是管道P的流量类TC内由WRR选择的下一个队列；</li>
-<li>子接口S有足够的信用来发送数据包；</li>
-<li>子接口S具有足够的信用流量类TC来发送数据包；</li>
-<li>管道P有足够的信用来发送数据包；</li>
-<li>管道P具有足够的信用用于流量类TC发送数据包。</li>
+<li><p>对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作为guest RAM。 选项 share=on 允许另一个进程映射该文件，这意味着该进程可以访问这个guest RAM。<br>知道关于vring所有必要的信息：</p>
+</li>
+<li><p>诸如可用环形存储链表的存储空间。Vhost定义了一些消息（通过Unix套接字传递）来告诉后端所有需要知道如何操作vring的信息。</p>
+</li>
 </ul>
-<p>如果满足所有上述条件，则选择分组进行传输，并从子接口S，子接口S流量类TC，管道P，管道P流量类TC中减去必要的信用。</p>
-<p>23.2.4.6.2.    帧开销<br>由于所有数据包长度的最大公约数为1个字节，所以信用单位被选为1个字节。传输n个字节的报文所需的信用数量等于（n + h），其中h等于每个报文的成帧开销字节数。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Packet  field</th>
-<th style="text-align:left">Length</th>
-<th style="text-align:left">Comments</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">前导码</td>
-<td style="text-align:left">7</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">帧开始分隔符</td>
-<td style="text-align:left">1</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">帧校验序列</td>
-<td style="text-align:left">4</td>
-<td style="text-align:left">当mbuf包长度字段中不包含时这里才需要考虑开销。</td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td style="text-align:left">帧间隙</td>
-<td style="text-align:left">12</td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">5</td>
-<td style="text-align:left">总</td>
-<td style="text-align:left">24</td>
-</tr>
-</tbody>
-</table>
-<h4 id="23-2-4-6-3-流量整形"><a href="#23-2-4-6-3-流量整形" class="headerlink" title="23.2.4.6.3. 流量整形"></a>23.2.4.6.3. 流量整形</h4><p>Subport和pipe的流量整形使用每个subport/pipe的令牌桶来实现。令牌桶使用一个饱和计数器实现，该计数器跟踪可用信用数量。</p>
-<p>令牌桶通用参数和操作如下表所示。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Token Bucket Parameter</th>
-<th style="text-align:left">Unit</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Bucket_rate</td>
-<td style="text-align:left">每秒信用值</td>
-<td style="text-align:left">每秒钟添加到桶中的信用</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">Bucket_size</td>
-<td style="text-align:left">信用值</td>
-<td style="text-align:left">桶最多可以存储多少信用</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Token Bucket Operation</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1    Initilization</td>
-<td style="text-align:left">桶设置为预定义值，例如 零或一半的桶大小。</td>
-</tr>
-<tr>
-<td style="text-align:left">2    Credit Update</td>
-<td style="text-align:left">基于bucket_rate，信用值将根据现有的信息添加到桶中，定期添加或按需添加。信用值不能超过bucket_size定义的上限，因此在存储桶已满时，任何要添加到存储桶中的信用额将被丢弃。</td>
-</tr>
-<tr>
-<td style="text-align:left">3    Credit Consumption</td>
-<td style="text-align:left">作为分组调度的结果，从桶中移除必要的信用。只有在桶中有足够的信用来发送完整数据包（数据包的数据包字节和帧开销）时，才能发送数据包。</td>
-</tr>
-</tbody>
-</table>
-<p>为了实现上述的令牌桶通用操作，当前的设计使用表23.8中所示的数据结构，而令牌桶操作的实现在表23.9中描述。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Token Bucket Field</th>
-<th style="text-align:left">Unit</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">tb_time</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">最后一次更新信用的时间。以字节为单位而不是秒或CPU周期进行测量，便于信用消耗操作（因为当前时间也以字节为单位）。有关为什么以字节为单位维护时间的说明，请参见第26.2.4.5.1节“内部时间参考”。</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">tb_period</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">自上一次信用更新以来应该经过的时间段，以便桶被授予tb_credits_per_period价值或信用。</td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">tb_credits_per_period</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">每tb_period的信用值。</td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td style="text-align:left">tb_size</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">桶大小，即tb_credits的上限。</td>
-</tr>
-<tr>
-<td style="text-align:left">5</td>
-<td style="text-align:left">tb_credits</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">当前在桶中的数值。</td>
-</tr>
-</tbody>
-</table>
-<p>桶速率（以字节为单位）可以用以下公式计算：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">bucket_rate = (tb_credits_per_period / tb_period) * r</div><div class="line">其中r =端口线路速率（以字节为单位）。</div></pre></td></tr></table></figure></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Token Bucket Operation</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Initilization</td>
-<td style="text-align:left">tb_credits = 0; or tb_credits = tb_size / 2;</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">Credit Update</td>
-<td style="text-align:left">信用更新操作：1. 每次为端口发送数据包时，请更新该端口的所有子端口和管道的信用,不可行。2. 每次发送数据包时，请更新管道和子接口的信用。 非常准确，但不需要（过多计算）。3. 每次选择管道（即由其中一个grinders选择）时，请更新管道及其子接口的积分。当前的实现使用选项3。根据“出队状态机”小节描述，管道和子接口信用在管道和子接口信用实际使用之前，每出现一次出口流程选择管道时，都将更新。只有在自上次更新以来已经过了至少一个完整的tb_period时，才能通过更新桶级别来实现精度和速度之间的权衡。可以通过选择tb_credits_per_period = 1的tb_period值来实现全精度。当不需要全精度时，通过将tb_credits设置为更大的值可以获得更好的性能。更新操作：<code>n_periods = (time - tb_time) / tb_period; tb_credits += n_periods * tb_credits_per_period; tb_credits = min(tb_credits, tb_size); tb_time += n_periods * tb_period;</code></td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">Credit Consumption（报文调度）</td>
-<td style="text-align:left">作为分组调度的结果，从桶中移除必要的信用。 只有在桶中有足够的信用来发送完整数据包（数据包的数据包字节和帧开销）时，才能发送数据包。调度操作：<code>pkt_credits = pkt_len + frame_overhead; if（tb_credits&gt; = pkt_credits）{tb_credits - = pkt_credits;}</code></td>
-</tr>
-</tbody>
-</table>
-<h5 id="23-2-4-6-4-流量类"><a href="#23-2-4-6-4-流量类" class="headerlink" title="23.2.4.6.4. 流量类"></a>23.2.4.6.4. 流量类</h5><h6 id="严格优先级调度实现"><a href="#严格优先级调度实现" class="headerlink" title="严格优先级调度实现"></a>严格优先级调度实现</h6><p>同一管道内流量级别的严格优先级调度由管理出队状态机实现，该队列按升序选择队列。因此，12..15（TC 3，最低优先级TC），队列8..11（TC 2），队列4..7（TC 1，比TC 0的优先级低），队列0..3（TC 0，最高优先级TC相关联）。</p>
-<h6 id="强制上限"><a href="#强制上限" class="headerlink" title="强制上限"></a>强制上限</h6><p>Pipe和Subport级别的流量类别不是流量整形，因此在此上下文中不存在令牌桶。通过周期性地重新填充subport/pipe流量信用计数器来执行subport和pipe级别的流量类别的上限，每次为该subport/pipe调度数据包时消耗信用量，如表23.10所述 和表23.11。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Subport or pipe field</th>
-<th style="text-align:left">Unit</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1</td>
-<td style="text-align:left">Tc_time</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">当前subport/pipe的4个TC的下次更新（上限重新填充）的时间。有关为什么时间以字节为单位进行维护的说明，请参见“内部时间参考”部分。</td>
-</tr>
-<tr>
-<td style="text-align:left">2</td>
-<td style="text-align:left">Tc_period</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">当前subport/pipe的4个TC的两次连续更新之间的时间。这是令牌桶tb_period的典型值的两倍。</td>
-</tr>
-<tr>
-<td style="text-align:left">3</td>
-<td style="text-align:left">Tc_credits_per_period</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">在每个执行期间tc_period，当前TC允许使用的信用值的上限。</td>
-</tr>
-<tr>
-<td style="text-align:left">4</td>
-<td style="text-align:left">Tc_credits</td>
-<td style="text-align:left">Bytes</td>
-<td style="text-align:left">目前执行期间余下的当前流量类别可以消耗的信用额的当前上限。</td>
-</tr>
-</tbody>
-</table>
+<a id="more"></a>
+<h2 id="27-1-Vhost-API-概述"><a href="#27-1-Vhost-API-概述" class="headerlink" title="27.1. Vhost API 概述"></a>27.1. Vhost API 概述</h2><p>以下是一些关键的Vhost API函数概述：</p>
+<ul>
+<li><p>rte_vhost_driver_register(path, flags)<br>此函数将vhost驱动程序注册到系统中。path 指定Unix套接字的文件路径。<br>当前支持的flags包括：</p>
+<ul>
+<li>RTE_VHOST_USER_CLIENT<br>当使用该flag时，DPDK vhost-user 作为客户端。 请参阅以下说明。</li>
+<li>RTE_VHOST_USER_NO_RECONNECT<br>当 DPDK vhost-user 作为客户端时，它将不断尝试连接到服务端（QEMU），知道成功。 这在以下两个情况中是非常有用的：<ul>
+<li>当 QEMU 还没启动时</li>
+<li>当 QEMU 重启时(如guset OS 重启)<br>这个重新连接选项是默认启用的，但是，可以通过设置这个标志来关闭它。</li>
+</ul>
+</li>
+<li>RTE_VHOST_USER_DEQUEUE_ZERO_COPY<br>设置此flag时将启用出队了零复制。默认情况下是禁用的。<br>在设置此标志时，需要知道以下原则：<ul>
+<li>零拷贝对于小数据包（小于512）是不好的。</li>
+<li>零拷贝对VM2VM情况比较好。对于两个虚拟机之间的ipref，提升性能可能高达70%(当TSO使能时).</li>
+<li>对于VM2NIC情况，nb_tx_desc 必须足够小：如果未启动virtio间接特性则 &lt;=64，否则 &lt;= 128。<br>这是因为，当启用出队列零拷贝时，只有当相应的mbuf被释放时，客户端TX使用的vring才会被更新。 因此，nb_tx_desc必须足够小，以便PMD驱动程序将耗尽可用的TX描述符，并及时释放mbufs。 否则，guset TX vring将无mbuf使用。</li>
+<li>Guest的内存应该使用应该使用huge page支持以获得更好的性能。最好使用1G大小的页面。<br>当启用出队零拷贝时，必须建立guest 物理地址和host物理地址之间的映射。 使用non-huge page则意味着更多的页面细分。 为了简单起见，DPDK vhost对这些段进行了线性搜索，因此，段越少，我们得到的映射就越快。 注意：将来我们可能使用树搜索来提升速度。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>rte_vhost_driver_set_features(path, features)</p>
+<pre><code>此函数设置vhost-user驱动支持的功能位。 vhost-user驱动可以是vhost-user net，但也可以是其他的，例如vhost-user SCSI。
+</code></pre></li>
+<li><p>rte_vhost_driver_callback_register(path, vhost_device_ops)</p>
+<pre><code>此函数注册一组回调函数，以便在发生某些事件时让DPDK应用程序采取适当的操作。 目前支持以下事件：
+</code></pre><ul>
+<li>new_device(int vid)<br>这个回调在virtio设备准备就绪时调用，vid 是虚拟设备ID。</li>
+<li>destroy_device(int vid)<br>当virtio设备关闭时（或vhost连接中断），调用此函数处理。</li>
+<li>vring_state_changed(int vid, uint16_t queue_id, int enable)<br>当特定队列的状态发生改变，如启用或禁用，将调用此回调。</li>
+<li>features_changed(int vid, uint64_t features)<br> 这个函数在feature改变时被调用。例如，VHOST_F_LOG_ALL 将分别在实时迁移的开始/结束时设置/清除。</li>
+</ul>
+</li>
+<li><p>rte_vhost_driver_disable/enable_features(path, features))<br> 该函数禁用或启用某些功能。例如，可以使用它来禁用可合并的缓冲区和TSO功能，这两个功能默认都是启用的。</p>
+</li>
+<li><p>rte_vhost_driver_start(path)<br>这个函数触发vhost-user协商。它应该在初始化一个vhost-user驱动程序结束时被调用。</p>
+</li>
+<li><p>rte_vhost_enqueue_burst(vid, queue_id, pkts, count)<br>传输（入队）从host到guest的 count 包。</p>
+</li>
+<li><p>rte_vhost_dequeue_burst(vid, queue_id, mbuf_pool, pkts, count)<br>接收（出队）来自guest的 count 包，并将它们存储在 pkts。</p>
+</li>
+</ul>
+<h2 id="27-2-Vhost-user-实现"><a href="#27-2-Vhost-user-实现" class="headerlink" title="27.2. Vhost-user 实现"></a>27.2. Vhost-user 实现</h2><p>Vhost-user 使用Unix套接字来传递消息。这意味着DPDK vhost-user的实现具有两种角色：</p>
+<ul>
+<li><p>DPDK vhost-user作为server：<br>DPDK 将创建一个Unix套接字服务器文件，并监听来自前端的连接。<br>注意，这是默认模式，也是DPDK v16.07之前的唯一模式。</p>
+</li>
+<li><p>DPDK vhost-user最为client：<br>与服务器模式不同，此模式不会创建套接字文件; 它只是试图连接到服务器（而不是创建文件的响应）。</p>
+<p>当DPDK vhost-user应用程序重新启动时，DPDK vhost-user将尝试再次连接到服务器。这是“重新连接”功能的工作原理。</p>
+<p>注意：“重连” 功能需要 QEMU v2.7 及以上的版本。<br>vhost支持的功能在重新启动之前和之后必须完全相同。例如，如果TSO被禁用，但是重启之后被启用了，将导致未定义的错误。</p>
+</li>
+</ul>
+<p>无论使用哪种模式，建立连接之后，DPDK vhost-user 都将开始接收和处理来自QEMU的vhost消息。</p>
+<p>对于带有文件描述符的消息，文件描述符可以直接在vhost进程中使用，因为它已经被Unix套接字安装了。</p>
+<p>当前支持的vhost 消息包括：</p>
+<ul>
+<li>VHOST_SET_MEM_TABLE</li>
+<li>VHOST_SET_VRING_KICK</li>
+<li>VHOST_SET_VRING_CALL</li>
+<li>VHOST_SET_LOG_FD</li>
+<li>VHOST_SET_VRING_ERR</li>
+</ul>
+<p>对于 VHOST_SET_MEM_TABLE 消息，QEMU将在消息的辅助数据中为每个存储区域及其文件描述符发送信息。 文件描述符用于映射该区域。</p>
+<p>VHOST_SET_VRING_KICK 用作将vhost设备放入数据面的信号， VHOST_GET_VRING_BASE 用作从数据面移除vhost设备的信号。</p>
+<p>当套接字连接关闭，vhost将销毁设备。</p>
+<h2 id="27-3-支持Vhost的vSwitch"><a href="#27-3-支持Vhost的vSwitch" class="headerlink" title="27.3. 支持Vhost的vSwitch"></a>27.3. 支持Vhost的vSwitch</h2><p>有关更多vhost详细信息以及如何在vSwitch中支持vhost，请参阅《DPDK Sample Applications Guide》。</p>
 
       
 
@@ -762,7 +351,7 @@ Figure 23 3 Scheduling Hierarchy per Port"></p>
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/09/dpdk-pg-23/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/01/dpdk-pg-27/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -776,18 +365,9 @@ Figure 23 3 Scheduling Hierarchy per Port"></p>
   
 <nav id="article-nav">
   
-    <a href="/2017/09/11/tipc/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          TIPC协议
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/09/dpdk-pg-22/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十二）</div>
+    <a href="/2017/11/01/dpdk-pg-26/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（二十六）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -817,7 +397,7 @@ Figure 23 3 Scheduling Hierarchy per Port"></p>
   
 
   
-  <div id="SOHUCS" sid="dpdk-pg-23" ></div> 
+  <div id="SOHUCS" sid="dpdk-pg-27" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 
