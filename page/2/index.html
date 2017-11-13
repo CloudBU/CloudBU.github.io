@@ -187,6 +187,86 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-tipc" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/11/tipc/">TIPC协议</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/11/tipc/" class="archive-article-date">
+  	<time datetime="2017-09-11T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-TIPC协议概述"><a href="#1-TIPC协议概述" class="headerlink" title="1.TIPC协议概述"></a>1.TIPC协议概述</h1><p>TIPC是爱立信开源的透明进程通信协议，一般用于集群系统中。<br>虽然tipc是基于socket实现的，但是与一般的socket还有所区别。平时我们使用socket，无论是TCP也好，UDP也好，用来标识一对socket的通信，无非是用两个socket的IP地址和端口号。比如使用UDP的socket，要发送一个datagram到另一个socket，需要指定对端的地址，这个地址是由对端设备的IP和端口号组成的。Socket是在内核中进行管理，当内核检测到socket有数据可读时，就会通知拥有这个socket的进程去读取数据。<br>这种实现由一种不方便，就是需要指定对端的地址，我们必须知道这个socket在哪台设备上，设备IP是多少，使用的端口号是什么，才能发送数据。<br>TIPC解决了这个问题。使用TIPC，我们在创建socket的时候，在内核中注册自己的服务类型，那么在发送端，只需要指定服务类型就可以由内核路由到相应的socket。这个时候，对应用层来讲，对端地址仅仅是一个服务类型。显然，内核维护着这样一张路由表，可以根据服务类型去找到对应的socket。每台设备都有这样的路由表，他们的信息就能够像普通路由表一样共享到整个集群网络中去，所有设备都可以进行socket查找。因此，有了TIPC，我们无需关心socket使用了哪个IP，哪个端口。</p>
+        
+          <a class="article-more-a" href="/2017/09/11/tipc/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/11/tipc/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dpdk-pg-23" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -926,86 +1006,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dpdk-pg-14" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/08/dpdk-pg-14/">DPDK编程指南（十四）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/08/dpdk-pg-14/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="14-LPM库"><a href="#14-LPM库" class="headerlink" title="14.LPM库"></a>14.LPM库</h1><p>DPDK LPM库组件实现了32位Key的最长前缀匹配（LPM）表搜索方法，该方法通常用于在IP转发应用程序中找到最佳路由。</p>
-        
-          <a class="article-more-a" href="/2017/09/08/dpdk-pg-14/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/08/dpdk-pg-14/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1111,11 +1111,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1127,7 +1131,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1136,10 +1140,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

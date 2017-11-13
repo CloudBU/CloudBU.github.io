@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2017/11/01/dpdk-pg-27/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
-<meta property="og:updated_time" content="2017-11-10T09:24:05.121Z">
+<meta property="og:updated_time" content="2017-11-10T09:30:02.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（二十七）">
 <meta name="twitter:description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
@@ -234,12 +234,10 @@ var _hmt = _hmt || [];
 </li>
 </ul>
 </li>
-<li><p>rte_vhost_driver_set_features(path, features)</p>
-<pre><code>此函数设置vhost-user驱动支持的功能位。 vhost-user驱动可以是vhost-user net，但也可以是其他的，例如vhost-user SCSI。
-</code></pre></li>
-<li><p>rte_vhost_driver_callback_register(path, vhost_device_ops)</p>
-<pre><code>此函数注册一组回调函数，以便在发生某些事件时让DPDK应用程序采取适当的操作。 目前支持以下事件：
-</code></pre><ul>
+<li><p>rte_vhost_driver_set_features(path, features)<br>  此函数设置vhost-user驱动支持的功能位。 vhost-user驱动可以是vhost-user net，但也可以是其他的，例如vhost-user SCSI。</p>
+</li>
+<li><p>rte_vhost_driver_callback_register(path, vhost_device_ops)<br>  此函数注册一组回调函数，以便在发生某些事件时让DPDK应用程序采取适当的操作。 目前支持以下事件：</p>
+<ul>
 <li>new_device(int vid)<br>这个回调在virtio设备准备就绪时调用，vid 是虚拟设备ID。</li>
 <li>destroy_device(int vid)<br>当virtio设备关闭时（或vhost连接中断），调用此函数处理。</li>
 <li>vring_state_changed(int vid, uint16_t queue_id, int enable)<br>当特定队列的状态发生改变，如启用或禁用，将调用此回调。</li>
@@ -365,9 +363,18 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
+    <a href="/2017/11/01/dpdk-pg-26/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          DPDK编程指南（二十六）
+        
+      </div>
+    </a>
   
-    <a href="/2017/11/01/dpdk-pg-26/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十六）</div>
+  
+    <a href="/2017/10/30/dpdk-example-1-7/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK示例(1~7)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -510,11 +517,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -526,7 +537,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -535,10 +546,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
