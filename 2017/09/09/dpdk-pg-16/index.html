@@ -17,7 +17,7 @@
 <meta property="og:description" content="16.报文分发库DPDK报文分发器是一种库，用于在一次 操作中获取单个数据包，以支持流量的动态负载均衡。当使用这个库时，需要考虑两种角色的逻辑核：首先是负责负载均衡及分发数据包的分发逻辑核，另一个是一组工作逻辑核，负责接收来自分发逻辑核的数据包并对其进行操作。">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-fcca22ea3f7080b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-5405585191d01ca0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-09-09T04:45:32.235Z">
+<meta property="og:updated_time" content="2017-11-13T08:29:35.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（十六）">
 <meta name="twitter:description" content="16.报文分发库DPDK报文分发器是一种库，用于在一次 操作中获取单个数据包，以支持流量的动态负载均衡。当使用这个库时，需要考虑两种角色的逻辑核：首先是负责负载均衡及分发数据包的分发逻辑核，另一个是一组工作逻辑核，负责接收来自分发逻辑核的数据包并对其进行操作。">
@@ -72,9 +72,9 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="http://lockless.github.io/gallery/">相册</a></li>
-	        
 				<li><a href="/tags/随笔/">随笔</a></li>
+	        
+				<li><a href="/tags/DPDK/">DPDK</a></li>
 	        
 			</ul>
 		</nav>
@@ -96,15 +96,15 @@ var _hmt = _hmt || [];
 				
 					<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 		        
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+					<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 		        
-					<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+					<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 		        
 					<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 		        
@@ -149,15 +149,15 @@ var _hmt = _hmt || [];
 					
 						<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 			        
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+						<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 			        
-						<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+						<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 			        
@@ -172,9 +172,9 @@ var _hmt = _hmt || [];
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="http://lockless.github.io/gallery/">相册</a></li>
-		        
 					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/tags/DPDK/">DPDK</a></li>
 		        
 				</ul>
 			</nav>
@@ -236,7 +236,6 @@ var _hmt = _hmt || [];
 <p>之前提到的flush和clear_returns API调用可能不太用于进程和returned_pkts APIS，并且主要用于帮助对库进行单元测试。可以在DPDK API参考文档中找到这些功能及其用途的描述。</p>
 <h2 id="16-2-Worker-Operation"><a href="#16-2-Worker-Operation" class="headerlink" title="16.2.Worker Operation"></a>16.2.Worker Operation</h2><p>Worker lcore是对distributor分发的数据包进行实际操作的lcore。 Worker调用rte_distributor_get_pkt() API在完成处理前一个数据包时请求一个新的数据包。前一个数据包应通过将其作为最终参数传递给该API调用而返回给分发器组件。</p>
 <p>有时候可能需要改变worker lcore的数量，这取决于业务负载，即在较轻的负载时节省功率，可以worker通过调用rte_distributor_return_pkt()接口停止处理报文，以指示在完成当前数据包处理后，不需要新的数据包。</p>
-<p>同时发布于简书: <a href="http://www.jianshu.com/p/3d463fe5e1ad" target="_blank" rel="external">DPDK编程指南（十六）</a></p>
 
       
 
@@ -498,15 +497,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

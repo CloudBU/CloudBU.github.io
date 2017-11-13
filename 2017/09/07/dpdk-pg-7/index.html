@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2017/09/07/dpdk-pg-7/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="7.轮询模式驱动DPDK包括1Gigabit、10Gigabit 及 40Gigabit 和半虚拟化IO的轮询模式驱动程序。 轮询模式驱动程序(PMD)由通过在用户空间中运行的BSD驱动提供的API组成，以配置设备及它们的队列。此外，PMD直接访问 RX 和 TX 描述符，且不会有任何中断（链路状态更改中断除外）产生，这可以保证在用户空间应用程序中快速接收，处理和传送数据包。本节介绍PMD的要求、">
-<meta property="og:updated_time" content="2017-09-07T00:56:17.534Z">
+<meta property="og:updated_time" content="2017-11-13T08:28:35.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（七）">
 <meta name="twitter:description" content="7.轮询模式驱动DPDK包括1Gigabit、10Gigabit 及 40Gigabit 和半虚拟化IO的轮询模式驱动程序。 轮询模式驱动程序(PMD)由通过在用户空间中运行的BSD驱动提供的API组成，以配置设备及它们的队列。此外，PMD直接访问 RX 和 TX 描述符，且不会有任何中断（链路状态更改中断除外）产生，这可以保证在用户空间应用程序中快速接收，处理和传送数据包。本节介绍PMD的要求、">
@@ -69,9 +69,9 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="http://lockless.github.io/gallery/">相册</a></li>
-	        
 				<li><a href="/tags/随笔/">随笔</a></li>
+	        
+				<li><a href="/tags/DPDK/">DPDK</a></li>
 	        
 			</ul>
 		</nav>
@@ -93,15 +93,15 @@ var _hmt = _hmt || [];
 				
 					<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 		        
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+					<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 		        
-					<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+					<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 		        
 					<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 		        
@@ -146,15 +146,15 @@ var _hmt = _hmt || [];
 					
 						<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 			        
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+						<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 			        
-						<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+						<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 			        
@@ -169,9 +169,9 @@ var _hmt = _hmt || [];
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="http://lockless.github.io/gallery/">相册</a></li>
-		        
 					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/tags/DPDK/">DPDK</a></li>
 		        
 				</ul>
 			</nav>
@@ -350,7 +350,6 @@ var _hmt = _hmt || [];
 <p>该应用程序可以访问PMD暴露的所有统计信息的名称。应用程序自己决定哪些统计信息是感兴趣的，通过查找名称来缓存这些统计信息的ID。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">uint64_t id;</div><div class="line">uint64_t value;</div><div class="line">const char *xstat_name = &quot;rx_errors&quot;;</div><div class="line"></div><div class="line">if(!rte_eth_xstats_get_id_by_name(port_id, xstat_name, &amp;id)) &#123;</div><div class="line">    rte_eth_xstats_get_by_id(port_id, &amp;id, &amp;value, 1);</div><div class="line">    printf(&quot;%s: %&quot;PRIu64&quot;\n&quot;, xstat_name, value);</div><div class="line">&#125;</div><div class="line">else &#123;</div><div class="line">    printf(&quot;Cannot find xstats with a given name\n&quot;);</div><div class="line">    goto err;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>API为应用程序提供了灵活性，以便它可以使用包含多个ID号的数组查找多个统计信息。这样可以减少检索统计信息的函数调用开销，并使得应用程序更统一查找多个统计信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#define APP_NUM_STATS 4</div><div class="line">/* application cached these ids previously; see above */</div><div class="line">uint64_t ids_array[APP_NUM_STATS] = &#123;3,4,7,21&#125;;</div><div class="line">uint64_t value_array[APP_NUM_STATS];</div><div class="line"></div><div class="line">/* Getting multiple xstats values from array of IDs */</div><div class="line">rte_eth_xstats_get_by_id(port_id, ids_array, value_array, APP_NUM_STATS);</div><div class="line"></div><div class="line">uint32_t i;</div><div class="line">for(i = 0; i &lt; APP_NUM_STATS; i++) &#123;</div><div class="line">    printf(&quot;%d: %&quot;PRIu64&quot;\n&quot;, ids_array[i], value_array[i]);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>用于xstats数组查找的API允许应用程序创建多个统计信息组，并使用单个API调用查找这些ID值。作为最终查找结果，应用程序能够实现监视单个统计信息（在这种情况下为rx_errors）的目标，如果显示数据包被丢弃，则可以使用ID数组轻松地检索组统计信息。</p>
-<p>同时发布于简书：<a href="http://www.jianshu.com/p/6d86fabb78d6" target="_blank" rel="external">DPDK编程指南（七）</a>  。</p>
 
       
 
@@ -612,15 +611,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

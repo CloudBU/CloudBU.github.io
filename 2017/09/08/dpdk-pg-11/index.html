@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2017/09/08/dpdk-pg-11/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="11.定时器库定时器库为DPDK执行单元提供定时器服务，使得执行单元可以为异步操作执行回调函数。定时器库的特性如下：  定时器可以周期执行，也可以执行一次。 定时器可以在一个核心加载并在另一个核心执行。但是必须在调用rte_timer_reset()中指定它。 定时器提供高精度（取决于检查本地核心的定时器到期的rte_timer_manage()的调用频率）。 如果应用程序不需要，可以在编译时禁用">
-<meta property="og:updated_time" content="2017-09-08T01:10:24.452Z">
+<meta property="og:updated_time" content="2017-11-13T08:29:04.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（十一）">
 <meta name="twitter:description" content="11.定时器库定时器库为DPDK执行单元提供定时器服务，使得执行单元可以为异步操作执行回调函数。定时器库的特性如下：  定时器可以周期执行，也可以执行一次。 定时器可以在一个核心加载并在另一个核心执行。但是必须在调用rte_timer_reset()中指定它。 定时器提供高精度（取决于检查本地核心的定时器到期的rte_timer_manage()的调用频率）。 如果应用程序不需要，可以在编译时禁用">
@@ -69,9 +69,9 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="http://lockless.github.io/gallery/">相册</a></li>
-	        
 				<li><a href="/tags/随笔/">随笔</a></li>
+	        
+				<li><a href="/tags/DPDK/">DPDK</a></li>
 	        
 			</ul>
 		</nav>
@@ -93,15 +93,15 @@ var _hmt = _hmt || [];
 				
 					<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 		        
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+					<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 		        
-					<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+					<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 		        
 					<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 		        
@@ -146,15 +146,15 @@ var _hmt = _hmt || [];
 					
 						<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 			        
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+						<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 			        
-						<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+						<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 			        
@@ -169,9 +169,9 @@ var _hmt = _hmt || [];
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="http://lockless.github.io/gallery/">相册</a></li>
-		        
 					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/tags/DPDK/">DPDK</a></li>
 		        
 				</ul>
 			</nav>
@@ -232,7 +232,6 @@ var _hmt = _hmt || [];
 <li><a href="https://www.daemon-systems.org/man/callout.9.html" target="_blank" rel="external">callout manual</a> ：唤醒功能，提供定时器到期执行的功能。</li>
 <li><a href="https://en.wikipedia.org/wiki/High_Precision_Event_Timer" target="_blank" rel="external">HPET</a> ：有关高精度事件定时器（HPET）的信息。</li>
 </ul>
-<p>同时发布于简书：<a href="http://www.jianshu.com/p/1c1f840913ca" target="_blank" rel="external">DPDK编程指南（十一）</a> 。</p>
 
       
 
@@ -320,18 +319,18 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/08/dpdk-pg-10/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/09/08/dpdk-pg-12/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          DPDK编程指南（十）
+          DPDK编程指南（十二）
         
       </div>
     </a>
   
   
-    <a href="/2017/09/07/So-Called-Love/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">所谓爱情</div>
+    <a href="/2017/09/08/dpdk-pg-10/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（十）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -494,15 +493,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

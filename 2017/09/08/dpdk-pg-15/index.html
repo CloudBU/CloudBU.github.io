@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="15.LPM6库LPM6（LPM for IPv6）库组件实现了128位Key的最长前缀匹配表查找方法，该方法通常用于在IPv6转发应用程序中找到最佳匹配路由。">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-6413e6bb5fe18fe5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-09-08T09:48:52.005Z">
+<meta property="og:updated_time" content="2017-11-13T08:29:29.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（十五）">
 <meta name="twitter:description" content="15.LPM6库LPM6（LPM for IPv6）库组件实现了128位Key的最长前缀匹配表查找方法，该方法通常用于在IPv6转发应用程序中找到最佳匹配路由。">
@@ -71,9 +71,9 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="http://lockless.github.io/gallery/">相册</a></li>
-	        
 				<li><a href="/tags/随笔/">随笔</a></li>
+	        
+				<li><a href="/tags/DPDK/">DPDK</a></li>
 	        
 			</ul>
 		</nav>
@@ -95,15 +95,15 @@ var _hmt = _hmt || [];
 				
 					<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 		        
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+					<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 		        
-					<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+					<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 		        
 					<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 		        
@@ -148,15 +148,15 @@ var _hmt = _hmt || [];
 					
 						<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 			        
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+						<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 			        
-						<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+						<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 			        
@@ -171,9 +171,9 @@ var _hmt = _hmt || [];
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="http://lockless.github.io/gallery/">相册</a></li>
-		        
 					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/tags/DPDK/">DPDK</a></li>
 		        
 				</ul>
 			</nav>
@@ -277,7 +277,6 @@ var _hmt = _hmt || [];
 <p>如在LPM for IPv4算法中所解释的，根据它们的第一个字节是多少，很可能会有几个规则共享一个或多个tbl8。如果它们共享相同的前24位，例如，第二级的tbl8将被共享。这可能会在更深的级别再次发生，所以有效的是，如果两个48位长的规则在最后一个字节中唯一的区别就可能使用相同的三个tbl8。</p>
 <p>由于其对内存消耗的影响以及可以添加到LPM表中的数量或规则，tbl8的数量是在该版本的算法中通过API暴露给用户的参数。一个tbl8消耗1KB的内存。</p>
 <h2 id="15-3-用例：IPv6转发"><a href="#15-3-用例：IPv6转发" class="headerlink" title="15.3.用例：IPv6转发"></a>15.3.用例：IPv6转发</h2><p>LPM算法用于实现实现IP转发的路由器所使用的无类别域间路由（CIDR）策略。</p>
-<p>同时发布于简书：<a href="http://www.jianshu.com/p/c28254d83a16" target="_blank" rel="external">DPDK编程指南（十五）</a></p>
 
       
 
@@ -539,15 +538,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>

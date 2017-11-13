@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2017/09/08/dpdk-pg-12/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="12.哈希库DPDK提供了一个用于创建哈希表的哈希库，哈希表可以用于快速查找。哈希表是针对一组条目进行搜索而优化的数据结构，每个条目由唯一Key标识。为了提高性能，DPDK哈希要求所有的Key值具有与哈希创建时指定的相同字节数。">
-<meta property="og:updated_time" content="2017-09-08T09:48:38.389Z">
+<meta property="og:updated_time" content="2017-11-13T08:29:13.340Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（十二）">
 <meta name="twitter:description" content="12.哈希库DPDK提供了一个用于创建哈希表的哈希库，哈希表可以用于快速查找。哈希表是针对一组条目进行搜索而优化的数据结构，每个条目由唯一Key标识。为了提高性能，DPDK哈希要求所有的Key值具有与哈希创建时指定的相同字节数。">
@@ -69,9 +69,9 @@ var _hmt = _hmt || [];
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="http://lockless.github.io/gallery/">相册</a></li>
-	        
 				<li><a href="/tags/随笔/">随笔</a></li>
+	        
+				<li><a href="/tags/DPDK/">DPDK</a></li>
 	        
 			</ul>
 		</nav>
@@ -93,15 +93,15 @@ var _hmt = _hmt || [];
 				
 					<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+					<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 		        
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+					<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+					<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 		        
-					<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+					<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 		        
 					<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 		        
@@ -146,15 +146,15 @@ var _hmt = _hmt || [];
 					
 						<a class="github" target="_blank" href="https://github.com/lockless" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="http://www.weibo.com/u/5654801654" title="weibo"><i class="icon-weibo"></i></a>
+						<a class="weibo" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="weibo"><i class="icon-weibo"></i></a>
 			        
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/zhuo-yan-30-4" title="zhihu"><i class="icon-zhihu"></i></a>
+						<a class="zhihu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/18339acb63a0" title="jianshu"><i class="icon-jianshu"></i></a>
+						<a class="jianshu" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="jianshu"><i class="icon-jianshu"></i></a>
 			        
-						<a class="segmentfault" target="_blank" href="https://segmentfault.com/u/panic_55dd9e4c83007" title="segmentfault"><i class="icon-segmentfault"></i></a>
+						<a class="segmentfault" target="_blank" href="https://lockless.github.io/2016/11/22/Contact-Me/" title="segmentfault"><i class="icon-segmentfault"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:dpanic@sina.com" title="mail"><i class="icon-mail"></i></a>
 			        
@@ -169,9 +169,9 @@ var _hmt = _hmt || [];
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="http://lockless.github.io/gallery/">相册</a></li>
-		        
 					<li style="width: 33.333333333333336%"><a href="/tags/随笔/">随笔</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/tags/DPDK/">DPDK</a></li>
 		        
 				</ul>
 			</nav>
@@ -353,7 +353,6 @@ var _hmt = _hmt || [];
 <li>查找流：在哈希中查找流Key。如果返回的位置有效（流查找命中），则使用返回的位置来访问流表中的流条目。否则（流查找未命中）表示当前数据包没有注册流。</li>
 </ul>
 <h2 id="12-6-参考"><a href="#12-6-参考" class="headerlink" title="12.6.参考"></a>12.6.参考</h2><p>Donald E. Knuth, The Art of Computer Programming, Volume 3: Sorting and Searching (2nd Edition), 1998, Addison-Wesley Professional</p>
-<p>同时发布于简书：<a href="http://www.jianshu.com/p/4db3afc630d6" target="_blank" rel="external">DPDK编程指南（十二）</a> 。</p>
 
       
 
@@ -451,8 +450,8 @@ var _hmt = _hmt || [];
     </a>
   
   
-    <a href="/2017/09/08/dpdk-pg-10/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（十）</div>
+    <a href="/2017/09/08/dpdk-pg-11/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（十一）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -615,15 +614,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
