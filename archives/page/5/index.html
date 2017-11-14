@@ -6,19 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（二十七） | 拙言</title>
+  <title>Archives | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
-<meta name="keywords" content="数据平面,DPDK">
-<meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（二十七）">
-<meta property="og:url" content="http://lockless.github.io/2017/11/01/dpdk-pg-27/index.html">
+  <meta name="description" content="本博客主要关注">
+<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
+<meta property="og:type" content="website">
+<meta property="og:title" content="拙言">
+<meta property="og:url" content="http://lockless.github.io/archives/page/5/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
-<meta property="og:updated_time" content="2017-11-10T09:30:02.785Z">
+<meta property="og:description" content="本博客主要关注">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（二十七）">
-<meta name="twitter:description" content="27. Vhost 库Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现： 访问guest内存：  对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作">
+<meta name="twitter:title" content="拙言">
+<meta name="twitter:description" content="本博客主要关注">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,236 +185,52 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-27" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      DPDK编程指南（二十七）
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2016/11/22/Contact-Me/" class="archive-article-date">
+  	<time datetime="2016-11-22T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-22</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/11/22/Contact-Me/">请联系我</a>
     </h1>
   
 
-        
-        <a href="/2017/11/01/dpdk-pg-27/" class="archive-article-date">
-  	<time datetime="2017-11-01T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="27-Vhost-库"><a href="#27-Vhost-库" class="headerlink" title="27. Vhost 库"></a>27. Vhost 库</h1><p>Vhost库实现了一个用户空间virtio网络服务器，允许用户直接操作virtio。 换句话说，它允许用户通过VM virtio网络设备获取/发送数据包。 为了达到这个功能，一个vhost库需要实现：</p>
-<p>访问guest内存：</p>
-<ul>
-<li><p>对于QEMU，这是通过使用 -object memory-backend-file,share=on,… 选项实现的。 这意味着QEMU将创建一个文件作为guest RAM。 选项 share=on 允许另一个进程映射该文件，这意味着该进程可以访问这个guest RAM。<br>知道关于vring所有必要的信息：</p>
-</li>
-<li><p>诸如可用环形存储链表的存储空间。Vhost定义了一些消息（通过Unix套接字传递）来告诉后端所有需要知道如何操作vring的信息。</p>
-</li>
-</ul>
-<a id="more"></a>
-<h2 id="27-1-Vhost-API-概述"><a href="#27-1-Vhost-API-概述" class="headerlink" title="27.1. Vhost API 概述"></a>27.1. Vhost API 概述</h2><p>以下是一些关键的Vhost API函数概述：</p>
-<ul>
-<li><p>rte_vhost_driver_register(path, flags)<br>此函数将vhost驱动程序注册到系统中。path 指定Unix套接字的文件路径。<br>当前支持的flags包括：</p>
-<ul>
-<li>RTE_VHOST_USER_CLIENT<br>当使用该flag时，DPDK vhost-user 作为客户端。 请参阅以下说明。</li>
-<li>RTE_VHOST_USER_NO_RECONNECT<br>当 DPDK vhost-user 作为客户端时，它将不断尝试连接到服务端（QEMU），知道成功。 这在以下两个情况中是非常有用的：<ul>
-<li>当 QEMU 还没启动时</li>
-<li>当 QEMU 重启时(如guset OS 重启)<br>这个重新连接选项是默认启用的，但是，可以通过设置这个标志来关闭它。</li>
-</ul>
-</li>
-<li>RTE_VHOST_USER_DEQUEUE_ZERO_COPY<br>设置此flag时将启用出队了零复制。默认情况下是禁用的。<br>在设置此标志时，需要知道以下原则：<ul>
-<li>零拷贝对于小数据包（小于512）是不好的。</li>
-<li>零拷贝对VM2VM情况比较好。对于两个虚拟机之间的ipref，提升性能可能高达70%(当TSO使能时).</li>
-<li>对于VM2NIC情况，nb_tx_desc 必须足够小：如果未启动virtio间接特性则 &lt;=64，否则 &lt;= 128。<br>这是因为，当启用出队列零拷贝时，只有当相应的mbuf被释放时，客户端TX使用的vring才会被更新。 因此，nb_tx_desc必须足够小，以便PMD驱动程序将耗尽可用的TX描述符，并及时释放mbufs。 否则，guset TX vring将无mbuf使用。</li>
-<li>Guest的内存应该使用应该使用huge page支持以获得更好的性能。最好使用1G大小的页面。<br>当启用出队零拷贝时，必须建立guest 物理地址和host物理地址之间的映射。 使用non-huge page则意味着更多的页面细分。 为了简单起见，DPDK vhost对这些段进行了线性搜索，因此，段越少，我们得到的映射就越快。 注意：将来我们可能使用树搜索来提升速度。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>rte_vhost_driver_set_features(path, features)<br>  此函数设置vhost-user驱动支持的功能位。 vhost-user驱动可以是vhost-user net，但也可以是其他的，例如vhost-user SCSI。</p>
-</li>
-<li><p>rte_vhost_driver_callback_register(path, vhost_device_ops)<br>  此函数注册一组回调函数，以便在发生某些事件时让DPDK应用程序采取适当的操作。 目前支持以下事件：</p>
-<ul>
-<li>new_device(int vid)<br>这个回调在virtio设备准备就绪时调用，vid 是虚拟设备ID。</li>
-<li>destroy_device(int vid)<br>当virtio设备关闭时（或vhost连接中断），调用此函数处理。</li>
-<li>vring_state_changed(int vid, uint16_t queue_id, int enable)<br>当特定队列的状态发生改变，如启用或禁用，将调用此回调。</li>
-<li>features_changed(int vid, uint64_t features)<br> 这个函数在feature改变时被调用。例如，VHOST_F_LOG_ALL 将分别在实时迁移的开始/结束时设置/清除。</li>
-</ul>
-</li>
-<li><p>rte_vhost_driver_disable/enable_features(path, features))<br> 该函数禁用或启用某些功能。例如，可以使用它来禁用可合并的缓冲区和TSO功能，这两个功能默认都是启用的。</p>
-</li>
-<li><p>rte_vhost_driver_start(path)<br>这个函数触发vhost-user协商。它应该在初始化一个vhost-user驱动程序结束时被调用。</p>
-</li>
-<li><p>rte_vhost_enqueue_burst(vid, queue_id, pkts, count)<br>传输（入队）从host到guest的 count 包。</p>
-</li>
-<li><p>rte_vhost_dequeue_burst(vid, queue_id, mbuf_pool, pkts, count)<br>接收（出队）来自guest的 count 包，并将它们存储在 pkts。</p>
-</li>
-</ul>
-<h2 id="27-2-Vhost-user-实现"><a href="#27-2-Vhost-user-实现" class="headerlink" title="27.2. Vhost-user 实现"></a>27.2. Vhost-user 实现</h2><p>Vhost-user 使用Unix套接字来传递消息。这意味着DPDK vhost-user的实现具有两种角色：</p>
-<ul>
-<li><p>DPDK vhost-user作为server：<br>DPDK 将创建一个Unix套接字服务器文件，并监听来自前端的连接。<br>注意，这是默认模式，也是DPDK v16.07之前的唯一模式。</p>
-</li>
-<li><p>DPDK vhost-user最为client：<br>与服务器模式不同，此模式不会创建套接字文件; 它只是试图连接到服务器（而不是创建文件的响应）。</p>
-<p>当DPDK vhost-user应用程序重新启动时，DPDK vhost-user将尝试再次连接到服务器。这是“重新连接”功能的工作原理。</p>
-<p>注意：“重连” 功能需要 QEMU v2.7 及以上的版本。<br>vhost支持的功能在重新启动之前和之后必须完全相同。例如，如果TSO被禁用，但是重启之后被启用了，将导致未定义的错误。</p>
-</li>
-</ul>
-<p>无论使用哪种模式，建立连接之后，DPDK vhost-user 都将开始接收和处理来自QEMU的vhost消息。</p>
-<p>对于带有文件描述符的消息，文件描述符可以直接在vhost进程中使用，因为它已经被Unix套接字安装了。</p>
-<p>当前支持的vhost 消息包括：</p>
-<ul>
-<li>VHOST_SET_MEM_TABLE</li>
-<li>VHOST_SET_VRING_KICK</li>
-<li>VHOST_SET_VRING_CALL</li>
-<li>VHOST_SET_LOG_FD</li>
-<li>VHOST_SET_VRING_ERR</li>
-</ul>
-<p>对于 VHOST_SET_MEM_TABLE 消息，QEMU将在消息的辅助数据中为每个存储区域及其文件描述符发送信息。 文件描述符用于映射该区域。</p>
-<p>VHOST_SET_VRING_KICK 用作将vhost设备放入数据面的信号， VHOST_GET_VRING_BASE 用作从数据面移除vhost设备的信号。</p>
-<p>当套接字连接关闭，vhost将销毁设备。</p>
-<h2 id="27-3-支持Vhost的vSwitch"><a href="#27-3-支持Vhost的vSwitch" class="headerlink" title="27.3. 支持Vhost的vSwitch"></a>27.3. 支持Vhost的vSwitch</h2><p>有关更多vhost详细信息以及如何在vSwitch中支持vhost，请参阅《DPDK Sample Applications Guide》。</p>
+        <div class="article-info info-on-right">
+          
+          
 
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/01/dpdk-pg-27/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/11/13/dpdk-pg-28/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（二十八）
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/11/01/dpdk-pg-26/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十六）</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-  <div id="SOHUCS" sid="dpdk-pg-27" ></div> 
-<script type="text/javascript"> 
-(function(){ 
-var appid = "cytcwNIfK"; 
-var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
-var width = window.innerWidth || document.documentElement.clientWidth; 
-if (width < 960) { 
-window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
-  
-
-  
-
+    
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span>
+    </nav>
   
 
 
@@ -439,8 +254,8 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

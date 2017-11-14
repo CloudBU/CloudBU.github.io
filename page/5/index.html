@@ -6,19 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（二十八） | 拙言</title>
+  <title>拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="28. Metrics 库Metrics 库实现了一个机制，通过这个机制，producers 可以发布numeric信息，供 consumers 后续查询。实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。 Metrics 本身是一个静态值，并不是有PMD产生的。Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。消费者通过查询共享内存">
-<meta name="keywords" content="数据平面,DPDK">
-<meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（二十八）">
-<meta property="og:url" content="http://lockless.github.io/2017/11/01/dpdk-pg-28/index.html">
+  <meta name="description" content="本博客主要关注">
+<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
+<meta property="og:type" content="website">
+<meta property="og:title" content="拙言">
+<meta property="og:url" content="http://lockless.github.io/page/5/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="28. Metrics 库Metrics 库实现了一个机制，通过这个机制，producers 可以发布numeric信息，供 consumers 后续查询。实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。 Metrics 本身是一个静态值，并不是有PMD产生的。Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。消费者通过查询共享内存">
-<meta property="og:updated_time" content="2017-11-13T02:31:02.348Z">
+<meta property="og:description" content="本博客主要关注">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（二十八）">
-<meta name="twitter:description" content="28. Metrics 库Metrics 库实现了一个机制，通过这个机制，producers 可以发布numeric信息，供 consumers 后续查询。实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。 Metrics 本身是一个静态值，并不是有PMD产生的。Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。消费者通过查询共享内存">
+<meta name="twitter:title" content="拙言">
+<meta name="twitter:description" content="本博客主要关注">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,62 +185,29 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-28" class="article article-type-post " itemscope itemprop="blogPost">
+            
+  
+    <article id="post-Contact-Me" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      DPDK编程指南（二十八）
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/22/Contact-Me/">请联系我</a>
     </h1>
   
 
         
-        <a href="/2017/11/01/dpdk-pg-28/" class="archive-article-date">
-  	<time datetime="2017-11-01T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
+        <a href="/2016/11/22/Contact-Me/" class="archive-article-date">
+  	<time datetime="2016-11-22T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="28-Metrics-库"><a href="#28-Metrics-库" class="headerlink" title="28. Metrics 库"></a>28. Metrics 库</h1><p>Metrics 库实现了一个机制，通过这个机制，<em>producers</em> 可以发布numeric信息，供 <em>consumers</em> 后续查询。<br>实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。</p>
-<p>Metrics 本身是一个静态值，并不是有PMD产生的。<br>Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。<br>消费者通过查询共享内存中的metric数据来获取metric信息。</p>
-<a id="more"></a>
-<p>对于每个mettic，为每个端口ID保留一个单独的值，并且在发布metric时，生产者需要指定哪个端口正在更新。<br>此外，还有一个特殊的ID <code>RTE_METRICS_GLOBAL</code>， 用于全局统计，不与任何单个设备关联。<br>由于metric库是自包含的，因此，对端口号的唯一限制是他们小于 <code>RTE_MAX_ETHPORTS</code>，不需要实际端口存在。</p>
-<h2 id="28-1-初始化库"><a href="#28-1-初始化库" class="headerlink" title="28.1. 初始化库"></a>28.1. 初始化库</h2><p>在使用库之前，必须通过调用在共享内存中设置mettic存储的 <code>rte_metrics_init()</code> 来初始化它。<br>这也就是生产者将metric信息发布到哪里以及消费者从哪里查新metric信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rte_metrics_init(rte_socket_id());</div></pre></td></tr></table></figure></p>
-<p>这个初始化函数必须在主函数中调用，否则生产者和消费者可能在主程序或次进程中多次调用。？？</p>
-<h2 id="28-2-注册metrics"><a href="#28-2-注册metrics" class="headerlink" title="28.2. 注册metrics"></a>28.2. 注册metrics</h2><p>Metrics 必须先注册，这是生产者声明他们将要发布的metric的方式。注册可以单独完成，也可以将一组metric标注为一个组。单独注册使用接口 <code>rte_metrics_reg_name()</code> 实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">id_1 = rte_metrics_reg_name(&quot;mean_bits_in&quot;);</div><div class="line">id_2 = rte_metrics_reg_name(&quot;mean_bits_out&quot;);</div><div class="line">id_3 = rte_metrics_reg_name(&quot;peak_bits_in&quot;);</div><div class="line">id_4 = rte_metrics_reg_name(&quot;peak_bits_out&quot;);</div></pre></td></tr></table></figure></p>
-<p>一组metric注册使用 <code>rte_metrics_reg_names()</code> 完成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const char * const names[] = &#123;</div><div class="line">    &quot;mean_bits_in&quot;, &quot;mean_bits_out&quot;,</div><div class="line">    &quot;peak_bits_in&quot;, &quot;peak_bits_out&quot;,</div><div class="line">&#125;;</div><div class="line">id_set = rte_metrics_reg_names(&amp;names[0], 4);</div></pre></td></tr></table></figure></p>
-<p>如果返回负数，表示注册失败。否则，返回值表示更新metic时使用的 <em>key</em> 值。可以使用 <code>rte_metrics_get_names()</code> 获得将这些key值与metric名称映射起来的映射表。</p>
-<h2 id="28-3-更新-metric-值"><a href="#28-3-更新-metric-值" class="headerlink" title="28.3. 更新 metric 值"></a>28.3. 更新 metric 值</h2><p>一旦注册，生产者可以使用 <code>rte_metrics_update_value()</code> 函数更新给定端口的metric。这个函数使用metric注册时返回的key值，也可以使用 <code>rte_metrics_get_names()</code> 查找。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rte_metrics_update_value(port_id, id_1, values[0]);</div><div class="line">rte_metrics_update_value(port_id, id_2, values[1]);</div><div class="line">rte_metrics_update_value(port_id, id_3, values[2]);</div><div class="line">rte_metrics_update_value(port_id, id_4, values[3]);</div></pre></td></tr></table></figure></p>
-<p>如果metric被注册为一个集合，则可以使用 <code>rte_metrics_update_value()</code> 单独更新他们，或者使用 <code>rte_metrics_update_values()</code> 一起更新：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">rte_metrics_update_value(port_id, id_set, values[0]);</div><div class="line">rte_metrics_update_value(port_id, id_set + 1, values[1]);</div><div class="line">rte_metrics_update_value(port_id, id_set + 2, values[2]);</div><div class="line">rte_metrics_update_value(port_id, id_set + 3, values[3]);</div><div class="line"></div><div class="line">rte_metrics_update_values(port_id, id_set, values, 4);</div></pre></td></tr></table></figure></p>
-<p>注意，<code>rte_metrics_update_values()</code> 不能用来更新 <em>multiple</em> <em>sets</em> 的metric，因为不能保证两个集合一个接一个地注册了连续的ID值。</p>
-<h2 id="28-4-查询-metrics"><a href="#28-4-查询-metrics" class="headerlink" title="28.4. 查询 metrics"></a>28.4. 查询 metrics</h2><p>消费者可以通过使用返回 <code>struct rte_metric_value</code> 数组的接口 <code>rte_metrics_get_values()</code> 来查询metric库。 该数组中的每个条目都包含一个metric值及其关联的key。key值和名称的映射可以使用 <code>rte_metrics_get_names()</code> 函数来获得，该函数返回由key索引的 <code>struct rte_metric_name</code> 数组。以下将打印给定端口的所有metric：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">void print_metrics() &#123;</div><div class="line">    struct rte_metric_name *names;</div><div class="line">    int len;</div><div class="line"></div><div class="line">    len = rte_metrics_get_names(NULL, 0);</div><div class="line">    if (len &lt; 0) &#123;</div><div class="line">        printf(&quot;Cannot get metrics count\n&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    if (len == 0) &#123;</div><div class="line">        printf(&quot;No metrics to display (none have been registered)\n&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    metrics = malloc(sizeof(struct rte_metric_value) * len);</div><div class="line">    names =  malloc(sizeof(struct rte_metric_name) * len);</div><div class="line">    if (metrics == NULL || names == NULL) &#123;</div><div class="line">        printf(&quot;Cannot allocate memory\n&quot;);</div><div class="line">        free(metrics);</div><div class="line">        free(names);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    ret = rte_metrics_get_values(port_id, metrics, len);</div><div class="line">    if (ret &lt; 0 || ret &gt; len) &#123;</div><div class="line">        printf(&quot;Cannot get metrics values\n&quot;);</div><div class="line">        free(metrics);</div><div class="line">        free(names);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    printf(&quot;Metrics for port %i:\n&quot;, port_id);</div><div class="line">    for (i = 0; i &lt; len; i++)</div><div class="line">        printf(&quot;  %s: %&quot;PRIu64&quot;\n&quot;,</div><div class="line">            names[metrics[i].key].name, metrics[i].value);</div><div class="line">    free(metrics);</div><div class="line">    free(names);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="28-5-Bit-rate-统计库"><a href="#28-5-Bit-rate-统计库" class="headerlink" title="28.5. Bit-rate 统计库"></a>28.5. Bit-rate 统计库</h2><p>Bit-rate 库计算每个活动端口（即网络设备）的指数加权平均值和峰值比特率。<br>这些统计信息通过metric库使用以下名称进行发布：</p>
-<ul>
-<li>mean_bits_in: 平均入站比特率</li>
-<li>mean_bits_out: 平均出站比特率</li>
-<li>ewma_bits_in: 平均入站比特率 (EWMA 平滑)</li>
-<li>ewma_bits_out: 平均出站比特率 (EWMA 平滑)</li>
-<li>peak_bits_in: 峰值入站比特率</li>
-<li>peak_bits_out: 峰值出站比特率</li>
-</ul>
-<p>一旦初始化，并以适当的频率计时，可以通过查询metric库来获取metric值。</p>
-<h3 id="28-5-1-初始化"><a href="#28-5-1-初始化" class="headerlink" title="28.5.1. 初始化"></a>28.5.1. 初始化</h3><p>在使用库之前，必须通过接口 <code>rte_stats_bitrate_create()</code> 来初始化，这个函数返回一个bit-rate计算对象。由于bit-rate库使用metric来报告计算的统计量，因此bit-rate库需要将计算的统计量与metric库一起注册。这通过辅助函数 <code>rte_stats_bitrate_reg()</code> 完成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">struct rte_stats_bitrates *bitrate_data;</div><div class="line"></div><div class="line">bitrate_data = rte_stats_bitrate_create();</div><div class="line">if (bitrate_data == NULL)</div><div class="line">    rte_exit(EXIT_FAILURE, &quot;Could not allocate bit-rate data.\n&quot;);</div><div class="line">rte_stats_bitrate_reg(bitrate_data);</div></pre></td></tr></table></figure></p>
-<h3 id="28-5-2-控制采样速率"><a href="#28-5-2-控制采样速率" class="headerlink" title="28.5.2. 控制采样速率"></a>28.5.2. 控制采样速率</h3><p>由于库通过定期采样来工作，而不是使用内部线程，应用程序必须定期调用 rte_stats_bitrate_calc() 。 这个函数被调用的频率应该是计算统计所需要的预期采样频率。 例如，需要按秒统计，那么应该每秒钟调用一次这个函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">tics_datum = rte_rdtsc();</div><div class="line">tics_per_1sec = rte_get_timer_hz();</div><div class="line"></div><div class="line">while( 1 ) &#123;</div><div class="line">    /* ... */</div><div class="line">    tics_current = rte_rdtsc();</div><div class="line">    if (tics_current - tics_datum &gt;= tics_per_1sec) &#123;</div><div class="line">        /* Periodic bitrate calculation */</div><div class="line">        for (idx_port = 0; idx_port &lt; cnt_ports; idx_port++)</div><div class="line">                rte_stats_bitrate_calc(bitrate_data, idx_port);</div><div class="line">            tics_datum = tics_current;</div><div class="line">        &#125;</div><div class="line">    /* ... */</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="28-6-延迟统计库"><a href="#28-6-延迟统计库" class="headerlink" title="28.6. 延迟统计库"></a>28.6. 延迟统计库</h2><p>延迟统计库计算DPDK应用程序的数据包处理延迟，报告数据包处理所需的最小，平均和最大纳秒，以及处理延迟中的抖动。使用以下名称通过metric库报告这些统计信息：</p>
-<ul>
-<li>min_latency_ns: 最小处理延迟（纳秒）</li>
-<li>avg_latency_ns: 平均处理延迟（纳秒）</li>
-<li>mac_latency_ns: 最大处理延迟（纳秒）</li>
-<li>jitter_ns: 处理等待时间的变化（纳秒）</li>
-</ul>
-<p>一旦初始化并以适当的频率采样，可以通过查询metric库来获得这些统计数据。</p>
-<h3 id="28-6-1-初始化"><a href="#28-6-1-初始化" class="headerlink" title="28.6.1. 初始化"></a>28.6.1. 初始化</h3><p>使用库之前，需要调用函数 <code>rte_latencystats_init()</code> 进行初始化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">lcoreid_t latencystats_lcore_id = -1;</div><div class="line"></div><div class="line">int ret = rte_latencystats_init(1, NULL);</div><div class="line">if (ret)</div><div class="line">    rte_exit(EXIT_FAILURE, &quot;Could not allocate latency data.\n&quot;);</div></pre></td></tr></table></figure></p>
-<h3 id="28-6-2-触发统计值更新"><a href="#28-6-2-触发统计值更新" class="headerlink" title="28.6.2. 触发统计值更新"></a>28.6.2. 触发统计值更新</h3><p>需要定期调用 <code>rte_latencystats_update()</code> 函数，以便更新延迟统计值信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if (latencystats_lcore_id == rte_lcore_id())</div><div class="line">    rte_latencystats_update();</div></pre></td></tr></table></figure></p>
-<h3 id="28-6-3-关闭库"><a href="#28-6-3-关闭库" class="headerlink" title="28.6.3. 关闭库"></a>28.6.3. 关闭库</h3><p>完成之后，需要调用 <code>rte_latencystats_uninit()</code> 来关闭延迟统计库。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rte_latencystats_uninit();</div></pre></td></tr></table></figure></p>
+        <p><b>假如你认识我，请QQ或微信联系我，我将很高兴！<br>假如你想认识我，dpanic@sina.com，我也很高兴！</b></p>
 
       
 
@@ -250,93 +216,19 @@ var _hmt = _hmt || [];
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
-
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/11/22/Contact-Me/">展开全文 >></a>
+        </p>
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/01/dpdk-pg-28/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-  
-    <a href="/2017/11/01/dpdk-pg-27/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十七）</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -356,23 +248,12 @@ var _hmt = _hmt || [];
 
 
 
-  
-  
-  
 
   
-  <div id="SOHUCS" sid="dpdk-pg-28" ></div> 
-<script type="text/javascript"> 
-(function(){ 
-var appid = "cytcwNIfK"; 
-var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
-var width = window.innerWidth || document.documentElement.clientWidth; 
-if (width < 960) { 
-window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
-
-  
-
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    </nav>
   
 
 
@@ -395,8 +276,8 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
