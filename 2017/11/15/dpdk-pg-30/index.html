@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Archives | 拙言</title>
+  <title>DPDK编程指南（三十） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/archives/page/2/index.html">
+  <meta name="description" content="30. 源码组织本节介绍DPDK框架中的源码组织结构。 30.1. Makefiles 和 Config注意：在本文的描述中 RTE_SDK 作为环境变量指向DPDK源码包解压出来的文件根目录。 参看 Useful Variables Provided by the Build System 获取更多的变量描述。">
+<meta name="keywords" content="数据平面,DPDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK编程指南（三十）">
+<meta property="og:url" content="http://lockless.github.io/2017/11/15/dpdk-pg-30/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="30. 源码组织本节介绍DPDK框架中的源码组织结构。 30.1. Makefiles 和 Config注意：在本文的描述中 RTE_SDK 作为环境变量指向DPDK源码包解压出来的文件根目录。 参看 Useful Variables Provided by the Build System 获取更多的变量描述。">
+<meta property="og:updated_time" content="2017-11-15T01:50:07.300Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="DPDK编程指南（三十）">
+<meta name="twitter:description" content="30. 源码组织本节介绍DPDK框架中的源码组织结构。 30.1. Makefiles 和 Config注意：在本文的描述中 RTE_SDK 作为环境变量指向DPDK源码包解压出来的文件根目录。 参看 Useful Variables Provided by the Build System 获取更多的变量描述。">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -185,162 +186,48 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dpdk-pg-30" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DPDK编程指南（三十）
+    </h1>
+  
+
+        
+        <a href="/2017/11/15/dpdk-pg-30/" class="archive-article-date">
+  	<time datetime="2017-11-15T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-15</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="30-源码组织"><a href="#30-源码组织" class="headerlink" title="30. 源码组织"></a>30. 源码组织</h1><p>本节介绍DPDK框架中的源码组织结构。</p>
+<h2 id="30-1-Makefiles-和-Config"><a href="#30-1-Makefiles-和-Config" class="headerlink" title="30.1. Makefiles 和 Config"></a>30.1. Makefiles 和 Config</h2><p>注意：在本文的描述中 <code>RTE_SDK</code> 作为环境变量指向DPDK源码包解压出来的文件根目录。 参看 <a href="dev_kit_build_system.html#useful-variables-provided-by-the-build-system">Useful Variables Provided by the Build System</a> 获取更多的变量描述。</p>
+<a id="more"></a>
+<p>由DPDK库和应用程序提供的 Makefiles 位于 <code>$(RTE_SDK)/mk</code> 中。</p>
+<p>配置模板位于 <code>$(RTE_SDK)/config</code> 。这些模板描述了为每个目标启用的选项。 配置文件许多可以为DPDK库启用或禁用的选项，包括调试选项。 用户应该查看配置文件并熟悉这些选项。 配置文件同样也用于创建头文件，创建的头文件将位于新生成的目录中。</p>
+<h2 id="30-2-库"><a href="#30-2-库" class="headerlink" title="30.2. 库"></a>30.2. 库</h2><p>库文件源码位于目录 <code>$(RTE_SDK)/lib</code> 中。 按照惯例，库指的是为应用程序提供API的任何代码。 通常，它会生成一个 ( <code>.a</code> ) 文件，这个目录中可能也保存一些内核模块。</p>
+<p>Lib目标包含如下项目：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">lib</div><div class="line">+-- librte_cmdline      # 命令行接口</div><div class="line">+-- librte_distributor  # 报文分发器</div><div class="line">+-- librte_eal          # 环境抽象层</div><div class="line">+-- librte_ether        # PMD通用接口</div><div class="line">+-- librte_hash         # 哈希库</div><div class="line">+-- librte_ip_frag      # IP分片库</div><div class="line">+-- librte_kni          # 内核NIC接口</div><div class="line">+-- librte_kvargs       # 参数解析库</div><div class="line">+-- librte_lpm          # 最长前缀匹配库</div><div class="line">+-- librte_mbuf         # 报文及控制缓冲区操作库</div><div class="line">+-- librte_mempool      # 内存池管理器</div><div class="line">+-- librte_meter        # QoS metering 库</div><div class="line">+-- librte_net          # IP相关的一些头部</div><div class="line">+-- librte_power        # 电源管理库</div><div class="line">+-- librte_ring         # 软件无锁环形缓冲区</div><div class="line">+-- librte_sched        # QoS调度器和丢包器库</div><div class="line">+-- librte_timer        # 定时器库</div></pre></td></tr></table></figure></p>
+<h2 id="30-3-驱动"><a href="#30-3-驱动" class="headerlink" title="30.3. 驱动"></a>30.3. 驱动</h2><p>驱动程序是为设备（硬件设备或者虚拟设备）提供轮询模式驱动程序实现的特殊库。 他们包含在 <em>drivers</em> 子目录中，按照类型分类，各自编译成一个库，其格式为 <code>librte_pmd_X.a</code> ，其中 <code>X</code> 是驱动程序的名称。</p>
+<p>驱动程序目录下有个 <em>net</em> 子目录，包括如下项目:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">drivers/net</div><div class="line">+-- af_packet          # 基于Linux af_packet的pmd</div><div class="line">+-- bonding            # 绑定pmd驱动</div><div class="line">+-- cxgbe              # Chelsio Terminator 10GbE/40GbE pmd</div><div class="line">+-- e1000              # 1GbE pmd (igb and em)</div><div class="line">+-- enic               # Cisco VIC Ethernet NIC Poll-mode Driver</div><div class="line">+-- fm10k              # Host interface PMD driver for FM10000 Series</div><div class="line">+-- i40e               # 40GbE poll mode driver</div><div class="line">+-- ixgbe              # 10GbE poll mode driver</div><div class="line">+-- mlx4               # Mellanox ConnectX-3 poll mode driver</div><div class="line">+-- null               # NULL poll mode driver for testing</div><div class="line">+-- pcap               # PCAP poll mode driver</div><div class="line">+-- ring               # Ring poll mode driver</div><div class="line">+-- szedata2           # SZEDATA2 poll mode driver</div><div class="line">+-- virtio             # Virtio poll mode driver</div><div class="line">+-- vmxnet3            # VMXNET3 poll mode driver</div><div class="line">+-- xenvirt            # Xen virtio poll mode driver</div></pre></td></tr></table></figure></p>
+<p>注意：部分 <code>driver/net</code> 目录包含一个 <code>base</code> 子目录，这个目录通常包含用户不能直接修改的代码。 任何修订或增强都应该 <code>X_osdep.c</code> 或 <code>X_osdep.h</code> 文件完成。 请参阅base目录中本地的自述文件以获取更多的信息。</p>
+<h2 id="30-4-应用程序"><a href="#30-4-应用程序" class="headerlink" title="30.4. 应用程序"></a>30.4. 应用程序</h2><p>应用程序是包含 <code>main()</code> 函数的源文件。 他们位于 <code>$(RTE_SDK)/app</code> 和 <code>$(RTE_SDK)/examples</code> 目录中。</p>
+<p>应用程序目录包含用于测试DPPDK（如自动测试）或轮询模式驱动程序（test-pmd）的实例应用程序:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app</div><div class="line">+-- chkincs            # Test program to check include dependencies</div><div class="line">+-- cmdline_test       # Test the commandline library</div><div class="line">+-- test               # Autotests to validate DPDK features</div><div class="line">+-- test-acl           # Test the ACL library</div><div class="line">+-- test-pipeline      # Test the IP Pipeline framework</div><div class="line">+-- test-pmd           # Test and benchmark poll mode drivers</div></pre></td></tr></table></figure></p>
+<p>Example目录包含示例应用程序，显示了如何使用库:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">examples</div><div class="line">+-- cmdline            # Example of using the cmdline library</div><div class="line">+-- exception_path     # Sending packets to and from Linux TAP device</div><div class="line">+-- helloworld         # Basic Hello World example</div><div class="line">+-- ip_reassembly      # Example showing IP reassembly</div><div class="line">+-- ip_fragmentation   # Example showing IPv4 fragmentation</div><div class="line">+-- ipv4_multicast     # Example showing IPv4 multicast</div><div class="line">+-- kni                # Kernel NIC Interface (KNI) example</div><div class="line">+-- l2fwd              # L2 forwarding with and without SR-IOV</div><div class="line">+-- l3fwd              # L3 forwarding example</div><div class="line">+-- l3fwd-power        # L3 forwarding example with power management</div><div class="line">+-- l3fwd-vf           # L3 forwarding example with SR-IOV</div><div class="line">+-- link_status_interrupt # Link status change interrupt example</div><div class="line">+-- load_balancer      # Load balancing across multiple cores/sockets</div><div class="line">+-- multi_process      # Example apps using multiple DPDK processes</div><div class="line">+-- qos_meter          # QoS metering example</div><div class="line">+-- qos_sched          # QoS scheduler and dropper example</div><div class="line">+-- timer              # Example of using librte_timer library</div><div class="line">+-- vmdq_dcb           # Example of VMDQ and DCB receiving</div><div class="line">+-- vmdq               # Example of VMDQ receiving</div><div class="line">+-- vhost              # Example of userspace vhost and switch</div></pre></td></tr></table></figure></p>
+<p>注意：实际的实例目录可能与上面显示的有所出入。 相关详细信息，请参考最新的DPDK代码。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/12/NCS6008/" class="archive-article-date">
-  	<time datetime="2017-09-12T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/12/NCS6008/">思科NCS6008路由器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">路由器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/11/raft/" class="archive-article-date">
-  	<time datetime="2017-09-11T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/11/raft/">Raft一致性算法简述</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/11/tipc/" class="archive-article-date">
-  	<time datetime="2017-09-11T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/11/tipc/">TIPC协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-23/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-23/">DPDK编程指南（二十三）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -356,274 +243,114 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/15/dpdk-pg-30/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-22/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/14/dpdk-pg-29/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（二十九）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-22/">DPDK编程指南（二十二）</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-21/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-21/">DPDK编程指南（二十一）</a>
-    </h1>
+  <div id="SOHUCS" sid="dpdk-pg-30" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-20/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-20/">DPDK编程指南（二十）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-19/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-19/">DPDK编程指南（十九）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-18/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-18/">DPDK编程指南（十八）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-17/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-17/">DPDK编程指南（十七）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/3/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -647,8 +374,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
