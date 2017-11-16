@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2017/11/16/dpdk-pg-31/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="31. 开发套件构建系统DPDK 需要一个构建系统用于编译等操作。 本节介绍 DPDK 框架中使用的约束和机制。 这个框架有两个使用场景：  编译DPDK库和示例应用程序，该框架生成特定的二进制库，包含文件和示例应用程序。 使用安装的DPDK二进制编译外部的应用程序或库。">
-<meta property="og:updated_time" content="2017-11-16T02:31:14.917Z">
+<meta property="og:updated_time" content="2017-11-16T06:35:42.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（三十一）">
 <meta name="twitter:description" content="31. 开发套件构建系统DPDK 需要一个构建系统用于编译等操作。 本节介绍 DPDK 框架中使用的约束和机制。 这个框架有两个使用场景：  编译DPDK库和示例应用程序，该框架生成特定的二进制库，包含文件和示例应用程序。 使用安装的DPDK二进制编译外部的应用程序或库。">
@@ -429,6 +429,19 @@ var _hmt = _hmt || [];
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#31-开发套件构建系统"><span class="toc-number">1.</span> <span class="toc-text">31. 开发套件构建系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#31-1-编译DPDK二进制文件"><span class="toc-number">1.1.</span> <span class="toc-text">31.1. 编译DPDK二进制文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-1-1-建立目录概念"><span class="toc-number">1.1.1.</span> <span class="toc-text">31.1.1. 建立目录概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#31-2-构建外部应用程序"><span class="toc-number">1.2.</span> <span class="toc-text">31.2. 构建外部应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#31-3-Makefile-描述"><span class="toc-number">1.3.</span> <span class="toc-text">31.3. Makefile 描述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-1-DPDK-Makefiles-的通用规则"><span class="toc-number">1.3.1.</span> <span class="toc-text">31.3.1. DPDK Makefiles 的通用规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-2-Makefile-类型"><span class="toc-number">1.3.2.</span> <span class="toc-text">31.3.2. Makefile 类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-1-应用程序"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">31.3.2.1. 应用程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-2-库"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">31.3.2.2. 库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-3-安装"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">31.3.2.3. 安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-4-内核模块"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">31.3.2.4. 内核模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-5-对象"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">31.3.2.5. 对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-6-杂"><span class="toc-number">1.3.2.6.</span> <span class="toc-text">31.3.2.6. 杂</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-3-内部生成的构建工具"><span class="toc-number">1.3.3.</span> <span class="toc-text">31.3.3. 内部生成的构建工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-4-构建系统提供的有用变量"><span class="toc-number">1.3.4.</span> <span class="toc-text">31.3.4. 构建系统提供的有用变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-5-只能在Makefile中设置-覆盖的变量"><span class="toc-number">1.3.5.</span> <span class="toc-text">31.3.5. 只能在Makefile中设置/覆盖的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-6-只能在命令行上由用户设置-覆盖的变量"><span class="toc-number">1.3.6.</span> <span class="toc-text">31.3.6. 只能在命令行上由用户设置/覆盖的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-7-可以在Makefile或命令行中由用户设置-覆盖的变量"><span class="toc-number">1.3.7.</span> <span class="toc-text">31.3.7. 可以在Makefile或命令行中由用户设置/覆盖的变量</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
