@@ -187,6 +187,93 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dpdk-pg-8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/07/dpdk-pg-8/">DPDK编程指南（八）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/07/dpdk-pg-8/" class="archive-article-date">
+  	<time datetime="2017-09-07T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="8-通用流API"><a href="#8-通用流API" class="headerlink" title="8.通用流API"></a>8.通用流API</h1><h2 id="8-1-概述"><a href="#8-1-概述" class="headerlink" title="8.1.概述"></a>8.1.概述</h2><p>此API提供了一种通用的方式来配置硬件以匹配特定的Ingress或Egress流量，根据用户的任何配置规则更改其操作或查询相关计数器。</p>
+<p>所有API带有 rte_flow前缀，在文件 rte_flow.h 中定义。</p>
+<ul>
+<li>可以对报文数据(如协议头部，载荷)及报文属性(如关联的物理端口，虚拟设备ID等)执行匹配。</li>
+<li>可能的操作包括丢弃流量，将流量转移到特定队列、虚拟/物理设备或端口，执行隧道解封、添加标记等操作。</li>
+</ul>
+<p>它比其涵盖和替代（包括所有功能和过滤类型）的传统过滤框架层次更高，以便发布所有轮询模式驱动程序（PMD）明确行为的通用操作接口。</p>
+<p>迁移现有应用程序的几种方法在API迁移中有描述。</p>
+        
+          <a class="article-more-a" href="/2017/09/07/dpdk-pg-8/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/07/dpdk-pg-8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dpdk-pg-7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -923,88 +1010,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/05/dpdk-pg-3/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dpdk-pg-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/05/dpdk-pg-2/">DPDK编程指南（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/05/dpdk-pg-2/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="2-概述"><a href="#2-概述" class="headerlink" title="2.概述"></a>2.概述</h1><p>本章节给出了DPDK架构的一个全局概述。</p>
-<p>DPDK的主要目的就是为数据面快速报文处理应用程序提供一个简洁完整的框架。用户可以通过代码来理解其中使用的一些技术，构建自己的应用程序或添加自己的协议栈。Alternative ecosystem options that use the DPDK are available。</p>
-<p>通过创建环境抽象层（EAL），DPDK框架为每个特殊的环境创建了一组运行库。这个库特定于Intel架构（32或64位），Linux*用户空间编译器或其他特定的平台。这些环境通过一些makefile和配置文件创建。一旦EAL库编译完成，用户可以通过链接这些库来构建自己的应用程序。除了EAL，还有一些其他的库，包括哈希算法、最长前缀匹配、环形缓冲区等。DPDK提供了一些应用程序实例来指导如何使用这些特定来创建自己的应用程序。</p>
-        
-          <a class="article-more-a" href="/2017/09/05/dpdk-pg-2/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/05/dpdk-pg-2/">展开全文 >></a>
         </p>
       
 

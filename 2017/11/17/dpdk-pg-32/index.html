@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Archives | 拙言</title>
+  <title>DPDK编程指南（三十二） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/archives/page/5/index.html">
+  <meta name="description" content="32. DPDK 根目录 Makefile 理解DPDK提供了一个根目录级别的Makefile，包含配置，构建，清理，测试，安装等目的。 这些操作将在下面的部分中进行解释。 32.1. 配置 Targets配置 target 需要使用 T=mytarget 指定target的名称，这个操作不能省略。 可用的target列表位于 $(RTESDK)/config 中(移除defconfig  前缀)">
+<meta name="keywords" content="数据平面,DPDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK编程指南（三十二）">
+<meta property="og:url" content="http://lockless.github.io/2017/11/17/dpdk-pg-32/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="32. DPDK 根目录 Makefile 理解DPDK提供了一个根目录级别的Makefile，包含配置，构建，清理，测试，安装等目的。 这些操作将在下面的部分中进行解释。 32.1. 配置 Targets配置 target 需要使用 T=mytarget 指定target的名称，这个操作不能省略。 可用的target列表位于 $(RTESDK)/config 中(移除defconfig  前缀)">
+<meta property="og:updated_time" content="2017-11-17T01:40:47.800Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="DPDK编程指南（三十二）">
+<meta name="twitter:description" content="32. DPDK 根目录 Makefile 理解DPDK提供了一个根目录级别的Makefile，包含配置，构建，清理，测试，安装等目的。 这些操作将在下面的部分中进行解释。 32.1. 配置 Targets配置 target 需要使用 T=mytarget 指定target的名称，这个操作不能省略。 可用的target列表位于 $(RTESDK)/config 中(移除defconfig  前缀)">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -185,36 +186,116 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dpdk-pg-32" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/dpdk-pg-2/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/dpdk-pg-2/">DPDK编程指南（二）</a>
+    <h1 class="article-title" itemprop="name">
+      DPDK编程指南（三十二）
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/11/17/dpdk-pg-32/" class="archive-article-date">
+  	<time datetime="2017-11-17T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="32-DPDK-根目录-Makefile-理解"><a href="#32-DPDK-根目录-Makefile-理解" class="headerlink" title="32. DPDK 根目录 Makefile 理解"></a>32. DPDK 根目录 Makefile 理解</h1><p>DPDK提供了一个根目录级别的Makefile，包含配置，构建，清理，测试，安装等目的。 这些操作将在下面的部分中进行解释。</p>
+<h2 id="32-1-配置-Targets"><a href="#32-1-配置-Targets" class="headerlink" title="32.1. 配置 Targets"></a>32.1. 配置 Targets</h2><p>配置 target 需要使用 T=mytarget 指定target的名称，这个操作不能省略。 可用的target列表位于 $(RTE<em>SDK)/config 中(移除defconfig </em> 前缀)。</p>
+<p>配置target还支持使用 O=mybuilddir 来指定输出目录的名称。 这是一个可选配置，默认的输出目录是build。</p>
+<a id="more"></a>
+<ul>
+<li><p>Config</p>
+<p>这将创建一个构建目录，并从模板中生成一个配置。 同时会在构建目录下生成一个 Makefile 文件。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make config O=mybuild T=x86_64-native-linuxapp-gcc</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="32-2-构建-Targets"><a href="#32-2-构建-Targets" class="headerlink" title="32.2. 构建 Targets"></a>32.2. 构建 Targets</h2><p>构建 targets 支持输出目录名称可选规则，使用 O=mybuilddir。 默认的输出目录是build。</p>
+<ul>
+<li><p>all, build or just make</p>
+<p>在前面由make config创建的目录上构建DPDK。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make O=mybuild</div></pre></td></tr></table></figure>
+</li>
+<li><p>clean</p>
+<p>清除所有由 make build 生成的目标文件。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make clean O=mybuild</div></pre></td></tr></table></figure>
+</li>
+<li><p>%_sub</p>
+<p>只构建某个目录，而不管对其他目录的依赖性。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make lib/librte_eal_sub O=mybuild</div></pre></td></tr></table></figure>
+</li>
+<li><p>%_clean</p>
+<p>清除对子目录的构建操作结果。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make lib/librte_eal_clean O=mybuild</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="32-3-安装-Targets"><a href="#32-3-安装-Targets" class="headerlink" title="32.3. 安装 Targets"></a>32.3. 安装 Targets</h2><ul>
+<li>Install<br>可用的 targets 列表位于 $(RTE<em>SDK)/config (移除 defconfig</em> 前缀).<br>可以使用 GNU 标准的变量：<a href="http://gnu.org/prep/standards/html_node/Directory-Variables.html" target="_blank" rel="external">http://gnu.org/prep/standards/html_node/Directory-Variables.html</a> 和<a href="http://gnu.org/prep/standards/html_node/DESTDIR.html" target="_blank" rel="external">http://gnu.org/prep/standards/html_node/DESTDIR.html</a><br>例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make install DESTDIR=myinstall prefix=/usr</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="32-4-测试-Targets"><a href="#32-4-测试-Targets" class="headerlink" title="32.4. 测试 Targets"></a>32.4. 测试 Targets</h2><ul>
+<li><p>test</p>
+<p>对使用 O=mybuilddir 指定的构建目录启动自动测试。 这是可选的，默认的输出目录是build。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make test O=mybuild</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="32-5-文档-Targets"><a href="#32-5-文档-Targets" class="headerlink" title="32.5. 文档 Targets"></a>32.5. 文档 Targets</h2><ul>
+<li><p>doc</p>
+<p>生成文档（API和指南）。</p>
+</li>
+<li><p>doc-api-html</p>
+<p>在html中生成Doxygen API文档。</p>
+</li>
+<li><p>doc-guides-html</p>
+<p>在html中生成指南文档。</p>
+</li>
+<li><p>doc-guides-pdf</p>
+<p>用pdf生成指南文档。</p>
+</li>
+</ul>
+<h2 id="32-6-其他-Targets"><a href="#32-6-其他-Targets" class="headerlink" title="32.6. 其他 Targets"></a>32.6. 其他 Targets</h2><ul>
+<li><p>help</p>
+<p>显示快速帮助。</p>
+</li>
+</ul>
+<h2 id="32-7-其他有用的命令行变量"><a href="#32-7-其他有用的命令行变量" class="headerlink" title="32.7. 其他有用的命令行变量"></a>32.7. 其他有用的命令行变量</h2><p>以下变量可以在命令行中指定：</p>
+<ul>
+<li><p>V=</p>
+<p>启用详细构建（显示完整的编译命令行和一些中间命令）。</p>
+</li>
+<li><p>D=</p>
+<p>启用依赖关系调试。 这提供了一些关于为什么构建目标的有用信息。</p>
+</li>
+<li><p>EXTRA_CFLAGS=, EXTRA_LDFLAGS=, EXTRA_LDLIBS=, EXTRA_ASFLAGS=, EXTRA_CPPFLAGS=</p>
+<p>附加特定的编译，链接或汇编标志。</p>
+</li>
+<li><p>CROSS=</p>
+<p>指定一个交叉工具链头部，该头部将作为所有gcc/binutils应用程序的前缀。这只适用于使用gcc。</p>
+</li>
+</ul>
+<h2 id="32-8-在需要构建的目录中执行Make"><a href="#32-8-在需要构建的目录中执行Make" class="headerlink" title="32.8. 在需要构建的目录中执行Make"></a>32.8. 在需要构建的目录中执行Make</h2><p>上面描述的所有目标都是从SDK根目录 $(RTE_SDK) 调用的。 也可以在build目录中运行相同的Makefile target。 例如，下面的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd $(RTE_SDK)</div><div class="line">make config O=mybuild T=x86_64-native-linuxapp-gcc</div><div class="line">make O=mybuild</div></pre></td></tr></table></figure></p>
+<p>相当于：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cd $(RTE_SDK)</div><div class="line">make config O=mybuild T=x86_64-native-linuxapp-gcc</div><div class="line">cd mybuild</div><div class="line"></div><div class="line"># no need to specify O= now</div><div class="line">make</div></pre></td></tr></table></figure></p>
+<h2 id="32-9-编译为调试-Target"><a href="#32-9-编译为调试-Target" class="headerlink" title="32.9. 编译为调试 Target"></a>32.9. 编译为调试 Target</h2><p>要编译包含调试信息和优化级别设置为0的DPDK和示例应用程序，应在编译之前设置EXTRA_CFLAGS环境变量，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export EXTRA_CFLAGS=&apos;-O0 -g&apos;</div></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -230,147 +311,127 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/dpdk-pg-1/" class="archive-article-date">
-  	<time datetime="2017-09-05T14:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/dpdk-pg-1/">DPDK编程指南（一）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/begin-again/" class="archive-article-date">
-  	<time datetime="2017-09-05T11:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/begin-again/">Begin Again</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">杂谈</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/22/Contact-Me/" class="archive-article-date">
-  	<time datetime="2016-11-22T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/22/Contact-Me/">请联系我</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/17/dpdk-pg-32/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/11/16/dpdk-pg-31/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（三十一）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#32-DPDK-根目录-Makefile-理解"><span class="toc-number">1.</span> <span class="toc-text">32. DPDK 根目录 Makefile 理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#32-1-配置-Targets"><span class="toc-number">1.1.</span> <span class="toc-text">32.1. 配置 Targets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-2-构建-Targets"><span class="toc-number">1.2.</span> <span class="toc-text">32.2. 构建 Targets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-3-安装-Targets"><span class="toc-number">1.3.</span> <span class="toc-text">32.3. 安装 Targets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-4-测试-Targets"><span class="toc-number">1.4.</span> <span class="toc-text">32.4. 测试 Targets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-5-文档-Targets"><span class="toc-number">1.5.</span> <span class="toc-text">32.5. 文档 Targets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-6-其他-Targets"><span class="toc-number">1.6.</span> <span class="toc-text">32.6. 其他 Targets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-7-其他有用的命令行变量"><span class="toc-number">1.7.</span> <span class="toc-text">32.7. 其他有用的命令行变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-8-在需要构建的目录中执行Make"><span class="toc-number">1.8.</span> <span class="toc-text">32.8. 在需要构建的目录中执行Make</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-9-编译为调试-Target"><span class="toc-number">1.9.</span> <span class="toc-text">32.9. 编译为调试 Target</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/4/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span>
-    </nav>
+  
+  <div id="SOHUCS" sid="dpdk-pg-32" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+  
+
+  
+
   
 
 
@@ -394,8 +455,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

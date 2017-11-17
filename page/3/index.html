@@ -187,6 +187,86 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dpdk-pg-18" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/09/dpdk-pg-18/">DPDK编程指南（十八）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/09/dpdk-pg-18/" class="archive-article-date">
+  	<time datetime="2017-09-09T03:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="18-IP分片及重组库"><a href="#18-IP分片及重组库" class="headerlink" title="18.IP分片及重组库"></a>18.IP分片及重组库</h1><p>IP分段和重组库实现IPv4和IPv6报文的分片和重组。</p>
+        
+          <a class="article-more-a" href="/2017/09/09/dpdk-pg-18/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/09/dpdk-pg-18/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dpdk-pg-17" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -587,90 +667,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dpdk-pg-10" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/08/dpdk-pg-10/">DPDK编程指南（十）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/08/dpdk-pg-10/" class="archive-article-date">
-  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="10-链路绑定PMD"><a href="#10-链路绑定PMD" class="headerlink" title="10.链路绑定PMD"></a>10.链路绑定PMD</h1><p>除了用于物理和虚拟硬件的轮询模式驱动程序（PMD）之外，DPDK还包括一个纯软件库，可将多个物理PMD绑定在一起以创建单个逻辑PMD。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-890d92329ab2ea29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 10 1 Bonded PMDs"></p>
-<p>Link Bonding PMD库（librte_pmd_bond）支持绑定相同速度和双工的rte_eth_dev端口组，以提供类似于Linux绑定驱动程序中的功能，以允许将多个（从属）NIC聚合到服务器和交换机中的单个逻辑接口。然后，新的聚合的PMD将根据指定的操作模式处理这些接口，以支持冗余链路，容错和/或负载均衡等功能。</p>
-<p>librte_pmd_bond库导出一个C语言API，包括用于创建绑定设备的API，以及配置和管理绑定设备及其从属设备的API。</p>
-<p>注意：链路绑定PMD库默认情况下在构建配置文件中启用，可以通过设置CONFIG_RTE_LIBRTE_PMD_BOND = n并重新编译DPDK来禁用该库。</p>
-        
-          <a class="article-more-a" href="/2017/09/08/dpdk-pg-10/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/08/dpdk-pg-10/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-dpdk-pg-11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -730,6 +726,90 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/08/dpdk-pg-11/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-dpdk-pg-10" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/08/dpdk-pg-10/">DPDK编程指南（十）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/08/dpdk-pg-10/" class="archive-article-date">
+  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="10-链路绑定PMD"><a href="#10-链路绑定PMD" class="headerlink" title="10.链路绑定PMD"></a>10.链路绑定PMD</h1><p>除了用于物理和虚拟硬件的轮询模式驱动程序（PMD）之外，DPDK还包括一个纯软件库，可将多个物理PMD绑定在一起以创建单个逻辑PMD。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7246758-890d92329ab2ea29.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 10 1 Bonded PMDs"></p>
+<p>Link Bonding PMD库（librte_pmd_bond）支持绑定相同速度和双工的rte_eth_dev端口组，以提供类似于Linux绑定驱动程序中的功能，以允许将多个（从属）NIC聚合到服务器和交换机中的单个逻辑接口。然后，新的聚合的PMD将根据指定的操作模式处理这些接口，以支持冗余链路，容错和/或负载均衡等功能。</p>
+<p>librte_pmd_bond库导出一个C语言API，包括用于创建绑定设备的API，以及配置和管理绑定设备及其从属设备的API。</p>
+<p>注意：链路绑定PMD库默认情况下在构建配置文件中启用，可以通过设置CONFIG_RTE_LIBRTE_PMD_BOND = n并重新编译DPDK来禁用该库。</p>
+        
+          <a class="article-more-a" href="/2017/09/08/dpdk-pg-10/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/08/dpdk-pg-10/">展开全文 >></a>
         </p>
       
 
@@ -899,93 +979,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/07/Love-Words/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dpdk-pg-8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/07/dpdk-pg-8/">DPDK编程指南（八）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/07/dpdk-pg-8/" class="archive-article-date">
-  	<time datetime="2017-09-07T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="8-通用流API"><a href="#8-通用流API" class="headerlink" title="8.通用流API"></a>8.通用流API</h1><h2 id="8-1-概述"><a href="#8-1-概述" class="headerlink" title="8.1.概述"></a>8.1.概述</h2><p>此API提供了一种通用的方式来配置硬件以匹配特定的Ingress或Egress流量，根据用户的任何配置规则更改其操作或查询相关计数器。</p>
-<p>所有API带有 rte_flow前缀，在文件 rte_flow.h 中定义。</p>
-<ul>
-<li>可以对报文数据(如协议头部，载荷)及报文属性(如关联的物理端口，虚拟设备ID等)执行匹配。</li>
-<li>可能的操作包括丢弃流量，将流量转移到特定队列、虚拟/物理设备或端口，执行隧道解封、添加标记等操作。</li>
-</ul>
-<p>它比其涵盖和替代（包括所有功能和过滤类型）的传统过滤框架层次更高，以便发布所有轮询模式驱动程序（PMD）明确行为的通用操作接口。</p>
-<p>迁移现有应用程序的几种方法在API迁移中有描述。</p>
-        
-          <a class="article-more-a" href="/2017/09/07/dpdk-pg-8/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/07/dpdk-pg-8/">展开全文 >></a>
         </p>
       
 
