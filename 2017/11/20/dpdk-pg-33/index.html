@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>故地 | 拙言</title>
+  <title>DPDK编程指南（三十三） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="东君还来照小屋，锦鲤依旧戏水珠。细寻湖边杨柳树，当时刻痕浅似无。  PS: 13年故地重游。">
-<meta name="keywords" content="自以为诗,心情,随笔">
+  <meta name="description" content="33. 扩展 DPDK本章描述了开发者如何通过扩展DPDK来提供一个新的库、目标文件或者支持新的开发板。 ##33.1. 示例：添加新的库 libfoo要添加新的库到DPDK，按照如下操作：">
+<meta name="keywords" content="数据平面,DPDK">
 <meta property="og:type" content="article">
-<meta property="og:title" content="故地">
-<meta property="og:url" content="http://lockless.github.io/2017/09/06/Old-Place/index.html">
+<meta property="og:title" content="DPDK编程指南（三十三）">
+<meta property="og:url" content="http://lockless.github.io/2017/11/20/dpdk-pg-33/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="东君还来照小屋，锦鲤依旧戏水珠。细寻湖边杨柳树，当时刻痕浅似无。  PS: 13年故地重游。">
-<meta property="og:updated_time" content="2017-09-06T11:37:12.688Z">
+<meta property="og:description" content="33. 扩展 DPDK本章描述了开发者如何通过扩展DPDK来提供一个新的库、目标文件或者支持新的开发板。 ##33.1. 示例：添加新的库 libfoo要添加新的库到DPDK，按照如下操作：">
+<meta property="og:updated_time" content="2017-11-20T01:46:08.992Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="故地">
-<meta name="twitter:description" content="东君还来照小屋，锦鲤依旧戏水珠。细寻湖边杨柳树，当时刻痕浅似无。  PS: 13年故地重游。">
+<meta name="twitter:title" content="DPDK编程指南（三十三）">
+<meta name="twitter:description" content="33. 扩展 DPDK本章描述了开发者如何通过扩展DPDK来提供一个新的库、目标文件或者支持新的开发板。 ##33.1. 示例：添加新的库 libfoo要添加新的库到DPDK，按照如下操作：">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,30 +186,61 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Old-Place" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-dpdk-pg-33" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      故地
+      DPDK编程指南（三十三）
     </h1>
   
 
         
-        <a href="/2017/09/06/Old-Place/" class="archive-article-date">
-  	<time datetime="2017-09-06T11:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+        <a href="/2017/11/20/dpdk-pg-33/" class="archive-article-date">
+  	<time datetime="2017-11-20T01:45:32.300Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>东君还来照小屋，<br>锦鲤依旧戏水珠。<br>细寻湖边杨柳树，<br>当时刻痕浅似无。</p>
-</blockquote>
-<p>PS: 13年故地重游。</p>
+        <h1 id="33-扩展-DPDK"><a href="#33-扩展-DPDK" class="headerlink" title="33. 扩展 DPDK"></a>33. 扩展 DPDK</h1><p>本章描述了开发者如何通过扩展DPDK来提供一个新的库、目标文件或者支持新的开发板。</p>
+<p>##33.1. 示例：添加新的库 libfoo<br>要添加新的库到DPDK，按照如下操作：</p>
+<a id="more"></a>
+<ol>
+<li><p>添加新的配置选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">for f in config/\*; do \</div><div class="line">    echo CONFIG_RTE_LIBFOO=y &gt;&gt; $f; done</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建新的源码目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir $&#123;RTE_SDK&#125;/lib/libfoo</div><div class="line">touch $&#123;RTE_SDK&#125;/lib/libfoo/foo.c</div><div class="line">touch $&#123;RTE_SDK&#125;/lib/libfoo/foo.h</div></pre></td></tr></table></figure>
+</li>
+<li><p>源码添加 foo() 函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">函数定义于 foo.c:</div><div class="line"></div><div class="line">void foo(void)</div><div class="line">&#123;</div><div class="line">&#125;</div><div class="line">函数声明于 foo.h:</div><div class="line"></div><div class="line">extern void foo(void);</div></pre></td></tr></table></figure>
+</li>
+<li><p>更新文件 lib/Makefile:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vi $&#123;RTE_SDK&#125;/lib/Makefile</div><div class="line"># add:</div><div class="line"># DIRS-$(CONFIG_RTE_LIBFOO) += libfoo</div></pre></td></tr></table></figure>
+</li>
+<li><p>为新的库创建新的 Makefile，如派生自 mempool Makefile，进行修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cp $&#123;RTE_SDK&#125;/lib/librte_mempool/Makefile $&#123;RTE_SDK&#125;/lib/libfoo/</div><div class="line"></div><div class="line">vi $&#123;RTE_SDK&#125;/lib/libfoo/Makefile</div><div class="line"># replace:</div><div class="line"># librte_mempool -&gt; libfoo</div><div class="line"># rte_mempool -&gt; foo</div></pre></td></tr></table></figure>
+</li>
+<li><p>更新文件 mk/DPDK.app.mk，添加 -lfoo 选项到 LDLIBS 变量中。 链接DPDK应用程序时会自动添加此标志。</p>
+</li>
+<li><p>添加此新库之后，重新构建DPDK (此处仅显示这个特殊的部分)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd $&#123;RTE_SDK&#125;</div><div class="line">make config T=x86_64-native-linuxapp-gcc</div><div class="line">make</div></pre></td></tr></table></figure>
+</li>
+<li><p>检测这个库被正确安装了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ls build/lib</div><div class="line">ls build/include</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="33-1-1-示例：在测试用例中使用新库-libfoo"><a href="#33-1-1-示例：在测试用例中使用新库-libfoo" class="headerlink" title="33.1.1. 示例：在测试用例中使用新库 libfoo"></a>33.1.1. 示例：在测试用例中使用新库 libfoo</h3><p>测试应用程序用于验证DPDK的所有功能。 一旦添加了一个库，应该在测试用例程序中添加一个用例。</p>
+<ul>
+<li>新的测试文件 test_foo.c 被添加，包含头文件 foo.h 并调用 foo() 函数。 当测试通过时，test_foo() 函数需要返回0。</li>
+<li>为了处理新的测试用例，Makefile, test.h 和 commands.c 必须同时更新。</li>
+<li>测试报告生成：autotest.py 是一个脚本，用于生成文件 ${RTE_SDK}/doc/rst/test_report/autotests 目录中指定的测试用例报告。 如果libfoo处于新的测试家族，链接 ${RTE_SDK}/doc/rst/test_report/test_report.rst 需要更新。</li>
+<li>重新构建DPDK库，添加新的测试应用程序：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd $&#123;RTE_SDK&#125;</div><div class="line">make config T=x86_64-native-linuxapp-gcc</div><div class="line">make</div></pre></td></tr></table></figure></li>
+</ul>
 
       
 
@@ -223,15 +254,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">自以为诗</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
         		</li>
       		
 		</ul>
@@ -287,7 +314,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/06/Old-Place/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/20/dpdk-pg-33/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -301,18 +328,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/06/Old-Someone/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          故人
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/06/Drunk/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">春风沉醉的夜晚</div>
+    <a href="/2017/11/17/dpdk-pg-32/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（三十二）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -339,7 +357,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#33-扩展-DPDK"><span class="toc-number">1.</span> <span class="toc-text">33. 扩展 DPDK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#33-1-1-示例：在测试用例中使用新库-libfoo"><span class="toc-number">1.0.1.</span> <span class="toc-text">33.1.1. 示例：在测试用例中使用新库 libfoo</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -355,7 +373,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="Old-Place" ></div> 
+  <div id="SOHUCS" sid="dpdk-pg-33" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 
