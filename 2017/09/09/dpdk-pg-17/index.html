@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2017/09/09/dpdk-pg-17/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="17.排序器库重新排序库提供了一种根据序列号重新排序mbufs的机制。">
-<meta property="og:updated_time" content="2017-09-09T05:01:04.507Z">
+<meta property="og:updated_time" content="2017-11-20T05:46:10.565Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（十七）">
 <meta name="twitter:description" content="17.排序器库重新排序库提供了一种根据序列号重新排序mbufs的机制。">
@@ -217,7 +217,7 @@ var _hmt = _hmt || [];
 <li>Early：序列号在窗口限制外，大于上限。</li>
 </ul>
 <p>重新排序缓冲区直接返回late mbufs，并尝试适应early mbufs。</p>
-<p>##17.2.实现细节<br>重新排序库被实现为一对缓冲区，称为Order buffer和Ready buffer。</p>
+<h2 id="2-实现细节"><a href="#2-实现细节" class="headerlink" title=".2.实现细节"></a>.2.实现细节</h2><p>重新排序库被实现为一对缓冲区，称为Order buffer和Ready buffer。</p>
 <p>在插入调用时，valid mbufs将直接插入到Order buffer中，late mbufs将直接返回给用户错误。</p>
 <p>对于early buffer的情况，重排序缓冲区将尝试移动窗口（递增最小序列号），以使mbuf成为有效的一个。为此，Order buffer中的mbufs被移动到就Ready buffer中。任何尚未到达的mbufs都被忽略，且将变成late mbufs。这意味着只要Ready buffer中有空间，窗口将被移动以适应early mbufs，否则将在重新排序窗口之外。</p>
 <p>例如，假设我们有一个具有350个最小序列号的200个条目的缓冲区，并且我们需要插入一个具有565序列号的early mbuf。这意味着我们需要移动窗口至少15个位置来容纳mbuf。只要在Ready buffer中有空间，重新排序缓冲区将尝试将至少在Order buffer中的下一个15个槽中的mbufs移动到Ready buffer区。在这一点上的顺序缓冲区中的任何间隙将被跳过，并且这些数据包在报文到达时将被报告为late buffer的数据包。将数据包移动到Ready buffer的过程继续超出所需的最小值，直到遇到了缓冲区中的间隙，即缺少mbuf。</p>
@@ -350,7 +350,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#17-排序器库"><span class="toc-number">1.</span> <span class="toc-text">17.排序器库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#17-1-操作"><span class="toc-number">1.1.</span> <span class="toc-text">17.1.操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-3-用例：报文分发"><span class="toc-number">1.2.</span> <span class="toc-text">17.3.用例：报文分发</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#17-排序器库"><span class="toc-number">1.</span> <span class="toc-text">17.排序器库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#17-1-操作"><span class="toc-number">1.1.</span> <span class="toc-text">17.1.操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-实现细节"><span class="toc-number">1.2.</span> <span class="toc-text">.2.实现细节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-3-用例：报文分发"><span class="toc-number">1.3.</span> <span class="toc-text">17.3.用例：报文分发</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -483,6 +483,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
@@ -492,10 +496,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">

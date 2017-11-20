@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2017/09/09/dpdk-pg-18/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="18.IP分片及重组库IP分段和重组库实现IPv4和IPv6报文的分片和重组。">
-<meta property="og:updated_time" content="2017-09-09T05:01:12.959Z">
+<meta property="og:updated_time" content="2017-11-20T05:46:21.435Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPDK编程指南（十八）">
 <meta name="twitter:description" content="18.IP分片及重组库IP分段和重组库实现IPv4和IPv6报文的分片和重组。">
@@ -234,7 +234,7 @@ var _hmt = _hmt || [];
 <li>使用新的片段信息更新条目，并检查是否可以重新组合数据包（数据包的条目包含所有片段）。<br>a)    如果是，则重新组装数据包，将表的条目标记为空，并将重新组装的mbuf返回给调用者。<br>b)    如果否，则向调用者返回一个NULL。</li>
 </ol>
 <p>如果在分组处理的任何阶段遇到错误（例如：不能将新条目插入片段表或无效/超时片段），则该函数将释放所有与分组片段相关联的标记表条目 作为无效并将NULL返回给调用者。</p>
-<p>18.2.3.    调试日志及统计收集<br>RTE_LIBRTE_IP_FRAG_TBL_STAT配置宏用于控制片段表的统计信息收集。默认情况下未启用。</p>
+<h3 id="18-2-3-调试日志及统计收集"><a href="#18-2-3-调试日志及统计收集" class="headerlink" title="18.2.3.    调试日志及统计收集"></a>18.2.3.    调试日志及统计收集</h3><p>RTE_LIBRTE_IP_FRAG_TBL_STAT配置宏用于控制片段表的统计信息收集。默认情况下未启用。</p>
 <p>RTE_LIBRTE_IP_FRAG_DEBUG控制IP片段处理和重组的调试日志记录。默认情况下禁用。请注意，在日志记录包含大量详细信息时，会减慢数据包处理速度，并可能导致丢失大量数据包。</p>
 
       
@@ -361,7 +361,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#18-IP分片及重组库"><span class="toc-number">1.</span> <span class="toc-text">18.IP分片及重组库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#18-1-报文分片"><span class="toc-number">1.1.</span> <span class="toc-text">18.1.报文分片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-2-报文重组"><span class="toc-number">1.2.</span> <span class="toc-text">18.2.报文重组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#18-2-1-IP分片表"><span class="toc-number">1.2.1.</span> <span class="toc-text">18.2.1.IP分片表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-2-2-报文重组"><span class="toc-number">1.2.2.</span> <span class="toc-text">18.2.2.报文重组</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#18-IP分片及重组库"><span class="toc-number">1.</span> <span class="toc-text">18.IP分片及重组库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#18-1-报文分片"><span class="toc-number">1.1.</span> <span class="toc-text">18.1.报文分片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-2-报文重组"><span class="toc-number">1.2.</span> <span class="toc-text">18.2.报文重组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#18-2-1-IP分片表"><span class="toc-number">1.2.1.</span> <span class="toc-text">18.2.1.IP分片表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-2-2-报文重组"><span class="toc-number">1.2.2.</span> <span class="toc-text">18.2.2.报文重组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-2-3-调试日志及统计收集"><span class="toc-number">1.2.3.</span> <span class="toc-text">18.2.3.    调试日志及统计收集</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -494,6 +494,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
@@ -503,10 +507,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
