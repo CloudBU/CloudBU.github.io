@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（三十一） | 拙言</title>
+  <title>OpenBMC：开源的下一代系统管理软件架构 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="31. 开发套件构建系统DPDK 需要一个构建系统用于编译等操作。 本节介绍 DPDK 框架中使用的约束和机制。 这个框架有两个使用场景：  编译DPDK库和示例应用程序，该框架生成特定的二进制库，包含文件和示例应用程序。 使用安装的DPDK二进制编译外部的应用程序或库。">
-<meta name="keywords" content="数据平面,DPDK">
+  <meta name="description" content="https://code.facebook.com/posts/1601610310055392/introducing-openbmc-an-open-software-framework-for-next-generation-system-management/国外博文系列  OpenBMC的诞生在Facebook，可靠性和快速迭代是两个重要原则。这使得我们在构建基础架构时，可以快速查询特">
+<meta name="keywords" content="网络,开源,国外博文系列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（三十一）">
-<meta property="og:url" content="http://lockless.github.io/2017/11/16/dpdk-pg-31/index.html">
+<meta property="og:title" content="OpenBMC：开源的下一代系统管理软件架构">
+<meta property="og:url" content="http://lockless.github.io/2017/11/22/OpenBMC/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="31. 开发套件构建系统DPDK 需要一个构建系统用于编译等操作。 本节介绍 DPDK 框架中使用的约束和机制。 这个框架有两个使用场景：  编译DPDK库和示例应用程序，该框架生成特定的二进制库，包含文件和示例应用程序。 使用安装的DPDK二进制编译外部的应用程序或库。">
-<meta property="og:updated_time" content="2017-11-16T06:35:42.897Z">
+<meta property="og:description" content="https://code.facebook.com/posts/1601610310055392/introducing-openbmc-an-open-software-framework-for-next-generation-system-management/国外博文系列  OpenBMC的诞生在Facebook，可靠性和快速迭代是两个重要原则。这使得我们在构建基础架构时，可以快速查询特">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-c1370172845b6af0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-674ca9054e41d508.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-22T03:33:27.991Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（三十一）">
-<meta name="twitter:description" content="31. 开发套件构建系统DPDK 需要一个构建系统用于编译等操作。 本节介绍 DPDK 框架中使用的约束和机制。 这个框架有两个使用场景：  编译DPDK库和示例应用程序，该框架生成特定的二进制库，包含文件和示例应用程序。 使用安装的DPDK二进制编译外部的应用程序或库。">
+<meta name="twitter:title" content="OpenBMC：开源的下一代系统管理软件架构">
+<meta name="twitter:description" content="https://code.facebook.com/posts/1601610310055392/introducing-openbmc-an-open-software-framework-for-next-generation-system-management/国外博文系列  OpenBMC的诞生在Facebook，可靠性和快速迭代是两个重要原则。这使得我们在构建基础架构时，可以快速查询特">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-c1370172845b6af0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,141 +189,62 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-31" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-OpenBMC" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（三十一）
+      OpenBMC：开源的下一代系统管理软件架构
     </h1>
   
 
         
-        <a href="/2017/11/16/dpdk-pg-31/" class="archive-article-date">
-  	<time datetime="2017-11-16T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-16</time>
+        <a href="/2017/11/22/OpenBMC/" class="archive-article-date">
+  	<time datetime="2017-11-22T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="31-开发套件构建系统"><a href="#31-开发套件构建系统" class="headerlink" title="31. 开发套件构建系统"></a>31. 开发套件构建系统</h1><p>DPDK 需要一个构建系统用于编译等操作。 本节介绍 DPDK 框架中使用的约束和机制。</p>
-<p>这个框架有两个使用场景：</p>
-<ul>
-<li>编译DPDK库和示例应用程序，该框架生成特定的二进制库，包含文件和示例应用程序。</li>
-<li>使用安装的DPDK二进制编译外部的应用程序或库。</li>
-</ul>
+        <blockquote>
+<p><a href="https://code.facebook.com/posts/1601610310055392/introducing-openbmc-an-open-software-framework-for-next-generation-system-management/" target="_blank" rel="external">https://code.facebook.com/posts/1601610310055392/introducing-openbmc-an-open-software-framework-for-next-generation-system-management/</a><br>国外博文系列</p>
+</blockquote>
+<h2 id="OpenBMC的诞生"><a href="#OpenBMC的诞生" class="headerlink" title="OpenBMC的诞生"></a>OpenBMC的诞生</h2><p>在Facebook，可靠性和快速迭代是两个重要原则。这使得我们在构建基础架构时，可以快速查询特征，并且可以对自己的系统重要项目进行故障定位。最近，我们发现底板管理控制器（BMC）一系列相关的软件（Software Stack）太封闭了，无法满足这些需求，所以我们建立了自己的版本，我们是开源的。我们如何实现这个开源的软件解决方案，是对Facebook黑客文化的一个很好的研究 - 这里将介绍背后故事。</p>
 <a id="more"></a>
-<h2 id="31-1-编译DPDK二进制文件"><a href="#31-1-编译DPDK二进制文件" class="headerlink" title="31.1. 编译DPDK二进制文件"></a>31.1. 编译DPDK二进制文件</h2><p>以下提供了如何构建DPDK二进制文件。</p>
-<h3 id="31-1-1-建立目录概念"><a href="#31-1-1-建立目录概念" class="headerlink" title="31.1.1. 建立目录概念"></a>31.1.1. 建立目录概念</h3><p>安装之后，将创建一个构建目录结构。 每个构件目录包含文件、库和应用程序。</p>
-<p>构建目录特定于配置的体系结构、执行环境、工具链。 可以存在几个构建目录共享源码，但是配置不一样的情况。</p>
-<p>例如，要使用配置模板 config/defconfig_x86_64-linuxapp 创建一个名为 my_sdk_build_dir 的构建目录，我们使用如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd $&#123;RTE_SDK&#125;</div><div class="line">make config T=x86_64-native-linuxapp-gcc O=my_sdk_build_dir</div></pre></td></tr></table></figure></p>
-<p>这会创建一个新的 new my_sdk_build_dir 目录，之后，我们可以使用如下的命令进行编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd my_sdk_build_dir</div><div class="line">make</div></pre></td></tr></table></figure></p>
-<p>相当于：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make O=my_sdk_build_dir</div></pre></td></tr></table></figure></p>
-<p>目录 my_sdk_build_dir 的内容是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">-- .config                         # used configuration</div><div class="line"></div><div class="line">-- Makefile                        # wrapper that calls head Makefile</div><div class="line">                                   # with $PWD as build directory</div><div class="line"></div><div class="line"></div><div class="line">    -- build                              #All temporary files used during build</div><div class="line">    +--app                                # process, including . o, .d, and .cmd files.</div><div class="line">        |  +-- test                       # For libraries, we have the .a file.</div><div class="line">        |  +-- test.o                     # For applications, we have the elf file.</div><div class="line">        |  `-- ...</div><div class="line">        +-- lib</div><div class="line">            +-- librte_eal</div><div class="line">            |   `-- ...</div><div class="line">            +-- librte_mempool</div><div class="line">            |  +--  mempool-file1.o</div><div class="line">            |  +--  .mempool-file1.o.cmd</div><div class="line">            |  +--  .mempool-file1.o.d</div><div class="line">            |  +--   mempool-file2.o</div><div class="line">            |  +--  .mempool-file2.o.cmd</div><div class="line">            |  +--  .mempool-file2.o.d</div><div class="line">            |  `--  mempool.a</div><div class="line">            `-- ...</div><div class="line"></div><div class="line">-- include                # All include files installed by libraries</div><div class="line">    +-- librte_mempool.h  # and applications are located in this</div><div class="line">    +-- rte_eal.h         # directory. The installed files can depend</div><div class="line">    +-- rte_spinlock.h    # on configuration if needed (environment,</div><div class="line">    +-- rte_atomic.h      # architecture, ..)</div><div class="line">    `-- \*.h ...</div><div class="line"></div><div class="line">-- lib                    # all compiled libraries are copied in this</div><div class="line">    +-- librte_eal.a      # directory</div><div class="line">    +-- librte_mempool.a</div><div class="line">    `-- \*.a ...</div><div class="line"></div><div class="line">-- app                    # All compiled applications are installed</div><div class="line">+ --test                  # here. It includes the binary in elf format</div></pre></td></tr></table></figure></p>
-<p>请参阅 <a href="dev_kit_root_make_help.html#development-kit-root-makefile-help">Development Kit Root Makefile Help</a> 获取更详细的信息。</p>
-<h2 id="31-2-构建外部应用程序"><a href="#31-2-构建外部应用程序" class="headerlink" title="31.2. 构建外部应用程序"></a>31.2. 构建外部应用程序</h2><p>由于DPDK本质上是一个开发工具包，所以最终用户的第一个目标就是使用这个SDK创建新的应用程序。 要编译应用程序，用户必须设置 RTE_SDK 和 RTE_TARGET 环境变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export RTE_SDK=/opt/DPDK</div><div class="line">export RTE_TARGET=x86_64-native-linuxapp-gcc</div><div class="line">cd /path/to/my_app</div></pre></td></tr></table></figure></p>
-<p>对于一个新的应用程序，用户必须创建新的 Makefile 并包含指定的 .mk 文件，如 ${RTE_SDK}/mk/rte.vars.mk 和 ${RTE_SDK}/mk/rte.app.mk。 这部分内容描述请参考 <a href="build_app.html#building-your-own-application">Building Your Own Application</a> .</p>
-<p>根据 Makefile 所选定的目标（架构、机器、执行环境、工具链）或环境变量，应用程序和库将使用适当的h头文件进行编译，并和适当的a库链接。 这些文件位于 ${RTE_SDK}/arch-machine-execenv-toolchain，由 ${RTE_BIN_SDK} 内部引用。</p>
-<p>为了编译应用程序，用户只需要调用make命令。编译结果将置于 /path/to/my_app/build 目录。</p>
-<p>示例应用程序在example目录中提供。</p>
-<h2 id="31-3-Makefile-描述"><a href="#31-3-Makefile-描述" class="headerlink" title="31.3. Makefile 描述"></a>31.3. Makefile 描述</h2><h3 id="31-3-1-DPDK-Makefiles-的通用规则"><a href="#31-3-1-DPDK-Makefiles-的通用规则" class="headerlink" title="31.3.1. DPDK Makefiles 的通用规则"></a>31.3.1. DPDK Makefiles 的通用规则</h3><p>在DPDK中，Makefiles始终遵循相同的方案：</p>
+<p>考虑应用场景，BMC是嵌入在服务器中的专用控制器。它通常以片上系统（SoC）的形式出现，具有自己的CPU，内存和存储以及大量的IO。BMC连接到许多传感器以读取环境条件并通过风扇控制温度。它还提供了其他系统管理功能，包括远程电源控制，Serial Over LAN，服务器主机CPU和内存的监视及错误记录。</p>
+<p>直到目前，在软件方面，完整的BMC软件都是闭源的。BMC软件通常由硬件制造商在硬件开发阶段开发。由于BMC软件的闭源特性，现有硬件所开发的任何软件都无法在下一代中重复使用。BMC软件的开发周期进度直接影响到新的硬件开发。当硬件开发结束后，BMC软件开发也停止了。更进一步的错误修复或新功能则必须等待硬件制造商。</p>
+<p>当我们开发Facebook的ToR交换机“Wedge”时，一开始是按照惯例， 由我们的合作伙伴负责开发BMC软件。然而，在项目的头几个月，BMC软件出现了许多需求，给BMC软件开发过程带来了额外的复杂性，协调性和项目延迟。</p>
+<p>为了应对这些挑战，在Facebook举办的一个编程马拉松活动中，有四位工程师努力创建了自己的BMC软件。在24小时内，我们能够建立一个最小的BMC软件映像，其中包括一个SSH服务器，能够改变风扇的速度，启动主机CPU，闪烁一些LED。虽然这远远未达到一个生产的镜像水准，但是它给了我们一个强大的信心，我们最终可以为自己的“Wedge”开发处BMC软件。</p>
+<p>八个月后，我们已经将代号为“OpenBMC”的解决方案与Wedge一起投入生产。今天，我们与开源社区共享OpenBMC，希望我们能够基于这个开放的软件框架进行协作，进行下一代系统管理。</p>
+<h2 id="底层的OpenBMC"><a href="#底层的OpenBMC" class="headerlink" title="底层的OpenBMC"></a>底层的OpenBMC</h2><p>BMC硬件本身就是一个计算机系统。与现代计算机系统相比，BMC的硬件资源非常有限。在BMC中，CPU速度较慢，闪存少于32 MB，存储空间少于256 MB都是很常见的。正因为如此，OpenBMC被设计成一个完整的Linux发行版，可灵活定制以支持不同的BMC SoC或主板。</p>
+<p>OpenBMC映像包括引导加载程序（u-boot），Linux内核，开源软件包和特定于板卡的软件包：</p>
+<ul>
+<li>u-boot和Linux内核都包含用于BMC SoC的各种硬件驱动程序，包括i2c驱动程序，USB驱动程序，PWM驱动程序和SPI驱动程序。</li>
+<li>开源软件包包括常用的应用程序，例如BusyBox，i2c-tools，lm-sensors，OpenSSH和Python。</li>
+<li>特定于电路板的软件包包括用于特定电路板的初始化脚本和工具。例如，它包含一个工具来转储来自EEPROM的告警信息和一个风扇控制器守护进程，以根据环境读数控制风扇速度。</li>
+</ul>
+<p>下图展示了在“Wedge”内BMC上运行的“OpenBMC”软件包。<img src="http://upload-images.jianshu.io/upload_images/7246758-c1370172845b6af0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bmc-software-packages"><br>OpenBMC中的所有软件包都是使用源码通过Yocto构建的。通过Yocto，软件包被组合在一起成为recipes，然后不同的recipes被组合成不同图层。</p>
+<p>在OpenBMC中，有三组图层：</p>
 <ol>
-<li><p>起始处包含 $(RTE_SDK)/mk/rte.vars.mk 文件。</p>
-</li>
-<li><p>为RTE构建系统定义特殊的变量。</p>
-</li>
-<li><p>包含指定的 $(RTE_SDK)/mk/rte.XYZ.mk 文件，其中 XYZ 可以是 app、lib、extapp, extlib、obj、gnuconfigure等等，取决于要编译什么样的目标文件。 请参阅</p>
-<p> <a href="#makefile-types">See Makefile Types</a> </p>
-<p>描述。</p>
-</li>
-<li><p>包含用户定义的规则及变量。</p>
-<p>以下是一个简单的例子，用于便于一个外部应用程序：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">include $(RTE_SDK)/mk/rte.vars.mk</div><div class="line"></div><div class="line"># binary name</div><div class="line">APP = helloworld</div><div class="line"></div><div class="line"># all source are stored in SRCS-y</div><div class="line">SRCS-y := main.c</div><div class="line"></div><div class="line">CFLAGS += -O3</div><div class="line">CFLAGS += $(WERROR_FLAGS)</div><div class="line"></div><div class="line">include $(RTE_SDK)/mk/rte.extapp.mk</div></pre></td></tr></table></figure>
-</li>
+<li>通用层，包含可用于不同电路板和BMC SoC的软件包。</li>
+<li>SoC层，包含特定于BMC SoC的软件包，例如由Aspeed贡献的用于AST2300/ AST2400 SoC的代码，以及来自Facebook的增强功能。u-boot和kernel都在SoC层中定义。</li>
+<li>电路板层，包括不同电路板的软件包。具体来说，例如我们正在发布的特定于Wedge的硬件配置，初始化脚本和工具。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-674ca9054e41d508.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bmc-source-dir"></li>
 </ol>
-<h3 id="31-3-2-Makefile-类型"><a href="#31-3-2-Makefile-类型" class="headerlink" title="31.3.2. Makefile 类型"></a>31.3.2. Makefile 类型</h3><p>根据Makefile最后包含的 .mk 文件，Makefile将具有不同的角色。 注意到，并不能在同一个Makefile文件中同时编译库和应用程序。 因此，用户必须创建两个独立的Makefile文件，最好是置于两个不同的目录中。</p>
-<p>无论如何，rte.vars.mk 文件必须包含用户Makefile。</p>
-<h4 id="31-3-2-1-应用程序"><a href="#31-3-2-1-应用程序" class="headerlink" title="31.3.2.1. 应用程序"></a>31.3.2.1. 应用程序</h4><p>这些 Makefiles 生成一个二进制应用程序。</p>
-<ul>
-<li>rte.app.mk: DPDK框架中的应用程序。</li>
-<li>rte.extapp.mk: 外部应用程序。</li>
-<li>rte.hostapp.mk: 建立DPDK的先决条件和工具。</li>
-</ul>
-<h4 id="31-3-2-2-库"><a href="#31-3-2-2-库" class="headerlink" title="31.3.2.2. 库"></a>31.3.2.2. 库</h4><p>创建一个 .a 库。</p>
-<ul>
-<li>rte.lib.mk: DPDK中的库。</li>
-<li>rte.extlib.mk: 外部库。</li>
-<li>rte.hostlib.mk: DPDK中的host库。</li>
-</ul>
-<h4 id="31-3-2-3-安装"><a href="#31-3-2-3-安装" class="headerlink" title="31.3.2.3. 安装"></a>31.3.2.3. 安装</h4><ul>
-<li>rte.install.mk: 不构建任何东西，只是用于创建链接或者将文件复制到安装目录。 这对于开发包框架中包含的文件非常有用。</li>
-</ul>
-<h4 id="31-3-2-4-内核模块"><a href="#31-3-2-4-内核模块" class="headerlink" title="31.3.2.4. 内核模块"></a>31.3.2.4. 内核模块</h4><ul>
-<li>rte.module.mk: 构建DPDK内核模块。</li>
-</ul>
-<h4 id="31-3-2-5-对象"><a href="#31-3-2-5-对象" class="headerlink" title="31.3.2.5. 对象"></a>31.3.2.5. 对象</h4><ul>
-<li>rte.obj.mk: DPDK中的目标文件聚合（合并一些o文件成一个）。</li>
-<li>rte.extobj.mk: 外部目标文件聚合（合并外部的一些o文件）。</li>
-</ul>
-<h4 id="31-3-2-6-杂"><a href="#31-3-2-6-杂" class="headerlink" title="31.3.2.6. 杂"></a>31.3.2.6. 杂</h4><ul>
-<li>rte.doc.mk: DPDK中的文档。</li>
-<li>rte.gnuconfigure.mk: 构建一个基于配置的应用程序。</li>
-<li>rte.subdir.mk: 构建几个目录。</li>
-</ul>
-<h3 id="31-3-3-内部生成的构建工具"><a href="#31-3-3-内部生成的构建工具" class="headerlink" title="31.3.3. 内部生成的构建工具"></a>31.3.3. 内部生成的构建工具</h3><p> <code>app/dpdk-pmdinfogen</code> </p>
-<p><code>dpdk-pmdinfogen</code> 扫描各种总所周知的符号名称对象文件。这些目标文件由各种宏定义，用于导出关于pmd文件的硬件支持和使用的重要信息。 例如宏定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">RTE_PMD_REGISTER_PCI(name, drv)</div></pre></td></tr></table></figure></p>
-<p>创建以下的符号：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static char this_pmd_name0[] __attribute__((used)) = &quot;&lt;name&gt;&quot;;</div></pre></td></tr></table></figure></p>
-<p>将被  <code>dpdk-pmdinfogen</code> 扫描。使用这个虚拟系，可以从目标文件中导出其他相关位信息，并用于产生硬件支持描述， 然后 <code>dpdk-pmdinfogen</code> 按照以下格式编码成 json 格式的字符串：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static char &lt;name_pmd_string&gt;=&quot;PMD_INFO_STRING=\&quot;&#123;&apos;name&apos; : &apos;&lt;name&gt;&apos;, ...&#125;\&quot;&quot;;</div></pre></td></tr></table></figure></p>
-<p>然后可以通过外部工具搜索这些字符串，以确定给定库或应用程序的硬件支持。</p>
-<h3 id="31-3-4-构建系统提供的有用变量"><a href="#31-3-4-构建系统提供的有用变量" class="headerlink" title="31.3.4. 构建系统提供的有用变量"></a>31.3.4. 构建系统提供的有用变量</h3><ul>
-<li>RTE_SDK: DPDK源码绝对路径。 编译DPDK时，该变量由框架自动设置。 如果编译外部应用程序，它必须由用户定义为环境变量。</li>
-<li>RTE_SRCDIR: DPDK源码根路径。 当编译DPDK时，RTE_SRCDIR = RTE_SDK。 当编译外部应用程序时，该变量指向外部应用程序源码的跟目录。</li>
-<li>RTE_OUTPUT: 输出文件的路径。 通常情况下，他是 $(RTE_SRCDIR)/build，但是可以通过make命令中的 O= 选项来重新指定。</li>
-<li>RTE_TARGET: 一个字符串，用于我们正在构建的目标。 格式是arch-machine-execenv-toolchain。 当编译DPDK时，目标是有构建系统从配置(.config)中推导出来的。 当构建外部应用程序时，必须由用户在Makefile中指定或作为环境变量。</li>
-<li>RTE_SDK_BIN: 参考 $(RTE_SDK)/$(RTE_TARGET)。</li>
-<li>RTE_ARCH: 定义架构(i686, x86_64)。 它与 CONFIG_RTE_ARCH 相同，但是没有字符串的双引号。</li>
-<li>RTE_MACHINE: 定义机器。 它与 CONFIG_RTE_MACHINE 相同，但是没有字符串的双引号。</li>
-<li>RTE_TOOLCHAIN: 定义工具链 (gcc , icc)。 它与 CONFIG_RTE_TOOLCHAIN 相同，但是没有字符串的双引号。</li>
-<li>RTE_EXEC_ENV: 定义运行环境 (linuxapp)。 它与 CONFIG_RTE_EXEC_ENV 相同，但是没有字符串的双引号。</li>
-<li>RTE_KERNELDIR: 这个变量包含了将被用于编译内核模块的内核源的绝对路径。 内核头文件必须与目标机器（将运行应用程序的机器）上使用的头文件相同。 默认情况下，变量设置为 /lib/modules/$(shell uname -r)/build，当目标机器也是构建机器时，这是正确的。</li>
-<li>RTE_DEVEL_BUILD: 更严格的选项（停止警告）。 它在默认的git树中。</li>
-</ul>
-<h3 id="31-3-5-只能在Makefile中设置-覆盖的变量"><a href="#31-3-5-只能在Makefile中设置-覆盖的变量" class="headerlink" title="31.3.5. 只能在Makefile中设置/覆盖的变量"></a>31.3.5. 只能在Makefile中设置/覆盖的变量</h3><ul>
-<li>VPATH: 构建系统将搜索源码的路径列表。默认情况下，RTE_SRCDIR将被包含在VPATH中。</li>
-<li>CFLAGS: 用于C编译的标志。用户应该使用+=在这个变量中附加数据。</li>
-<li>LDFLAGS: 用于链接的标志。用户应该使用+=在这个变量中附加数据。</li>
-<li>ASFLAGS: 用于汇编的标志。用户应该使用+=在这个变量中附加数据。</li>
-<li>CPPFLAGS: 用于给C预处理器赋予标志的标志（仅在汇编.S文件时有用）。用户应该使用+=在这个变量中附加数据。</li>
-<li>LDLIBS: 在应用程序中，链接的库列表（例如，-L / path / to / libfoo -lfoo）。用户应该使用+=在这个变量中附加数据。</li>
-<li>SRC-y: 在应用程序，库或对象Makefiles的情况下，源文件列表（.c，.S或.o，如果源是二进制文件）。源文件必须可从VPATH获得。</li>
-<li>INSTALL-y-$(INSTPATH): 需要安装到 $(INSTPATH) 的文件列表。 这些文件必须在VPATH中可用，并将复制到 $(RTE_OUTPUT)/$(INSTPATH)。几乎可以在任何 RTE Makefile 中可用。</li>
-<li>SYMLINK-y-$(INSTPATH): 需要安装到 $(INSTPATH) 的文件列表。 这些文件必须在VPATH中可用并将链接到 (symbolically) 在 $(RTE_OUTPUT)/$(INSTPATH)。 几乎可以在任何 RTE Makefile 中可用。</li>
-<li>PREBUILD: 构建之前要采取的先决条件列表。用户应该使用+=在这个变量中附加数据。</li>
-<li>POSTBUILD: 主构建之后要执行的操作列表。用户应该使用+=在这个变量中附加数据。</li>
-<li>PREINSTALL: 安装前要执行的先决条件操作的列表。 用户应该使用+=在这个变量中附加数据。</li>
-<li>POSTINSTALL: 安装后要执行的操作列表。用户应该使用+=在这个变量中附加数据。</li>
-<li>PRECLEAN: 清除前要执行的先决条件操作列表。用户应该使用+=在这个变量中附加数据。</li>
-<li>POSTCLEAN: 清除后要执行的先决条件操作列表。用户应该使用+=在这个变量中附加数据。</li>
-<li>DEPDIRS-$(DIR): 仅在开发工具包框架中用于指定当前目录的构建是否依赖于另一个的构建。这是正确支持并行构建所必需的。</li>
-</ul>
-<h3 id="31-3-6-只能在命令行上由用户设置-覆盖的变量"><a href="#31-3-6-只能在命令行上由用户设置-覆盖的变量" class="headerlink" title="31.3.6. 只能在命令行上由用户设置/覆盖的变量"></a>31.3.6. 只能在命令行上由用户设置/覆盖的变量</h3><p>一些变量可以用来配置构建系统的行为。在文件 <a href="dev_kit_root_make_help.html#development-kit-root-makefile-help">Development Kit Root Makefile Help</a> 及 <a href="ext_app_lib_make_help.html#external-application-library-makefile-help">External Application/Library Makefile Help</a> 中有描述。</p>
-<ul>
-<li>WERROR_CFLAGS: 默认情况下，它被设置为一个依赖于编译器的特定值。 鼓励用户使用这个变量，如下所示：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CFLAGS += $(WERROR_CFLAGS)</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>这避免了根据编译器（icc或gcc）使用不同的情况。而且，这个变量可以从命令行覆盖，这允许绕过标志用于测试目的。</p>
-<h3 id="31-3-7-可以在Makefile或命令行中由用户设置-覆盖的变量"><a href="#31-3-7-可以在Makefile或命令行中由用户设置-覆盖的变量" class="headerlink" title="31.3.7. 可以在Makefile或命令行中由用户设置/覆盖的变量"></a>31.3.7. 可以在Makefile或命令行中由用户设置/覆盖的变量</h3><ul>
-<li>CFLAGS_my_file.o: 为my_file.c的C编译添加的特定标志。</li>
-<li>LDFLAGS_my_app: 链接my_app时添加的特定标志。</li>
-<li>EXTRA_CFLAGS: 在编译时，这个变量的内容被附加在CFLAGS之后。</li>
-<li>EXTRA_LDFLAGS: 链接后，将此变量的内容添加到LDFLAGS之后。</li>
-<li>EXTRA_LDLIBS: 链接后，此变量的内容被添加到LDLIBS之后。</li>
-<li>EXTRA_ASFLAGS: 组装后这个变量的内容被附加在ASFLAGS之后。</li>
-<li>EXTRA_CPPFLAGS: 在汇编文件上使用C预处理器时，此变量的内容将附加在CPPFLAGS之后。</li>
-</ul>
+<p>为特定的电路板构建定制的OpenBMC映像需要将公共层，用于电路板中使用的BMC SoC的SoC层以及电路板特定的电路板层相结合。</p>
+<p>我们通过<a href="https://github.com/facebook/openbmc" target="_blank" rel="external">GitHub</a> 发布了OpenBMC库。</p>
+<h2 id="下一阶段"><a href="#下一阶段" class="headerlink" title="下一阶段"></a>下一阶段</h2><p>OpenBMC目前处于早期阶段，但我们旨在建立一个强大的OpenBMC生态系统，所以我们已经提前并分享了这个早期的工作代码。</p>
+<p>我们最近重构了代码以更好地支持不同的SoC和电路板。有一些为“Wedge”开发的应用程序可以用于其他板子。为此，我们需要在应用程序和硬件之间添加一个硬件抽象。</p>
+<p>随着Wedge发布于OCP，应用程序开发人员可以使用开放硬件作为OpenBMC的开发平台。我们可以在OpenBMC的所有不同层面上做出贡献：</p>
+<ol>
+<li>系统管理应用程序的创新可以发布于通用层。例如，一个可以改变系统管理方向的新应用程序可能会被贡献给公用层，从而使所有由OpenBMC驱动的电路板受益。</li>
+<li>BMC SoC供应商可以通过SoC层发布自己的SoC支持，这有助于采用BMC SoC。</li>
+<li>通过电路板层，板卡制造商可以与社区合作，不断完善板卡上运行的BMC软件。</li>
+</ol>
+<p>Wedge是第一个由OpenBMC驱动的硬件，6-pack将是第二个。我们很高兴与社区分享OpenBMC并致力于下一代系统管理。</p>
+<p>许多人为这个项目的工作做出了贡献。Credit should go to: Kevin Lahey, Sai Dasari, Aaron Miller, Adam Simpkins, and Tian Fang.</p>
 
       
 
@@ -334,11 +258,15 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
         		</li>
       		
 		</ul>
@@ -394,7 +322,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/16/dpdk-pg-31/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/22/OpenBMC/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -408,18 +336,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/11/17/dpdk-pg-32/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（三十二）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/11/15/dpdk-pg-30/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（三十）</div>
+    <a href="/2017/11/22/dpdk-pg-35/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（三十五）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -446,7 +365,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#31-开发套件构建系统"><span class="toc-number">1.</span> <span class="toc-text">31. 开发套件构建系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#31-1-编译DPDK二进制文件"><span class="toc-number">1.1.</span> <span class="toc-text">31.1. 编译DPDK二进制文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-1-1-建立目录概念"><span class="toc-number">1.1.1.</span> <span class="toc-text">31.1.1. 建立目录概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#31-2-构建外部应用程序"><span class="toc-number">1.2.</span> <span class="toc-text">31.2. 构建外部应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#31-3-Makefile-描述"><span class="toc-number">1.3.</span> <span class="toc-text">31.3. Makefile 描述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-1-DPDK-Makefiles-的通用规则"><span class="toc-number">1.3.1.</span> <span class="toc-text">31.3.1. DPDK Makefiles 的通用规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-2-Makefile-类型"><span class="toc-number">1.3.2.</span> <span class="toc-text">31.3.2. Makefile 类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-1-应用程序"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">31.3.2.1. 应用程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-2-库"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">31.3.2.2. 库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-3-安装"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">31.3.2.3. 安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-4-内核模块"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">31.3.2.4. 内核模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-5-对象"><span class="toc-number">1.3.2.5.</span> <span class="toc-text">31.3.2.5. 对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31-3-2-6-杂"><span class="toc-number">1.3.2.6.</span> <span class="toc-text">31.3.2.6. 杂</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-3-内部生成的构建工具"><span class="toc-number">1.3.3.</span> <span class="toc-text">31.3.3. 内部生成的构建工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-4-构建系统提供的有用变量"><span class="toc-number">1.3.4.</span> <span class="toc-text">31.3.4. 构建系统提供的有用变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-5-只能在Makefile中设置-覆盖的变量"><span class="toc-number">1.3.5.</span> <span class="toc-text">31.3.5. 只能在Makefile中设置/覆盖的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-6-只能在命令行上由用户设置-覆盖的变量"><span class="toc-number">1.3.6.</span> <span class="toc-text">31.3.6. 只能在命令行上由用户设置/覆盖的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#31-3-7-可以在Makefile或命令行中由用户设置-覆盖的变量"><span class="toc-number">1.3.7.</span> <span class="toc-text">31.3.7. 可以在Makefile或命令行中由用户设置/覆盖的变量</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenBMC的诞生"><span class="toc-number">1.</span> <span class="toc-text">OpenBMC的诞生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#底层的OpenBMC"><span class="toc-number">2.</span> <span class="toc-text">底层的OpenBMC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下一阶段"><span class="toc-number">3.</span> <span class="toc-text">下一阶段</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -462,7 +381,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="dpdk-pg-31" ></div> 
+  <div id="SOHUCS" sid="OpenBMC" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 
