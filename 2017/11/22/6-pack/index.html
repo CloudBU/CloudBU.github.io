@@ -6,19 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（二十八） | 拙言</title>
+  <title>6-pack: facebook首款硬件开源的模块化交换机 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="28. Metrics 库Metrics 库实现了一个机制，通过这个机制，producers 可以发布numeric信息，供 consumers 后续查询。实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。 Metrics 本身是一个静态值，并不是有PMD产生的。Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。消费者通过查询共享内存">
-<meta name="keywords" content="数据平面,DPDK">
+  <meta name="description" content="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/国外博文系列  随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在">
+<meta name="keywords" content="开源,网络,OCP,国外博文系列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（二十八）">
-<meta property="og:url" content="http://lockless.github.io/2017/11/13/dpdk-pg-28/index.html">
+<meta property="og:title" content="6-pack: facebook首款硬件开源的模块化交换机">
+<meta property="og:url" content="http://lockless.github.io/2017/11/22/6-pack/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="28. Metrics 库Metrics 库实现了一个机制，通过这个机制，producers 可以发布numeric信息，供 consumers 后续查询。实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。 Metrics 本身是一个静态值，并不是有PMD产生的。Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。消费者通过查询共享内存">
-<meta property="og:updated_time" content="2017-11-14T01:42:37.408Z">
+<meta property="og:description" content="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/国外博文系列  随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-035b63751db76344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-ccaf4b2bf5aed96f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-a94be025d67ec731.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-5fad10c08b2fbd88.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-86e729747c27d79b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-28fff4995e02667b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-fd02d249567720f7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-7fc14300362af7fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-22T06:47:53.675Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（二十八）">
-<meta name="twitter:description" content="28. Metrics 库Metrics 库实现了一个机制，通过这个机制，producers 可以发布numeric信息，供 consumers 后续查询。实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。 Metrics 本身是一个静态值，并不是有PMD产生的。Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。消费者通过查询共享内存">
+<meta name="twitter:title" content="6-pack: facebook首款硬件开源的模块化交换机">
+<meta name="twitter:description" content="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/国外博文系列  随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-035b63751db76344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,62 +195,39 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-28" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-6-pack" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（二十八）
+      6-pack: facebook首款硬件开源的模块化交换机
     </h1>
   
 
         
-        <a href="/2017/11/13/dpdk-pg-28/" class="archive-article-date">
-  	<time datetime="2017-11-13T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-13</time>
+        <a href="/2017/11/22/6-pack/" class="archive-article-date">
+  	<time datetime="2017-11-22T05:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="28-Metrics-库"><a href="#28-Metrics-库" class="headerlink" title="28. Metrics 库"></a>28. Metrics 库</h1><p>Metrics 库实现了一个机制，通过这个机制，<em>producers</em> 可以发布numeric信息，供 <em>consumers</em> 后续查询。<br>实际上，生产者通常是其他库或者主进程，而消费者通常是应用程序。</p>
-<p>Metrics 本身是一个静态值，并不是有PMD产生的。<br>Metric 信息是由推送模型填充的，其中生产者通过调用相关的更新函数来跟新metric库中包含的值。<br>消费者通过查询共享内存中的metric数据来获取metric信息。</p>
+        <blockquote>
+<p><a href="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/" target="_blank" rel="external">https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/</a><br>国外博文系列</p>
+</blockquote>
+<p>随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在建立自己的网络，打破传统的网络组件，并将其重构为模块化系统，为我们提供所需的灵活性，效率和规模。</p>
+<p>我们首先设计了一个新的ToR网络交换机（代号为“Wedge”）和一个基于Linux的操作系统（代号为“FBOSS”）。接下来，我们构建了一个数据中心Fabric，这是一个模块化的网络架构，可以让我们的更快更简便地扩展规模。对于这两个项目，我们都分解了硬件和软件层，并在网络运行中开辟了更大的可视化，自动化和自动控制。</p>
 <a id="more"></a>
-<p>对于每个mettic，为每个端口ID保留一个单独的值，并且在发布metric时，生产者需要指定哪个端口正在更新。<br>此外，还有一个特殊的ID <code>RTE_METRICS_GLOBAL</code>， 用于全局统计，不与任何单个设备关联。<br>由于metric库是自包含的，因此，对端口号的唯一限制是他们小于 <code>RTE_MAX_ETHPORTS</code>，不需要实际端口存在。</p>
-<h2 id="28-1-初始化库"><a href="#28-1-初始化库" class="headerlink" title="28.1. 初始化库"></a>28.1. 初始化库</h2><p>在使用库之前，必须通过调用在共享内存中设置mettic存储的 <code>rte_metrics_init()</code> 来初始化它。<br>这也就是生产者将metric信息发布到哪里以及消费者从哪里查新metric信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rte_metrics_init(rte_socket_id());</div></pre></td></tr></table></figure></p>
-<p>这个初始化函数必须在主函数中调用，否则生产者和消费者可能在主程序或次进程中多次调用。？？</p>
-<h2 id="28-2-注册metrics"><a href="#28-2-注册metrics" class="headerlink" title="28.2. 注册metrics"></a>28.2. 注册metrics</h2><p>Metrics 必须先注册，这是生产者声明他们将要发布的metric的方式。注册可以单独完成，也可以将一组metric标注为一个组。单独注册使用接口 <code>rte_metrics_reg_name()</code> 实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">id_1 = rte_metrics_reg_name(&quot;mean_bits_in&quot;);</div><div class="line">id_2 = rte_metrics_reg_name(&quot;mean_bits_out&quot;);</div><div class="line">id_3 = rte_metrics_reg_name(&quot;peak_bits_in&quot;);</div><div class="line">id_4 = rte_metrics_reg_name(&quot;peak_bits_out&quot;);</div></pre></td></tr></table></figure></p>
-<p>一组metric注册使用 <code>rte_metrics_reg_names()</code> 完成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const char * const names[] = &#123;</div><div class="line">    &quot;mean_bits_in&quot;, &quot;mean_bits_out&quot;,</div><div class="line">    &quot;peak_bits_in&quot;, &quot;peak_bits_out&quot;,</div><div class="line">&#125;;</div><div class="line">id_set = rte_metrics_reg_names(&amp;names[0], 4);</div></pre></td></tr></table></figure></p>
-<p>如果返回负数，表示注册失败。否则，返回值表示更新metic时使用的 <em>key</em> 值。可以使用 <code>rte_metrics_get_names()</code> 获得将这些key值与metric名称映射起来的映射表。</p>
-<h2 id="28-3-更新-metric-值"><a href="#28-3-更新-metric-值" class="headerlink" title="28.3. 更新 metric 值"></a>28.3. 更新 metric 值</h2><p>一旦注册，生产者可以使用 <code>rte_metrics_update_value()</code> 函数更新给定端口的metric。这个函数使用metric注册时返回的key值，也可以使用 <code>rte_metrics_get_names()</code> 查找。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rte_metrics_update_value(port_id, id_1, values[0]);</div><div class="line">rte_metrics_update_value(port_id, id_2, values[1]);</div><div class="line">rte_metrics_update_value(port_id, id_3, values[2]);</div><div class="line">rte_metrics_update_value(port_id, id_4, values[3]);</div></pre></td></tr></table></figure></p>
-<p>如果metric被注册为一个集合，则可以使用 <code>rte_metrics_update_value()</code> 单独更新他们，或者使用 <code>rte_metrics_update_values()</code> 一起更新：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">rte_metrics_update_value(port_id, id_set, values[0]);</div><div class="line">rte_metrics_update_value(port_id, id_set + 1, values[1]);</div><div class="line">rte_metrics_update_value(port_id, id_set + 2, values[2]);</div><div class="line">rte_metrics_update_value(port_id, id_set + 3, values[3]);</div><div class="line"></div><div class="line">rte_metrics_update_values(port_id, id_set, values, 4);</div></pre></td></tr></table></figure></p>
-<p>注意，<code>rte_metrics_update_values()</code> 不能用来更新 <em>multiple</em> <em>sets</em> 的metric，因为不能保证两个集合一个接一个地注册了连续的ID值。</p>
-<h2 id="28-4-查询-metrics"><a href="#28-4-查询-metrics" class="headerlink" title="28.4. 查询 metrics"></a>28.4. 查询 metrics</h2><p>消费者可以通过使用返回 <code>struct rte_metric_value</code> 数组的接口 <code>rte_metrics_get_values()</code> 来查询metric库。 该数组中的每个条目都包含一个metric值及其关联的key。key值和名称的映射可以使用 <code>rte_metrics_get_names()</code> 函数来获得，该函数返回由key索引的 <code>struct rte_metric_name</code> 数组。以下将打印给定端口的所有metric：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">void print_metrics() &#123;</div><div class="line">    struct rte_metric_name *names;</div><div class="line">    int len;</div><div class="line"></div><div class="line">    len = rte_metrics_get_names(NULL, 0);</div><div class="line">    if (len &lt; 0) &#123;</div><div class="line">        printf(&quot;Cannot get metrics count\n&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    if (len == 0) &#123;</div><div class="line">        printf(&quot;No metrics to display (none have been registered)\n&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    metrics = malloc(sizeof(struct rte_metric_value) * len);</div><div class="line">    names =  malloc(sizeof(struct rte_metric_name) * len);</div><div class="line">    if (metrics == NULL || names == NULL) &#123;</div><div class="line">        printf(&quot;Cannot allocate memory\n&quot;);</div><div class="line">        free(metrics);</div><div class="line">        free(names);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    ret = rte_metrics_get_values(port_id, metrics, len);</div><div class="line">    if (ret &lt; 0 || ret &gt; len) &#123;</div><div class="line">        printf(&quot;Cannot get metrics values\n&quot;);</div><div class="line">        free(metrics);</div><div class="line">        free(names);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    printf(&quot;Metrics for port %i:\n&quot;, port_id);</div><div class="line">    for (i = 0; i &lt; len; i++)</div><div class="line">        printf(&quot;  %s: %&quot;PRIu64&quot;\n&quot;,</div><div class="line">            names[metrics[i].key].name, metrics[i].value);</div><div class="line">    free(metrics);</div><div class="line">    free(names);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="28-5-Bit-rate-统计库"><a href="#28-5-Bit-rate-统计库" class="headerlink" title="28.5. Bit-rate 统计库"></a>28.5. Bit-rate 统计库</h2><p>Bit-rate 库计算每个活动端口（即网络设备）的指数加权平均值和峰值比特率。<br>这些统计信息通过metric库使用以下名称进行发布：</p>
-<ul>
-<li>mean_bits_in: 平均入站比特率</li>
-<li>mean_bits_out: 平均出站比特率</li>
-<li>ewma_bits_in: 平均入站比特率 (EWMA 平滑)</li>
-<li>ewma_bits_out: 平均出站比特率 (EWMA 平滑)</li>
-<li>peak_bits_in: 峰值入站比特率</li>
-<li>peak_bits_out: 峰值出站比特率</li>
-</ul>
-<p>一旦初始化，并以适当的频率计时，可以通过查询metric库来获取metric值。</p>
-<h3 id="28-5-1-初始化"><a href="#28-5-1-初始化" class="headerlink" title="28.5.1. 初始化"></a>28.5.1. 初始化</h3><p>在使用库之前，必须通过接口 <code>rte_stats_bitrate_create()</code> 来初始化，这个函数返回一个bit-rate计算对象。由于bit-rate库使用metric来报告计算的统计量，因此bit-rate库需要将计算的统计量与metric库一起注册。这通过辅助函数 <code>rte_stats_bitrate_reg()</code> 完成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">struct rte_stats_bitrates *bitrate_data;</div><div class="line"></div><div class="line">bitrate_data = rte_stats_bitrate_create();</div><div class="line">if (bitrate_data == NULL)</div><div class="line">    rte_exit(EXIT_FAILURE, &quot;Could not allocate bit-rate data.\n&quot;);</div><div class="line">rte_stats_bitrate_reg(bitrate_data);</div></pre></td></tr></table></figure></p>
-<h3 id="28-5-2-控制采样速率"><a href="#28-5-2-控制采样速率" class="headerlink" title="28.5.2. 控制采样速率"></a>28.5.2. 控制采样速率</h3><p>由于库通过定期采样来工作，而不是使用内部线程，应用程序必须定期调用 rte_stats_bitrate_calc() 。 这个函数被调用的频率应该是计算统计所需要的预期采样频率。 例如，需要按秒统计，那么应该每秒钟调用一次这个函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">tics_datum = rte_rdtsc();</div><div class="line">tics_per_1sec = rte_get_timer_hz();</div><div class="line"></div><div class="line">while( 1 ) &#123;</div><div class="line">    /* ... */</div><div class="line">    tics_current = rte_rdtsc();</div><div class="line">    if (tics_current - tics_datum &gt;= tics_per_1sec) &#123;</div><div class="line">        /* Periodic bitrate calculation */</div><div class="line">        for (idx_port = 0; idx_port &lt; cnt_ports; idx_port++)</div><div class="line">                rte_stats_bitrate_calc(bitrate_data, idx_port);</div><div class="line">            tics_datum = tics_current;</div><div class="line">        &#125;</div><div class="line">    /* ... */</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="28-6-延迟统计库"><a href="#28-6-延迟统计库" class="headerlink" title="28.6. 延迟统计库"></a>28.6. 延迟统计库</h2><p>延迟统计库计算DPDK应用程序的数据包处理延迟，报告数据包处理所需的最小，平均和最大纳秒，以及处理延迟中的抖动。使用以下名称通过metric库报告这些统计信息：</p>
-<ul>
-<li>min_latency_ns: 最小处理延迟（纳秒）</li>
-<li>avg_latency_ns: 平均处理延迟（纳秒）</li>
-<li>mac_latency_ns: 最大处理延迟（纳秒）</li>
-<li>jitter_ns: 处理等待时间的变化（纳秒）</li>
-</ul>
-<p>一旦初始化并以适当的频率采样，可以通过查询metric库来获得这些统计数据。</p>
-<h3 id="28-6-1-初始化"><a href="#28-6-1-初始化" class="headerlink" title="28.6.1. 初始化"></a>28.6.1. 初始化</h3><p>使用库之前，需要调用函数 <code>rte_latencystats_init()</code> 进行初始化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">lcoreid_t latencystats_lcore_id = -1;</div><div class="line"></div><div class="line">int ret = rte_latencystats_init(1, NULL);</div><div class="line">if (ret)</div><div class="line">    rte_exit(EXIT_FAILURE, &quot;Could not allocate latency data.\n&quot;);</div></pre></td></tr></table></figure></p>
-<h3 id="28-6-2-触发统计值更新"><a href="#28-6-2-触发统计值更新" class="headerlink" title="28.6.2. 触发统计值更新"></a>28.6.2. 触发统计值更新</h3><p>需要定期调用 <code>rte_latencystats_update()</code> 函数，以便更新延迟统计值信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if (latencystats_lcore_id == rte_lcore_id())</div><div class="line">    rte_latencystats_update();</div></pre></td></tr></table></figure></p>
-<h3 id="28-6-3-关闭库"><a href="#28-6-3-关闭库" class="headerlink" title="28.6.3. 关闭库"></a>28.6.3. 关闭库</h3><p>完成之后，需要调用 <code>rte_latencystats_uninit()</code> 来关闭延迟统计库。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rte_latencystats_uninit();</div></pre></td></tr></table></figure></p>
+<p>但即使取得了这些进展，我们还有一步要走。我们有一个TOR，一个Fabric以及运行这些设备的软件，但是我们仍然缺乏针对我们Fabric中所有模块化交换机的可扩展解决方案。所以我们建立了第一个开放的模块化交换平台，我们称之为“6-pack”。<img src="http://upload-images.jianshu.io/upload_images/7246758-035b63751db76344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6-pack"></p>
+<h2 id="平台"><a href="#平台" class="headerlink" title="平台"></a>平台</h2><p>“6-pack”平台是我们新Fabric的核心，它以“Wedge”为基础模块。这是一个全网状无阻塞两阶段交换机，包括12个独立的交换元件。每个独立的元件可以交换1.28Tbps。我们有两种配置：一种配置将16x40GE端口暴露在前面，640G（16x40GE）暴露在后面；另一种配置用于聚合功能，所有1.28T放于后面。每个原件在本地服务器上运行自己的操作系统，并且从交换层面到底层板控制和冷却系统都是完全独立的。这意味着我们可以修改系统的任何部分，不受系统级影响，包括软件或硬件。我们创建了一个独特的双背板解决方案，使我们能够创建一个无阻塞的拓扑结构。<img src="http://upload-images.jianshu.io/upload_images/7246758-ccaf4b2bf5aed96f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>我们在拆分过控制配置中运行我们的网络。每个交换元件都包含与集中控制器通信的微服务器上的完整本地控制平面。这种配置通常被称为混合SDN，为我们提供了一种简单而灵活的方式来管理和运行网络，从而实现了极高的稳定性和高可用性。系统中唯一的共同元素是钣金外壳，背板和电源，这使得我们很容易地改变外壳来创建具有相同构件的任何基数的系统。您可以在下面看到我们为“6-pack”设计的方框图和内部网络数据路径拓扑。<img src="http://upload-images.jianshu.io/upload_images/7246758-a94be025d67ec731.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="fabric-inner-path"></p>
+<h2 id="线卡"><a href="#线卡" class="headerlink" title="线卡"></a>线卡</h2><p>如果您熟悉“Wedge”，您可能认识到该平台上使用的中央交换元件是独立系统，仅使用640G的交换容量。在“6-pack”线卡上，我们利用了所有的“Wedge”开发工作（硬件和软件），并简单地添加了背面640Gbps以太网互连。线卡具有集成交换ASIC，微服务器和服务器支持逻辑，使其完全独立，并使我们能够像服务器一样管理它。<img src="http://upload-images.jianshu.io/upload_images/7246758-5fad10c08b2fbd88.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="line-card-block"> <img src="http://upload-images.jianshu.io/upload_images/7246758-86e729747c27d79b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="line-card-phy"></p>
+<h2 id="板卡"><a href="#板卡" class="headerlink" title="板卡"></a>板卡</h2><p>板卡组合两张线卡，面向系统后面。Fabric上创建了本地全网格，从而实现非常简单的背板设计。为方便起见，Fabric卡还汇总带外管理网络，为所有线卡和Fabric提供外部接口。<img src="http://upload-images.jianshu.io/upload_images/7246758-28fff4995e02667b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fabric-card-block"> <img src="http://upload-images.jianshu.io/upload_images/7246758-fd02d249567720f7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fabric-card-phy"></p>
+<h2 id="连在一起"><a href="#连在一起" class="headerlink" title="连在一起"></a>连在一起</h2><p>通过“6-pack”，我们创建了一个架构，使我们能够使用一套简单的通用模板模块块来构建任何尺寸的交换机。而且由于设计是如此开放，模块化，我们希望这是一个整个行业可以建立的平台。以下是我们认为传统方法与模块化交换机“6-pack”的区别：<img src="http://upload-images.jianshu.io/upload_images/7246758-7fc14300362af7fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="different"></p>
+<p>与“Wedge”和“FBOSS”，“6-pack”已经在生产测试。我们计划将“6-pack”设计发布到ocp项目上，我们将继续与OCP社区合作，开发更灵活，更可扩展，更高效的开放式网络技术。</p>
+<p>感谢所有为“6-pack”，“Wedge”，“FBOSS”和“Fabric”发展做出贡献的整个Facebook团队。</p>
 
       
 
@@ -255,11 +241,19 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
         		</li>
       		
 		</ul>
@@ -315,7 +309,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/13/dpdk-pg-28/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/22/6-pack/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -329,18 +323,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/11/14/dpdk-pg-29/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（二十九）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/11/01/dpdk-pg-26/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十六）</div>
+    <a href="/2017/11/22/OpenBMC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OpenBMC：开源的下一代系统管理软件架构</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -367,7 +352,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#28-Metrics-库"><span class="toc-number">1.</span> <span class="toc-text">28. Metrics 库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#28-1-初始化库"><span class="toc-number">1.1.</span> <span class="toc-text">28.1. 初始化库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-2-注册metrics"><span class="toc-number">1.2.</span> <span class="toc-text">28.2. 注册metrics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-3-更新-metric-值"><span class="toc-number">1.3.</span> <span class="toc-text">28.3. 更新 metric 值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-4-查询-metrics"><span class="toc-number">1.4.</span> <span class="toc-text">28.4. 查询 metrics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-5-Bit-rate-统计库"><span class="toc-number">1.5.</span> <span class="toc-text">28.5. Bit-rate 统计库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#28-5-1-初始化"><span class="toc-number">1.5.1.</span> <span class="toc-text">28.5.1. 初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-5-2-控制采样速率"><span class="toc-number">1.5.2.</span> <span class="toc-text">28.5.2. 控制采样速率</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-6-延迟统计库"><span class="toc-number">1.6.</span> <span class="toc-text">28.6. 延迟统计库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#28-6-1-初始化"><span class="toc-number">1.6.1.</span> <span class="toc-text">28.6.1. 初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-6-2-触发统计值更新"><span class="toc-number">1.6.2.</span> <span class="toc-text">28.6.2. 触发统计值更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#28-6-3-关闭库"><span class="toc-number">1.6.3.</span> <span class="toc-text">28.6.3. 关闭库</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平台"><span class="toc-number">1.</span> <span class="toc-text">平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线卡"><span class="toc-number">2.</span> <span class="toc-text">线卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#板卡"><span class="toc-number">3.</span> <span class="toc-text">板卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连在一起"><span class="toc-number">4.</span> <span class="toc-text">连在一起</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -383,7 +368,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="dpdk-pg-28" ></div> 
+  <div id="SOHUCS" sid="6-pack" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 
