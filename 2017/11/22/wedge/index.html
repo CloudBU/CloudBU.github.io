@@ -6,28 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>6-pack: facebook首款硬件开源的模块化交换机 | 拙言</title>
+  <title>了解Facebook开源ToR交换机设计Wedge | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/国外博文系列  随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在">
+  <meta name="description" content="本文大部分内容来自开源的标准Facebook Wedge-Open_Compute_Specification-V0.4-20151017  1.概述Wedge平台是一个带有16个QSFP端口的ToR平台，QSFP端口可用于10GE/40GE接口的任意组合。Wedge系统具有扩展到32x40GE端口的可用容量，可以使用电缆或修改后的PCB进行扩展。Trident2的16个未使用的端口在正常操作模">
 <meta name="keywords" content="开源,网络,OCP,国外博文系列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="6-pack: facebook首款硬件开源的模块化交换机">
-<meta property="og:url" content="http://lockless.github.io/2017/11/22/6-pack/index.html">
+<meta property="og:title" content="了解Facebook开源ToR交换机设计Wedge">
+<meta property="og:url" content="http://lockless.github.io/2017/11/22/wedge/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/国外博文系列  随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-035b63751db76344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-ccaf4b2bf5aed96f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-a94be025d67ec731.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-5fad10c08b2fbd88.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-86e729747c27d79b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-28fff4995e02667b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-fd02d249567720f7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-7fc14300362af7fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-11-22T06:47:53.675Z">
+<meta property="og:description" content="本文大部分内容来自开源的标准Facebook Wedge-Open_Compute_Specification-V0.4-20151017  1.概述Wedge平台是一个带有16个QSFP端口的ToR平台，QSFP端口可用于10GE/40GE接口的任意组合。Wedge系统具有扩展到32x40GE端口的可用容量，可以使用电缆或修改后的PCB进行扩展。Trident2的16个未使用的端口在正常操作模">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-15b7e4e2556c0b7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-c79bc3575cdbb665.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-ee1c85fe9f6d47ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-a01eef74cb1ae11a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-4f9646916a029e69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-ad5230b3ad1406bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-b4abfbde19da9aeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-ffe5c79d83026c82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-d87e44d38f8a9aa4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-7d69ed9d918c3b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-22T11:18:45.061Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6-pack: facebook首款硬件开源的模块化交换机">
-<meta name="twitter:description" content="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/国外博文系列  随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-035b63751db76344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="了解Facebook开源ToR交换机设计Wedge">
+<meta name="twitter:description" content="本文大部分内容来自开源的标准Facebook Wedge-Open_Compute_Specification-V0.4-20151017  1.概述Wedge平台是一个带有16个QSFP端口的ToR平台，QSFP端口可用于10GE/40GE接口的任意组合。Wedge系统具有扩展到32x40GE端口的可用容量，可以使用电缆或修改后的PCB进行扩展。Trident2的16个未使用的端口在正常操作模">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-15b7e4e2556c0b7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -195,20 +197,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-6-pack" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-wedge" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      6-pack: facebook首款硬件开源的模块化交换机
+      了解Facebook开源ToR交换机设计Wedge
     </h1>
   
 
         
-        <a href="/2017/11/22/6-pack/" class="archive-article-date">
-  	<time datetime="2017-11-22T05:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-22</time>
+        <a href="/2017/11/22/wedge/" class="archive-article-date">
+  	<time datetime="2017-11-22T11:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-22</time>
 </a>
         
       </header>
@@ -216,19 +218,57 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p><a href="https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/" target="_blank" rel="external">https://code.facebook.com/posts/717010588413497/introducing-6-pack-the-first-open-hardware-modular-switch/</a><br>国外博文系列</p>
+<p>本文大部分内容来自开源的标准Facebook Wedge-Open_Compute_Specification-V0.4-20151017</p>
 </blockquote>
-<p>随着Facebook基础设施的扩大，我们经常遇到传统网络技术的局限性，传统网络技术往往过于封闭，太单一，对于我们运营的规模和发展步伐来说太过迭代。在过去几年中，我们一直在建立自己的网络，打破传统的网络组件，并将其重构为模块化系统，为我们提供所需的灵活性，效率和规模。</p>
-<p>我们首先设计了一个新的ToR网络交换机（代号为“Wedge”）和一个基于Linux的操作系统（代号为“FBOSS”）。接下来，我们构建了一个数据中心Fabric，这是一个模块化的网络架构，可以让我们的更快更简便地扩展规模。对于这两个项目，我们都分解了硬件和软件层，并在网络运行中开辟了更大的可视化，自动化和自动控制。</p>
+<h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h1><p>Wedge平台是一个带有16个QSFP端口的ToR平台，QSFP端口可用于10GE/40GE接口的任意组合。Wedge系统具有扩展到32x40GE端口的可用容量，可以使用电缆或修改后的PCB进行扩展。Trident2的16个未使用的端口在正常操作模式下将处于关闭模式，无法通过任何网络接口访问。</p>
 <a id="more"></a>
-<p>但即使取得了这些进展，我们还有一步要走。我们有一个TOR，一个Fabric以及运行这些设备的软件，但是我们仍然缺乏针对我们Fabric中所有模块化交换机的可扩展解决方案。所以我们建立了第一个开放的模块化交换平台，我们称之为“6-pack”。<img src="http://upload-images.jianshu.io/upload_images/7246758-035b63751db76344.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6-pack"></p>
-<h2 id="平台"><a href="#平台" class="headerlink" title="平台"></a>平台</h2><p>“6-pack”平台是我们新Fabric的核心，它以“Wedge”为基础模块。这是一个全网状无阻塞两阶段交换机，包括12个独立的交换元件。每个独立的元件可以交换1.28Tbps。我们有两种配置：一种配置将16x40GE端口暴露在前面，640G（16x40GE）暴露在后面；另一种配置用于聚合功能，所有1.28T放于后面。每个原件在本地服务器上运行自己的操作系统，并且从交换层面到底层板控制和冷却系统都是完全独立的。这意味着我们可以修改系统的任何部分，不受系统级影响，包括软件或硬件。我们创建了一个独特的双背板解决方案，使我们能够创建一个无阻塞的拓扑结构。<img src="http://upload-images.jianshu.io/upload_images/7246758-ccaf4b2bf5aed96f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>我们在拆分过控制配置中运行我们的网络。每个交换元件都包含与集中控制器通信的微服务器上的完整本地控制平面。这种配置通常被称为混合SDN，为我们提供了一种简单而灵活的方式来管理和运行网络，从而实现了极高的稳定性和高可用性。系统中唯一的共同元素是钣金外壳，背板和电源，这使得我们很容易地改变外壳来创建具有相同构件的任何基数的系统。您可以在下面看到我们为“6-pack”设计的方框图和内部网络数据路径拓扑。<img src="http://upload-images.jianshu.io/upload_images/7246758-a94be025d67ec731.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="fabric-inner-path"></p>
-<h2 id="线卡"><a href="#线卡" class="headerlink" title="线卡"></a>线卡</h2><p>如果您熟悉“Wedge”，您可能认识到该平台上使用的中央交换元件是独立系统，仅使用640G的交换容量。在“6-pack”线卡上，我们利用了所有的“Wedge”开发工作（硬件和软件），并简单地添加了背面640Gbps以太网互连。线卡具有集成交换ASIC，微服务器和服务器支持逻辑，使其完全独立，并使我们能够像服务器一样管理它。<img src="http://upload-images.jianshu.io/upload_images/7246758-5fad10c08b2fbd88.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="line-card-block"> <img src="http://upload-images.jianshu.io/upload_images/7246758-86e729747c27d79b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="line-card-phy"></p>
-<h2 id="板卡"><a href="#板卡" class="headerlink" title="板卡"></a>板卡</h2><p>板卡组合两张线卡，面向系统后面。Fabric上创建了本地全网格，从而实现非常简单的背板设计。为方便起见，Fabric卡还汇总带外管理网络，为所有线卡和Fabric提供外部接口。<img src="http://upload-images.jianshu.io/upload_images/7246758-28fff4995e02667b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fabric-card-block"> <img src="http://upload-images.jianshu.io/upload_images/7246758-fd02d249567720f7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fabric-card-phy"></p>
-<h2 id="连在一起"><a href="#连在一起" class="headerlink" title="连在一起"></a>连在一起</h2><p>通过“6-pack”，我们创建了一个架构，使我们能够使用一套简单的通用模板模块块来构建任何尺寸的交换机。而且由于设计是如此开放，模块化，我们希望这是一个整个行业可以建立的平台。以下是我们认为传统方法与模块化交换机“6-pack”的区别：<img src="http://upload-images.jianshu.io/upload_images/7246758-7fc14300362af7fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="different"></p>
-<p>与“Wedge”和“FBOSS”，“6-pack”已经在生产测试。我们计划将“6-pack”设计发布到ocp项目上，我们将继续与OCP社区合作，开发更灵活，更可扩展，更高效的开放式网络技术。</p>
-<p>感谢所有为“6-pack”，“Wedge”，“FBOSS”和“Fabric”发展做出贡献的整个Facebook团队。</p>
-
+<h1 id="2-Wedge-ToR-系统描述"><a href="#2-Wedge-ToR-系统描述" class="headerlink" title="2.Wedge (ToR) 系统描述"></a>2.Wedge (ToR) 系统描述</h1><p>Wedge平台被包装成19英寸1RU盒式设备。开放的机架环境使用特殊的机械适配器; 该适配器可用于开放式计算机架V1和开放式计算机架V2。<br>Wedge平台具有以下模块：</p>
+<ul>
+<li>主交换板，集成Micro Server（系统可插拔）</li>
+<li>四个风扇构成的冷却系统，2+2冗余</li>
+<li>支持端口接口卡：<ul>
+<li>GE管理口（正面和背面）</li>
+<li>uServer USB</li>
+<li>BMC直连控制台</li>
+<li>Facebook特殊调试口</li>
+</ul>
+</li>
+<li>电源输入系统，1+1冗余的直流/交流模块</li>
+<li>Facebook特定端口，不用于通用交换平台<br>下图展示了Wedge平台的高级描述。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-15b7e4e2556c0b7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Wedge System Building Block"></li>
+</ul>
+<h1 id="3-Wedge系统级连接框图"><a href="#3-Wedge系统级连接框图" class="headerlink" title="3.Wedge系统级连接框图"></a>3.Wedge系统级连接框图</h1><p>Wedge系统由16xQSFP配置的基础构建块构建而成，其中包含以下附加模块（板卡）：</p>
+<ul>
+<li>风扇模块—-用于启用风扇模块（FRU）终端的桥接板</li>
+<li>后部扩展模块—-用于Facebook专用端口、控制端口以及GE管理端口</li>
+<li>前端扩展模块—-辅助端口前端访问模块 - 启用控制台，GE，USB和Facebook特定的调试端口</li>
+<li>电源适配器模块（可选DC或AC）—-电源端接模块</li>
+</ul>
+<p>有关基板和附加电路板的详细信息，请参阅电路板说明。以下框图描述了模块的连接。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-c79bc3575cdbb665.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Wedge System Level Block Diagram"></p>
+<h1 id="4-PCB模块规格"><a href="#4-PCB模块规格" class="headerlink" title="4.PCB模块规格"></a>4.PCB模块规格</h1><p>以下章节分别介绍了Wedge不同的系统模块。</p>
+<h2 id="4-1主交换板-16x40GE-QSFP"><a href="#4-1主交换板-16x40GE-QSFP" class="headerlink" title="4.1主交换板 - 16x40GE/QSFP"></a>4.1主交换板 - 16x40GE/QSFP</h2><p>主交换模块是Wedge系统的基础模块。交换模块基于Broadcom Trident2交换芯片和Micro Server，两者结合处理控制平面，一个BMC微控制器管理所有的低级板卡控制，并在启动时作为控制台使用，以及提供类似“服务器”的管理功能。交换模块可以使用16个QSFP前端连接器提供16×40GE的带宽，每个连接器可以使用分线电缆分解为4个10GE端口。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-ee1c85fe9f6d47ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Base 16x40GE Switching Module"></p>
+<h2 id="4-2-OCP-Micro-Server"><a href="#4-2-OCP-Micro-Server" class="headerlink" title="4.2 OCP Micro Server"></a>4.2 OCP Micro Server</h2><p>Wedge系统有一个可插拔的（不在线的FRU）集成的Mirco Server。该微服务器是OCP发布的微服务器（写这个文档时的最新版本是0.7）。有关Micro Server的完整规范，请参阅下面的OCP站点：<a href="http://www.opencompute.org/wiki/Motherboard/SpecsAndDesigns-Microserver" target="_blank" rel="external">Micro Server card version 0.7</a>。注意：有关Micro Server与系统其余部分的特定连接，请参阅完整设计规范。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-a01eef74cb1ae11a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="OCP Micro Server"></p>
+<h2 id="4-3风扇模块"><a href="#4-3风扇模块" class="headerlink" title="4.3风扇模块"></a>4.3风扇模块</h2><p>风扇模块端接板是一种桥接板，可以通过机械和电气方式实现风扇模块（FRU）端接。它使用四条电缆连接到主基卡，为四个可插拔（FRU）风扇模块提供隔离的电源馈送，控制和监视。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-4f9646916a029e69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fan Module"></p>
+<h2 id="4-4后部扩展模块"><a href="#4-4后部扩展模块" class="headerlink" title="4.4后部扩展模块"></a>4.4后部扩展模块</h2><p>后部扩展模块用于支持特定的Facebook特定监视端口（标记为Rack Mon和GPIO）和外部访问GE管理端口。该模块对于系统的正常操作不是必需的。该模块通过高速和低速信号混合的扁平电缆连接到主卡。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-ad5230b3ad1406bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Rear Extension Module"></p>
+<h2 id="4-5前部扩展模块"><a href="#4-5前部扩展模块" class="headerlink" title="4.5前部扩展模块"></a>4.5前部扩展模块</h2><p>前部扩展模块可连接所有前端扩展端口。这些端口包括可以访问BMC的控制台，GE管理端口，USB端口和Facebook特定的调试端口。它也启用LED选择按钮和LED。该板使用板到板安装连接器连接到主卡。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-b4abfbde19da9aeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Front Extension Module"></p>
+<h2 id="4-6-电源适配模块（可选DC-AC）"><a href="#4-6-电源适配模块（可选DC-AC）" class="headerlink" title="4.6 电源适配模块（可选DC/AC）"></a>4.6 电源适配模块（可选DC/AC）</h2><p>电源端接模块用作插件电源模块（交流和直流）的机械和电气终端卡，该模块对于交流和直流电源是相同的，并且用作到主卡的主馈电， 主卡上的电源输入连接器。电源适配器还通过扁平电缆接口连接到主卡，以连接到电源（I2C）的所有管理和监视接口。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-ffe5c79d83026c82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Power Adapter Module"></p>
+<h1 id="5-详细硬件规格"><a href="#5-详细硬件规格" class="headerlink" title="5.详细硬件规格"></a>5.详细硬件规格</h1><h2 id="5-1介绍"><a href="#5-1介绍" class="headerlink" title="5.1介绍"></a>5.1介绍</h2><p>本节介绍主交换卡的详细硬件规格。本文档简要介绍了主交换卡架构及其接口。还讨论了交换卡的电源，时钟，复位和I2C架构。</p>
+<p>主交换板采用独立运行模式，前面板的16个QSFP接口可以提供16个40GE端口或64个10GE端口或4个一组的任意端口组合。如果需要，在19“机架内可以放置下2个交换板。</p>
+<h2 id="5-2-主交换板硬件架构"><a href="#5-2-主交换板硬件架构" class="headerlink" title="5.2 主交换板硬件架构"></a>5.2 主交换板硬件架构</h2><p>主交换板是围绕Broadcom的Trident2芯片构建的。硬件架构如下图所示，该体系结构的主要模块包括：</p>
+<ul>
+<li>网络交换芯片（Trident 2）</li>
+<li>底板管理控制器（BMC）</li>
+<li>Mrico Server</li>
+<li>USB Hub</li>
+<li>USB转I2C桥接器</li>
+<li>FPGA</li>
+<li>QSFP连接器<br><img src="http://upload-images.jianshu.io/upload_images/7246758-d87e44d38f8a9aa4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Main Switching Module Hardware Architecture"></li>
+</ul>
+<h2 id="5-3交换芯片-Trident2"><a href="#5-3交换芯片-Trident2" class="headerlink" title="5.3交换芯片 - Trident2"></a>5.3交换芯片 - Trident2</h2><h3 id="5-3-1-带内网络交换"><a href="#5-3-1-带内网络交换" class="headerlink" title="5.3.1 带内网络交换"></a>5.3.1 带内网络交换</h3><p>Broadcom公司的BCM56850（Trident2）被用作该板上交换芯片。BCM56850支持高达104x10GbE或高达32x40GbE交换端口。它具有最多32个集成Warpcore，每个集成了四个10G SerDes收发器。其架构以线路速率（参考Trident2规范中的线路速率限制）和最大端口密度提供完整的L2 / L3交换和路由功能。</p>
+<p>Micro Server的双通道Gen3 PCIe接口用于配置和监控Trident2。</p>
+<h3 id="5-3-2SerDes接口"><a href="#5-3-2SerDes接口" class="headerlink" title="5.3.2SerDes接口"></a>5.3.2SerDes接口</h3><p>Broadcom SerDes Warpcore是BCM56850的通用物理层接口，最大速率高达42Gbps。每个Warpcore由四个SerDes通道组成。每个SerDes速率从1.25Gbps到10.9375Gbps。我们可以配置每个Warpcore来运行一个40Gbe链接。在BCM 56850中有32个SerDes Warpcore，共提供128个链接。一半端口（64端口）转到16个QSFP前端口，其余64个端口不在Wedge系统中使用。</p>
+<h3 id="5-3-3高速接口连接"><a href="#5-3-3高速接口连接" class="headerlink" title="5.3.3高速接口连接"></a>5.3.3高速接口连接</h3><p>通过一个QSFP端口传输的流量经由Trident2交换专用集成电路在同一电路板上的其他QSFP端口之间交换出去。下面的数据路径图显示了楔形配置。<br><img src="http://upload-images.jianshu.io/upload_images/7246758-7d69ed9d918c3b12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Trident2 to QSFP mapping"></p>
+<h2 id="5-4控制接口"><a href="#5-4控制接口" class="headerlink" title="5.4控制接口"></a>5.4控制接口</h2><p>Trident2（BCM56850）具有2通道（x2）Gen2 PCIe总线作为控制接口。它直接与Micro Server PCIe总线连接。</p>
+<h2 id="5-5-BMC"><a href="#5-5-BMC" class="headerlink" title="5.5 BMC"></a>5.5 BMC</h2>
       
 
       
@@ -309,7 +349,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/22/6-pack/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/22/wedge/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -323,18 +363,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/11/22/wedge/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          了解Facebook开源ToR交换机设计Wedge
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/11/22/OpenBMC/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">OpenBMC：开源的下一代系统管理软件架构</div>
+    <a href="/2017/11/22/6-pack/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">6-pack: facebook首款硬件开源的模块化交换机</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -361,7 +392,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#平台"><span class="toc-number">1.</span> <span class="toc-text">平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线卡"><span class="toc-number">2.</span> <span class="toc-text">线卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#板卡"><span class="toc-number">3.</span> <span class="toc-text">板卡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连在一起"><span class="toc-number">4.</span> <span class="toc-text">连在一起</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-概述"><span class="toc-number">1.</span> <span class="toc-text">1.概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Wedge-ToR-系统描述"><span class="toc-number">2.</span> <span class="toc-text">2.Wedge (ToR) 系统描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Wedge系统级连接框图"><span class="toc-number">3.</span> <span class="toc-text">3.Wedge系统级连接框图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-PCB模块规格"><span class="toc-number">4.</span> <span class="toc-text">4.PCB模块规格</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1主交换板-16x40GE-QSFP"><span class="toc-number">4.1.</span> <span class="toc-text">4.1主交换板 - 16x40GE/QSFP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-OCP-Micro-Server"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 OCP Micro Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3风扇模块"><span class="toc-number">4.3.</span> <span class="toc-text">4.3风扇模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4后部扩展模块"><span class="toc-number">4.4.</span> <span class="toc-text">4.4后部扩展模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5前部扩展模块"><span class="toc-number">4.5.</span> <span class="toc-text">4.5前部扩展模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-电源适配模块（可选DC-AC）"><span class="toc-number">4.6.</span> <span class="toc-text">4.6 电源适配模块（可选DC/AC）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-详细硬件规格"><span class="toc-number">5.</span> <span class="toc-text">5.详细硬件规格</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1介绍"><span class="toc-number">5.1.</span> <span class="toc-text">5.1介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-主交换板硬件架构"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 主交换板硬件架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3交换芯片-Trident2"><span class="toc-number">5.3.</span> <span class="toc-text">5.3交换芯片 - Trident2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-1-带内网络交换"><span class="toc-number">5.3.1.</span> <span class="toc-text">5.3.1 带内网络交换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-2SerDes接口"><span class="toc-number">5.3.2.</span> <span class="toc-text">5.3.2SerDes接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-3高速接口连接"><span class="toc-number">5.3.3.</span> <span class="toc-text">5.3.3高速接口连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4控制接口"><span class="toc-number">5.4.</span> <span class="toc-text">5.4控制接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-BMC"><span class="toc-number">5.5.</span> <span class="toc-text">5.5 BMC</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -377,7 +408,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="6-pack" ></div> 
+  <div id="SOHUCS" sid="wedge" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 
