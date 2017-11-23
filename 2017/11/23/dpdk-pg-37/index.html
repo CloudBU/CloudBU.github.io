@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Archives | 拙言</title>
+  <title>DPDK编程指南（三十七） | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/archives/page/3/index.html">
+  <meta name="description" content="37. 编写高效代码本章提供了一些使用DPDK开发高效代码的技巧。 有关其他更详细的信息，请参阅 Intel® 64 and IA-32 Architectures Optimization Reference Manual，这是编写高效代码的宝贵参考。 37.1. 内存本节介绍在DPDK环境中开发应用程序时使用内存的一些关键注意事项。">
+<meta name="keywords" content="数据平面,DPDK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPDK编程指南（三十七）">
+<meta property="og:url" content="http://lockless.github.io/2017/11/23/dpdk-pg-37/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="37. 编写高效代码本章提供了一些使用DPDK开发高效代码的技巧。 有关其他更详细的信息，请参阅 Intel® 64 and IA-32 Architectures Optimization Reference Manual，这是编写高效代码的宝贵参考。 37.1. 内存本节介绍在DPDK环境中开发应用程序时使用内存的一些关键注意事项。">
+<meta property="og:updated_time" content="2017-11-23T01:54:01.074Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="DPDK编程指南（三十七）">
+<meta name="twitter:description" content="37. 编写高效代码本章提供了一些使用DPDK开发高效代码的技巧。 有关其他更详细的信息，请参阅 Intel® 64 and IA-32 Architectures Optimization Reference Manual，这是编写高效代码的宝贵参考。 37.1. 内存本节介绍在DPDK环境中开发应用程序时使用内存的一些关键注意事项。">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -185,162 +186,68 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-dpdk-pg-37" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DPDK编程指南（三十七）
+    </h1>
+  
+
+        
+        <a href="/2017/11/23/dpdk-pg-37/" class="archive-article-date">
+  	<time datetime="2017-11-23T01:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-23</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="37-编写高效代码"><a href="#37-编写高效代码" class="headerlink" title="37. 编写高效代码"></a>37. 编写高效代码</h1><p>本章提供了一些使用DPDK开发高效代码的技巧。 有关其他更详细的信息，请参阅<br> <em>Intel® 64 and IA-32 Architectures Optimization Reference Manual</em>，这是编写高效代码的宝贵参考。</p>
+<h2 id="37-1-内存"><a href="#37-1-内存" class="headerlink" title="37.1. 内存"></a>37.1. 内存</h2><p>本节介绍在DPDK环境中开发应用程序时使用内存的一些关键注意事项。</p>
+<a id="more"></a>
+<h3 id="37-1-1-内存拷贝：不要在数据面程序中使用libc"><a href="#37-1-1-内存拷贝：不要在数据面程序中使用libc" class="headerlink" title="37.1.1. 内存拷贝：不要在数据面程序中使用libc"></a>37.1.1. 内存拷贝：不要在数据面程序中使用libc</h3><p>通过Linux应用程序环境，DPDK中可以使用许多libc函数。 这可以简化应用程序的移植和控制平面的开发。 但是，这些功能中有许多不是为了性能而设计的。 诸如memcpy() 或 strcpy() 之类的函数不应该在数据平面中使用。 要复制小型结构体，首选方法是编译器可以优化一个更简单的技术。 请参阅英特尔新出版的 <em>VTune™ Performance Analyzer Essentials</em> 以获取建议。</p>
+<p>对于经常调用的特定函数，提供一个自制的优化函数也是一个好主意，该函数应声明为静态内联。</p>
+<p>DPDK API提供了一个优化的rte_memcpy() 函数。</p>
+<h3 id="37-1-2-内存申请"><a href="#37-1-2-内存申请" class="headerlink" title="37.1.2. 内存申请"></a>37.1.2. 内存申请</h3><p>libc的其他功能，如malloc()，提供了一种灵活的方式来分配和释放内存。 在某些情况下，使用动态分配是必要的，但是建议不要在数据层面使用类似malloc的函数，因为管理碎片堆可能代价高昂，并且分配器可能无法针对并行分配进行优化。</p>
+<p>如果您确实需要在数据平面中进行动态分配，最好使用固定大小对象的内存池。 这个API由librte_mempool提供。 这个数据结构提供了一些提高性能的服务，比如对象的内存对齐，对对象的无锁访问，NUMA感知，批量get/put和percore缓存。 rte_malloc() 函数对mempools使用类似的概念。</p>
+<h3 id="37-1-3-内存区域的并发访问"><a href="#37-1-3-内存区域的并发访问" class="headerlink" title="37.1.3. 内存区域的并发访问"></a>37.1.3. 内存区域的并发访问</h3><p>几个lcore对同一个内存区域进行的读写（RW）访问操作可能会产生大量的数据高速缓存未命中，这代价非常昂贵。 通常可以使用per-lcore变量来解决这类问题。例如，在统计的情况下。 至少有两个解决方案：</p>
+<ul>
+<li>使用 RTE_PER_LCORE 变量。注意，在这种情况下，处于lcore x的数据在lcore y上是无效的。</li>
+<li>使用一个表结构（每个lcore一个）。在这种情况下，每个结构都必须缓存对齐。</li>
+</ul>
+<p>如果在同一缓存行中没有RW变量，那么读取主要变量可以在不损失性能的情况下在内核之间共享。</p>
+<h3 id="37-1-4-NUMA"><a href="#37-1-4-NUMA" class="headerlink" title="37.1.4. NUMA"></a>37.1.4. NUMA</h3><p>在NUMA系统上，由于远程内存访问速度较慢，所以最好访问本地内存。 在DPDK中，memzone，ring，rte_malloc和mempool API提供了在特定内存槽上创建内存池的方法。</p>
+<p>有时候，复制数据以优化速度可能是一个好主意。 对于经常访问的大多数读取变量，将它们保存在一个socket中应该不成问题，因为数据将存在于缓存中。</p>
+<h3 id="37-1-5-跨存储器通道分配"><a href="#37-1-5-跨存储器通道分配" class="headerlink" title="37.1.5. 跨存储器通道分配"></a>37.1.5. 跨存储器通道分配</h3><p>现代内存控制器具有许多内存通道，可以支持并行数据读写操作。 根据内存控制器及其配置，通道数量和内存在通道中的分布方式会有所不同。 每个通道都有带宽限制，这意味着如果所有的存储器访问都在同一通道上完成，则存在潜在的性能瓶颈。</p>
+<p>默认情况下， <a href="mempool_lib.html#mempool-library">Mempool Library</a>  分配对象在内存通道中的地址。</p>
+<h2 id="37-2-lcore之间的通信"><a href="#37-2-lcore之间的通信" class="headerlink" title="37.2. lcore之间的通信"></a>37.2. lcore之间的通信</h2><p>为了在内核之间提供基于消息的通信，建议使用提供无锁环实现的DPDK ring API。<br>该环支持批量访问和突发访问，这意味着只需要一次昂贵的原子操作即可从环中读取多个元素（请参阅  <a href="ring_lib.html">Ring lib</a>）。<br>使用批量访问操作时，性能会大大提高。<br>出队消息的代码算法可能类似于以下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> #define MAX_BULK 32</div><div class="line"></div><div class="line"> while (1) &#123;</div><div class="line">     /* Process as many elements as can be dequeued. */</div><div class="line">     count = rte_ring_dequeue_burst(ring, obj_table, MAX_BULK, NULL);</div><div class="line">     if (unlikely(count == 0))</div><div class="line">         continue;</div><div class="line"></div><div class="line">     my_process_bulk(obj_table, count);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="37-3-PMD-驱动"><a href="#37-3-PMD-驱动" class="headerlink" title="37.3. PMD 驱动"></a>37.3. PMD 驱动</h2><p>DPDK轮询模式驱动程序（PMD）也能够在批量/突发模式下工作，允许在发送或接收功能中对每个呼叫的一些代码进行分解。</p>
+<p>避免部分写入。 当PCI设备通过DMA写入系统存储器时，如果写入操作位于完全缓存行而不是部分写入操作，则其花费较少。 在PMD代码中，已采取了尽可能避免部分写入的措施。</p>
+<h3 id="37-3-1-低报文延迟"><a href="#37-3-1-低报文延迟" class="headerlink" title="37.3.1. 低报文延迟"></a>37.3.1. 低报文延迟</h3><p>传统上，吞吐量和延迟之间有一个折衷。 可以调整应用程序以实现高吞吐量，但平均数据包的端到端延迟通常会因此而增加。 类似地，可以将应用程序调整为平均具有低端到端延迟，但代价是较低的吞吐量。</p>
+<p>为了实现更高的吞吐量，DPDK尝试通过突发处理数据包来合并单独处理每个数据包的成本。</p>
+<p>以testpmd应用程序为例，突发大小可以在命令行上设置为16（也是默认值）。 这允许应用程序一次从PMD请求16个数据包。 然后，testpmd应用程序立即尝试传输所有接收到的数据包，在这种情况下是全部16个数据包。</p>
+<p>在网络端口的相应的TX队列上更新尾指针之前，不发送分组。 当调整高吞吐量时，这种行为是可取的，因为对RX和TX队列的尾指针更新的成本可以分布在16个分组上， 有效地隐藏了写入PCIe 设备的相对较慢的MMIO成本。 但是，当调优为低延迟时，这不是很理想，因为接收到的第一个数据包也必须等待另外15个数据包才能被接收。 直到其他15个数据包也被处理完毕才能被发送，因为直到TX尾指针被更新，NIC才知道要发送数据包，直到所有的16个数据包都被处理完毕才被发送。</p>
+<p>为了始终如一地实现低延迟，即使在系统负载较重的情况下，应用程序开发人员也应避免处理数据包。 testpmd应用程序可以从命令行配置使用突发值1。 这将允许一次处理单个数据包，提供较低的延迟，但是增加了较低吞吐量的成本。</p>
+<h2 id="37-4-锁和原子操作"><a href="#37-4-锁和原子操作" class="headerlink" title="37.4. 锁和原子操作"></a>37.4. 锁和原子操作</h2><p>原子操作意味着在指令之前有一个锁定前缀，导致处理器的LOCK＃信号在执行下一条指令时被断言。 这对多核环境中的性能有很大的影响。</p>
+<p>可以通过避免数据平面中的锁定机制来提高性能。 它通常可以被其他解决方案所取代，比如percore变量。 而且，一些锁定技术比其他锁定技术更有效率。 例如，Read-Copy-Update（RCU）算法可以经常替换简单的rwlock</p>
+<h2 id="37-5-编码考虑"><a href="#37-5-编码考虑" class="headerlink" title="37.5. 编码考虑"></a>37.5. 编码考虑</h2><h3 id="37-5-1-内联函数"><a href="#37-5-1-内联函数" class="headerlink" title="37.5.1. 内联函数"></a>37.5.1. 内联函数</h3><p>小函数可以在头文件中声明为静态内联。 这避免了调用指令的成本（和关联的上下文保存）。 但是，这种技术并不总是有效的。 它取决于许多因素，包括编译器。</p>
+<h3 id="37-5-2-分支预测"><a href="#37-5-2-分支预测" class="headerlink" title="37.5.2. 分支预测"></a>37.5.2. 分支预测</h3><p>英特尔的C/C ++编译器icc/gcc内置的帮助函数likely()和unlikely()允许开发人员指出是否可能采取代码分支。 例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if (likely(x &gt; 1))</div><div class="line">    do_stuff();</div></pre></td></tr></table></figure></p>
+<h2 id="37-6-设置目标CPU类型"><a href="#37-6-设置目标CPU类型" class="headerlink" title="37.6. 设置目标CPU类型"></a>37.6. 设置目标CPU类型</h2><p>DPDK通过DPDK配置文件中的CONFIG_RTE_MACHINE选项支持CPU微体系结构特定的优化。 优化程度取决于编译器针对特定微架构进行优化的能力，因此，只要有可能，最好使用最新的编译器版本。</p>
+<p>如果编译器版本不支持特定的功能集（例如，英特尔®AVX指令集），则编译过程将优雅地降级到编译器支持的任何最新功能集。</p>
+<p>由于构建和运行时目标可能不相同，因此生成的二进制文件还包含在main()函数之前运行的平台检查，并检查当前机器是否适合运行二进制文件。</p>
+<p>除编译器优化之外，一组预处理器定义会自动添加到构建过程中（不管编译器版本如何）。 这些定义对应于目标CPU应该能够支持的指令集。 例如，为任何支持SSE4.2的处理器编译的二进制文件将定义RTE_MACHINE_CPUFLAG_SSE4_2，从而为不同的平台启用编译时代码路径选择。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/12/NCS6008/" class="archive-article-date">
-  	<time datetime="2017-09-12T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/12/NCS6008/">思科NCS6008路由器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">路由器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/11/raft/" class="archive-article-date">
-  	<time datetime="2017-09-11T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/11/raft/">Raft一致性算法简述</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/11/tipc/" class="archive-article-date">
-  	<time datetime="2017-09-11T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/11/tipc/">TIPC协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-23/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-23/">DPDK编程指南（二十三）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -356,274 +263,127 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/23/dpdk-pg-37/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-22/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/23/dpdk-pg-36/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（三十六）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-22/">DPDK编程指南（二十二）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#37-编写高效代码"><span class="toc-number">1.</span> <span class="toc-text">37. 编写高效代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#37-1-内存"><span class="toc-number">1.1.</span> <span class="toc-text">37.1. 内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#37-1-1-内存拷贝：不要在数据面程序中使用libc"><span class="toc-number">1.1.1.</span> <span class="toc-text">37.1.1. 内存拷贝：不要在数据面程序中使用libc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#37-1-2-内存申请"><span class="toc-number">1.1.2.</span> <span class="toc-text">37.1.2. 内存申请</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#37-1-3-内存区域的并发访问"><span class="toc-number">1.1.3.</span> <span class="toc-text">37.1.3. 内存区域的并发访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#37-1-4-NUMA"><span class="toc-number">1.1.4.</span> <span class="toc-text">37.1.4. NUMA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#37-1-5-跨存储器通道分配"><span class="toc-number">1.1.5.</span> <span class="toc-text">37.1.5. 跨存储器通道分配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#37-2-lcore之间的通信"><span class="toc-number">1.2.</span> <span class="toc-text">37.2. lcore之间的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#37-3-PMD-驱动"><span class="toc-number">1.3.</span> <span class="toc-text">37.3. PMD 驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#37-3-1-低报文延迟"><span class="toc-number">1.3.1.</span> <span class="toc-text">37.3.1. 低报文延迟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#37-4-锁和原子操作"><span class="toc-number">1.4.</span> <span class="toc-text">37.4. 锁和原子操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#37-5-编码考虑"><span class="toc-number">1.5.</span> <span class="toc-text">37.5. 编码考虑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#37-5-1-内联函数"><span class="toc-number">1.5.1.</span> <span class="toc-text">37.5.1. 内联函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#37-5-2-分支预测"><span class="toc-number">1.5.2.</span> <span class="toc-text">37.5.2. 分支预测</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#37-6-设置目标CPU类型"><span class="toc-number">1.6.</span> <span class="toc-text">37.6. 设置目标CPU类型</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-21/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-21/">DPDK编程指南（二十一）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-20/" class="archive-article-date">
-  	<time datetime="2017-09-09T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-20/">DPDK编程指南（二十）</a>
-    </h1>
+  <div id="SOHUCS" sid="dpdk-pg-37" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-19/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-19/">DPDK编程指南（十九）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-18/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-18/">DPDK编程指南（十八）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-17/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-17/">DPDK编程指南（十七）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -647,8 +407,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
