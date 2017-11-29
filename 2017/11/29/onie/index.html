@@ -6,18 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Tag: 网络 | 拙言</title>
+  <title>ONIE：开放网络安装环境 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/tags/网络/index.html">
+  <meta name="description" content="1.    概述1.1. 项目概述Open Network Install Environment (ONIE)是一个开源计划，为现代网络硬件定义了一个开放的安装环境。ONIE造就了一个开放的网络硬件生态系统，使得最终用户可以在不同的网络操作系统中进行选择。在ONIE出现之前，以太网交换机使用预装的专有操作系统，这中网络设备将最终用户锁定到设备的垂直供应链上。">
+<meta name="keywords" content="网络,开源,OCP,ONIE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ONIE：开放网络安装环境">
+<meta property="og:url" content="http://lockless.github.io/2017/11/29/onie/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="1.    概述1.1. 项目概述Open Network Install Environment (ONIE)是一个开源计划，为现代网络硬件定义了一个开放的安装环境。ONIE造就了一个开放的网络硬件生态系统，使得最终用户可以在不同的网络操作系统中进行选择。在ONIE出现之前，以太网交换机使用预装的专有操作系统，这中网络设备将最终用户锁定到设备的垂直供应链上。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-9bc8ab738ced064d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-4b454864e3586c0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-1efbbc659fa4cd33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-669ebf6c86ab91fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-29T01:42:24.290Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="ONIE：开放网络安装环境">
+<meta name="twitter:description" content="1.    概述1.1. 项目概述Open Network Install Environment (ONIE)是一个开源计划，为现代网络硬件定义了一个开放的安装环境。ONIE造就了一个开放的网络硬件生态系统，使得最终用户可以在不同的网络操作系统中进行选择。在ONIE出现之前，以太网交换机使用预装的专有操作系统，这中网络设备将最终用户锁定到设备的垂直供应链上。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-9bc8ab738ced064d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -185,36 +191,91 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-onie" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/29/onie/" class="archive-article-date">
-  	<time datetime="2017-11-29T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/29/onie/">ONIE：开放网络安装环境</a>
+    <h1 class="article-title" itemprop="name">
+      ONIE：开放网络安装环境
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/11/29/onie/" class="archive-article-date">
+  	<time datetime="2017-11-29T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.    概述"></a>1.    概述</h1><h2 id="1-1-项目概述"><a href="#1-1-项目概述" class="headerlink" title="1.1. 项目概述"></a>1.1. 项目概述</h2><p>Open Network Install Environment (ONIE)是一个开源计划，为现代网络硬件定义了一个开放的安装环境。ONIE造就了一个开放的网络硬件生态系统，使得最终用户可以在不同的网络操作系统中进行选择。<br>在ONIE出现之前，以太网交换机使用预装的专有操作系统，这中网络设备将最终用户锁定到设备的垂直供应链上。</p>
+<a id="more"></a>
+<p>最初，ONIE通过向多个操作系统供应商开放硬件开启了“白盒”和“裸机”网络交换机生态系统。随着时间的推移， ONIE的知名度不断提高，现在ONIE已经成为网络硬件行业的主流安装环境。<br>现代网络交换机都具有一个管理子系统，该系统基于各种CPU架构，通常包括串行控制台，带外以太网和大容量的存储器。该子系统可以独立于“前面板”以太网接口关联的交换ASIC独立工作。<br>ONIE定义了一个开源的安装环境，该安装环境运行在这个管理子系统的Linux内核和BusyBox环境上。这个环境允许最终用户和渠道合作伙伴安装目标NOS。<br>ONIE使得交换机硬件供应商，分销商和经销商能够基于少量的硬件库存管理其操作。反过来又在制造、分销、库存和RMA方面创造了规模经济，从而使得网络硬件和操作系统的替代品得以蓬勃发展。<br><em>亮点</em> ：</p>
+<ul>
+<li>将引导加载程序与现代Linux内核和BusyBox结合在一起</li>
+<li>提供了一个安装任何NOS的环境</li>
+<li>革命性地将用户从预先安装的操作系统中解放出来</li>
+<li>帮助实现大规模数据中心交换机的配置自动化</li>
+<li>可以像管理Linux服务器一样管理交换机<h2 id="1-2-设计概述"><a href="#1-2-设计概述" class="headerlink" title="1.2. 设计概述"></a>1.2. 设计概述</h2>完整的设计，请参考设计规格文档。<br>ONIE是bootloader和一个小型操作系统的组合，该操作系统为网络交换机自动配置提供环境。ONIE使用交换机的控制面CPU，但是不使用转发面，如下图所示：<img src="http://upload-images.jianshu.io/upload_images/7246758-9bc8ab738ced064d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="典型网络交换机CPU组合—ONIE使用其中高亮的部分"></li>
+</ul>
+<h2 id="1-2-1-初次系统引导"><a href="#1-2-1-初次系统引导" class="headerlink" title="1.2.1.    初次系统引导"></a>1.2.1.    初次系统引导</h2><p>当一台新设备第一次启动时，ONIE定位到并执行厂商提供的NOS，如下图所示：<img src="http://upload-images.jianshu.io/upload_images/7246758-4b454864e3586c0e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="执行流程—First Time Boot Up"></p>
+<h3 id="1-2-2-后续系统引导"><a href="#1-2-2-后续系统引导" class="headerlink" title="1.2.2. 后续系统引导"></a>1.2.2. 后续系统引导</h3><p>后续系统的每次启动都不使用ONIE。初次引导之后，后面系统启动直接进入NOS，绕过ONIE。如下图所示：<img src="http://upload-images.jianshu.io/upload_images/7246758-1efbbc659fa4cd33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="后续开机—NOS安装之后"><br>当然，系统提供了一个重新进入安装阶段的机制。定义了一个API，这样网络操作系统可以提示系统重新进入安装阶段。</p>
+<h3 id="1-2-3-找到安装镜像"><a href="#1-2-3-找到安装镜像" class="headerlink" title="1.2.3. 找到安装镜像"></a>1.2.3. 找到安装镜像</h3><p>ONIE使用多种方法来定位到NOS安装程序的位置，包括但不限于：</p>
+<ul>
+<li>通过bootloader进行静态配置</li>
+<li>本地连接的存储器，例如USB存储设备</li>
+<li>DHCPv4/DHCPv6</li>
+<li>IPv4/IPv6链路本地邻居</li>
+<li>mDNS/DNS-SD</li>
+<li>类似PXE的TFTP和HTTP流程</li>
+</ul>
+<p>镜像下载的首选方法是HTTP ，因为它具有较好的性能。TFTP方式也支持，但是不能和HTTP共存。<br>一旦找到镜像，ONIE就会继续执行NOS的安装流程。<br>下图举例说明了NOS定位和安装执行过程：<img src="http://upload-images.jianshu.io/upload_images/7246758-669ebf6c86ab91fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="镜像位置确认"></p>
+<p>在上图中，”Less Exact Methods” 方框指的是使用探测技术来发现NOS的机制，如：</p>
+<ul>
+<li>IPv4 / IPv6 本地链路邻居</li>
+<li>类似于PXE的TFTP和HTTP过程</li>
+</ul>
+<h3 id="1-2-4-安装执行环境"><a href="#1-2-4-安装执行环境" class="headerlink" title="1.2.4. 安装执行环境"></a>1.2.4. 安装执行环境</h3><p>在执行安装程序时，ONIE会导出一些环境变量供安装程序使用。这些变量包括系统标识信息及在镜像发现过程中学习到的信息。<br>导出给安装程序的信息包括但不限于：</p>
+<ul>
+<li>安装程序URL</li>
+<li>硬件供应商标识</li>
+<li>硬件平台标识</li>
+<li>硬件系列号</li>
+<li>以太网管理口MAC地址</li>
+<li>IP地址(DHCP获取)</li>
+<li>Hostname (DHCP获取)<br>这些变量允许安装程序与其他自动化流程进行集成，立即将产品系列号，MAC地址和NOS版本捆绑在一起。<br>1.2.5.    安装程序概述<br>安装程序负责将操作系统永久地安装到硬件中。为了实现这个功能，兼容ONIE的NOS安装程序具有很大的灵活性。<br>安装程序可以实现的一些功能如下:</li>
+<li>通过HTTP获取额外的二进制文件和配置文件</li>
+<li>通过HTTP与库存控制系统进行交流</li>
+<li>下载一个新的kernel+initramfs and kexec(8) </li>
+</ul>
+<h3 id="1-2-6-网络操作系统接口"><a href="#1-2-6-网络操作系统接口" class="headerlink" title="1.2.6. 网络操作系统接口"></a>1.2.6. 网络操作系统接口</h3><p>ONIE为NOS提供了执行系统配置和维护操作的环境，包括：</p>
+<ul>
+<li>重新安装不同的NOS</li>
+<li>卸载/清除系统</li>
+<li>应急和恢复</li>
+<li>更新ONIE</li>
+<li>更新设备的CPLD/FPGAs及BIOS固件<br>这个环境构成了ONIE和NOS的接口。</li>
+</ul>
+<h3 id="1-2-7-更新ONIE"><a href="#1-2-7-更新ONIE" class="headerlink" title="1.2.7. 更新ONIE"></a>1.2.7. 更新ONIE</h3><p>ONIE提供了一个自我升级的机制。这种机制很像网络操作系统的定位和执行阶段，但是这种情况下镜像是ONIE镜像。一旦找到，ONIE镜像就被下载并执行。</p>
+<h3 id="1-2-8-固件升级"><a href="#1-2-8-固件升级" class="headerlink" title="1.2.8. 固件升级"></a>1.2.8. 固件升级</h3><p>ONIE提供了固件升级机制。在这种情况下，固件指的是类似于CPLD/FPGA软件代码及BIOS固件。这种机制就像更新ONIE本身一样，指示镜像换成了固件镜像。一旦找到，镜像就被下载并执行。</p>
+<h1 id="2-下载源码"><a href="#2-下载源码" class="headerlink" title="2.    下载源码"></a>2.    下载源码</h1><h2 id="2-1-发布版本"><a href="#2-1-发布版本" class="headerlink" title="2.1. 发布版本"></a>2.1. 发布版本</h2><p>已发布的版本可以直接下载使用： opencomputeproject/onie。</p>
+<h2 id="2-2-最新开发版本"><a href="#2-2-最新开发版本" class="headerlink" title="2.2. 最新开发版本"></a>2.2. 最新开发版本</h2><p>可以使用Git从ONIE工程中下载最新的源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/opencomputeproject/onie.gitss</div></pre></td></tr></table></figure></p>
+<h1 id="3-社区"><a href="#3-社区" class="headerlink" title="3.    社区"></a>3.    社区</h1><p>可以参与ONIE社区开发并保持连续。</p>
+<h2 id="3-1-代码库"><a href="#3-1-代码库" class="headerlink" title="3.1. 代码库"></a>3.1. 代码库</h2><p>浏览源码，问题文件和贡献： opencomputeproject/onie。</p>
+<h2 id="3-2-Mailing-List"><a href="#3-2-Mailing-List" class="headerlink" title="3.2. Mailing List"></a>3.2. Mailing List</h2><p>This is a low volume list for questions, comments and general announcements.<br>Send questions, bugs, comments and ideas to opencompute-onie@lists.opencompute.org.<br>Join the mailing list: <a href="http://lists.opencompute.org/mailman/listinfo/opencompute-onie" target="_blank" rel="external">http://lists.opencompute.org/mailman/listinfo/opencompute-onie</a><br>Browse the archives: <a href="http://lists.opencompute.org/pipermail/opencompute-onie" target="_blank" rel="external">http://lists.opencompute.org/pipermail/opencompute-onie</a></p>
+<h2 id="3-3-贡献"><a href="#3-3-贡献" class="headerlink" title="3.3. 贡献"></a>3.3. 贡献</h2><p>浏览源码，发布并贡献给Github上托管的 ONIE Project。<br>克隆最新的开发版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/opencomputeproject/onie.git</div></pre></td></tr></table></figure></p>
+<h2 id="3-4-OCP-Wiki"><a href="#3-4-OCP-Wiki" class="headerlink" title="3.4. OCP Wiki"></a>3.4. OCP Wiki</h2><p>参考 OCP ONIE wiki 获取更多的信息。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -238,291 +299,128 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/29/onie/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/22/wedge/" class="archive-article-date">
-  	<time datetime="2017-11-22T11:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-22</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/23/dpdk-pg-37/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPDK编程指南（三十七）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/22/wedge/">了解Facebook开源ToR交换机设计Wedge</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-概述"><span class="toc-number">1.</span> <span class="toc-text">1.    概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-项目概述"><span class="toc-number">1.1.</span> <span class="toc-text">1.1. 项目概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-设计概述"><span class="toc-number">1.2.</span> <span class="toc-text">1.2. 设计概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-1-初次系统引导"><span class="toc-number">1.3.</span> <span class="toc-text">1.2.1.    初次系统引导</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-2-后续系统引导"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.2.2. 后续系统引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-3-找到安装镜像"><span class="toc-number">1.3.2.</span> <span class="toc-text">1.2.3. 找到安装镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-4-安装执行环境"><span class="toc-number">1.3.3.</span> <span class="toc-text">1.2.4. 安装执行环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-6-网络操作系统接口"><span class="toc-number">1.3.4.</span> <span class="toc-text">1.2.6. 网络操作系统接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-7-更新ONIE"><span class="toc-number">1.3.5.</span> <span class="toc-text">1.2.7. 更新ONIE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-8-固件升级"><span class="toc-number">1.3.6.</span> <span class="toc-text">1.2.8. 固件升级</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-下载源码"><span class="toc-number">2.</span> <span class="toc-text">2.    下载源码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-发布版本"><span class="toc-number">2.1.</span> <span class="toc-text">2.1. 发布版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-最新开发版本"><span class="toc-number">2.2.</span> <span class="toc-text">2.2. 最新开发版本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-社区"><span class="toc-number">3.</span> <span class="toc-text">3.    社区</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-代码库"><span class="toc-number">3.1.</span> <span class="toc-text">3.1. 代码库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-Mailing-List"><span class="toc-number">3.2.</span> <span class="toc-text">3.2. Mailing List</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-贡献"><span class="toc-number">3.3.</span> <span class="toc-text">3.3. 贡献</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-OCP-Wiki"><span class="toc-number">3.4.</span> <span class="toc-text">3.4. OCP Wiki</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/22/6-pack/" class="archive-article-date">
-  	<time datetime="2017-11-22T05:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-22</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/22/6-pack/">6-pack: facebook首款硬件开源的模块化交换机</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/22/OpenBMC/" class="archive-article-date">
-  	<time datetime="2017-11-22T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/22/OpenBMC/">OpenBMC：开源的下一代系统管理软件架构</a>
-    </h1>
+  <div id="SOHUCS" sid="onie" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/13/Interlaken-1/" class="archive-article-date">
-  	<time datetime="2017-09-13T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/13/Interlaken-1/">Interlaken协议（上）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/12/NCS6008/" class="archive-article-date">
-  	<time datetime="2017-09-12T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/12/NCS6008/">思科NCS6008路由器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">路由器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/11/tipc/" class="archive-article-date">
-  	<time datetime="2017-09-11T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/11/tipc/">TIPC协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -545,9 +443,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
