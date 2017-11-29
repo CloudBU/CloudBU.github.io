@@ -6,34 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（四） | 拙言</title>
+  <title>ONIE：用户指南 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="4.环形缓冲区库环形缓冲区支持队列管理。rte_ring并不是具有无限大小的链表，它具有如下属性：  先进先出（FIFO） 最大大小固定，指针存储在表中 无锁实现 多消费者或单消费者出队操作 多生产者或单生产者入队操作 批量出队 - 如果成功，将指定数量的元素出队，否则什么也不做 批量入队 - 如果成功，将指定数量的元素入队，否则什么也不做 突发出队 - 如果指定的数目出队失败，则将最大可用数目对">
-<meta name="keywords" content="数据平面,DPDK">
+  <meta name="description" content="ONIE支持多种查找网络操作系统（NOS）镜像的方法，从简单到相对复杂。简单的方法适合在少量交换机上安装NOS，作为概念验证或演示。这些方法虽然易于设置，但是对复杂网络可能需要的配置支持有限。相对复杂的方法适用复杂网络和大规模交换机部署的场景。这些方法提供了广泛的灵选项，缺点是你需要了解和配置这些选项。本节中的示例引用了一个假想的，基于PowerPC的交换机，成为MACHINE，由假定的制造商商V">
+<meta name="keywords" content="开源,网络,OCP,ONIE">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（四）">
-<meta property="og:url" content="http://lockless.github.io/2017/09/05/dpdk-pg-4/index.html">
+<meta property="og:title" content="ONIE：用户指南">
+<meta property="og:url" content="http://lockless.github.io/2017/11/29/onie-user-guide/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="4.环形缓冲区库环形缓冲区支持队列管理。rte_ring并不是具有无限大小的链表，它具有如下属性：  先进先出（FIFO） 最大大小固定，指针存储在表中 无锁实现 多消费者或单消费者出队操作 多生产者或单生产者入队操作 批量出队 - 如果成功，将指定数量的元素出队，否则什么也不做 批量入队 - 如果成功，将指定数量的元素入队，否则什么也不做 突发出队 - 如果指定的数目出队失败，则将最大可用数目对">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-9cc2371d034ac2c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-cb8c18e11b1c284a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-d11211a380f6aae4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-20faa9f54b2058cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-0c49d6185cb464a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-41d719ecbccae06d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-eb0f23f9aa2a652c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-8667ca21267f532a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-28208cb95c5ccb88.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-509ffc742bd6d99e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-24dea7e716151f39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-b59e33033dba70bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-dd8d8fe889b5a7a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-c15437ddd8e67ffd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-11-13T08:28:09.196Z">
+<meta property="og:description" content="ONIE支持多种查找网络操作系统（NOS）镜像的方法，从简单到相对复杂。简单的方法适合在少量交换机上安装NOS，作为概念验证或演示。这些方法虽然易于设置，但是对复杂网络可能需要的配置支持有限。相对复杂的方法适用复杂网络和大规模交换机部署的场景。这些方法提供了广泛的灵选项，缺点是你需要了解和配置这些选项。本节中的示例引用了一个假想的，基于PowerPC的交换机，成为MACHINE，由假定的制造商商V">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-c8afd42750982668.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-22ae82aa09bdd564.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-f79d51dca91a99ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-4e3d4e995af5194c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-11-29T01:59:44.749Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（四）">
-<meta name="twitter:description" content="4.环形缓冲区库环形缓冲区支持队列管理。rte_ring并不是具有无限大小的链表，它具有如下属性：  先进先出（FIFO） 最大大小固定，指针存储在表中 无锁实现 多消费者或单消费者出队操作 多生产者或单生产者入队操作 批量出队 - 如果成功，将指定数量的元素出队，否则什么也不做 批量入队 - 如果成功，将指定数量的元素入队，否则什么也不做 突发出队 - 如果指定的数目出队失败，则将最大可用数目对">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-9cc2371d034ac2c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="ONIE：用户指南">
+<meta name="twitter:description" content="ONIE支持多种查找网络操作系统（NOS）镜像的方法，从简单到相对复杂。简单的方法适合在少量交换机上安装NOS，作为概念验证或演示。这些方法虽然易于设置，但是对复杂网络可能需要的配置支持有限。相对复杂的方法适用复杂网络和大规模交换机部署的场景。这些方法提供了广泛的灵选项，缺点是你需要了解和配置这些选项。本节中的示例引用了一个假想的，基于PowerPC的交换机，成为MACHINE，由假定的制造商商V">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-c8afd42750982668.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -201,105 +191,88 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-4" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-onie-user-guide" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（四）
+      ONIE：用户指南
     </h1>
   
 
         
-        <a href="/2017/09/05/dpdk-pg-4/" class="archive-article-date">
-  	<time datetime="2017-09-05T15:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
+        <a href="/2017/11/29/onie-user-guide/" class="archive-article-date">
+  	<time datetime="2017-11-29T01:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="4-环形缓冲区库"><a href="#4-环形缓冲区库" class="headerlink" title="4.环形缓冲区库"></a>4.环形缓冲区库</h1><p>环形缓冲区支持队列管理。rte_ring并不是具有无限大小的链表，它具有如下属性：</p>
-<ul>
-<li>先进先出（FIFO）</li>
-<li>最大大小固定，指针存储在表中</li>
-<li>无锁实现</li>
-<li>多消费者或单消费者出队操作</li>
-<li>多生产者或单生产者入队操作</li>
-<li>批量出队 - 如果成功，将指定数量的元素出队，否则什么也不做</li>
-<li>批量入队 - 如果成功，将指定数量的元素入队，否则什么也不做</li>
-<li>突发出队 - 如果指定的数目出队失败，则将最大可用数目对象出队</li>
-<li>突发入队 - 如果指定的数目入队失败，则将最大可入队数目对象入队</li>
-</ul>
+        <p>ONIE支持多种查找网络操作系统（NOS）镜像的方法，从简单到相对复杂。<br>简单的方法适合在少量交换机上安装NOS，作为概念验证或演示。这些方法虽然易于设置，但是对复杂网络可能需要的配置支持有限。<br>相对复杂的方法适用复杂网络和大规模交换机部署的场景。这些方法提供了广泛的灵选项，缺点是你需要了解和配置这些选项。<br>本节中的示例引用了一个假想的，基于PowerPC的交换机，成为MACHINE，由假定的制造商商VENDOR提供。</p>
 <a id="more"></a>
-<p>相比于链表，这个数据结构的优点如下：</p>
+<h1 id="1-使用USB驱动进行安装"><a href="#1-使用USB驱动进行安装" class="headerlink" title="1. 使用USB驱动进行安装"></a>1. 使用USB驱动进行安装</h1><p>要通过USB进行安装，只需要使用文件名称onie-installer将安装程序镜像复制到USB驱动设备的根目录上即可。<br>假设NOS安装程序镜像名称为ACME_XYZ1234_PowerPC_Installer.bin。假设USB驱动设备显示在Linux下的/dev/sdd1上(可能与您的操作系统有所不同)。<br>将安装程序文件复制到USB驱动设备的根目录下，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">linux:~$ sudo mkdir /mnt/usb</div><div class="line">linux:~$ sudo mount /dev/sdd1 /mnt/usb</div><div class="line">linux:~$ sudo cp ACME_XYZ1234_PowerPC_Installer.bin /mnt/usb/onie-installer</div><div class="line">linux:~$ sudo umount /mnt/usb</div></pre></td></tr></table></figure></p>
+<p>现在可以从计算机中取出USB设备并将其插入启用ONIE的设备的前（后）面板上的USB插槽。打开设备电源，ONIE将发现USB设备根目录上的onie-installer并执行。</p>
+<h1 id="2-使用网络进行安装"><a href="#2-使用网络进行安装" class="headerlink" title="2. 使用网络进行安装"></a>2. 使用网络进行安装</h1><p>对于所有网络安装场景，ONIE可以通过HTTP从网络上获取NOS安装镜像。本文档假设Web服务器的主机名和IPv4地址如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hostname:  image-server</div><div class="line">IP addr :  203.0.113.10</div></pre></td></tr></table></figure></p>
+<p>在继续之前，必须先进行如下操作：</p>
 <ul>
-<li>更快，只需要一个sizeof(void *)的Compare-And-Swap指令，而不是多个双重比较和交换指令。</li>
-<li>更像是一个完全无锁队列。</li>
-<li>适应批量入队/出队操作。因为指针是存储在表中的，多个对象的出队将不会产生与链表队列中一样多的cache miss。此外，批量出队成本并不比单个对象出队高。</li>
+<li>安装并配置HTTP服务器</li>
+<li>拷贝NOS安装镜像到HTTP服务器</li>
 </ul>
-<p>缺点：</p>
+<h2 id="2-1-安装并配置HTTP服务器ss"><a href="#2-1-安装并配置HTTP服务器ss" class="headerlink" title="2.1.    安装并配置HTTP服务器ss"></a>2.1.    安装并配置HTTP服务器ss</h2><p>下载并安装HTTP服务器。<a href="http://httpd.apache.org/" target="_blank" rel="external">Apache httpd</a> 及<a href="http://nginx.org/" target="_blank" rel="external">NGINX HTTP server</a>。<br>本文中的示例假定Apache httpd安装在具有默认配置选项的Linux计算机上。Web服务器文档的根目录为/var/www。</p>
+<h2 id="2-2-拷贝NOS安装镜像到HTTP服务器s"><a href="#2-2-拷贝NOS安装镜像到HTTP服务器s" class="headerlink" title="2.2.    拷贝NOS安装镜像到HTTP服务器s"></a>2.2.    拷贝NOS安装镜像到HTTP服务器s</h2><p>从NOS安装镜像供应商处购买安装镜像之后，将安装镜像复制到Web服务器的根目录中。在Linux Apache环境下，文档根目录是/var/www，您可能需要root权限才能执行操作。<br>假定NOS安装镜像的名称为ACME_XYZ1234_PowerPC_Installer.bin，将该文件复制到Web服务器文档根目录之后，/var/www显示的内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">image-server:~$ sudo cp ACME_XYZ1234_PowerPC_Installer.bin /var/www</div><div class="line">image-server:~$ ls -l /var/www</div><div class="line">-rw-r--r-- 1 root root  17755 Jun 27 16:18 ACME_XYZ1234_PowerPC_Installer.bin</div></pre></td></tr></table></figure></p>
+<h2 id="2-3-测试从HTTP服务器下载NOS安装镜像"><a href="#2-3-测试从HTTP服务器下载NOS安装镜像" class="headerlink" title="2.3.    测试从HTTP服务器下载NOS安装镜像"></a>2.3.    测试从HTTP服务器下载NOS安装镜像</h2><p>在下一步操作之前，最好仔细检查Web服务器的配置和NOS安装镜像的位置。可以尝试从另一台机器上下载NOS安装镜像。您可以使用Web浏览器或者CLI命令如wget或者curl来下载。<br>需要仔细检查的URL是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://203.0.113.10/ACME_XYZ1234_PowerPC_Installer.bin</div><div class="line">http://image-server/ACME_XYZ1234_PowerPC_Installer.bin</div></pre></td></tr></table></figure></p>
+<h1 id="3-直连场景"><a href="#3-直连场景" class="headerlink" title="3.直连场景"></a>3.直连场景</h1><p>最简单的拓扑结构是Web服务器直接连接到交换机上的以太网管理端口，如下图所示。<img src="http://upload-images.jianshu.io/upload_images/7246758-c8afd42750982668.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="交换机和Web服务器直连"></p>
+<p>这种简单的方式适用于少量的交换机场景。在生产环境中，需要连接到交换机并执行快速的一次性安装时，就是这种情况。<br>在这种场景中，没有任何额外的配置，ONIE将发现链路本地Web服务器的IP地址 (IPv6或IPv4)。有关ONIE如何发现链路本地邻居信息，请参阅HTTP IPv4及IPv6邻居章节。<br>当邻居发现之后，ONIE按照“默认文件名搜索顺序”中的描述，为一系列默认安装镜像文件名发出HTTP请求。<br>接下来，ONIE应用默认的文件名约定，使用下列的HTTP请求来查找安装镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">http://203.0.113.10/onie-installer-powerpc-VENDOR_MACHINE-r0</div><div class="line">http://203.0.113.10/onie-installer-powerpc-VENDOR_MACHINE</div><div class="line">http://203.0.113.10/onie-installer-VENDOR_MACHINE</div><div class="line">http://203.0.113.10/onie-installer-powerpc</div><div class="line">http://203.0.113.10/onie-installer</div></pre></td></tr></table></figure></p>
+<p>有关用于特定硬件平台的确切文件名称，请联系您的NOS供应商或您的硬件供应商。<br>配置Web服务器的简单方法是将NOS供应商的镜像名称符号链接(或重命名)为默认的ONIE安装镜像名之一。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">image-server:~$ cd /var/www</div><div class="line">image-server:/var/www$ sudo ln -s ACME_XYZ1234_PowerPC_Installer.bin ./onie-installer</div><div class="line">image-server:/var/www$ ls -l</div><div class="line">lrwxrwxrwx 1 root root  104 Jul 22 14:01 onie-installer -&gt; ACME_XYZ1234_PowerPC_Installer.bin</div></pre></td></tr></table></figure></p>
+<p>使用符号链接之后，Web服务器会回复完整的安装镜像，以响应onie-installer的请求。现在，ONIE可以下载并执行安装镜像了。ss</p>
+<h1 id="4-二层连接场景"><a href="#4-二层连接场景" class="headerlink" title="4.二层连接场景"></a>4.二层连接场景</h1><p>在此拓扑中，目标交换机和Web服务器在同一个L2网络中。例如，他们可能都被插入到同一个非托管的交换机中。如下图所示。<img src="http://upload-images.jianshu.io/upload_images/7246758-22ae82aa09bdd564.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="交换机和Web服务器处于同一L2网络"></p>
+<p>这种情况就像前面介绍的直连情况一样。ONIE发现Web服务器的IP地址。并尝试从服务器下载一系列默认文件名的文件。</p>
+<h1 id="5-基本DHCP场景1-指定安装镜像URL"><a href="#5-基本DHCP场景1-指定安装镜像URL" class="headerlink" title="5.基本DHCP场景1 (指定安装镜像URL)"></a>5.基本DHCP场景1 (指定安装镜像URL)</h1><p>在这种场景中，我们跳过复杂的情况，使用DHCP服务器提供有关安装镜像位置信息。DHCP服务器，目标交换机和Web服务器都位于同一个L2网络上。如下图所示。<img src="http://upload-images.jianshu.io/upload_images/7246758-f79d51dca91a99ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="交换机和Web服务器及DHCP服务器上位于同一L2网络上"></p>
+<p>DHCP服务器负责提供如下信息：</p>
 <ul>
-<li>大小固定。</li>
-<li>大量ring相比于链表，消耗更多的内存，空ring至少包含n个指针。</li>
+<li>从IP地址池中为目标交换机分配IP地址</li>
+<li>Web服务器中安装镜像的URL<br>下面是ISC DHCP服务器的dhcpd.conf文件示例。更多有关ONIE如何使用DHCP选项的信息，请参阅DHCP请求和响应章节描述。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">subnet 203.0.113.0 netmask 255.255.255.0 &#123;</div><div class="line">  range 203.0.113.20 203.0.113.200;</div><div class="line">  option default-url = &quot;http://203.0.113.10/customer-abc-onie-installer&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>数据结构中存储的生产者和消费者头部和尾部指针显示了一个简化版本的ring。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-9cc2371d034ac2c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 1 Ring Structure"></p>
-<h2 id="4-1-FreeBSD-中环形缓冲区实现参考"><a href="#4-1-FreeBSD-中环形缓冲区实现参考" class="headerlink" title="4.1.FreeBSD*中环形缓冲区实现参考"></a>4.1.FreeBSD*中环形缓冲区实现参考</h2><p>FreeBSD 8.0中添加了如下代码，并应用到了某些网络设备驱动程序中（至少Interl驱动中应用了）：</p>
+<p>使用此配置，ONIE从由range参数定义的地址池中提取IP地址。接下来尝试下载由default-url参数指定的镜像。<br>使用这个技术，你可以：</p>
 <ul>
-<li><a href="https://svnweb.freebsd.org/base/release/8.0.0/sys/sys/buf_ring.h?revision=199625&amp;view=markup" target="_blank" rel="external">bufring.h in FreeBSD</a></li>
-<li><a href="https://svnweb.freebsd.org/base/release/8.0.0/sys/kern/subr_bufring.c?revision=199625&amp;view=markup" target="_blank" rel="external">bufring.c in FreeBSD</a></li>
+<li>分配任何对您的网络有意义的IP地址</li>
+<li>根据需要命名您的安装镜像，包括子目录名称<br>在此示例中，Web服务器和目标交换机必须位于同一个L2网络上。</li>
 </ul>
-<h2 id="4-2-Linux-中的无锁环形缓冲区"><a href="#4-2-Linux-中的无锁环形缓冲区" class="headerlink" title="4.2.Linux*中的无锁环形缓冲区"></a>4.2.Linux*中的无锁环形缓冲区</h2><p>参考链接：<a href="https://lwn.net/Articles/340400/" target="_blank" rel="external">Linux Lockless Ring Buffer Design</a>。</p>
-<h2 id="4-3-附加特性"><a href="#4-3-附加特性" class="headerlink" title="4.3.附加特性"></a>4.3.附加特性</h2><h3 id="4-3-1-名字"><a href="#4-3-1-名字" class="headerlink" title="4.3.1.名字"></a>4.3.1.名字</h3><p>每个ring都有唯一的名字。 用户不可能创建两个具有相同名称的ring（如果尝试调用rte_ring_create()这样做的话，将返回NULL）。</p>
-<h2 id="4-4-用例"><a href="#4-4-用例" class="headerlink" title="4.4.用例"></a>4.4.用例</h2><p>Ring库的使用情况包括：</p>
-<ul>
-<li>DPDK应用程序之间的交互</li>
-<li>用于内存池申请</li>
-</ul>
-<h2 id="4-5-环形缓冲区解析"><a href="#4-5-环形缓冲区解析" class="headerlink" title="4.5.环形缓冲区解析"></a>4.5.环形缓冲区解析</h2><p>本节介绍ring buffer的运行方式。Ring结构有两组头尾指针组成，一组被生产者调用，一组被消费者调用。以下将简单称为prod_head、prod_tail、cons_head及cons_tail。</p>
-<p>每个图代表了ring的简化状态，是一个循环缓冲器。本地变量的内容在图上方表示，Ring结构的内容在图下方表示。</p>
-<h3 id="4-5-1-单生产者入队"><a href="#4-5-1-单生产者入队" class="headerlink" title="4.5.1.单生产者入队"></a>4.5.1.单生产者入队</h3><p>本节介绍了一个生产者向队列添加对象的情况。在本例中，只有生产者头和尾指针(prod_head and prod_tail)被修改，只有一个生产者。初始状态是将prod_head和prod_tail指向相同的位置。</p>
-<h4 id="4-5-1-1-入队第一步"><a href="#4-5-1-1-入队第一步" class="headerlink" title="4.5.1.1.入队第一步"></a>4.5.1.1.入队第一步</h4><p>首先， ring-&gt;prod_head和ring-&gt;cons_tail<em>复制到本地变量中。</em>prod_next本地变量指向下一个元素，或者，如果是批量入队的话，指向下几个元素。如果ring中没有足够的空间存储元素的话(通过检查cons_tail来确定)，则返回错误。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-cb8c18e11b1c284a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 2 Enqueue first step"></p>
-<h4 id="4-5-1-2-入队第二步"><a href="#4-5-1-2-入队第二步" class="headerlink" title="4.5.1.2.入队第二步"></a>4.5.1.2.入队第二步</h4><p>第二步是在环结构中修改 ring-&gt;prod_head，以指向与prod_next相同的位置。指向待添加对象的指针被复制到ring中。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-d11211a380f6aae4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 3 Enqueue second step"></p>
-<h4 id="4-5-1-3-入队最后一步"><a href="#4-5-1-3-入队最后一步" class="headerlink" title="4.5.1.3.入队最后一步"></a>4.5.1.3.入队最后一步</h4><p>一旦将对象添加到ring中，ring结构中的 ring-&gt;prod_tail 将被修改，指向与 ring-&gt;prod_head 相同的位置。入队操作完成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-20faa9f54b2058cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 4 Enqueue last step"></p>
-<h3 id="4-5-2-单消费者出队"><a href="#4-5-2-单消费者出队" class="headerlink" title="4.5.2.单消费者出队"></a>4.5.2.单消费者出队</h3><p>本节介绍一个消费者从ring中取出对象的情况。在本例中，只有消费者头尾指针(cons_head and cons_tail)被修改，只有一个消费者。初始状态是将cons_head和cons_tail指向相同位置。</p>
-<h4 id="4-5-2-1-出队第一步"><a href="#4-5-2-1-出队第一步" class="headerlink" title="4.5.2.1.出队第一步"></a>4.5.2.1.出队第一步</h4><p>首先，将 ring-&gt;cons_head 和 ring-&gt;prod_tail<em>复制到局部变量中。 </em>cons_next 本地变量指向表的下一个元素，或者在批量出队的情况下指向下几个元素。如果ring中没有足够的对象用于出队(通过检查prod_tail)，将返回错误。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-0c49d6185cb464a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 5 Dequeue first step"></p>
-<h4 id="4-5-2-2-出队第二步"><a href="#4-5-2-2-出队第二步" class="headerlink" title="4.5.2.2.出队第二步"></a>4.5.2.2.出队第二步</h4><p>第二步是修改ring结构中 ring-&gt;cons_head，以指向cons_next相同的位置。指向出队对象(obj1) 的指针被复制到用户指定的指针中。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-41d719ecbccae06d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 6 Dequeue second step"></p>
-<p>4.5.2.3.    出队最后一步<br>最后，ring中的ring-&gt;cons_tail被修改为指向ring-&gt;cons_head相同的位置。 出队操作完成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-eb0f23f9aa2a652c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 7 Dequeue last step"></p>
-<h3 id="4-5-3-多生产者入队"><a href="#4-5-3-多生产者入队" class="headerlink" title="4.5.3.多生产者入队"></a>4.5.3.多生产者入队</h3><p>本节说明两个生产者同时向ring中添加对象的情况。在本例中，仅修改生产者头尾指针(prod_head和prod_tail)。初始状态是将prod_head 和 prod_tail 指向相同的位置。</p>
-<p>4.5.3.1.    多生产者入队第一步<br>在生产者的两个core上， ring-&gt;prod_head 及 ring-&gt;cons_tail 都被复制到局部变量。 局部变量prod_next指向下一个元素，或者在批量入队的情况下指向下几个元素。<br>如果ring中没有足够的空间用于入队(通过检查cons_tail)，将返回错误。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-8667ca21267f532a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 8 Multiple producer enqueue first step"></p>
-<h4 id="4-5-3-2-多生产者入队第二步"><a href="#4-5-3-2-多生产者入队第二步" class="headerlink" title="4.5.3.2.多生产者入队第二步"></a>4.5.3.2.多生产者入队第二步</h4><p>第二步是修改ring结构中 ring-&gt;prod_head，来指向prod_next相同的位置。 此操作使用比较和交换(CAS)指令，该指令以原子操作的方式执行以下操作：<br>如果ring-&gt;prod_head 与本地变量prod_head不同，则CAS操作失败，代码将在第一步重新启动。<br>否则，ring-&gt;prod_head设置为本地变量prod_next，CAS操作成功并继续下一步处理。<br>在图中，core1执行成功，core2重新启动步骤1。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-28208cb95c5ccb88.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 9 Multiple producer enqueue second step"></p>
-<h4 id="4-5-3-3-多生产者入队第三步"><a href="#4-5-3-3-多生产者入队第三步" class="headerlink" title="4.5.3.3.多生产者入队第三步"></a>4.5.3.3.多生产者入队第三步</h4><p>core 2的CAS操作成功重试。<br>core 1更新一个对象(obj4)到ring上。Core 2更新一个对象(obj5)到ring上</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-509ffc742bd6d99e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 10 Multiple producer enqueue third step"></p>
-<h4 id="4-5-3-4-多生产者入队第四步"><a href="#4-5-3-4-多生产者入队第四步" class="headerlink" title="4.5.3.4.多生产者入队第四步"></a>4.5.3.4.多生产者入队第四步</h4><p>每个core现在都想更新 ring-&gt;prod_tail。 只有ring-&gt;prod_tail等于prod_head本地变量，core才能更新它。 当前只有core 1满足，操作在core 1上完成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-24dea7e716151f39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 11 Multiple producer enqueue fourth step"></p>
-<h4 id="4-5-3-5-多生产者入队最后一步"><a href="#4-5-3-5-多生产者入队最后一步" class="headerlink" title="4.5.3.5.多生产者入队最后一步"></a>4.5.3.5.多生产者入队最后一步</h4><p>一旦ring-&gt;prod_tail被core 1更新完，core 2也满足条件，允许更新。core 2上也完成了操作。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-b59e33033dba70bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 12 Multiple producer enqueue last step"></p>
-<h3 id="4-5-4-32-bit模索引值"><a href="#4-5-4-32-bit模索引值" class="headerlink" title="4.5.4.32-bit模索引值"></a>4.5.4.32-bit模索引值</h3><p>在前面的图中，prod_head，prod_tail，cons_head和cons_tail索引由箭头表示。但是，在实际实现中，这些值不会假定在0～（size(ring)-1）之间。 索引值在0～（2^32-1）之间，当我们访问ring本身时，我们掩码取值。32bit模数也意味着如果溢出32bit的范围，对索引的操作将自动执行2^32模。</p>
-<p>以下是两个例子，用于帮助解释索引值如何在ring中使用。</p>
-<p>注意:为了简化说明，使用模16bit操作，而不是32bit。另外，四个索引被定义为16bit无符号整数，与实际情况下的32bit无符号数相反。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-dd8d8fe889b5a7a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 13 Modulo 32-bit indexes - Example 1"></p>
-<p> 这个ring包含11000对象。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-c15437ddd8e67ffd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 4 14 Modulo 32-bit indexes - Example 2"></p>
-<p>这个ring包含12536个对象。</p>
-<p>注意：为了便于理解，我们在上面的例子中使用模65536操作。 在实际执行情况下，这种低效操作是多余的，但是，当溢出时会自动执行。</p>
-<p>代码始终保证生产者和消费者之间的距离在0～（size(ring)-1）之间。基于这个属性，我们可以对两个索引值做减法，而不用考虑溢出问题。<br>任何情况下，ring中的对象和空闲对象都在0～（size(ring)-1）之间，即便第一个减法操作已经溢出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">uint32_t entries = (prod_tail – cons_head);</div><div class="line">uint32_t free_entries = (mask + cons_tail – prod_head);</div></pre></td></tr></table></figure></p>
-<h2 id="4-6-参考"><a href="#4-6-参考" class="headerlink" title="4.6.参考"></a>4.6.参考</h2><ul>
-<li><a href="https://svnweb.freebsd.org/base/release/8.0.0/sys/sys/buf_ring.h?revision=199625&amp;view=markup" target="_blank" rel="external">bufring.h in FreeBSD (version 8)</a></li>
-<li><a href="https://svnweb.freebsd.org/base/release/8.0.0/sys/kern/subr_bufring.c?revision=199625&amp;view=markup" target="_blank" rel="external">bufring.c in FreeBSD (version 8)</a></li>
-<li><a href="https://lwn.net/Articles/340400/" target="_blank" rel="external">Linux Lockless Ring Buffer Design</a></li>
-</ul>
+<h1 id="6-基本DHCP场景2-域名服务器"><a href="#6-基本DHCP场景2-域名服务器" class="headerlink" title="6.基本DHCP场景2 (域名服务器)"></a>6.基本DHCP场景2 (域名服务器)</h1><p>这种情况类似于场景1 (指定安装镜像URL)，但是添加了域名服务器的DNS。通过引入域名服务我，您可以使用Web服务器的逻辑名称，而不使用硬编码的IP地址。<br>要添加对DNS的支持，请在dhcpd.conf文件中指定域名服务我的DHCP选项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">subnet 203.0.113.0 netmask 255.255.255.0 &#123;</div><div class="line">  range 203.0.113.20 203.0.113.200;</div><div class="line">  option domain-name-servers 203.0.113.2;</div><div class="line">  option default-url = &quot;http://image-server/customer-abc-onie-installer&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>域名服务器是203.0.113.2，ONIE使用此服务器来解析主机镜像服务器的IP地址。</p>
+<h1 id="7-L3网络场景"><a href="#7-L3网络场景" class="headerlink" title="7.L3网络场景"></a>7.L3网络场景</h1><p>这种场景中不再使用DHCP场景2，而是添加路由信息的DHCP配置。目标交换机通过网关遍历三层网络到达Web服务器。网络拓扑如下图所示。<img src="http://upload-images.jianshu.io/upload_images/7246758-4e3d4e995af5194c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="交换机和Web服务器及DHCP服务器位于不同的L3网络"></p>
+<p>通过此设置，Web服务器和目标交换机可以驻留在不同的子网上。目标交换机需要通过路由器发送数据包到达Web服务器。<br>要为目标交换机指定路由，请在DHCP配置中将路由器选项设置为路由器的IP地址：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">subnet 203.0.113.0 netmask 255.255.255.0 &#123;</div><div class="line">  range 203.0.113.20 203.0.113.200;</div><div class="line">  option domain-name-servers 203.0.113.2;</div><div class="line">  option routers 203.0.113.3;</div><div class="line">  option default-url = &quot;http://image-server/customer-abc-onie-installer&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当请求安装镜像时，目标交换机将数据发送到203.0.113.3，然后路由器将数据发送到下一跳，最终数据包到达Web服务器，并用安装镜像数据回复。<br>对于这种场景，DHCP服务器必须与目标交换机位于同一个L2网络，Web服务器可以自由地驻留在路由器可访问的任何子网中。<br>您可以使用BOOTP代理在不同的L2网络中找到DHCP服务器。配置BOOTP代理的相关操作在本文档中不做描述。ss</p>
+<h1 id="8-高级DHCP-匹配供应商类标识符"><a href="#8-高级DHCP-匹配供应商类标识符" class="headerlink" title="8.高级DHCP (匹配供应商类标识符)"></a>8.高级DHCP (匹配供应商类标识符)</h1><p>当ONIE发出DHCP请求时，它将DHCP供应商 (选项60)设置为特定的字符串。有关如何设置DHCP vendor class，请参阅DHCP相关设置文档。本文中使用PowerPC机器，字符串将是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">onie_vendor:powerpc-VENDOR_MACHINE-r0</div></pre></td></tr></table></figure></p>
+<p>对用于特定平台的DHCP Vendor Class Identifier，请联系您的NOS供应商或您的硬件供应商。<br>ISC DHCP服务器配置文件语法包含基本字符串匹配功能，可以用于识别ONIE DHCP请求。通过解析thedefault-url选项字符串，将返回一个合适的镜像URL。<br>下面的DHCP配置用于展示在PowerPC交换机中使用不同厂商X和Y的安装镜像：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">class &quot;onie-vendor-X-class&quot; &#123;</div><div class="line">  match if substring(option vendor-class-identifier, 0, 27) = &quot;onie_vendor:powerpc-VendorX&quot;;</div><div class="line">  option default-url = &quot;http://image-server/VendorX-onie-installer&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class &quot;onie-vendor-Y-class&quot; &#123;</div><div class="line">  match if substring(option vendor-class-identifier, 0, 27) = &quot;onie_vendor:powerpc-VendorY&quot;;</div><div class="line">  option default-url = &quot;http://image-server/VendorY-onie-installer&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在这种场景中，DHCP服务器根据vendor-class-identifier选项传回不同的URL。<br>调试这样的结构时，可能会发现有些DHCP日志记录有用。例如，放在class stanza外的log()指令可以帮您理解正在发生的事情：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">log(error, concat(&quot;vendor-class: &quot;, substring(option vendor-class-identifier, 0, 11)));</div><div class="line">log(error, concat(&quot;platform    : &quot;, substring(option vendor-class-identifier, 12, 999)));</div></pre></td></tr></table></figure></p>
+<p>第一个log()显示了vendor-class-identifier的前11个字符，它应该是字符串onie_vendor。第二个log()显示剩余的字符。<br>一切正常之后，您可以删除日志。</p>
+<h1 id="9-高级DHCP-2-VIVSO"><a href="#9-高级DHCP-2-VIVSO" class="headerlink" title="9.高级DHCP 2 (VIVSO)"></a>9.高级DHCP 2 (VIVSO)</h1><p>作为供应商类标识符字符串匹配的替代方案，ONIE也发送Vendor-Identifying Vendor-Specific Information Option (VIVSO – DHCP配置选项125)。<br>VIVSO方法是识别目标交换机更精确的方法，但是这种方法在DHCP服务器上也需要更多的配置。<br>有关ONIE如何使用VIVSO的更多信息，请参阅Vendor-Identifying Vendor-Specific Information (VIVSO)。<br>VIVSO选项是双向的，ONIE DHCP客户端发送设置了identifyin字段，DHCP服务器响应URL字段。<br>VIVSO只不过是在标准的DHCP选项中封装特定的供应商选项。<br>为了ISC DHCP服务器解析选项125，我们必须定义要使用的字段和数据类型。以下是ISC DHCP服务器配置的片段，定义了ONIE使用的字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"># Create an option namespace called ONIE</div><div class="line">option space onie code width 1 length width 1;</div><div class="line"></div><div class="line"># Define the code names and data types within the ONIE namespace</div><div class="line">option onie.installer_url code 1 = text;</div><div class="line">option onie.updater_url   code 2 = text;</div><div class="line">option onie.machine       code 3 = text;</div><div class="line">option onie.arch          code 4 = text;</div><div class="line">option onie.machine_rev   code 5 = text;</div><div class="line"></div><div class="line"># Package the ONIE namespace into option 125</div><div class="line">option space vivso code width 4 length width 1;</div><div class="line">option vivso.onie code 42623 = encapsulate onie;</div><div class="line">option vivso.iana code 0 = string;</div><div class="line">option op125 code 125 = encapsulate vivso;</div><div class="line">I told you this method required more configuration...</div></pre></td></tr></table></figure></p>
+<p>其中数字42623是一个32-bit IANA企业码，用于识别其名称空间。由于VIVSO允许多套的供应商选项，每套都必须由IANA作为标识指定。<br>这些空间配置必须放在全局的dhcpd.conf文件中，而不是任何类定义之外。<br>现在，在定义选项空间的情况下，我们可以在收到VIVSO选项时使用这些定义。以下是使用选项空间定义来检查目标交换机体系结构和机器类型的代码片段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">class &quot;onie-vendor-classes&quot; &#123;</div><div class="line">  # Limit the matching to a request we know originated from ONIE</div><div class="line">  match if substring(option vendor-class-identifier, 0, 11) = &quot;onie_vendor&quot;;</div><div class="line"></div><div class="line">  # Required to use VIVSO</div><div class="line">  option vivso.iana 01:01:01;</div><div class="line"></div><div class="line">  # generic CPU architecture matching</div><div class="line">  if option onie.arch = &quot;powerpc&quot; &#123;</div><div class="line">    option onie.installer_url = &quot;http://image-server/generic-powerpc-onie-installer&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  # matching on CPU architecture and machine type</div><div class="line">  if option onie.arch = &quot;powerpc&quot; and option onie.machine = &quot;XYZ1234&quot; &#123;</div><div class="line">    option onie.installer_url = &quot;http://image-server/powerpc-xyz1234-onie-installer&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  # The contents of an option can also be used to create the response text</div><div class="line">  if exists onie.arch and exists onie.machine and exists onie.machine_rev &#123;</div><div class="line">    option onie.installer_url = concat(&quot;http://image-server/image-installer-&quot;,</div><div class="line">                                     option onie.arch, &quot;-&quot;, option onie.machine,</div><div class="line">                                     &quot;-r&quot;, option onie.machine_rev);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  # When operating in ONIE &apos;update&apos; mode ONIE will check the</div><div class="line">  # onie.updater_url response option</div><div class="line">  if option onie.arch = &quot;powerpc&quot; and option onie.machine = &quot;XYZ1234&quot; &#123;</div><div class="line">    option onie.updater_url = &quot;http://image-server/onie-updater-VENDOR_XYZ1234-powerpc.bin&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们来看看这个配置，并讨论其含义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">class &quot;onie-vendor-classes&quot; &#123;</div><div class="line">  # Limit the matching to a request we know originated from ONIE</div><div class="line">  match if substring(option vendor-class-identifier, 0, 11) = &quot;onie_vendor&quot;;</div></pre></td></tr></table></figure></p>
+<p>此处的想法是将后续的匹配限制为我们所知道的来自支持ONIE的机器请求。<br>接下来是IANA选项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># Required to use VIVSO</div><div class="line">option vivso.iana 01:01:01;</div></pre></td></tr></table></figure></p>
+<p>这与上面定义的选项空间一起解决了ISC DHCP服务器中的一个已知问题。如果没有这个解决方法，服务器将不会发送一个125选项响应。<br>接下来是通用CPU架构匹配语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># generic CPU architecture matching</div><div class="line">if option onie.arch = &quot;powerpc&quot; &#123;</div><div class="line">  option onie.installer_url = &quot;http://image-server/generic-powerpc-onie-installer&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是比较选项字段和字符串的一个例子。如果字符串匹配，则响应中的installer_url被设置为指定的字符串。<br>接着，在相应字段中使用请求字段的值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># The contents of an option can also be used to create the response text</div><div class="line">if exists onie.arch and exists onie.machine and exists onie.machine_rev &#123;</div><div class="line">  option onie.installer_url = concat(&quot;http://image-server/image-installer-&quot;,</div><div class="line">                                   option onie.arch, &quot;-&quot;, option onie.machine,</div><div class="line">                                   &quot;-r&quot;, option onie.machine_rev);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用函数concat您可以拼凑几个字符串来组成响应字段。使用option指令从请求中提取字符串并使用结构创建响应。<br>例如，在上面的代码片段中，我们假设onie.arch = “powerpc”，onie.machine = “XYZ1234”且 and onie.machine_rev = “2”。在这种情况下，onie.installer_url将被设置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">onie.installer_url = &quot;http://image-server/image-installer-powerpc-XYZ1234-r2&quot;</div></pre></td></tr></table></figure></p>
+<p>最终，让我们看看updater_url字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># When operating in ONIE &apos;update&apos; mode ONIE will check the</div><div class="line"># onie.updater_url response option</div><div class="line">if option onie.arch = &quot;powerpc&quot; and option onie.machine = &quot;XYZ1234&quot; &#123;</div><div class="line">  option onie.updater_url = &quot;http://image-server/onie-updater-VENDOR_XYZ1234-powerpc.bin&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>ONIE可以在自我更新模式下运行，查找ONIE更新URL。更新URL用于下载ONIE更新二进制文件。<br>当ONIE以更新模式运行时，我们所讨论的有关安装镜像URL的所有内容都适用于ONIE更新镜像。<br>有关更多ONIE更新模式的信息，请参考ONIE自更新模式。</p>
+<h1 id="10-HTTP头部和脚本"><a href="#10-HTTP头部和脚本" class="headerlink" title="10.HTTP头部和脚本"></a>10.HTTP头部和脚本</h1><p>当ONIE发出HTTP请求镜像时，会发送一些ONIE特定的HTTP头部。这些头部可以在高级部署中使用，以支持配置。这些头部包括但不限于：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ONIE-SERIAL-NUMBER:</div><div class="line">ONIE-ETH-ADDR:</div><div class="line">ONIE-VENDOR-ID:</div><div class="line">ONIE-MACHINE:</div><div class="line">ONIE-MACHINE-REV:</div><div class="line">ONIE-ARCH:</div><div class="line">ONIE-OPERATION:</div></pre></td></tr></table></figure></p>
+<p>有关HTTP头部的更多信息，请参阅HTTP请求和HTTP头部描述。<br>例如，由DHCP服务器发出的镜像URL可以是HTTP服务器上的CGI脚本。CGI脚本可以使用头部如ONIE-SERIAL-NUMBER 和ONIE-ETH-ADDR，将部署与库存控制数据库联系起来。</p>
+<h1 id="11-调试安装过程"><a href="#11-调试安装过程" class="headerlink" title="11.调试安装过程"></a>11.调试安装过程</h1><p>加入您在基于ONIE的安装过程中出现问题，请参考以下几条建议。</p>
+<h2 id="11-1-确认Web服务器配置"><a href="#11-1-确认Web服务器配置" class="headerlink" title="11.1.确认Web服务器配置"></a>11.1.确认Web服务器配置</h2><p>您是否可以使用Web浏览器从Web服务器下载镜像？请参阅“测试从HTTP服务器下载NOS安装镜像”。</p>
+<h2 id="11-2-试试使用直连模式"><a href="#11-2-试试使用直连模式" class="headerlink" title="11.2.试试使用直连模式"></a>11.2.试试使用直连模式</h2><p>尝试按照直连场景所描述方式，将交换机直连到Web服务器。</p>
+<h2 id="11-3-检查DHCP服务器日志"><a href="#11-3-检查DHCP服务器日志" class="headerlink" title="11.3.检查DHCP服务器日志"></a>11.3.检查DHCP服务器日志</h2><p>尝试添加一些日志到您的DHCP服务器配置中，如高级DHCP (匹配供应商类标识)中所描述的那样。</p>
+<h2 id="11-4-使用TCPDUMP"><a href="#11-4-使用TCPDUMP" class="headerlink" title="11.4.使用TCPDUMP"></a>11.4.使用TCPDUMP</h2><p>如果可能，使用tcpdump来检测DHCP服务器上的网络流量。如果您可以获取对DHCP服务器的root访问权限，运行以下命令来检查网络流量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dhcp-server:~ # tcpdump -v -e -i &lt;intf&gt; ether host &lt;MAC address&gt;</div></pre></td></tr></table></figure></p>
+<p>将<intf>替换为面向目标交换机的DHCP服务器的网络接口。例如，它可能是’eth0’或’eth1’。<br>将<mac address="">替换为目标交换机以太网管理口的MAC地址。您可以在交换机外部所贴的标签上找到这个描述。</mac></intf></p>
+<h2 id="11-5-简化DHCP配置"><a href="#11-5-简化DHCP配置" class="headerlink" title="11.5.简化DHCP配置"></a>11.5.简化DHCP配置</h2><p>尝试将您的DHCP配置降到最简程度。</p>
+<h2 id="11-6-添加远程日志服务器"><a href="#11-6-添加远程日志服务器" class="headerlink" title="11.6.添加远程日志服务器"></a>11.6.添加远程日志服务器</h2><p>ONIE可以远程登录到系统日志服务器。如果DHCP响应包含日志服务器选项，则ONIE将远程登录到该服务器。以下是指定该远程系统日志服务器的ISC DHCP服务器语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">option log-servers 203.0.113.2;</div></pre></td></tr></table></figure></p>
+<h2 id="11-7-登录目标交换机查询日志"><a href="#11-7-登录目标交换机查询日志" class="headerlink" title="11.7.登录目标交换机查询日志"></a>11.7.登录目标交换机查询日志</h2><p>如果你可以确定ONIE从DHCP服务器获取了IP地址，则可以使用ssh或telnet远程登录到目标交换机：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">linux:$ ssh root@203.0.113.22</div><div class="line">The authenticity of host &apos;203.0.113.22 (203.0.113.22)&apos; can&apos;t be established.</div><div class="line">RSA key fingerprint is 15:05:64:8a:c6:f3:5f:65:41:a6:10:f6:9d:43:9c:49.</div><div class="line">Are you sure you want to continue connecting (yes/no)? yes</div><div class="line">Warning: Permanently added &apos;203.0.113.22&apos; (RSA) to the list of known hosts.</div><div class="line">ONIE:~ #</div></pre></td></tr></table></figure></p>
+<p>ONIE不需要ssh或telnet的密码。登录之后，您可以检查ONIE的日志文件/var/log/onie.log ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ONIE:~ # cat /var/log/onie.log</div></pre></td></tr></table></figure></p>
+<h2 id="11-8-连接到串口控制台"><a href="#11-8-连接到串口控制台" class="headerlink" title="11.8.连接到串口控制台"></a>11.8.连接到串口控制台</h2><p>如果一切都失败了，您可以连接到目标交换机的串口控制台。ONIE使用115200波特率。</p>
 
       
 
@@ -313,11 +286,19 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ONIE</a>
         		</li>
       		
 		</ul>
@@ -373,7 +354,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/05/dpdk-pg-4/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/11/29/onie-user-guide/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -387,18 +368,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/06/dpdk-pg-5/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          DPDK编程指南（五）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/05/dpdk-pg-3/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（三）</div>
+    <a href="/2017/11/29/onie/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ONIE：开放网络安装环境</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -425,7 +397,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#4-环形缓冲区库"><span class="toc-number">1.</span> <span class="toc-text">4.环形缓冲区库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-FreeBSD-中环形缓冲区实现参考"><span class="toc-number">1.1.</span> <span class="toc-text">4.1.FreeBSD*中环形缓冲区实现参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-Linux-中的无锁环形缓冲区"><span class="toc-number">1.2.</span> <span class="toc-text">4.2.Linux*中的无锁环形缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-附加特性"><span class="toc-number">1.3.</span> <span class="toc-text">4.3.附加特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-1-名字"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.3.1.名字</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-用例"><span class="toc-number">1.4.</span> <span class="toc-text">4.4.用例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-环形缓冲区解析"><span class="toc-number">1.5.</span> <span class="toc-text">4.5.环形缓冲区解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-1-单生产者入队"><span class="toc-number">1.5.1.</span> <span class="toc-text">4.5.1.单生产者入队</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-1-入队第一步"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">4.5.1.1.入队第一步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-2-入队第二步"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">4.5.1.2.入队第二步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-3-入队最后一步"><span class="toc-number">1.5.1.3.</span> <span class="toc-text">4.5.1.3.入队最后一步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-2-单消费者出队"><span class="toc-number">1.5.2.</span> <span class="toc-text">4.5.2.单消费者出队</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-2-1-出队第一步"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">4.5.2.1.出队第一步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-2-2-出队第二步"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">4.5.2.2.出队第二步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-3-多生产者入队"><span class="toc-number">1.5.3.</span> <span class="toc-text">4.5.3.多生产者入队</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-3-2-多生产者入队第二步"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">4.5.3.2.多生产者入队第二步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-3-3-多生产者入队第三步"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">4.5.3.3.多生产者入队第三步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-3-4-多生产者入队第四步"><span class="toc-number">1.5.3.3.</span> <span class="toc-text">4.5.3.4.多生产者入队第四步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-3-5-多生产者入队最后一步"><span class="toc-number">1.5.3.4.</span> <span class="toc-text">4.5.3.5.多生产者入队最后一步</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-4-32-bit模索引值"><span class="toc-number">1.5.4.</span> <span class="toc-text">4.5.4.32-bit模索引值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-参考"><span class="toc-number">1.6.</span> <span class="toc-text">4.6.参考</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-使用USB驱动进行安装"><span class="toc-number">1.</span> <span class="toc-text">1. 使用USB驱动进行安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-使用网络进行安装"><span class="toc-number">2.</span> <span class="toc-text">2. 使用网络进行安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-安装并配置HTTP服务器ss"><span class="toc-number">2.1.</span> <span class="toc-text">2.1.    安装并配置HTTP服务器ss</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-拷贝NOS安装镜像到HTTP服务器s"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.    拷贝NOS安装镜像到HTTP服务器s</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-测试从HTTP服务器下载NOS安装镜像"><span class="toc-number">2.3.</span> <span class="toc-text">2.3.    测试从HTTP服务器下载NOS安装镜像</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-直连场景"><span class="toc-number">3.</span> <span class="toc-text">3.直连场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-二层连接场景"><span class="toc-number">4.</span> <span class="toc-text">4.二层连接场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-基本DHCP场景1-指定安装镜像URL"><span class="toc-number">5.</span> <span class="toc-text">5.基本DHCP场景1 (指定安装镜像URL)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-基本DHCP场景2-域名服务器"><span class="toc-number">6.</span> <span class="toc-text">6.基本DHCP场景2 (域名服务器)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-L3网络场景"><span class="toc-number">7.</span> <span class="toc-text">7.L3网络场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-高级DHCP-匹配供应商类标识符"><span class="toc-number">8.</span> <span class="toc-text">8.高级DHCP (匹配供应商类标识符)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-高级DHCP-2-VIVSO"><span class="toc-number">9.</span> <span class="toc-text">9.高级DHCP 2 (VIVSO)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-HTTP头部和脚本"><span class="toc-number">10.</span> <span class="toc-text">10.HTTP头部和脚本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-调试安装过程"><span class="toc-number">11.</span> <span class="toc-text">11.调试安装过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#11-1-确认Web服务器配置"><span class="toc-number">11.1.</span> <span class="toc-text">11.1.确认Web服务器配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-2-试试使用直连模式"><span class="toc-number">11.2.</span> <span class="toc-text">11.2.试试使用直连模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-3-检查DHCP服务器日志"><span class="toc-number">11.3.</span> <span class="toc-text">11.3.检查DHCP服务器日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-4-使用TCPDUMP"><span class="toc-number">11.4.</span> <span class="toc-text">11.4.使用TCPDUMP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-5-简化DHCP配置"><span class="toc-number">11.5.</span> <span class="toc-text">11.5.简化DHCP配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-6-添加远程日志服务器"><span class="toc-number">11.6.</span> <span class="toc-text">11.6.添加远程日志服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-7-登录目标交换机查询日志"><span class="toc-number">11.7.</span> <span class="toc-text">11.7.登录目标交换机查询日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-8-连接到串口控制台"><span class="toc-number">11.8.</span> <span class="toc-text">11.8.连接到串口控制台</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -441,7 +413,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="dpdk-pg-4" ></div> 
+  <div id="SOHUCS" sid="onie-user-guide" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 
