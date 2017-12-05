@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>春风沉醉的夜晚 | 拙言</title>
+  <title>ONIE设计规格(3) | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="假如你来找我，我是说假如，那么，上半夜我会请你喝茶，下半夜我会请你喝酒，然后，在天亮时各自睡去。　　我给你倒茶，你给我讲这些年高兴的事情，我们坐在沙发上聊天，礼貌地回忆过往。　　倒满酒，我们一起碰杯，让酒微微溢出，喝到涕泪横流。　　天亮的时候，我们各自睡去。　　你若不来，春天就过去了。  PS: 写于多年前的某个夜晚。">
-<meta name="keywords" content="自以为诗,心情,随笔">
+  <meta name="description" content="3.操作系统设计3.1.Linux内核配置ONIE提供了一个网络操作系统（NOS）安装镜像可以运行的环境。因此，内核必须提供对安装程序有用的功能和服务。这对Linux配置提供了很多要求。 每个平台都必须为Linux内核添加平台支持。需要添加的内容取决于具体的平台和CPU架构。">
+<meta name="keywords" content="网络,开源,OCP,ONIE">
 <meta property="og:type" content="article">
-<meta property="og:title" content="春风沉醉的夜晚">
-<meta property="og:url" content="http://lockless.github.io/2017/09/06/Drunk/index.html">
+<meta property="og:title" content="ONIE设计规格(3)">
+<meta property="og:url" content="http://lockless.github.io/2017/12/05/onie-design-spec-3/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="假如你来找我，我是说假如，那么，上半夜我会请你喝茶，下半夜我会请你喝酒，然后，在天亮时各自睡去。　　我给你倒茶，你给我讲这些年高兴的事情，我们坐在沙发上聊天，礼貌地回忆过往。　　倒满酒，我们一起碰杯，让酒微微溢出，喝到涕泪横流。　　天亮的时候，我们各自睡去。　　你若不来，春天就过去了。  PS: 写于多年前的某个夜晚。">
-<meta property="og:updated_time" content="2017-09-06T11:34:33.076Z">
+<meta property="og:description" content="3.操作系统设计3.1.Linux内核配置ONIE提供了一个网络操作系统（NOS）安装镜像可以运行的环境。因此，内核必须提供对安装程序有用的功能和服务。这对Linux配置提供了很多要求。 每个平台都必须为Linux内核添加平台支持。需要添加的内容取决于具体的平台和CPU架构。">
+<meta property="og:updated_time" content="2017-12-05T09:30:54.524Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="春风沉醉的夜晚">
-<meta name="twitter:description" content="假如你来找我，我是说假如，那么，上半夜我会请你喝茶，下半夜我会请你喝酒，然后，在天亮时各自睡去。　　我给你倒茶，你给我讲这些年高兴的事情，我们坐在沙发上聊天，礼貌地回忆过往。　　倒满酒，我们一起碰杯，让酒微微溢出，喝到涕泪横流。　　天亮的时候，我们各自睡去。　　你若不来，春天就过去了。  PS: 写于多年前的某个夜晚。">
+<meta name="twitter:title" content="ONIE设计规格(3)">
+<meta name="twitter:description" content="3.操作系统设计3.1.Linux内核配置ONIE提供了一个网络操作系统（NOS）安装镜像可以运行的环境。因此，内核必须提供对安装程序有用的功能和服务。这对Linux配置提供了很多要求。 每个平台都必须为Linux内核添加平台支持。需要添加的内容取决于具体的平台和CPU架构。">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,30 +186,765 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Drunk" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-onie-design-spec-3" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      春风沉醉的夜晚
+      ONIE设计规格(3)
     </h1>
   
 
         
-        <a href="/2017/09/06/Drunk/" class="archive-article-date">
-  	<time datetime="2017-09-06T11:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+        <a href="/2017/12/05/onie-design-spec-3/" class="archive-article-date">
+  	<time datetime="2017-12-05T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>假如你来找我，<br>我是说假如，<br>那么，<br>上半夜我会请你喝茶，<br>下半夜我会请你喝酒，<br>然后，<br>在天亮时各自睡去。<br>　　<br>我给你倒茶，<br>你给我讲这些年高兴的事情，<br>我们坐在沙发上聊天，<br>礼貌地回忆过往。<br>　　<br>倒满酒，<br>我们一起碰杯，<br>让酒微微溢出，<br>喝到涕泪横流。<br>　　<br>天亮的时候，<br>我们各自睡去。<br>　　<br>你若不来，<br>春天就过去了。</p>
-</blockquote>
-<p>PS: 写于多年前的某个夜晚。</p>
+        <h1 id="3-操作系统设计"><a href="#3-操作系统设计" class="headerlink" title="3.操作系统设计"></a>3.操作系统设计</h1><h2 id="3-1-Linux内核配置"><a href="#3-1-Linux内核配置" class="headerlink" title="3.1.Linux内核配置"></a>3.1.Linux内核配置</h2><p>ONIE提供了一个网络操作系统（NOS）安装镜像可以运行的环境。因此，内核必须提供对安装程序有用的功能和服务。这对Linux配置提供了很多要求。</p>
+<p>每个平台都必须为Linux内核添加平台支持。需要添加的内容取决于具体的平台和CPU架构。</p>
+<a id="more"></a>
+<p>有关于CPU架构的具体细节，请参阅以下章节：</p>
+<ul>
+<li>U-Boot 平台Linux内核及设备树源码</li>
+<li>x86 Linux Kernel and Integration</li>
+</ul>
+<h3 id="3-1-1-通用内核配置"><a href="#3-1-1-通用内核配置" class="headerlink" title="3.1.1.通用内核配置"></a>3.1.1.通用内核配置</h3><p>除了特定于平台的内核代码之外，ONIE还需要许多其他的配置选项来支持有效的安装环境。</p>
+<ul>
+<li>Kernel特性<ul>
+<li>Kexec – 允许安装程序将<a href="https://linux.die.net/man/8/kexec" target="_blank" rel="external">kexec(8)</a>放入自己的内核</li>
+</ul>
+</li>
+<li>网络<ul>
+<li>以太网管理接口的驱动程序</li>
+<li>IPv4</li>
+<li>IPv6</li>
+</ul>
+</li>
+<li>文件系统<ul>
+<li>Vfat，允许从USB存储设备中安装</li>
+<li>ext2, ext3, ext4</li>
+<li>jffs2</li>
+<li>squashfs</li>
+<li>nfs</li>
+</ul>
+</li>
+<li>硬件支持<ul>
+<li>PCIe</li>
+<li>i2c EEPROMs</li>
+<li>USB存储设备</li>
+<li>SDHC</li>
+<li>SATA</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-2-镜像发现与执行"><a href="#3-2-镜像发现与执行" class="headerlink" title="3.2.镜像发现与执行"></a>3.2.镜像发现与执行</h2><p>ONIE的主要功能是找到一个网络操作系统（NOS）安装镜像并执行它。</p>
+<h3 id="3-2-1-平台名称及表示"><a href="#3-2-1-平台名称及表示" class="headerlink" title="3.2.1.平台名称及表示"></a>3.2.1.平台名称及表示</h3><p>为了表示运行平台，ONIE使用以下定义：</p>
+<ul>
+<li>arch – CPU架构，目前支持的体系结构是：<ul>
+<li>arm</li>
+<li>powerpc</li>
+<li>x86_64</li>
+</ul>
+</li>
+<li>machine – 一个字符串<vendor>_<model></model></vendor></li>
+<li>machine-revision – 一个字符串 r<number>，用于跟踪机器的不同硬件版本</number></li>
+<li>platform – 一个字符串<arch>-<machine>-<machine-revision></machine-revision></machine></arch></li>
+<li>switch-silicon-vendor – 用于跟踪ASIC芯片提供商，当前主要有：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Silicon Vendor</th>
+<th style="text-align:left">String</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Broadcom</td>
+<td style="text-align:left">bcm</td>
+</tr>
+<tr>
+<td style="text-align:left">Cavium</td>
+<td style="text-align:left">cavium</td>
+</tr>
+<tr>
+<td style="text-align:left">Centec</td>
+<td style="text-align:left">centec</td>
+</tr>
+<tr>
+<td style="text-align:left">Marvell</td>
+<td style="text-align:left">mvl</td>
+</tr>
+<tr>
+<td style="text-align:left">Mellanox</td>
+<td style="text-align:left">mlnx</td>
+</tr>
+<tr>
+<td style="text-align:left">Nephos</td>
+<td style="text-align:left">nephos</td>
+</tr>
+<tr>
+<td style="text-align:left">Qemu</td>
+<td style="text-align:left">qemu</td>
+</tr>
+</tbody>
+</table>
+<p>对上面定义的<arch>，<vendor>和<model>允许的字符进行了限制。允许用于上述定义的字符串限制如下：</model></vendor></arch></p>
+<ol>
+<li>VENDOR – 不能包含_ (下划线) or - (连字符)</li>
+<li>MODEL – 不能包含- (连字符)，但是_ (下划线)是可以的</li>
+<li>ARCH – 不能包含_ (下划线) 或 - (连字符)</li>
+</ol>
+<p>在运行时，ONIE提供了onie-sysinfo命令，可以用来打印这些信息。有关onie-sysinfo命令的更多信息，请参阅系统信息章节描述。</p>
+<p>如“网络操作系统接口”中描述，平台名称必须在所有ONIE模式中保持一致。</p>
+<h3 id="3-2-2-安装镜像发现方法"><a href="#3-2-2-安装镜像发现方法" class="headerlink" title="3.2.2.安装镜像发现方法"></a>3.2.2.安装镜像发现方法</h3><p>ONIE通过许多方法尝试定位安装程序镜像位置。第一个成功的方法将用来下载和运行安装程序镜像。</p>
+<p>即便找到安装程序镜像，安装也可能失败，在这种情况下，ONIE会转到下一个方法继续。</p>
+<p>ONIE将按照以下顺序尝试发现：</p>
+<ol>
+<li>静态配置(bootloader设置)</li>
+<li>本地文件系统(例如USB)</li>
+<li>来自DHCPv4的准确URLs</li>
+<li>基于DHCP响应的非精确URLs</li>
+<li>IPv6邻居</li>
+<li>TFTP过程</li>
+</ol>
+<p>发现方法会一直重复，直到成功完成镜像安装。</p>
+<p>一般的镜像发现过程由以下伪代码说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">while (true) &#123;</div><div class="line">  Configure Ethernet management console</div><div class="line">  Attempt discovery method 1</div><div class="line">  Attempt discovery method 2</div><div class="line">  ...</div><div class="line">  Attempt discovery method N</div><div class="line">  Sleep for 20 seconds</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来的部分将详细介绍这些方法。</p>
+<h4 id="3-2-2-1-默认文件名搜索顺序"><a href="#3-2-2-1-默认文件名搜索顺序" class="headerlink" title="3.2.2.1.默认文件名搜索顺序"></a>3.2.2.1.默认文件名搜索顺序</h4><p>在后面描述的几种方法中，ONIE以特定顺序搜索默认文件名。所有的方法都使用相同的文件名搜索顺序，这个顺序在本节描述。</p>
+<p>按照以下顺序搜索默认安装程序镜像名称：</p>
+<ol>
+<li>onie-installer-<arch>-<vendor>_<machine>-r<machine_revision></machine_revision></machine></vendor></arch></li>
+<li>onie-installer-<arch>-<vendor>_<machine>-r<machine_revision>.bin *</machine_revision></machine></vendor></arch></li>
+<li>onie-installer-<arch>-<vendor>_<machine></machine></vendor></arch></li>
+<li>onie-installer-<arch>-<vendor>_<machine>.bin *</machine></vendor></arch></li>
+<li>onie-installer-<vendor>_<machine></machine></vendor></li>
+<li>onie-installer-<vendor>_<machine>.bin *</machine></vendor></li>
+<li>onie-installer-<cpu_arch>-<switch_silicon_vendor></switch_silicon_vendor></cpu_arch></li>
+<li>onie-installer-<cpu_arch>-<switch_silicon_vendor>.bin *</switch_silicon_vendor></cpu_arch></li>
+<li>onie-installer-<arch></arch></li>
+<li>onie-installer-<arch>.bin *</arch></li>
+<li>onie-installer</li>
+<li>onie-installer.bin *</li>
+</ol>
+<p>ONIE 2017.08 添加.bin扩展名到所有默认的文件名之后，早期版本的ONIE并不搜索扩展名。</p>
+<p>假设设备为x86_64架构，那么默认的安装程序名称将会是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">onie-installer-x86_64-VENDOR_MACHINE-r0</div><div class="line">onie-installer-x86_64-VENDOR_MACHINE-r0.bin</div><div class="line">onie-installer-x86_64-VENDOR_MACHINE</div><div class="line">onie-installer-x86_64-VENDOR_MACHINE.bin</div><div class="line">onie-installer-VENDOR_MACHINE</div><div class="line">onie-installer-VENDOR_MACHINE.bin</div><div class="line">onie-installer-x86_64-SWITCH_SILICON_VENDOR</div><div class="line">onie-installer-x86_64-SWITCH_SILICON_VENDOR.bin</div><div class="line">onie-installer-x86_64</div><div class="line">onie-installer-x86_64.bin</div><div class="line">onie-installer</div><div class="line">onie-installer.bin</div></pre></td></tr></table></figure></p>
+<p>ONIE 2016.05 引入了onie-installer-<cpu_arch>-<switch_silicon_vendor>。所有以前的旧版本不包括这个命名。</switch_silicon_vendor></cpu_arch></p>
+<p>在ONIE自更新模式下，文件名前缀是onie-updater而不是onie-installer。</p>
+<p>有关特定硬件平台名称的准确描述，请联系NOS厂商或您的硬件供应商。</p>
+<h4 id="3-2-2-2-静态配置方法"><a href="#3-2-2-2-静态配置方法" class="headerlink" title="3.2.2.2.静态配置方法"></a>3.2.2.2.静态配置方法</h4><p>此方法仅在前期调试中使用，如将ONIE移植到新的平台过程中。在bootloader程序中，用户可以通过设置install_url内核命令参数来静态配置ONIE将使用的安装程序URL。</p>
+<h4 id="3-2-2-3-本地文件系统方法"><a href="#3-2-2-3-本地文件系统方法" class="headerlink" title="3.2.2.3.本地文件系统方法"></a>3.2.2.3.本地文件系统方法</h4><p>在此方法中，ONIE搜索本地连接的存储器设备的分区，查找ONIE默认安装程序文件名中指定的文件。</p>
+<p>请参阅“默认文件名搜索顺序”章节描述获取更多信息。</p>
+<p>此方法适用于前面板USB接口上插入设备，且USB设备中存有安装程序的情况。</p>
+<p>支持两种文件系统类型，流行的vFAT分区类型(在商用U盘上常见)及Linux’s ext2。</p>
+<p>OSX的磁盘工具默认会写出不支持的分区类型，请使用diskutil命令行进行格式化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"># Find USB drive</div><div class="line"></div><div class="line">% diskutil list</div><div class="line">/dev/disk2</div><div class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</div><div class="line">   0:     FDisk_partition_scheme                        *8.1 GB     disk2</div><div class="line">   1:               Windows_NTFS ONIE                    8.1 GB     disk2s1</div><div class="line"></div><div class="line"># Write out correctly label (wipes all data on drive)</div><div class="line"></div><div class="line">% sudo diskutil eraseDisk FAT32 ONIE MBRFormat /dev/disk2</div><div class="line">Started erase on disk2</div><div class="line">Unmounting disk</div><div class="line">Creating the partition map</div><div class="line">Waiting for the disks to reappear</div><div class="line">Formatting disk2s1 as MS-DOS (FAT32) with name ONIE</div><div class="line">512 bytes per physical sector</div><div class="line">/dev/rdisk2s1: 15697944 sectors in 1962243 FAT32 clusters (4096 bytes/cluster)</div><div class="line">bps=512 spc=8 res=32 nft=2 mid=0xf8 spt=32 hds=255 hid=2 drv=0x80 bsec=15728638 bspf=15331 rdcl=2 infs=1 bkbs=6</div><div class="line">Mounting disk</div><div class="line">Finished erase on disk2</div></pre></td></tr></table></figure></p>
+<p>在本地存储设备中查找安装程序的一般算法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">foreach $partition in /proc/partitions &#123;</div><div class="line">  if able to mount $partition then &#123;</div><div class="line">    if default file name exists &#123;</div><div class="line">      Add partition to found_list</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">foreach $partition in found_list &#123;</div><div class="line">  Run installer from $partition</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="3-2-2-4-以太网管理口配置"><a href="#3-2-2-4-以太网管理口配置" class="headerlink" title="3.2.2.4.以太网管理口配置"></a>3.2.2.4.以太网管理口配置</h4><p>为了执行基于网络的安装程序镜像发现，必须先配置以太网管理口。按顺序尝试以下配置方法：</p>
+<ol>
+<li>静态配置—通过ip内核命令行参数配置</li>
+<li>DHCPv6 – 尚未实现</li>
+<li>DHCPv4</li>
+<li>本地链路IPv4地址(参考<a href="https://tools.ietf.org/html/rfc3927" target="_blank" rel="external">RFC-3927</a>)</li>
+</ol>
+<p>静态配置使用ip命令<a href="https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt" target="_blank" rel="external">Linux kernel command line argument</a>。</p>
+<h4 id="3-2-2-5-DHCP-请求及响应"><a href="#3-2-2-5-DHCP-请求及响应" class="headerlink" title="3.2.2.5.DHCP 请求及响应"></a>3.2.2.5.DHCP 请求及响应</h4><p>DHCP提供了一个强大而灵活的机制来精确指定安装程序镜像的URL。在DHCP请求期间，ONIE设置了许多选项来帮助DHCP服务器确定适当的响应。</p>
+<p>请求期间设置的选项如下：DHCP Request Options</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Option</th>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">ISC option-name</th>
+<th style="text-align:left">RFC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">60</td>
+<td style="text-align:left">Vendor Class Identifier</td>
+<td style="text-align:left">vendor-class-identifier</td>
+<td style="text-align:left"><a href="https://www.ietf.org/rfc/rfc2132.txt" target="_blank" rel="external">RFC 2132</a></td>
+</tr>
+<tr>
+<td style="text-align:left">77</td>
+<td style="text-align:left">User Class</td>
+<td style="text-align:left">user-class</td>
+<td style="text-align:left"><a href="https://www.ietf.org/rfc/rfc2132.txt" target="_blank" rel="external">RFC 2132</a></td>
+</tr>
+<tr>
+<td style="text-align:left">125</td>
+<td style="text-align:left">Vendor-Identifying Vendor-Specific Information</td>
+<td style="text-align:left">vivso</td>
+<td style="text-align:left"><a href="https://www.ietf.org/rfc/rfc2925.txt" target="_blank" rel="external">RFC 3925</a></td>
+</tr>
+<tr>
+<td style="text-align:left">55</td>
+<td style="text-align:left">Parameter Request List</td>
+<td style="text-align:left">dhcp-parameter-request-list</td>
+<td style="text-align:left"><a href="https://www.ietf.org/rfc/rfc2132.txt" target="_blank" rel="external">RFC 2132</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="3-2-2-5-1-供应商分类标识-–-Option-60"><a href="#3-2-2-5-1-供应商分类标识-–-Option-60" class="headerlink" title="3.2.2.5.1.供应商分类标识 – Option 60"></a>3.2.2.5.1.供应商分类标识 – Option 60</h5><p>供应商分类标识符选项是两个字符串连接，用冒号分隔：</p>
+<ol>
+<li>静态字符串onie_vendor</li>
+<li><arch>-<vendor>_<machine>-r<machine_revision></machine_revision></machine></vendor></arch></li>
+</ol>
+<p>例如，使用x86_64架构的设备，这个字符串可能是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">onie_vendor:x86_64-VENDOR_MACHINE-r0</div></pre></td></tr></table></figure></p>
+<p>对用于特定硬件平台的精确DHCP Vendor Class Identifier，请联系您的NOS供应商或您的硬件供应商。<br>有关平台名称的更多信息，参阅平台名称和标识符列表。</p>
+<h5 id="3-2-2-5-2-用户类型-–-Option-77"><a href="#3-2-2-5-2-用户类型-–-Option-77" class="headerlink" title="3.2.2.5.2.用户类型 – Option 77"></a>3.2.2.5.2.用户类型 – Option 77</h5><p>用户类型选项设置为静态字符串：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">onie_dhcp_user_class</div></pre></td></tr></table></figure></p>
+<h5 id="3-2-2-5-3-供应商标识和供应商特定信息-VIVSO"><a href="#3-2-2-5-3-供应商标识和供应商特定信息-VIVSO" class="headerlink" title="3.2.2.5.3.供应商标识和供应商特定信息 (VIVSO)"></a>3.2.2.5.3.供应商标识和供应商特定信息 (VIVSO)</h5><p>VIVSO选项允许自定义选项namespace，其中namespace由32位IANA私有企业编号标识。ONIE当前使用企业编号42623来标识其自定义的namespace。</p>
+<p>ONIE namespace中的选项代码的大小为1个字节。选项的有效载荷长度也是1个字节。<br>在这个namespace中，定义了如下选项代码：VIVSO Options</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Option Code</th>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">Installer URL</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left"><a href="http://10.0.1.205/nos_installer.bin" target="_blank" rel="external">http://10.0.1.205/nos_installer.bin</a></td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">Updater URL</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left"><a href="http://10.0.1.205/onie_update.bin" target="_blank" rel="external">http://10.0.1.205/onie_update.bin</a></td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">Platform Name</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">VENDOR_MACHINE</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">CPU Architecture</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">x86_64</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">Machine Revision</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">0</td>
+</tr>
+</tbody>
+</table>
+<p>有关平台名称的更多信息，参考平台相关环境变量表。</p>
+<h5 id="3-2-2-5-4-请求参数列表-–-Option-55"><a href="#3-2-2-5-4-请求参数列表-–-Option-55" class="headerlink" title="3.2.2.5.4.请求参数列表 – Option 55"></a>3.2.2.5.4.请求参数列表 – Option 55</h5><p>参数请求列表选项对请求的参数列表进行编码。<br>ONIE请求以下参数：DHCP Parameter Request List Options</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Option</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">ISC option-name</th>
+<th style="text-align:center">Option Type</th>
+<th style="text-align:center">RFC</th>
+<th style="text-align:center">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">Subnet Mask</td>
+<td style="text-align:center">subnet-mask</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">255.255.255.0</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">Default Gateway</td>
+<td style="text-align:center">routers</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">10.0.1.2</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">Domain Server</td>
+<td style="text-align:center">domain-name-servers</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">10.0.1.2</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">Log Server</td>
+<td style="text-align:center">log-servers</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">10.0.1.2</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">Hostname</td>
+<td style="text-align:center">host-name</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">switch-19</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">Domain Name</td>
+<td style="text-align:center">domain-name</td>
+<td style="text-align:center">string</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">cumulusnetworks.com</td>
+</tr>
+<tr>
+<td style="text-align:center">42</td>
+<td style="text-align:center">NTP Servers</td>
+<td style="text-align:center">ntp-servers</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">10.0.1.2</td>
+</tr>
+<tr>
+<td style="text-align:center">54</td>
+<td style="text-align:center">DHCP Server</td>
+<td style="text-align:center">Identifier    dhcp-server-identifier</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">10.0.1.2</td>
+</tr>
+<tr>
+<td style="text-align:center">66</td>
+<td style="text-align:center">TFTP Server Name</td>
+<td style="text-align:center">tftp-server-name</td>
+<td style="text-align:center">string</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">behemoth01 (requires DNS)</td>
+</tr>
+<tr>
+<td style="text-align:center">67</td>
+<td style="text-align:center">TFTP Bootfile Name</td>
+<td style="text-align:center">bootfile-name or filename</td>
+<td style="text-align:center">string</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">tftp/installer.sh</td>
+</tr>
+<tr>
+<td style="text-align:center">72</td>
+<td style="text-align:center">HTTP Server IP</td>
+<td style="text-align:center">www-server</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">2132</td>
+<td style="text-align:center">10.0.1.251</td>
+</tr>
+<tr>
+<td style="text-align:center">114</td>
+<td style="text-align:center">Default URL</td>
+<td style="text-align:center">default-url</td>
+<td style="text-align:center">string</td>
+<td style="text-align:center">3679</td>
+<td style="text-align:center"><a href="http://server/path/installer" target="_blank" rel="external">http://server/path/installer</a></td>
+</tr>
+<tr>
+<td style="text-align:center">150</td>
+<td style="text-align:center">TFTP Server IP Address</td>
+<td style="text-align:center">next-server</td>
+<td style="text-align:center">dotted quad</td>
+<td style="text-align:center">5859</td>
+<td style="text-align:center">10.50.1.200</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-2-2-6-HTTP请求和HTTP头部"><a href="#3-2-2-6-HTTP请求和HTTP头部" class="headerlink" title="3.2.2.6.HTTP请求和HTTP头部"></a>3.2.2.6.HTTP请求和HTTP头部</h4><p>ONIE所有的HTTP请求都包括一组标准的HTTP头部，这是CGI自动化系统可以使用的。每个HTTP请求头部是：HTTP Headers</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Header</th>
+<th style="text-align:center">Value</th>
+<th style="text-align:center">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ONIE-SERIAL-NUMBER:</td>
+<td style="text-align:center">Serial number</td>
+<td style="text-align:center">XYZ123004</td>
+</tr>
+<tr>
+<td style="text-align:center">ONIE-ETH-ADDR:</td>
+<td style="text-align:center">Management MAC address</td>
+<td style="text-align:center">08:9e:01:62:d1:93</td>
+</tr>
+<tr>
+<td style="text-align:center">ONIE-VENDOR-ID:</td>
+<td style="text-align:center">32-bit IANA Private Enterprise Number in decimal</td>
+<td style="text-align:center">12345</td>
+</tr>
+<tr>
+<td style="text-align:center">ONIE-MACHINE:</td>
+<td style="text-align:center"><vendor>_<machine></machine></vendor></td>
+<td style="text-align:center">VENDOR_MACHINE</td>
+</tr>
+<tr>
+<td style="text-align:center">ONIE-MACHINE-REV:</td>
+<td style="text-align:center"><machine_revision></machine_revision></td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">ONIE-ARCH:</td>
+<td style="text-align:center">CPU architecture</td>
+<td style="text-align:center">x86_64</td>
+</tr>
+<tr>
+<td style="text-align:center">ONIE-SECURITY-KEY:</td>
+<td style="text-align:center">Security key</td>
+<td style="text-align:center">d3b07384d-ac-6238ad5ff00</td>
+</tr>
+<tr>
+<td style="text-align:center">ONIE-OPERATION:</td>
+<td style="text-align:center">ONIE mode of operation</td>
+<td style="text-align:center">os-install or onie-update</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-2-2-7-来自DHCPv4的精准安装镜像URLs"><a href="#3-2-2-7-来自DHCPv4的精准安装镜像URLs" class="headerlink" title="3.2.2.7.来自DHCPv4的精准安装镜像URLs"></a>3.2.2.7.来自DHCPv4的精准安装镜像URLs</h4><p>前面讨论的DHCP选项提供了许多方法来表达NOS安装程序镜像的确切URL。在解释URL时，ONIE接受如下方案：</p>
+<ul>
+<li><a href="http://server/path/" target="_blank" rel="external">http://server/path/</a>….</li>
+<li>ftp://server/path/….</li>
+<li>tftp://server/path/….</li>
+</ul>
+<p>以下选项可以用于组织一个精确的URL。Exact DHCP URLs</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Option</th>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">125</td>
+<td style="text-align:left">VIVSO</td>
+<td style="text-align:left">ONIE VIVSO 中指定的安装程序URL选项 (code = 1)。该选项产生一个精确的URL。请参阅上述“供应商标识 供应商特定信息”章节描述。</td>
+</tr>
+<tr>
+<td style="text-align:left">114</td>
+<td style="text-align:left">Default URL</td>
+<td style="text-align:left">用于HTTP，但是接受其他URLs</td>
+</tr>
+<tr>
+<td style="text-align:left">150 + 67</td>
+<td style="text-align:left">TFTP server IP and TFTP bootfile</td>
+<td style="text-align:left">这两个选项都需要一个精确的URL</td>
+</tr>
+<tr>
+<td style="text-align:left">66 + 67</td>
+<td style="text-align:left">TFTP server name and TFTP bootfile</td>
+<td style="text-align:left">这两选项都需要一个精确的URL，需要DNS</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-2-2-8-部分安装程序镜像URLs"><a href="#3-2-2-8-部分安装程序镜像URLs" class="headerlink" title="3.2.2.8.部分安装程序镜像URLs"></a>3.2.2.8.部分安装程序镜像URLs</h4><p>某些情况下，配置DHCP服务器以获取精确的URL可能不切实际。</p>
+<p>例如，考虑一个企业方案，其中控制DHCP服务器的企业IT部门与试图建立新的Web服务原型的应用程序开发部门是分开的。应用部门希望尽快采取行动，尽快为新的解决方案建立原型。在这种情况下，等待IT部门进行 DHCP服务器更改需要很长时间。</p>
+<p>为了灵活地管理DHCP服务器，ONIE可以使用部分DHCP信息来找到安装程序。ONIE使用默认的URL路径序列和默认的安装程序文件名以及部分DHCP信息来查找安装程序镜像。</p>
+<p>请参阅“默认文件名搜索顺序”以获取有关文件名搜索的更多信息。<br>以下DHCP选项响应用于查找安装程序镜像及默认文件名：Partial DHCP URLs</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">DHCP Options</th>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">67</td>
+<td style="text-align:left">TFTP Bootfile</td>
+<td style="text-align:left">Contents of bootfile</td>
+</tr>
+<tr>
+<td style="text-align:left">72</td>
+<td style="text-align:left">HTTP Server IP</td>
+<td style="text-align:left"><a href="http://$http_server_ip/${onie_default_installer_names}" target="_blank" rel="external">http://$http_server_ip/${onie_default_installer_names}</a></td>
+</tr>
+<tr>
+<td style="text-align:left">150</td>
+<td style="text-align:left">TFTP Server IP</td>
+<td style="text-align:left"><a href="http://$tftp_server_ip/${onie_default_installer_names}" target="_blank" rel="external">http://$tftp_server_ip/${onie_default_installer_names}</a></td>
+</tr>
+<tr>
+<td style="text-align:left">54</td>
+<td style="text-align:left">DHCP Server IP</td>
+<td style="text-align:left"><a href="http://$dhcp_server_ip/${onie_default_installer_names}" target="_blank" rel="external">http://$dhcp_server_ip/${onie_default_installer_names}</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="3-2-2-8-1-Default-ONIE-image-server-name-onie-server"><a href="#3-2-2-8-1-Default-ONIE-image-server-name-onie-server" class="headerlink" title="3.2.2.8.1.Default ONIE image server name onie-server"></a>3.2.2.8.1.Default ONIE image server name onie-server</h5><p>If the default ONIE server name onie-server is resolvable by DNS it is included in the search for the default installer file names for both http and tftp protocols. The following URLs are attempted:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://onie-server/$&#123;onie_default_installer_names&#125;</div><div class="line">tftp://onie-server/$&#123;onie_default_installer_names&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="3-2-2-8-2-TFTP-Waterfall"><a href="#3-2-2-8-2-TFTP-Waterfall" class="headerlink" title="3.2.2.8.2.TFTP Waterfall"></a>3.2.2.8.2.TFTP Waterfall</h5><p>ONIE includes a classic PXE-like TFTP waterfall. Given a TFTP server address, ONIE attempts to download the installer using a sequence of TFTP paths with decreasing levels of specificity.</p>
+<p>The TFTP URL name has this format:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tftp://$tftp_server_ip/$path_prefix/$onie_default_installer_name</div></pre></td></tr></table></figure></p>
+<p>The $tftp_server_ip comes from DHCP option 66.<br>The $path_prefix is determined in the following manner:</p>
+<ol>
+<li>First the path_prefix is built using the Ethernet management interface’s MAC address using lower case hexadecimal with a dash separator. For example, with address 55:66:AA:BB:CC:DD thepath_prefix would be 55-66-aa-bb-cc-dd.</li>
+<li>Next, the path_prefix is built using the Ethernet management interface’s IP address in upper case hexadecimal. For example, 192.168.1.178 -&gt; C0A801B2. If the installer is not found at that location, remove the least significant hex digit and try again.</li>
+<li>Finally, look for the list of default file names at the root of the TFTP server.</li>
+</ol>
+<p>Here is a complete list of the bootfile paths attempted using the example MAC address, IP address and the example x86_64 platform:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">55-66-aa-bb-cc-dd/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C0A801B2/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C0A801B/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C0A801/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C0A80/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C0A8/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C0A/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C0/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">C/onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;-&lt;machine_revision&gt;</div><div class="line">onie-installer-&lt;arch&gt;-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">onie-installer-&lt;vendor&gt;_&lt;machine&gt;</div><div class="line">onie-installer-&lt;arch&gt;</div><div class="line">onie-installer</div></pre></td></tr></table></figure></p>
+<p>See Default File Name Search Order for more information on the default file names and search order.</p>
+<h5 id="3-2-2-8-3-HTTP-IPv4-and-IPv6-Neighbors"><a href="#3-2-2-8-3-HTTP-IPv4-and-IPv6-Neighbors" class="headerlink" title="3.2.2.8.3.HTTP IPv4 and IPv6 Neighbors"></a>3.2.2.8.3.HTTP IPv4 and IPv6 Neighbors</h5><p>ONIE queries its IPv4 and IPv6 link-local neighbors via HTTP for an installer. The general algorithm follows:</p>
+<ol>
+<li>ping the IPv4 broadcast address, 255.255.255.255.</li>
+<li>ping6 the “all nodes” link local IPv6 multicast address, ff02::1.</li>
+<li>For each responding neighbor, try to download the default file names from the root of the HTTP server.<br>Here is an example of the URLs used by this method: <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">http://203.0.113.14/onie-installer-x86_64-VENDOR_MACHINE-r0</div><div class="line">http://203.0.113.14/onie-installer-x86_64-VENDOR_MACHINE</div><div class="line">http://203.0.113.14/onie-installer-VENDOR_MACHINE</div><div class="line">http://203.0.113.14/onie-installer-x86_64</div><div class="line">http://203.0.113.14/onie-installer</div><div class="line">http://203.0.113.75/onie-installer-x86_64-VENDOR_MACHINE-r0</div><div class="line">http://203.0.113.75/onie-installer-x86_64-VENDOR_MACHINE</div><div class="line">http://203.0.113.75/onie-installer-VENDOR_MACHINE</div><div class="line">http://203.0.113.75/onie-installer-x86_64</div><div class="line">http://203.0.113.75/onie-installer</div><div class="line">http://203.0.113.108/onie-installer-x86_64-VENDOR_MACHINE-r0</div><div class="line">http://203.0.113.108/onie-installer-x86_64-VENDOR_MACHINE</div><div class="line">http://203.0.113.108/onie-installer-VENDOR_MACHINE</div><div class="line">http://203.0.113.108/onie-installer-x86_64</div><div class="line">http://203.0.113.108/onie-installer</div><div class="line">http://fe80::4638:39ff:fe00:139e%eth0/onie-installer-x86_64-VENDOR_MACHINE-r0</div><div class="line">http://fe80::4638:39ff:fe00:139e%eth0/onie-installer-x86_64-VENDOR_MACHINE</div><div class="line">http://fe80::4638:39ff:fe00:139e%eth0/onie-installer-VENDOR_MACHINE</div><div class="line">http://fe80::4638:39ff:fe00:139e%eth0/onie-installer-x86_64</div><div class="line">http://fe80::4638:39ff:fe00:139e%eth0/onie-installer</div><div class="line">http://fe80::4638:39ff:fe00:2659%eth0/onie-installer-x86_64-VENDOR_MACHINE-r0</div><div class="line">http://fe80::4638:39ff:fe00:2659%eth0/onie-installer-x86_64-VENDOR_MACHINE</div><div class="line">http://fe80::4638:39ff:fe00:2659%eth0/onie-installer-VENDOR_MACHINE</div><div class="line">http://fe80::4638:39ff:fe00:2659%eth0/onie-installer-x86_64</div><div class="line">http://fe80::4638:39ff:fe00:2659%eth0/onie-installer</div><div class="line">http://fe80::230:48ff:fe9f:1547%eth0/onie-installer-x86_64-VENDOR_MACHINE-r0</div><div class="line">http://fe80::230:48ff:fe9f:1547%eth0/onie-installer-x86_64-VENDOR_MACHINE</div><div class="line">http://fe80::230:48ff:fe9f:1547%eth0/onie-installer-VENDOR_MACHINE</div><div class="line">http://fe80::230:48ff:fe9f:1547%eth0/onie-installer-x86_64</div><div class="line">http://fe80::230:48ff:fe9f:1547%eth0/onie-installer</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>This makes it very simple to walk up to a switch and directly connect a laptop to the Ethernet management port and install from a local HTTP server.</p>
+<p>See Default File Name Search Order for more information on the default file names and search order.</p>
+<h3 id="3-2-3-执行环境"><a href="#3-2-3-执行环境" class="headerlink" title="3.2.3.执行环境"></a>3.2.3.执行环境</h3><p>当ONIE找到并下载安装程序之后，下一步就是执行安装程序。<br>在执行前，ONIE准备一个执行环境：</p>
+<ul>
+<li>在下载的安装程序上执行chmod +x  </li>
+<li>导出一些安装程序使用的环境变量</li>
+<li>运行安装程序</li>
+</ul>
+<p>ONIE导出如下环境变量：Installer Core Environment Variables</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Variable Name</th>
+<th style="text-align:left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">onie_exec_url</td>
+<td style="text-align:left">Currently executing URL</td>
+</tr>
+<tr>
+<td style="text-align:left">onie_platform</td>
+<td style="text-align:left">CPU architecture, vendor and machine name</td>
+</tr>
+<tr>
+<td style="text-align:left">onie_vendor_id</td>
+<td style="text-align:left">32-bit IANA Private Enterprise Number in decimal</td>
+</tr>
+<tr>
+<td style="text-align:left">onie_serial_num</td>
+<td style="text-align:left">Device serial number</td>
+</tr>
+<tr>
+<td style="text-align:left">onie_eth_addr</td>
+<td style="text-align:left">MAC address for Ethernet management port</td>
+</tr>
+</tbody>
+</table>
+<p>此外，任何所有DHCP响应选项都以BusyBox’s udhcpc风格输出，这些变量示例如下：Installer DHCP Environment Variables</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Variable Name</th>
+<th style="text-align:center">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">onie_disco_dns</td>
+<td style="text-align:center">DNS Server</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_domain</td>
+<td style="text-align:center">Domain name from DNS</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_hostname</td>
+<td style="text-align:center">Switch hostname</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_interface</td>
+<td style="text-align:center">Ethernet management interface, like eth0</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_ip</td>
+<td style="text-align:center">Ethernet management IP address</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_router</td>
+<td style="text-align:center">Gateway</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_serverid</td>
+<td style="text-align:center">DHCP server IP</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_siaddr</td>
+<td style="text-align:center">TFTP server IP</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_subnet</td>
+<td style="text-align:center">IP netmask</td>
+</tr>
+<tr>
+<td style="text-align:center">onie_disco_vivso</td>
+<td style="text-align:center">VIVSO option data</td>
+</tr>
+</tbody>
+</table>
+<p>有关NOS安装程序镜像的更多信息请参考“网络操作系统接口”描述。</p>
+<h2 id="3-3-网络操作系统接口"><a href="#3-3-网络操作系统接口" class="headerlink" title="3.3.网络操作系统接口"></a>3.3.网络操作系统接口</h2><p>ONIE为网络操作系统（NOS）提供了执行系统配置和维护操作的环境，其中包括：</p>
+<ul>
+<li>将NOS安装到硬件</li>
+<li>重新安装不同的NOS</li>
+<li>卸载当前NOS</li>
+<li>嵌入ONIE (清除所有东西，只留下ONIE)</li>
+<li>更新ONIE (更新当前ONIE到新的版本)</li>
+<li>应急和恢复</li>
+</ul>
+<p>这个环境构成了ONIE和NOS之间的接口。</p>
+<h3 id="3-3-1-NOS安装程序镜像"><a href="#3-3-1-NOS安装程序镜像" class="headerlink" title="3.3.1.NOS安装程序镜像"></a>3.3.1.NOS安装程序镜像</h3><p>ONIE对NOS安装程序的唯一要求就是安装程序必须更新引导环境，以便安装程序在下次重新引导时直接启动NOS。</p>
+<p>这如何完成取决于具体的CPU架构。请参考如下章节描述： </p>
+<ul>
+<li>U-Boot平台NOS安装程序</li>
+<li>X86 NOS安装程序</li>
+</ul>
+<p>除此之外，NOS安装程序可以执行任何必要的操作，将操作系统永久安装到硬件中。安装程序有很大的灵活性。安装程序可以实现的一些功能如下：</p>
+<ul>
+<li>通过HTTP获取额外的二进制文件</li>
+<li>通过HTTP与库存控制系统进行交流</li>
+<li>下载一个新的kernel+initramfs and kexec(8)</li>
+</ul>
+<h4 id="3-3-1-1-系统信息"><a href="#3-3-1-1-系统信息" class="headerlink" title="3.3.1.1.系统信息"></a>3.3.1.1.系统信息</h4><p>在正在运行的ONIE环境中，安装程序通常需要知道关于正在运行的系统的各种信息。ONIE为此提供了onie-sysinfo命令。</p>
+<p>有关详细信息，请参阅onie-sysinfo的完整帮助。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">ONIE:/ # onie-sysinfo -h</div><div class="line">onie-sysinfo [-sevimrpcfdat]</div><div class="line">Dump ONIE system information.</div><div class="line"></div><div class="line">COMMAND LINE OPTIONS</div><div class="line">        The default is to dump the ONIE platform (-p).</div><div class="line">        -h</div><div class="line">                Help.  Print this message.</div><div class="line">        -s</div><div class="line">                Serial Number</div><div class="line">        -e</div><div class="line">                Management Ethernet MAC address</div><div class="line">        -v</div><div class="line">                ONIE version string</div><div class="line">        -i</div><div class="line">                ONIE vendor ID.  Print the ONIE vendor&apos;s IANA enterprise number.</div><div class="line">        -m</div><div class="line">                ONIE machine string</div><div class="line">        -r</div><div class="line">                ONIE machine revision string</div><div class="line">        -p</div><div class="line">                ONIE platform string.  This is the default.</div><div class="line">        -c</div><div class="line">                ONIE CPU architecture</div><div class="line">        -f</div><div class="line">                ONIE configuration version</div><div class="line">        -d</div><div class="line">                ONIE build date</div><div class="line">        -t</div><div class="line">                ONIE partition type</div><div class="line">        -S</div><div class="line">                ONIE silicon switch vendor</div><div class="line">        -a</div><div class="line">                Dump all information.</div></pre></td></tr></table></figure></p>
+<h3 id="3-3-2-重装或安装一个不同的NOS"><a href="#3-3-2-重装或安装一个不同的NOS" class="headerlink" title="3.3.2.重装或安装一个不同的NOS"></a>3.3.2.重装或安装一个不同的NOS</h3><p>在正在运行的NOS中，可以指示ONIE返回最初的发现和安装阶段。这可以用来重新安装当前的NOS或新的NOS。</p>
+<p>如何调用安装操作取决于不同的CPU架构，请参阅以下章节获取更多信息：</p>
+<ul>
+<li>U-Boot平台重装或安装一个新的NOS </li>
+<li>X86重装或安装一个新的NOS</li>
+</ul>
+<h3 id="3-3-3-NOS卸载"><a href="#3-3-3-NOS卸载" class="headerlink" title="3.3.3.NOS卸载"></a>3.3.3.NOS卸载</h3><p>ONIE有一个卸载操作，可以清除连接的大容量存储设备（mSATA或USB NAND flash）的未使用的部分。唯一保留的是ONIE本身。这是一个重置出厂设置操作。</p>
+<p>如何调用取决于特定的CPU架构。请参阅以下章节了解详细内容：</p>
+<ul>
+<li>U-Boot平台卸载NOS </li>
+<li>X86卸载NOS</li>
+</ul>
+<p>在卸载操作之后，系统将返回发现和安装阶段。</p>
+<h3 id="3-3-4-应急和恢复"><a href="#3-3-4-应急和恢复" class="headerlink" title="3.3.4.应急和恢复"></a>3.3.4.应急和恢复</h3><p>ONIE提供了一个应急和恢复模式，这个模式在开发过程中是非常有用的，在尝试恢复损坏的系统时可能有用。</p>
+<p>应急模式与发现和安装阶段相同，但是发现机制被禁用。ONIE不尝试查找和安装镜像，它只是等在哪里等待您排除故障。</p>
+<p>在这种模式下，您可以通过串行控制台或telnet连接到您的ONIE。您可以使用可用的BusyBox工具来尝试修复问题，或者使用wget下载更多的工具和文件。</p>
+<p>ONIE提供的一些有用的命令如下：</p>
+<ul>
+<li>onie-nos-install – 它需要一个参数，指定NOS安装镜像URL。该命令从URL下载并安装，就像已经发现了一样。</li>
+<li>onie-self-update – 它需要一个参数，指定ONIE更新镜像URL。该命令下载并更新ONIE。有关ONIE更新的更多信息，请参阅章节“更新ONIE”描述。</li>
+<li>onie-discovery-stop – 停止发现过程。在发现过程干扰调试的情况下，这很有用。当发现过程被禁用时，系统是安静的，您可以做你想要的事情。</li>
+</ul>
+<p>如何调用应急和恢复模式取决于具体的CPU架构，请参阅以下章节获取更多信息：</p>
+<ul>
+<li>U-Boot平台应急和恢复</li>
+<li>X86应急和恢复</li>
+</ul>
+<h3 id="3-3-5-更新及嵌入ONIE"><a href="#3-3-5-更新及嵌入ONIE" class="headerlink" title="3.3.5.更新及嵌入ONIE"></a>3.3.5.更新及嵌入ONIE</h3><p>ONIE提供了一种自我更新的方式，包括bootloader和Linux kernel。除了ONIE发现阶段查找的是自己的更新安装镜像之外，其过程同NOS发现与安装阶段类似。<br>更新操作有两种：更新和嵌入。</p>
+<p>更新操作将升级ONIE，不会破坏当前安装的NOS。</p>
+<p>嵌入操作是破坏性的，此操作将清除所有的内容（包括任何已安装的NOS）并安装新的ONIE。<br>目前，嵌入操作仅在x86平台上提供。</p>
+<p>有关更新和嵌入操作的详细信息，请参阅以下章节获取更多信息。</p>
+<ul>
+<li>U-Boot平台更新和嵌入ONIE</li>
+<li>X86更新和嵌入ONIE</li>
+</ul>
+<h2 id="3-4-更新ONIE"><a href="#3-4-更新ONIE" class="headerlink" title="3.4.更新ONIE"></a>3.4.更新ONIE</h2><p>当编译ONIE时，其中有个编译产品是编译ONIE更新程序。参考ONIE编译产品列表。<br>更新ONIE，请按照安装网络操作系统NOS的步骤进行，但不使用NOS安装程序，而是使用ONIE更新程序。其他不同的细节如下所述。</p>
+<h3 id="3-4-1-开始ONIE自更新模式"><a href="#3-4-1-开始ONIE自更新模式" class="headerlink" title="3.4.1.开始ONIE自更新模式"></a>3.4.1.开始ONIE自更新模式</h3><p>要启动ONIE自更新模式，请按照“更新及嵌入ONIE”章节描述。</p>
+<h3 id="3-4-2-指定更新程序URL"><a href="#3-4-2-指定更新程序URL" class="headerlink" title="3.4.2.指定更新程序URL"></a>3.4.2.指定更新程序URL</h3><p>“安装镜像发现方法”中介绍的所有方法也适用于发现ONIE升级程序镜像，但是有一些例外。<br>ONIE按照如下顺序查找以下默认更新程序文件名称：</p>
+<ol>
+<li>onie-updater-<arch>-<vendor>_<machine>-r<machine_revision></machine_revision></machine></vendor></arch></li>
+<li>onie-updater-<arch>-<vendor>_<machine></machine></vendor></arch></li>
+<li>onie-updater-<vendor>_<machine></machine></vendor></li>
+<li>onie-updater-<arch></arch></li>
+<li>onie-updater</li>
+</ol>
+<p>假设设备是x86_64架构，那么默认的文件名可能是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">onie-updater-x86_64-VENDOR_MACHINE-r0</div><div class="line">onie-updater-x86_64-VENDOR_MACHINE</div><div class="line">onie-updater-VENDOR_MACHINE</div><div class="line">onie-updater-x86_64</div><div class="line">onie-updater</div></pre></td></tr></table></figure></p>
+<p>另一个区别是使用VIVSO时，必须设置选项2，更新程序URL指定。<br>此外，正如“应急和恢复”章节中描述，您可以使用onie-self-update命令指定应急模式下的更新程序的URL。</p>
+<h3 id="3-4-3-ONIE更新程序镜像格式-Update-Image-Format"><a href="#3-4-3-ONIE更新程序镜像格式-Update-Image-Format" class="headerlink" title="3.4.3.ONIE更新程序镜像格式 Update Image Format"></a>3.4.3.ONIE更新程序镜像格式 Update Image Format</h3><p>ONIE更新程序镜像遵循以下格式：</p>
+<ul>
+<li>镜像是一个自解压的shell脚本文件</li>
+<li>镜像必须包含 ONIE-UPDATER-COOKIE字符串，它将镜像标识为ONIE更新镜像。<br>镜像本身是可执行的，并且支持许多命令行选项：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-h</div><div class="line">        Help.  Print this message.</div><div class="line">-v</div><div class="line">        Be verbose.    Print what is happening.</div><div class="line">-q</div><div class="line">        Be quiet.  Do not print what is happening.</div><div class="line">-x</div><div class="line">        Extract image to a temporary directory.</div><div class="line">-i</div><div class="line">        Dump image information.</div><div class="line">-f</div><div class="line">        Force ONIE update opteration, bypassing any safety</div><div class="line">        checks.</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-4-4-使用ONIE提供固件更新"><a href="#3-4-4-使用ONIE提供固件更新" class="headerlink" title="3.4.4.使用ONIE提供固件更新"></a>3.4.4.使用ONIE提供固件更新</h3><p>要管理固件更新，请参阅“固件更新”章节。</p>
+<h2 id="3-5-硬件诊断选项"><a href="#3-5-硬件诊断选项" class="headerlink" title="3.5.硬件诊断选项"></a>3.5.硬件诊断选项</h2><p>有些硬件供应商可能会选择在其硬件中包含永久驻留的诊断镜像。<br>为了让NOS安装程序与已经安装的诊断镜像协作，需要布置一些基本规则。这与安装NOS和ONIE的整体协作类似。</p>
+<p>指定如何提供诊断镜像：</p>
+<ul>
+<li>硬件供应商 – 他们将就如何创建和存储他们的诊断镜像提供指导</li>
+<li>软件供应商 – 他们将就如何调用诊断，以及如何在安装NOS时避免破坏诊断程序</li>
+</ul>
+<p>主要思想是硬件供应商像安装NOS一样安装诊断镜像。</p>
+<p>本文档的体系结构章节介绍了具体实现这一点的细节。</p>
+<p>此外，为了帮助创建诊断镜像，ONIE发行版还提供了一个演示诊断镜像安装程序。有关更多信息，请参阅“诊断OS安装程序”部分。</p>
+<h2 id="3-6-固件升级"><a href="#3-6-固件升级" class="headerlink" title="3.6.固件升级"></a>3.6.固件升级</h2><p>ONIE项目的目标之一是批量操作。有时硬件供应上需要更新线程硬件平台上的固件。ONIE提供了一种机制，允许用户部署大规模硬件供应商提供的固件更新。</p>
+<p>为了这个目的，固件定义如下：</p>
+<ul>
+<li>ONIE软件(kernel + initramfs)都包含在ONIE更新镜像中</li>
+<li>BIOS/UEFI固件，大多数x86平台上的数据都位于一个8MB SPI-ROM中</li>
+<li>CPLD程序，大多数平台都有一些需要更新的CPLD（典型情况是有3个），CPLD通常通过JTAG I/O进行更新，通常连接到CPU的GPIO端口上</li>
+</ul>
+<h3 id="3-6-1-在ONIE中进行固件更新"><a href="#3-6-1-在ONIE中进行固件更新" class="headerlink" title="3.6.1.在ONIE中进行固件更新"></a>3.6.1.在ONIE中进行固件更新</h3><p>传统上，固件更新镜像通常作为特定操作系统的可执行文件交付给用户。这给硬件提供商带来了很大的负担，需要为许多不同的操作系统接口提供固件更新镜像。</p>
+<p>对于启用了ONIE的硬件，在ONIE环境中进行固件更新。换句话说，使用ONIE系统工具在ONIE内核运行时进行固件更新。</p>
+<p>支持这一策略的原因是：</p>
+<ul>
+<li>硬件厂商提供ONIE，所有他们可以在ONIE中添加必要的驱动和工具</li>
+<li>硬件厂商提供固件更新，他们知道固件需要的修订是什么</li>
+<li>ONIE上下文是NOS不可知的，无需为各种操作系统编写固件更新镜像</li>
+<li>ONIE环境提供给硬件厂商一个稳定的环境来开发和测试他们的更新</li>
+</ul>
+<h3 id="3-6-2-自动固件更新"><a href="#3-6-2-自动固件更新" class="headerlink" title="3.6.2.自动固件更新"></a>3.6.2.自动固件更新</h3><p>固件更行镜像与ONIE自更新镜像类似，使用与指定更新镜像URL中所描述的相同镜像发现方式。这允许部署大规模的固件更新。</p>
+<h3 id="3-6-3-固件升级流程"><a href="#3-6-3-固件升级流程" class="headerlink" title="3.6.3.固件升级流程"></a>3.6.3.固件升级流程</h3><p>ONIE中固件升级流程如下：</p>
+<ul>
+<li>从正常的NOS环境中开始处理</li>
+<li>重启设备进入ONIE升级模式</li>
+<li>在ONIE环境中完成更新</li>
+<li>系统重启，恢复到之前的启动状态</li>
+</ul>
+<p>固件更新不应该要求重新安装NOS或清除所有的分区。</p>
+<p>根据硬件平台和正在更新的固件，有时重启是不够的。例如，需要冷启动才能使得某些固件或CPLD更新生效。</p>
+<p>要处理这种情况，通过将可执行文件放在/tmp/reboot-cmd中，固件更新可以指定要使用的重启命令。ONIE固件更新框架将检测到并使用它重新启动机器。例如，可执行文件可能是写CPLD冷启动恢复仅存其位的脚本。</p>
+<h3 id="3-6-4-在NOS中初开始固件升级"><a href="#3-6-4-在NOS中初开始固件升级" class="headerlink" title="3.6.4.在NOS中初开始固件升级"></a>3.6.4.在NOS中初开始固件升级</h3><p>可以使用现有的DHCP/HTTP及waterfall方式部署ONIE固件更新镜像。“镜像发现和执行”中描述了镜像发现方法。</p>
+<p>然而，在实践中，我们发现根据用户的工程部门和业务功能的性质，配置DHCP服务器可能是一项繁重的工作。有时候，一个组负责最初的NOS安装，另一个组负责硬件的日常使用。有时候，所有的机器都安装/配置在一个地方，然后将机架运往世界各地的数据中心。</p>
+<p>对于现场更新，应用程序组可能会在第一线。</p>
+<p>考虑到这一点，ONIE提供了一种机制来解决具有已安装和配置NOS的多个（如数百个）交换机的最终用户的情况。用户想要使用现有的编排工具对系统进行最小的中断来更新固件。我们不必重新安装NOS，也不必重新配置NOS。</p>
+<p>这种机制下的固件更新流程：</p>
+<ol>
+<li>[user]从正在运行的NOS下载固件更新镜像</li>
+<li>[user]在ONIE磁盘分区中进行固件更新</li>
+<li>[user]重启ONIE进入更新模式</li>
+<li>ONIE定位并执行固件升级程序</li>
+<li>系统重启回到NOS</li>
+</ol>
+<p>上面标有 [user] 的步骤可以使用一个devops编配进行自动化，如Ansible、Puppet、Chef等。</p>
+<p>通过现有的编排软件来部署固件升级对程序组来说方便得多，这也是他们如今采用的方式。在这种方式下，他们不需要配置DHCP服务器等。</p>
+<p>有关固件升级的更多信息，请参阅onie-fwpkg文档。包括暂存、暂停和查询有关待定固件更新的信息。</p>
+<p>只有基于x86_64的系统才支持固件更新分阶段。这些系统有专门用于ONIE的可用磁盘分区，为分阶段更新提供存储位置。</p>
+<p>其他CPU类型，如PowerPC和ARM，没有这些分区。对于这些系统，可以使用传统的DHCP/HTTP ONIE更新方法进行固件更新，或使用onie-self-update命令。</p>
+<h3 id="3-6-5-执行分阶段固件更新-仅x86-64"><a href="#3-6-5-执行分阶段固件更新-仅x86-64" class="headerlink" title="3.6.5.执行分阶段固件更新(仅x86_64)"></a>3.6.5.执行分阶段固件更新(仅x86_64)</h3><p>如上述，一旦进行分阶段固件更新，ONIE运行时必须在更新镜像发现阶段找到他。</p>
+<p>在x86系统中，ONIE使用由GUID 7412F7D5-A156-4B13-81DC-867174929325标志的大容量存储介质上持久的GPT分区。当ONIE运行时，这个分区被挂载为/mnt/onie-boot。<br>持久性ONIE分区中的目录用于分阶段ONIE更新目录。</p>
+<p>更新镜像发现机制在ONIE更新目录中搜索挂起的固件更新镜像，并处理以字典顺序找到的所有镜像。允许一次处理多个更新镜像。</p>
+<p>每次尝试安装更新时，都会创建一个“结果记录”来跟踪更新结果。该记录包含有关更新版本的信息以及更新是否成功。这些记录永久存储在ONIE分区中。</p>
+<p>onie-fwpkg命令可以打印结果记录个更新状态的信息。</p>
+<h4 id="3-6-5-1-示例：分阶段更新固件"><a href="#3-6-5-1-示例：分阶段更新固件" class="headerlink" title="3.6.5.1.示例：分阶段更新固件"></a>3.6.5.1.示例：分阶段更新固件</h4><p>以下是用于在NOS开始进行固件更新的步骤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">root@nos:/tmp# wget http://10.0.2.2/onie/onie-firmware-update</div><div class="line">root@nos:/tmp# mkdir -p /mnt/onie-boot</div><div class="line">root@nos:/tmp# mount LABEL=ONIE-BOOT /mnt/onie-boot</div><div class="line">root@nos:/tmp# /mnt/onie-boot/onie/tools/bin/onie-fwpkg add onie-firmware-update</div><div class="line">Staging firmware update: /tmp/onie-updater-x86_64-kvm_x86_64-r0</div><div class="line">root@nos:/tmp# /mnt/onie-boot/onie/tools/bin/onie-fwpkg show</div><div class="line">** Pending firmware update information:</div><div class="line">Name                              | Version                    | Attempts |Size (Bytes)  | Date</div><div class="line">==================================+============================+==========+==============+====================</div><div class="line">onie-firmware-update              | firmware-demo-201605031508 |        0 |     11470711 | 2016-05-03 22:29:27</div><div class="line">==================================+============================+==========+==============+====================</div><div class="line">root@nos:/tmp# /mnt/onie-boot/onie/tools/bin/onie-boot-mode -q -o update</div><div class="line">root@nos:/tmp# umount /mnt/onie-boot</div><div class="line">root@nos:/tmp# reboot</div></pre></td></tr></table></figure></p>
+<p>This example shows:</p>
+<ul>
+<li>mounting the ONIE-BOOT partition, where the ONIE tools reside.</li>
+<li>executing the onie-fwpkg command with the add sub-command. This stages the update in the ONIE-BOOT partition.</li>
+<li>executing the onie-fwpkg command with the add sub-command. This displays any currently pending firmware updates.</li>
+<li>executing the onie-boot-mode command to set the system into ONIE Update mode for the next boot.</li>
+</ul>
+<p>Next the system reboots in ONIE Update mode and the update is applied.</p>
+<h3 id="3-6-6-Format-of-Firmware-Update-Image"><a href="#3-6-6-Format-of-Firmware-Update-Image" class="headerlink" title="3.6.6.Format of Firmware Update Image"></a>3.6.6.Format of Firmware Update Image</h3><p>The firmware update image is created just like an ONIE update image. The image itself is an executable, traditionally written as a self-extracting shell archive. The additional requirement on the firmware update image, same as the ONIE update image, is that the image must include the string ONIE-UPDATER-COOKIEwithin the first 100 lines of the image.</p>
+<p>For an example of how to create a self-extracting shell archive, see the code for the DEMO OS installer. In this case, instead of the install.sh script “installing an OS”, the firmware update install.sh script would update the firmware.</p>
+<p>In is the responsibility of the hardware vendor to include any necessary utilities in the firmware update image. For example any custom programs for updating firmware would need to either be present in the base ONIE system or provided by the installer itself.</p>
 
       
 
@@ -223,15 +958,19 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">自以为诗</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ONIE</a>
         		</li>
       		
 		</ul>
@@ -287,7 +1026,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/06/Drunk/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/12/05/onie-design-spec-3/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -301,18 +1040,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/06/Old-Place/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          故地
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/06/Do-Not-Go-Gentle-into-That-Good-Night/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">不要温和地走入那个良夜</div>
+    <a href="/2017/12/04/onie-design-spec-1-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ONIE设计规格(1-2)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -339,7 +1069,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#3-操作系统设计"><span class="toc-number">1.</span> <span class="toc-text">3.操作系统设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-Linux内核配置"><span class="toc-number">1.1.</span> <span class="toc-text">3.1.Linux内核配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1-通用内核配置"><span class="toc-number">1.1.1.</span> <span class="toc-text">3.1.1.通用内核配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-镜像发现与执行"><span class="toc-number">1.2.</span> <span class="toc-text">3.2.镜像发现与执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-平台名称及表示"><span class="toc-number">1.2.1.</span> <span class="toc-text">3.2.1.平台名称及表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-安装镜像发现方法"><span class="toc-number">1.2.2.</span> <span class="toc-text">3.2.2.安装镜像发现方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-1-默认文件名搜索顺序"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">3.2.2.1.默认文件名搜索顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-2-静态配置方法"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">3.2.2.2.静态配置方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-3-本地文件系统方法"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">3.2.2.3.本地文件系统方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-4-以太网管理口配置"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">3.2.2.4.以太网管理口配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-5-DHCP-请求及响应"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">3.2.2.5.DHCP 请求及响应</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-2-5-1-供应商分类标识-–-Option-60"><span class="toc-number">1.2.2.5.1.</span> <span class="toc-text">3.2.2.5.1.供应商分类标识 – Option 60</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-2-5-2-用户类型-–-Option-77"><span class="toc-number">1.2.2.5.2.</span> <span class="toc-text">3.2.2.5.2.用户类型 – Option 77</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-2-5-3-供应商标识和供应商特定信息-VIVSO"><span class="toc-number">1.2.2.5.3.</span> <span class="toc-text">3.2.2.5.3.供应商标识和供应商特定信息 (VIVSO)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-2-5-4-请求参数列表-–-Option-55"><span class="toc-number">1.2.2.5.4.</span> <span class="toc-text">3.2.2.5.4.请求参数列表 – Option 55</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-6-HTTP请求和HTTP头部"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">3.2.2.6.HTTP请求和HTTP头部</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-7-来自DHCPv4的精准安装镜像URLs"><span class="toc-number">1.2.2.7.</span> <span class="toc-text">3.2.2.7.来自DHCPv4的精准安装镜像URLs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-8-部分安装程序镜像URLs"><span class="toc-number">1.2.2.8.</span> <span class="toc-text">3.2.2.8.部分安装程序镜像URLs</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-2-8-1-Default-ONIE-image-server-name-onie-server"><span class="toc-number">1.2.2.8.1.</span> <span class="toc-text">3.2.2.8.1.Default ONIE image server name onie-server</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-2-8-2-TFTP-Waterfall"><span class="toc-number">1.2.2.8.2.</span> <span class="toc-text">3.2.2.8.2.TFTP Waterfall</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-2-8-3-HTTP-IPv4-and-IPv6-Neighbors"><span class="toc-number">1.2.2.8.3.</span> <span class="toc-text">3.2.2.8.3.HTTP IPv4 and IPv6 Neighbors</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-3-执行环境"><span class="toc-number">1.2.3.</span> <span class="toc-text">3.2.3.执行环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-网络操作系统接口"><span class="toc-number">1.3.</span> <span class="toc-text">3.3.网络操作系统接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-1-NOS安装程序镜像"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.3.1.NOS安装程序镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1-1-系统信息"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">3.3.1.1.系统信息</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-2-重装或安装一个不同的NOS"><span class="toc-number">1.3.2.</span> <span class="toc-text">3.3.2.重装或安装一个不同的NOS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-3-NOS卸载"><span class="toc-number">1.3.3.</span> <span class="toc-text">3.3.3.NOS卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-4-应急和恢复"><span class="toc-number">1.3.4.</span> <span class="toc-text">3.3.4.应急和恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-5-更新及嵌入ONIE"><span class="toc-number">1.3.5.</span> <span class="toc-text">3.3.5.更新及嵌入ONIE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-更新ONIE"><span class="toc-number">1.4.</span> <span class="toc-text">3.4.更新ONIE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-1-开始ONIE自更新模式"><span class="toc-number">1.4.1.</span> <span class="toc-text">3.4.1.开始ONIE自更新模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-2-指定更新程序URL"><span class="toc-number">1.4.2.</span> <span class="toc-text">3.4.2.指定更新程序URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-3-ONIE更新程序镜像格式-Update-Image-Format"><span class="toc-number">1.4.3.</span> <span class="toc-text">3.4.3.ONIE更新程序镜像格式 Update Image Format</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-4-使用ONIE提供固件更新"><span class="toc-number">1.4.4.</span> <span class="toc-text">3.4.4.使用ONIE提供固件更新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-硬件诊断选项"><span class="toc-number">1.5.</span> <span class="toc-text">3.5.硬件诊断选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-固件升级"><span class="toc-number">1.6.</span> <span class="toc-text">3.6.固件升级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-1-在ONIE中进行固件更新"><span class="toc-number">1.6.1.</span> <span class="toc-text">3.6.1.在ONIE中进行固件更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-2-自动固件更新"><span class="toc-number">1.6.2.</span> <span class="toc-text">3.6.2.自动固件更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-3-固件升级流程"><span class="toc-number">1.6.3.</span> <span class="toc-text">3.6.3.固件升级流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-4-在NOS中初开始固件升级"><span class="toc-number">1.6.4.</span> <span class="toc-text">3.6.4.在NOS中初开始固件升级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-5-执行分阶段固件更新-仅x86-64"><span class="toc-number">1.6.5.</span> <span class="toc-text">3.6.5.执行分阶段固件更新(仅x86_64)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-5-1-示例：分阶段更新固件"><span class="toc-number">1.6.5.1.</span> <span class="toc-text">3.6.5.1.示例：分阶段更新固件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-6-Format-of-Firmware-Update-Image"><span class="toc-number">1.6.6.</span> <span class="toc-text">3.6.6.Format of Firmware Update Image</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -355,7 +1085,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="Drunk" ></div> 
+  <div id="SOHUCS" sid="onie-design-spec-3" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 

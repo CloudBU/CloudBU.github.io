@@ -187,6 +187,86 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-dpdk-pg-34" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/21/dpdk-pg-34/">DPDK编程指南（三十四）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/21/dpdk-pg-34/" class="archive-article-date">
+  	<time datetime="2017-11-21T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="34-构建你自己的应用程序"><a href="#34-构建你自己的应用程序" class="headerlink" title="34. 构建你自己的应用程序"></a>34. 构建你自己的应用程序</h1><h2 id="34-1-在DPDK中编译一个示例程序"><a href="#34-1-在DPDK中编译一个示例程序" class="headerlink" title="34.1. 在DPDK中编译一个示例程序"></a>34.1. 在DPDK中编译一个示例程序</h2><p>当编译示例应用程序(如 hello world)时，需要导出变量：RTE_SDK 和 RTE_TARGET。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">~/DPDK$ cd examples/helloworld/</div><div class="line">~/DPDK/examples/helloworld$ export RTE_SDK=/home/user/DPDK</div><div class="line">~/DPDK/examples/helloworld$ export RTE_TARGET=x86_64-native-linuxapp-gcc</div><div class="line">~/DPDK/examples/helloworld$ make</div><div class="line">    CC main.o</div><div class="line">    LD helloworld</div><div class="line">    INSTALL-APP helloworld</div><div class="line">    INSTALL-MAP helloworld.map</div></pre></td></tr></table></figure></p>
+        
+          <a class="article-more-a" href="/2017/11/21/dpdk-pg-34/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/21/dpdk-pg-34/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dpdk-pg-33" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -677,92 +757,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-dpdk-pg-26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/01/dpdk-pg-26/">DPDK编程指南（二十六）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/01/dpdk-pg-26/" class="archive-article-date">
-  	<time datetime="2017-11-01T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="26-报文框架"><a href="#26-报文框架" class="headerlink" title="26. 报文框架"></a>26. 报文框架</h1><h2 id="26-1-设计目标"><a href="#26-1-设计目标" class="headerlink" title="26.1. 设计目标"></a>26.1. 设计目标</h2><p>DPDK数据包框架的主要设计目标是：</p>
-<ul>
-<li>提供标准方法来构建复杂的数据包处理流水线。 为常用的流水线功能模块提供可重复使用和可扩展的模板；</li>
-<li>提供在同一流水线功能模块上在纯软件和硬件加速实现之间的切换能力；</li>
-<li>提供灵活性和高性能之间的最佳权衡。 硬编码流水线通常提供最佳性能，但是不够灵活，而开发灵活的框架通常性能又较低；</li>
-<li>提供一个逻辑上类似于Open Flow的框架。</li>
-</ul>
-        
-          <a class="article-more-a" href="/2017/11/01/dpdk-pg-26/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/01/dpdk-pg-26/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-dpdk-pg-27" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -850,6 +844,92 @@ var _hmt = _hmt || [];
 
 
   
+    <article id="post-dpdk-pg-26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/01/dpdk-pg-26/">DPDK编程指南（二十六）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/01/dpdk-pg-26/" class="archive-article-date">
+  	<time datetime="2017-11-01T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="26-报文框架"><a href="#26-报文框架" class="headerlink" title="26. 报文框架"></a>26. 报文框架</h1><h2 id="26-1-设计目标"><a href="#26-1-设计目标" class="headerlink" title="26.1. 设计目标"></a>26.1. 设计目标</h2><p>DPDK数据包框架的主要设计目标是：</p>
+<ul>
+<li>提供标准方法来构建复杂的数据包处理流水线。 为常用的流水线功能模块提供可重复使用和可扩展的模板；</li>
+<li>提供在同一流水线功能模块上在纯软件和硬件加速实现之间的切换能力；</li>
+<li>提供灵活性和高性能之间的最佳权衡。 硬编码流水线通常提供最佳性能，但是不够灵活，而开发灵活的框架通常性能又较低；</li>
+<li>提供一个逻辑上类似于Open Flow的框架。</li>
+</ul>
+        
+          <a class="article-more-a" href="/2017/11/01/dpdk-pg-26/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/01/dpdk-pg-26/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dpdk-example-1-7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -902,94 +982,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/10/30/dpdk-example-1-7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-dpdk-pg-25" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/17/dpdk-pg-25/">DPDK编程指南（二十五）</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/17/dpdk-pg-25/" class="archive-article-date">
-  	<time datetime="2017-10-17T04:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="25-报文分类及访问控制"><a href="#25-报文分类及访问控制" class="headerlink" title="25. 报文分类及访问控制"></a>25. 报文分类及访问控制</h1><p>DPDK提供了一个访问控制库，它能够根据一组分类规则对输入数据包进行分类。</p>
-<p>ACL库用于对具有多个类别的一组规则执行N元组搜索，并为每个类别找到最佳匹配（最高优先级）。 库API提供以下基本操作：</p>
-<ul>
-<li>创建一个新的访问控制（AC）上下文</li>
-<li>向上下文中添加一条规则</li>
-<li>对上下文中的所有规则，构建执行数据包分类所需的运行时结构</li>
-<li>执行输入数据包分类</li>
-<li>释放AC上下文及其运行时结构和相关的内存</li>
-</ul>
-        
-          <a class="article-more-a" href="/2017/10/17/dpdk-pg-25/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/17/dpdk-pg-25/">展开全文 >></a>
         </p>
       
 
@@ -1128,10 +1120,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
               </li>
              
@@ -1141,6 +1129,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1160,15 +1152,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
