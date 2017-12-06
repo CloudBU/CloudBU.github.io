@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Tag: 杂谈 | 拙言</title>
+  <title>ONIE设计规格(4) | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/tags/杂谈/index.html">
+  <meta name="description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.">
+<meta name="keywords" content="开源,网络,OCP,ONIE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ONIE设计规格(4)">
+<meta property="og:url" content="http://lockless.github.io/2017/12/06/onie-design-spec-4/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.">
+<meta property="og:updated_time" content="2017-12-06T09:14:58.092Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="ONIE设计规格(4)">
+<meta name="twitter:description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -185,114 +186,674 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-onie-design-spec-4" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/So-Called-Love/" class="archive-article-date">
-  	<time datetime="2017-09-07T11:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/So-Called-Love/">所谓爱情</a>
+    <h1 class="article-title" itemprop="name">
+      ONIE设计规格(4)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/12/06/onie-design-spec-4/" class="archive-article-date">
+  	<time datetime="2017-12-06T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="4-x86-CPU架构设计"><a href="#4-x86-CPU架构设计" class="headerlink" title="4.x86 CPU架构设计"></a>4.x86 CPU架构设计</h1><h2 id="4-1-x86硬件需求"><a href="#4-1-x86硬件需求" class="headerlink" title="4.1.x86硬件需求"></a>4.1.x86硬件需求</h2><p>对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。</p>
+<p>x86 CPU架构交换机硬件需求如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Required Hardware</th>
+<th style="text-align:left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1GB (最小) CPU DRAM</td>
+<td style="text-align:left">The DRAM used by the CPU.</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<p>| 大容量存储器4GB(最小), 16GB (推荐) | GRUB，ONIE内核及NOS驻留在大容量存储设备中。虽然最小要求4GB，但是推荐使用16GB |<br>| 非易失性存储器 | 用于存储板卡信息、制造数据信息（如设备系列号和MAC地址等）的EEPROM(或NOR/NAND flash) |<br>| 以太网管理口 | 用于下载操作系统安装程序 |</p>
+<p>对于大容量存储设，可以使用多种介质。唯一真正的要求的BIOS将设备识别为可引导的。可以使用如下类型：</p>
+<ul>
+<li>mSATA</li>
+<li>CFast</li>
+<li>SATA SSD</li>
+<li>USB NAND</li>
+</ul>
+<h3 id="4-1-1-系统BIOS和SMBIOS-DMI标准"><a href="#4-1-1-系统BIOS和SMBIOS-DMI标准" class="headerlink" title="4.1.1.系统BIOS和SMBIOS/DMI标准"></a>4.1.1.系统BIOS和SMBIOS/DMI标准</h3><p>管理x86服务器的事实标准是存储在系统BIOS中的SMBIOS/DMI数据。在Linux下，dmidecode工具可以访问这些数据。</p>
+<p>对于大型数据中心，DMI信息是自动化和配置管理的关键组件。所有主要的自动化引擎都使用DMI数据来确定他们在那种类型的盒子上。例如：</p>
+<ul>
+<li><a href="https://puppet.com/" target="_blank" rel="external">puppet</a></li>
+<li><a href="https://www.chef.io/" target="_blank" rel="external">chef</a></li>
+<li><a href="https://cfengine.com/" target="_blank" rel="external">cfengine</a></li>
+</ul>
+<p>在这方面，x86交换机应该像x86服务器一样。</p>
+<p>这对于ONIE来数并不是一个技术问题，但是对于最终用户来说却是一个操作上的问题。<br>有关信息，请参阅“SMBIOS参考贵干”中6.2节描述。</p>
+<p>以下是上述自动化引擎所需的SMBIOS/DMI数据的字段。ONIE建议所有这些字段填写正确。</p>
+<h4 id="4-1-1-1-Required-SMBIOS-DMI-BIOS-Information-DMI-type-0-Fields"><a href="#4-1-1-1-Required-SMBIOS-DMI-BIOS-Information-DMI-type-0-Fields" class="headerlink" title="4.1.1.1.Required SMBIOS/DMI BIOS Information (DMI type 0) Fields"></a>4.1.1.1.Required SMBIOS/DMI BIOS Information (DMI type 0) Fields</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Vendor</td>
+<td style="text-align:left">Required - BIOS vendor name</td>
+</tr>
+<tr>
+<td style="text-align:left">Version</td>
+<td style="text-align:left">Required - version of BIOS f/w</td>
+</tr>
+<tr>
+<td style="text-align:left">Revision</td>
+<td style="text-align:left">Required - version of BIOS f/w</td>
+</tr>
+<tr>
+<td style="text-align:left">Release Date</td>
+<td style="text-align:left">Optional - BIOS f/w build date</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4-1-1-2-Required-SMBIOS-DMI-System-Information-DMI-type-1-Fields"><a href="#4-1-1-2-Required-SMBIOS-DMI-System-Information-DMI-type-1-Fields" class="headerlink" title="4.1.1.2.Required SMBIOS/DMI System Information (DMI type 1) Fields"></a>4.1.1.2.Required SMBIOS/DMI System Information (DMI type 1) Fields</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Manufacturer</td>
+<td style="text-align:left">Required</td>
+</tr>
+<tr>
+<td style="text-align:left">Product Name</td>
+<td style="text-align:left">Required - should match SKU description</td>
+</tr>
+<tr>
+<td style="text-align:left">Serial Number</td>
+<td style="text-align:left">Required</td>
+</tr>
+<tr>
+<td style="text-align:left">Version</td>
+<td style="text-align:left">Optional - match orderable SKU or sticker on chassis</td>
+</tr>
+<tr>
+<td style="text-align:left">SKU Number</td>
+<td style="text-align:left">Optional - match orderable SKU or sticker on chassis</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4-1-1-3-Required-SMBIOS-DMI-Chassis-Information-DMI-type-3-Fields"><a href="#4-1-1-3-Required-SMBIOS-DMI-Chassis-Information-DMI-type-3-Fields" class="headerlink" title="4.1.1.3.Required SMBIOS/DMI Chassis Information (DMI type 3) Fields"></a>4.1.1.3.Required SMBIOS/DMI Chassis Information (DMI type 3) Fields</h4><table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Manufacturer</td>
+<td style="text-align:left">Required</td>
+</tr>
+<tr>
+<td style="text-align:left">Type</td>
+<td style="text-align:left">Optional</td>
+</tr>
+<tr>
+<td style="text-align:left">Serial Number</td>
+<td style="text-align:left">Required</td>
+</tr>
+<tr>
+<td style="text-align:left">Asset Tag</td>
+<td style="text-align:left">Required - for null return “Not Specified”</td>
+</tr>
+<tr>
+<td style="text-align:left">Power Supply State</td>
+<td style="text-align:left">Optional</td>
+</tr>
+<tr>
+<td style="text-align:left">Thermal State</td>
+<td style="text-align:left">Optional</td>
+</tr>
+<tr>
+<td style="text-align:left">Height</td>
+<td style="text-align:left">Optional - should be in rack units</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-2-x86-UEFI-固件支持"><a href="#4-2-x86-UEFI-固件支持" class="headerlink" title="4.2.x86 UEFI 固件支持"></a>4.2.x86 UEFI 固件支持</h2><p>本设计规范定义了ONIE如何与基于x86的Unified Extensible Firmware Interface (UEFI)系统集成。</p>
+<h3 id="4-2-1-术语"><a href="#4-2-1-术语" class="headerlink" title="4.2.1.术语"></a>4.2.1.术语</h3><p>Acronyms related to UEFI</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Term</th>
+<th style="text-align:left">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">BIOS</td>
+<td style="text-align:left">Basic Input/Output System PC Firmware BIOS</td>
+</tr>
+<tr>
+<td style="text-align:left">CSM</td>
+<td style="text-align:left">UEFI Compatibility Support Module CSM</td>
+</tr>
+<tr>
+<td style="text-align:left">ESP</td>
+<td style="text-align:left">EFI System Partition ESP</td>
+</tr>
+<tr>
+<td style="text-align:left">FBM</td>
+<td style="text-align:left">UEFI Firmware Boot Manager</td>
+</tr>
+<tr>
+<td style="text-align:left">GPT</td>
+<td style="text-align:left">GUID Partition Table GPT</td>
+</tr>
+<tr>
+<td style="text-align:left">GRUB-x86_64-efi</td>
+<td style="text-align:left">GRUB2 compiled for x86_64 CPU with UEFI firmware</td>
+</tr>
+<tr>
+<td style="text-align:left">GRUB-i386-pc</td>
+<td style="text-align:left">GRUB2 compiled for i386/x86_64 CPU with BIOS firmware</td>
+</tr>
+<tr>
+<td style="text-align:left">HDOS</td>
+<td style="text-align:left">Hardware diagnostics operating system</td>
+</tr>
+<tr>
+<td style="text-align:left">MBR</td>
+<td style="text-align:left">Master Boot Record MBR</td>
+</tr>
+<tr>
+<td style="text-align:left">NOS</td>
+<td style="text-align:left">Network Operating System</td>
+</tr>
+<tr>
+<td style="text-align:left">ONIE</td>
+<td style="text-align:left">Open Network Install Environment</td>
+</tr>
+<tr>
+<td style="text-align:left">UEFI</td>
+<td style="text-align:left">Unified Extensible Firmware Interface UEFI</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-2-2-概述"><a href="#4-2-2-概述" class="headerlink" title="4.2.2.概述"></a>4.2.2.概述</h3><p>ONIE在2015.08发布的版本中增加了对UEFI的支持。更早的版本，ONIE只支持传统BIOS固件或运行于BIOS传统模式下的UEFI系统，也称为“UEFI CSM”。</p>
+<p>虽然这也能工作，但是从引导NOS到引导ONIE再回到引导NOS的机制并不简单，并且容易出现执行错误。</p>
+<p>UEFI简化了x86平台上的许多ONIE设计点，其好处是：</p>
+<ul>
+<li>UEFI现在是x86服务器的标准。要求ONIE兼容系统支持特定的UEFI版本，是硬件供应商瞄准的一个非常具体的目标。</li>
+<li>与现有的基于BIOS的MBR方法相比，ONIE个NOS可以使用一种简单得多的方法进行互操作。</li>
+<li>支持在同一台机器上安装多个操作系统。</li>
+<li>UEFI是支持未来ARM64平台的唯一方法。</li>
+</ul>
+<h3 id="4-2-3-ONIE需求"><a href="#4-2-3-ONIE需求" class="headerlink" title="4.2.3.ONIE需求"></a>4.2.3.ONIE需求</h3><p>X86硬件需求中的所有现有要求继续适用于UEFI，另外还要求如下内容：</p>
+<ul>
+<li>为NOS安装程序提供一个“UEFI感知”环境来执行安装任务</li>
+<li>允许多个操作系统安装共存</li>
+<li>根据UEFI原语提供ONIE-NOS接口</li>
+</ul>
+<h3 id="4-2-4-目标UEFI版本"><a href="#4-2-4-目标UEFI版本" class="headerlink" title="4.2.4.目标UEFI版本"></a>4.2.4.目标UEFI版本</h3><p>在撰写本文时，当前的UEFI规范版本为2.4 (errata B). <a href="http://www.uefi.org/sites/default/files/resources/2_4_Errata_B.pdf" target="_blank" rel="external">Download UEFI 2.4b Specification</a>.<br>根据需要，本规范将引用UEFI版本2.4 (errata B)中章节。<br>此处描述的设计以UEFI当前版本或更高为目标。<br>作为背景，读者可以阅读第三章(引导管理器)及章节12.3 (文件系统格式)以了解有关UEFI引导管理器如何定位和执行UEFI镜像的更多信息。</p>
+<h3 id="4-2-5-ONIE与UEFI集成"><a href="#4-2-5-ONIE与UEFI集成" class="headerlink" title="4.2.5.ONIE与UEFI集成"></a>4.2.5.ONIE与UEFI集成</h3><p>ONIE主要关注操作系统的生命周期，包括：</p>
+<ul>
+<li>安装OS</li>
+<li>移除OS</li>
+<li>调度要启动的OS</li>
+</ul>
+<p>在UEFI系统上，固件引导管理器(FBM)通过UEFI规范定义的大量UEFI全局变量来确定引导顺序。<br>为了使基于Linux的ONIE与这些全局变量相互操作，需要一些额外的软件配置和程序。</p>
+<h4 id="4-2-5-1-Linux-Kernel支持UEFI"><a href="#4-2-5-1-Linux-Kernel支持UEFI" class="headerlink" title="4.2.5.1.Linux Kernel支持UEFI"></a>4.2.5.1.Linux Kernel支持UEFI</h4><p>Linux内核配置必须启用以下选项：</p>
+<ul>
+<li>CONFIG_EFI</li>
+<li>CONFIG_EFIVAR_FS</li>
+</ul>
+<p>选项CONFIG_EFIVAR_FS导出UEFI全局变量到/sys/firmware/efi/efivars。<br>有关更多Linux支持UEFI的配置，请参阅Linux内核文档<a href="https://www.kernel.org/doc/Documentation/x86/x86_64/uefi.txt。" target="_blank" rel="external">https://www.kernel.org/doc/Documentation/x86/x86_64/uefi.txt。</a></p>
+<h4 id="4-2-5-2-UEFI用户空间工具"><a href="#4-2-5-2-UEFI用户空间工具" class="headerlink" title="4.2.5.2.UEFI用户空间工具"></a>4.2.5.2.UEFI用户空间工具</h4><p>ONIE需要一些额外的用户空间工具来在UEFI环境中进行互操作。</p>
+<h3 id="4-2-6-Efibootmgr和efivar"><a href="#4-2-6-Efibootmgr和efivar" class="headerlink" title="4.2.6.Efibootmgr和efivar"></a>4.2.6.Efibootmgr和efivar</h3><p>工具 <a href="https://github.com/rhboot/efibootmgr" target="_blank" rel="external">efibootmgr(8)</a> 用于操作UEFI全局变量，特别是以下变量的修改：</p>
+<ul>
+<li><em>Boot####</em> – A boot load option. #### is a printed hex value.</li>
+<li><em>BootOrder</em> – The ordered list of Boot#### load options. The firmware attempts to boot each load option in turn, starting with the first entry.</li>
+<li><em>BootNext</em> – The boot entry to use for the next boot only. This option is used to load a boot option once, then returning to the order specified in BootOrder.</li>
+</ul>
+<p>有关这些变量的更多详细信息，请参阅UEFI规格文档3.2节描述。<br>工具efibootmgr依赖于efivar库，也必须在ONIE中存在。</p>
+<h3 id="4-2-7-FAT文件系统支持和工具"><a href="#4-2-7-FAT文件系统支持和工具" class="headerlink" title="4.2.7.FAT文件系统支持和工具"></a>4.2.7.FAT文件系统支持和工具</h3><p>UEFI规格要求使用EFI系统分区（ESP）的FAT文件系统。有关ESP的更多信息，请参阅UEFI规范哦文档12.3章节描述。</p>
+<p>因此，ONIE镜像需要工具用于创建、维护和安装FAT文件系统。具体需求如下：</p>
+<ul>
+<li>mkfs.vfat – 创建一个FAT文件系统</li>
+<li>fsck.vfat – 检查及修复FAT文件系统</li>
+</ul>
+<h3 id="4-2-8-UEFI-x86-Boot-Loader-GRUB-x86-64-efi"><a href="#4-2-8-UEFI-x86-Boot-Loader-GRUB-x86-64-efi" class="headerlink" title="4.2.8.UEFI x86 Boot Loader (GRUB-x86_64-efi)"></a>4.2.8.UEFI x86 Boot Loader (GRUB-x86_64-efi)</h3><p>对于UEFI系统，ONIE将继续使用GRUB2作为引导程序，尽管其方式与传统BIOS系统完全不同。对于UEFI系统，ONIE将使用GRUB-x86_64-efi，这是为UEFI x86_64编译的GRUB2产品。GRUB-x86_64-efi不会像传统GRUB-i386-pc那样将数据安装到磁盘MBR中，而是每个操作系统（包括ONIE）都将其引导加载程序安装到EFI系统分区子目录中。</p>
+<p>本节介绍ONIE如何使用GRUB-x86_64-efi以及如何对硬盘进行分区。除非有另作说明，在本文档中提及的GRUB 都指GRUB-x86_64-efi。</p>
+<h4 id="4-2-8-1-磁盘分区布局"><a href="#4-2-8-1-磁盘分区布局" class="headerlink" title="4.2.8.1.磁盘分区布局"></a>4.2.8.1.磁盘分区布局</h4><p>磁盘分区布局在ONIE和安装的NOS如何协作方面起到至关重要的作用。本节介绍ONIE和NOS必须遵守的布局和指导方针。</p>
+<p>与ONIE一起提供的Demo OS Installer和Demo OS Runtime，将执行本节中描述的所有步骤。有关Demo OS的更多信息，请参阅“Demo OS Installer”和“Demo OS Runtime”。</p>
+<h5 id="4-2-8-1-1-分区表格式"><a href="#4-2-8-1-1-分区表格式" class="headerlink" title="4.2.8.1.1.分区表格式"></a>4.2.8.1.1.分区表格式</h5><p>UEFI规格文档强烈推荐使用 <a href="https://en.wikipedia.org/wiki/GUID_Partition_Table" target="_blank" rel="external">GUID Partition Table</a>格式，ONIE也建议使用。<br>GPT是ONIE在UEFI上唯一支持的分区类型。</p>
+<h5 id="4-2-8-1-2-EFI系统分区-ESP"><a href="#4-2-8-1-2-EFI系统分区-ESP" class="headerlink" title="4.2.8.1.2.EFI系统分区(ESP)"></a>4.2.8.1.2.EFI系统分区(ESP)</h5><p>传统上，UEFI磁盘上的第一个分区是EFI系统分区(ESP)。UEFI规定这个分区：</p>
+<ul>
+<li>使用GPT分区类型GUID C12A7328-F81F-11D2-BA4B-00A0C93EC93B</li>
+<li>包含一个FAT32文件系统</li>
+<li>包含名为EFI的目录</li>
+</ul>
+<p>对于ONIE，UEFI引导程序为GRUB2，UEFI应用路径为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EFI/onie/grubx64.efi</div></pre></td></tr></table></figure></p>
+<h5 id="4-2-8-1-3-ONIE-BOOT分区"><a href="#4-2-8-1-3-ONIE-BOOT分区" class="headerlink" title="4.2.8.1.3.ONIE-BOOT分区"></a>4.2.8.1.3.ONIE-BOOT分区</h5><p>与传统BIOS ONIE实现类似，一个独立的ONIE-BOOT分区包含ONIE kernel及initramfs。就像在传统BIOS情况下一样，这个分区使用GPT类型GUID 7412F7D5-A156-4B13-81DC-867174929325。</p>
+<p>ONIE-BOOT分区类型GUID 7412F7D5-A156-4B13-81DC-867174929325由GTP fdisk如那件包中的gdisk和sgdisk工具识别。</p>
+<h4 id="4-2-8-2-初始ONIE安装"><a href="#4-2-8-2-初始ONIE安装" class="headerlink" title="4.2.8.2.初始ONIE安装"></a>4.2.8.2.初始ONIE安装</h4><p>ONIE通过使用PXE的网络或者直连的USB存储器安装在设备上。在安装过程中，ONIE安装程序将重新初始化主硬盘，擦除所有以前的分区和数据。</p>
+<p>以下示例假定硬盘在Linux中为/dev/sda。<br>在初始化磁盘配置期间，ONIE安装程序镜像将执行如下操作：</p>
+<ol>
+<li>在磁盘上创建一个空的GPT分区表</li>
+<li>用适当的GPT分区类型GUID和FAT32文件系统创建ESP</li>
+<li>将ESP挂载在传统的挂载点上: /boot/efi</li>
+<li>在ESP上创建需要的EFI目录如/boot/efi/EFI</li>
+<li>使用释放的GPT分区类型GUID创建ONIE-BOOT 分区</li>
+<li>将ONIE-BOOT分区挂载到/mnt/onie-boot</li>
+<li>安装ONIE kernel + initramfs到ONIE-BOOT 分区</li>
+<li>安装UEFI版本的GRUB到/boot/efi/EFI/onie/grubx64.efi</li>
+<li>安装GRUB模块和GRUB配置文件到/mnt/onie-boot/grub</li>
+<li>为/boot/efi/EFI/onie/grubx64.efi创建新的UEFI Boot#### 引导条目 </li>
+<li>修改UEFI BootOrder 变量以首先引导ONIE</li>
+</ol>
+<p>当安装ONIE之后，磁盘布局如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">+========================+</div><div class="line">|                        |</div><div class="line">|  /dev/sda1 ESP         |  &lt;-- EFI System Partition</div><div class="line">|                        |</div><div class="line">+========================+</div><div class="line">|                        |</div><div class="line">|  /dev/sda2 ONIE-BOOT   /  &lt;-- ONIE partition.  Installed by ONIE.  Contains</div><div class="line">|                        |      kernel, initramfs and grub configuration.</div><div class="line">+========================+</div><div class="line">|                        |</div><div class="line">|                        |</div><div class="line">/  Free Space            /</div><div class="line">|                        |</div><div class="line">|                        |</div><div class="line">+========================+</div></pre></td></tr></table></figure></p>
+<p>/boot/efi 中包含如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">/boot/efi                         &lt;-- mount point</div><div class="line">/boot/efi/EFI                     &lt;-- required UEFI directory</div><div class="line">/boot/efi/EFI/onie                &lt;-- ONIE OS directory</div><div class="line">/boot/efi/EFI/onie/grubx64.efi    &lt;-- ONIE&apos;s GRUB UEFI boot Application</div><div class="line">UEFI BootOrder 及 BootCurrent 变量包含： </div><div class="line">BootCurrent: 0003</div><div class="line">BootOrder: 0003,0000,0001,0002</div><div class="line">Boot0000* EFI DVD/CDROM</div><div class="line">Boot0001* EFI Network</div><div class="line">Boot0002* EFI Internal Shell</div><div class="line">Boot0003* ONIE: Open Network Install Environment</div></pre></td></tr></table></figure></p>
+<p>UEFI固件从ESP中找到引导程序。在这种方案中，不像传统BIOS固件方式那样使用MBR。</p>
+<p>这里的理念是安装NOS创建所需的所有分区，并将其UEFI安装引导程序安装到ESP中的/boot/efi/EFI/<os>/中。<br>之后，为NOS创建一个新的UEFI Boot####条目。这允许多个操作系统共存于一个硬盘上。</os></p>
+<p>有关ESP的目录结构，请参考UEFI规格文档12.3.1.3章节描述。</p>
+<p>最初的ONIE GRUB菜单如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">  GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">+------------------------------+</div><div class="line">|*ONIE: Install OS             |</div><div class="line">| ONIE: Rescue                 |</div><div class="line">| ONIE: Uninstall OS           |</div><div class="line">| ONIE: Update ONIE            |</div><div class="line">| ONIE: Embed ONIE             |</div><div class="line">|                              |</div><div class="line">|                              |</div><div class="line">+------------------------------+</div></pre></td></tr></table></figure></p>
+<h3 id="4-2-9-NOS安装程序镜像"><a href="#4-2-9-NOS安装程序镜像" class="headerlink" title="4.2.9.NOS安装程序镜像"></a>4.2.9.NOS安装程序镜像</h3><p>继续上面的例子，本节将检查NOS安装程序。NOS安装程序的操作与ONIE安装程序类似，只是此时ESP已经存在，无需再次创建。</p>
+<p>NOS安装程序执行如下操作：</p>
+<ol>
+<li>为NOS运行时文件创建分区及文件系统</li>
+<li>将NOS文件(kernels,、initramfs等) 安装到分区中</li>
+<li>安装UEFI引导程序到/boot/efi/EFI/<nos>/<nos loader="" image=""></nos></nos></li>
+<li>为/boot/efi/EFI/<nos>/<nos loader="" image="">创建新的UEFI Boot#### 引导条目</nos></nos></li>
+<li>修改UEFI BootOrder 变量使得首先引导NOS</li>
+<li>对于基于GRUB的操作系统，为ONIE创建 :ref:chainload_onie ？？？</li>
+</ol>
+<p>接着上面的例子，我们将在剩下的空间中安装CentOS。<br>磁盘空间如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">+===========================+</div><div class="line">|                           |</div><div class="line">|  /dev/sda1 ESP            |  &lt;-- EFI System Partition</div><div class="line">|                           |</div><div class="line">+===========================+</div><div class="line">|                           |</div><div class="line">|  /dev/sda2 ONIE-BOOT      /  &lt;-- ONIE partition.  Installed by ONIE.  Contains</div><div class="line">|                           |      kernel and initramfs.</div><div class="line">+===========================+</div><div class="line">|                           |</div><div class="line">|                           |</div><div class="line">/  /dev/sda3 CentOS         /  &lt;-- CentOS partition.  Installed by CentOS.  Contains</div><div class="line">|                           |      kernel, initramfs and GRUB configuration.</div><div class="line">|                           |</div><div class="line">+===========================+</div></pre></td></tr></table></figure></p>
+<p>/boot/efi 目录包括：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/boot/efi                         &lt;-- mount point</div><div class="line">/boot/efi/EFI                     &lt;-- required UEFI directory</div><div class="line">/boot/efi/EFI/fedora              &lt;-- Fedora OS directory</div><div class="line">/boot/efi/EFI/fedora/grubx64.efi  &lt;-- Fedora&apos;s GRUB UEFI Application</div><div class="line">/boot/efi/EFI/onie                &lt;-- ONIE OS directory</div><div class="line">/boot/efi/EFI/onie/grubx64.efi    &lt;-- ONIE&apos;s GRUB UEFI Application</div></pre></td></tr></table></figure></p>
+<p>UEFI BootOrder及BootCurrent变量包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">BootCurrent: 0004</div><div class="line">BootOrder: 0004,0003,0000,0001,0002</div><div class="line">Boot0000* EFI DVD/CDROM</div><div class="line">Boot0001* EFI Network</div><div class="line">Boot0002* EFI Internal Shell</div><div class="line">Boot0003* ONIE: Open Network Install Environment</div><div class="line">Boot0004* CentOS</div></pre></td></tr></table></figure></p>
+<p>CentOS安装其GRUB版本到/boot/efi/EFI/fedora，而不会干扰ONIE分区或文件。</p>
+<h3 id="4-2-10-ONIE加载链"><a href="#4-2-10-ONIE加载链" class="headerlink" title="4.2.10.ONIE加载链"></a>4.2.10.ONIE加载链</h3><p>使用GRUB的NOS可能会发现为ONIE创建一个GRUB菜单条目很有用。当用户想要手动选择GRUB菜单条目时就会用到该菜单。这种使用一个GRUB菜单条目来加载和启动引导程序的方法称为链式加载。</p>
+<p>ONIE实现必须提供一个GRUB帮助脚本，为NOS GRUB配置创建合适的ONIE GRUB加载链条目。ONIE源码仓库提供了脚本50_onie_grub用于实现这个功能。</p>
+<p>该脚本适合放在NOS的/etc/grub.d目录中。当重新生成grub.cfg文件时，许多操作系统提供者使用的update-grub(8)命令使用帮助脚本。</p>
+<p>继续前面的例子，在创建ONIE chainload菜单后，CentOS的GRUB菜单在重启后如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">+---------------------------------+</div><div class="line">|*CentOS 6.5-x86_64               |</div><div class="line">| ONIE                            |</div><div class="line">|                                 |</div><div class="line">|                                 |</div><div class="line">+---------------------------------+</div></pre></td></tr></table></figure></p>
+<p>这是ONIE chainload GRUB-x86_64-efi菜单条目的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># Menu entry to chainload ONIE UEFI</div><div class="line">menuentry ONIE &#123;</div><div class="line">        set root=&apos;(hd0,gpt1)&apos;</div><div class="line">        search --no-floppy --fs-uuid --set=root 9A49-4F6B</div><div class="line">        echo    &apos;Loading ONIE ...&apos;</div><div class="line">        chainloader /EFI/onie/grubx64.efi</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Demo OS installer通过安装GRUB-x86_64-efi并创建连接加载ONIE的初始化grub.cfg文件。参阅demo_os章节获取更多信息。</p>
+<h3 id="4-2-11-UEFI-ONIE-NOS接口"><a href="#4-2-11-UEFI-ONIE-NOS接口" class="headerlink" title="4.2.11.UEFI ONIE NOS接口"></a>4.2.11.UEFI ONIE NOS接口</h3><p>用于UEFI的ONIE NOS接口与传统的BIOS相似，仅在实现上有所不同。<br>要审查，NOS必须能在以下模式下启动ONIE：</p>
+<ul>
+<li>install</li>
+<li>uninstall</li>
+<li>rescue</li>
+<li>update</li>
+<li>embed</li>
+</ul>
+<h4 id="4-2-11-1-ONIE引导模式"><a href="#4-2-11-1-ONIE引导模式" class="headerlink" title="4.2.11.1.ONIE引导模式"></a>4.2.11.1.ONIE引导模式</h4><p>从NOS重新引导到ONIE的过程需要分成两步：</p>
+<ol>
+<li>配置系统在下一次启动时进入ONIE</li>
+<li>配置ONIE引导装载程序以选择请求模式</li>
+</ol>
+<p>为了便于一次性重新引导到ONIE，UEFI系统将UEFI BootNext变量设置为对应于ONIE的Boot####条目。设置后，此变量将使UEFI引导管理器仅引导一次所请求的引导选项，并返回BootOrder所指定的顺序以用于后续引导。</p>
+<p>为了选择”ONIE模式”，NOS使用由ONIE提供的onie-boot-mode工具，就像传统的BIOS一样。有关cmd_onie_boot_mode请参阅相关章节。</p>
+<h3 id="4-2-12-硬件诊断操作系统-可选"><a href="#4-2-12-硬件诊断操作系统-可选" class="headerlink" title="4.2.12.硬件诊断操作系统(可选)"></a>4.2.12.硬件诊断操作系统(可选)</h3><p>硬件诊断操作系统(HDOS)的处理方式与常规的NOS非常类似。创建分区和更新UEFI引导变量的概念也用于HDOS。</p>
+<p>HDOS安装程序与常规NOS安装程序不同的主要地方时创建GPT分区。</p>
+<h4 id="4-2-12-1-HDOS磁盘分区"><a href="#4-2-12-1-HDOS磁盘分区" class="headerlink" title="4.2.12.1.HDOS磁盘分区"></a>4.2.12.1.HDOS磁盘分区</h4><p>UEFI固件设备上安装的HDOS必须实现如下操作：</p>
+<ul>
+<li>将诊断GPT分区命名为 <something>-DIAG。有关详细信息请参阅 <a href="http://www.rodsbooks.com/gdisk/sgdisk.html" target="_blank" rel="external">sgdisk</a> 程序和 –change-name选项。其中 <something> 可以是硬件供应商的任意有意义的字符串。</something></something></li>
+<li>设置GPT系统分区属性位(bit 0)。请参阅 <a href="http://www.rodsbooks.com/gdisk/sgdisk.html" target="_blank" rel="external">sgdisk</a> 程序和 –attributes选项。</li>
+<li>当在诊断分区上创建文件系统时，将文件系统标签设置为 <something>-DIAG，与用于GPT分区标签的字符串相同。参考 <a href="https://linux.die.net/man/8/mkfs.ext4" target="_blank" rel="external">mkfs.ext4</a> 程序及 -L 选项。</something></li>
+</ul>
+<p>GPT分区名称和GPT系统分区位的 -DIAG后缀通告给符合ONIE和NOS安装镜像，该分区非常重要，不能修改。<br>ONIE卸载操作不能删除或修改满足上面要求的分区。<br>NOS下载操作不能删除或修改满足上面要求的分区。</p>
+<h4 id="4-2-12-2-GRUB注意事项"><a href="#4-2-12-2-GRUB注意事项" class="headerlink" title="4.2.12.2.GRUB注意事项"></a>4.2.12.2.GRUB注意事项</h4><p>本节考查符合ONIE标准的HDOS安装镜像的操作任务。这与前面讨论的NOS安装镜像操作顺序非常类似。<br>HDOS安装程序镜像执行如下操作：</p>
+<ol>
+<li>按照“HDOS磁盘分区”描述创建磁盘分区和文件系统</li>
+<li>将HDOS文件(kernels, initramfs, diagnostic programs, etc) 安装到-DIAG分区中</li>
+<li>安装UEFI引导程序到/boot/efi/EFI/<hdos>/<hdos loader="" image=""></hdos></hdos></li>
+<li>为/boot/efi/EFI/<hdos>/<hdos loader="" image="">创建新的UEFI Boot####条目 </hdos></hdos></li>
+<li>添加ONIE加载链条目到HDOS’s GRUB菜单</li>
+</ol>
+<p>例如，考虑硬件制造商在安装ONIE后立即安装HDOS的情况。<br>磁盘分区如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  /dev/sda1 ESP             |  &lt;-- EFI System Partition</div><div class="line">|                            |</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  /dev/sda2 ONIE-BOOT       |  &lt;-- ONIE partition.  Installed by ONIE.  Contains</div><div class="line">|                            |      kernel and initramfs.</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|                            |</div><div class="line">/  /dev/sda3 HDOS-DIAG       /  &lt;-- HDOS partition.  Contains kernel, initramfs,</div><div class="line">|                            |      diagnostic programs and GRUB configuration.</div><div class="line">|                            |</div><div class="line">+============================+</div></pre></td></tr></table></figure></p>
+<p>/boot/efi包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/boot/efi                         &lt;-- mount point</div><div class="line">/boot/efi/EFI                     &lt;-- required UEFI directory</div><div class="line">/boot/efi/EFI/HDOS                &lt;-- HDOS directory</div><div class="line">/boot/efi/EFI/HDOS/grubx64.efi    &lt;-- HDOS&apos;s GRUB UEFI Application</div><div class="line">/boot/efi/EFI/onie                &lt;-- ONIE OS directory</div><div class="line">/boot/efi/EFI/onie/grubx64.efi    &lt;-- ONIE&apos;s GRUB UEFI Application</div></pre></td></tr></table></figure></p>
+<p>UEFI BootOrder及BootCurrent变量为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">BootCurrent: 0003</div><div class="line">BootOrder: 0003,0004,0000,0001,0002</div><div class="line">Boot0000* EFI DVD/CDROM</div><div class="line">Boot0001* EFI Network</div><div class="line">Boot0002* EFI Internal Shell</div><div class="line">Boot0003* ONIE: Open Network Install Environment</div><div class="line">Boot0004* HDOS</div></pre></td></tr></table></figure></p>
+<p>上面的字符串’HDOS’仅仅是一个例子，其他字符串只要符合HDOS分区需求都可以。</p>
+<p>安装HDOS之后，请注意系统仍然配置为接下来启动ONIE。这里的意图是，从工厂发货的系统设置为安装程序默认启动ONIE。</p>
+<p>符合ONIE标准的HDOS应该使用提供的50_onie_grub脚本为HDOS GRUB创建合适的ONIE GRUB加载链条目。这会将ONIE GRUB菜单项添加到HDOS GRUB菜单并添加 DIAG GRUB菜单到ONIE GRUB菜单。</p>
+<p>此后，HDOS GRUB菜单显示如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">+--------------------------------+</div><div class="line">|*Hardware Vendor Diag           |</div><div class="line">| ONIE                           |</div><div class="line">|                                |</div><div class="line">|                                |</div><div class="line">+--------------------------------+</div></pre></td></tr></table></figure></p>
+<p>ONIE GRUB菜单显示如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">+--------------------------------+</div><div class="line">|*ONIE: Install OS               |</div><div class="line">| ONIE: Rescue                   |</div><div class="line">| ONIE: Uninstall OS             |</div><div class="line">| ONIE: Update ONIE              |</div><div class="line">| ONIE: Embed ONIE               |</div><div class="line">| Hardware Vendor Diag           |</div><div class="line">|                                |</div><div class="line">+--------------------------------+</div></pre></td></tr></table></figure></p>
+<h3 id="4-2-13-UEFI-参考文档"><a href="#4-2-13-UEFI-参考文档" class="headerlink" title="4.2.13.UEFI 参考文档"></a>4.2.13.UEFI 参考文档</h3><ul>
+<li><a href="http://www.uefi.org/" target="_blank" rel="external">UEFI Home Page</a></li>
+<li><a href="https://en.wikipedia.org/wiki/GUID_Partition_Table" target="_blank" rel="external">GUID Partition Table</a></li>
+<li><a href="https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/" target="_blank" rel="external">UEFI boot: how does that actually work, then?</a></li>
+<li><a href="http://www.extremetech.com/computing/96985-demystifying-uefi-the-long-overdue-bios-replacement" target="_blank" rel="external">Demystifying UEFI, the long-overdue BIOS replacement</a></li>
+<li><a href="https://blog.uncooperative.org/blog/2014/02/06/the-efi-system-partition/" target="_blank" rel="external">The EFI System Partition and the Default Boot Behavior</a></li>
+</ul>
+<h2 id="4-3-x86传统BIOS引导-GRUB2"><a href="#4-3-x86传统BIOS引导-GRUB2" class="headerlink" title="4.3.x86传统BIOS引导(GRUB2)"></a>4.3.x86传统BIOS引导(GRUB2)</h2><p>本节介绍旧BIOS固平台上的ONIE如何使用GRUB2以及磁盘如何分区。</p>
+<p>对于UEFI固件系统，请参考“x86 UEFI固件支持”章节。</p>
+<p>对于传统BIOS系统，理念是NOS拥有引导装载程序，NOS必须自己安装自己的GRUB（或其他bootloader）。<br>ONIE kernel和initramfs驻留在一个独立的分区中。安装的NOS控制它如何管理MBR和GRUB。</p>
+<h3 id="4-3-1-磁盘分区布局"><a href="#4-3-1-磁盘分区布局" class="headerlink" title="4.3.1.磁盘分区布局"></a>4.3.1.磁盘分区布局</h3><p>磁盘分区布局在ONIE和NOS如何协作方面起到至关重要的作用。本节介绍了布局，并列出了ONIE和NOS必须遵守的规则。</p>
+<p>本节中所描述的步骤均通过与ONIE一起提供的Demo OS Installer和Demo OS Runtime执行。有关Demo OS的信息，请参阅“Demo OS Installer及Demo OS Runtime”章节。</p>
+<h4 id="4-3-1-1-磁盘分区类型"><a href="#4-3-1-1-磁盘分区类型" class="headerlink" title="4.3.1.1.磁盘分区类型"></a>4.3.1.1.磁盘分区类型</h4><p>每台设备可与选择是否使用GUID Partition Table (GPT)或者MS-DOS磁盘标签。通过将PARTITION_TYPE设置为msdos或gpt可以在$MACHINE/machine.make文件中指定。</p>
+<p>这个选择取决于硬件供应商。onie-sysinfo -t命令报告正在使用的机器的磁盘标签。NOS安装程序可以使用此命令来确定如何为自己分区磁盘。</p>
+<p>如果未指定，默认使用GPT。</p>
+<h4 id="4-3-1-2-初始ONIE安装-嵌入式"><a href="#4-3-1-2-初始ONIE安装-嵌入式" class="headerlink" title="4.3.1.2.初始ONIE安装(嵌入式)"></a>4.3.1.2.初始ONIE安装(嵌入式)</h4><p>在工厂初次安装ONIE时，硬盘是空白的。假设第一次使用PXE启动(或USB)来安装ONIE。</p>
+<p>下面的例子使用GPT作为磁盘标签。MS-DOS磁盘标签的机制也差不多，唯一的区别是GPT需要创建”BIOS GRUB”分区而MS-DOS不用。</p>
+<p>例如，假设硬件磁盘在Linux中的/dev/sda。</p>
+<p>当安装ONIE之后，磁盘如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  Sector LBA 0 aka MBR      |  &lt;-- 1st stage boot loader in LBA-0.  Installed by ONIE</div><div class="line">|                            |      during grub-install.  Loads additional code from</div><div class="line">|  1st stage boot loader     |      /dev/sda1 and configuration from /dev/sda2.</div><div class="line">|                            |</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  /dev/sda1 GRUB            |  &lt;-- Additional data stored and used by GRUB for GPT disk</div><div class="line">|                            |      labels.  Installed by ONIE during grub-install.</div><div class="line">|  BIOS GRUB                 |      MS-DOS partition type does not have this.</div><div class="line">|                            |</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  /dev/sda2 ONIE-BOOT       |  &lt;-- ONIE partition.  Installed by ONIE.  Contains</div><div class="line">|                            |      kernel and initramfs.  The GRUB 1st stage loader is</div><div class="line">|  ONIE Installs GRUB        |      *also* installed on this partition.</div><div class="line">|                            |</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|                            |</div><div class="line">/  Free Space                /</div><div class="line">|                            |</div><div class="line">|                            |</div><div class="line">+============================+</div></pre></td></tr></table></figure></p>
+<p>在初始磁盘配置期间，ONIE安装程序执行如下操作：</p>
+<ol>
+<li>由于磁盘空白，我们正在嵌入ONIE，需要创建分区表。安装程序创建以一个磁盘标签(根据计算机配置，可能是msdos 或 gpt)，本例默认使用 gpt。</li>
+<li>创建所需的分区(gpt两个，如是 msdos则创建一个)。两种情况都需要创建ONIE-BOOT 分区。</li>
+<li>安装ONIE kernel+initramfs到ONIE-BOOT 分区。</li>
+<li>安装GRUB到/dev/sda，使用/dev/sda2 作为GRUB –boot-directory。这将允许系统在没有安装NOS的情况下启动。</li>
+<li>再次将GRUB安装到ONIE-BOOT 分区/dev/sda2。这有利于链式加载ONIE。</li>
+</ol>
+<p>OS通常将GRUB第一阶段加载器安装到/dev/sda (对于GPT也在/dev/sda1)。GRUB配置和相关的文件安装到/dev/sda2，通常挂载为/boot。</p>
+<p>另一个支持的选项是将GRUB第一阶段安装到分区中，如/dev/sda2。使用这种方法，您可以从NOS的GRUB菜单中链式加载ONIE。</p>
+<p>在工厂安装时，ONIE安装程序将GRUB 第一阶段安装到/dev/sda和/dev/sda2中。其中/dev/sda中的GRUB第一阶段加载器是一次性的，安装GRUB时由NOS覆盖，一次性使用的一阶段加载只是第一次启动ONIE，然后有NOS安装程序接管。</p>
+<p>这里的理念是安装的NOS拥有安装GRUB第一阶段/dev/sda MBR。ONIE拥有/dev/sda2中的所有内容。只要NOS程序保持/dev/sda2就可以。</p>
+<p>对于GPT磁盘标签，ONIE-BOO分区类型GUID是7412F7D5-A156-4B13-81DC-867174929325。GUID 被gdisk及sgdisk工具识别。</p>
+<p>最初的GRUB菜单如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">     GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">+--------------------------------+</div><div class="line">|*ONIE: Install OS               |</div><div class="line">| ONIE: Rescue                   |</div><div class="line">| ONIE: Uninstall OS             |</div><div class="line">| ONIE: Update ONIE              |</div><div class="line">| ONIE: Embed ONIE               |</div><div class="line">|                                |</div><div class="line">|                                |</div><div class="line">+--------------------------------+</div></pre></td></tr></table></figure></p>
+<h4 id="4-3-1-3-NOS安装程序运行之后"><a href="#4-3-1-3-NOS安装程序运行之后" class="headerlink" title="4.3.1.3.NOS安装程序运行之后"></a>4.3.1.3.NOS安装程序运行之后</h4><p>接着上面的例子，我们看看NOS安装镜像需要做什么。NOS安装程序将创建分区并安装自己的GRUB版本（甚至可以是GRUB传统版本或LILO）。</p>
+<p>例如，假设用户将CentOS安装到剩余的空闲空间中。</p>
+<p>磁盘现在布局如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  Sector LBA 0 aka MBR      |  &lt;-- 1st stage boot loader in LBA-0.  Installed by CentOS</div><div class="line">|                            |      during grub-install.  Loads additional code from</div><div class="line">|  1st stage boot loader     |      /dev/sda1 and configuration from /dev/sda3.</div><div class="line">|                            |</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  /dev/sda1 GRUB            |  &lt;-- Additional data stored and used by GRUB for GPT disk</div><div class="line">|                            |      labels.  Installed by CentOS during grub-install.</div><div class="line">|  BIOS GRUB                 |      MSDOS partition type does not have this.</div><div class="line">|                            |</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|  /dev/sda2 ONIE-BOOT       |  &lt;-- ONIE partition.  Untouched by the CentOS installer.</div><div class="line">|                            |</div><div class="line">|  ONIE Installs GRUB        |</div><div class="line">|                            |</div><div class="line">+============================+</div><div class="line">|                            |</div><div class="line">|                            |</div><div class="line">/  /dev/sda3 CentOS          /  &lt;-- CentOS partition.  Installed by CentOS.  Contains</div><div class="line">|                            |      kernel, initramfs and GRUB configuration.</div><div class="line">|                            |</div><div class="line">+============================+</div></pre></td></tr></table></figure></p>
+<p>CentOS将其GRUB版本的第一阶段安装到/dev/sda，覆盖工厂安装的ONIE。<br>CentOS GRUB将引用/dev/sda3中的GRUB配置文件和模块。它不影响安装在/dev/sda2中的ONIE。</p>
+<h4 id="4-3-1-4-Chainloading-and-Selecting-ONIE-Mode"><a href="#4-3-1-4-Chainloading-and-Selecting-ONIE-Mode" class="headerlink" title="4.3.1.4.Chainloading and Selecting ONIE Mode"></a>4.3.1.4.Chainloading and Selecting ONIE Mode</h4><p>为了便于从NOS返回ONIE，NOS添加了一个GRUB菜单条目来链式加载ONIE。</p>
+<p>在/etc/grub.d中提供的示例文件是onie/rootconf/x86_64/sysroot-lib-onie/50_onie_grub。<br>要选择在NOS中启动ONIE模式，使用ONIE提供的名为onie-boot-mode工具。</p>
+<p>grub-reboot在这里很有用，可以在一次启动的时候重启链接加载ONIE，然后返回默认的GRUB菜单。</p>
+<p>使用ONIE chainload菜单，GRUB菜单在重启之后如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">  GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">+---------------------------------+</div><div class="line">|*CentOS 6.5-x86_64               |</div><div class="line">| Memory test (memtest86+)        |</div><div class="line">| ONIE                            |</div><div class="line">|                                 |</div><div class="line">----------------------------------+</div></pre></td></tr></table></figure></p>
+<p>安装GRUB及创建初始grub.cfg文件的操作在Demo OS installer中有展示。</p>
+<p>以下是ONIE chainload GRUB菜单条目示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Menu entry to chainload ONIE</div><div class="line">menuentry ONIE &#123;</div><div class="line">        search --no-floppy --label --set=root ONIE-BOOT</div><div class="line">        echo    &apos;Loading ONIE ...&apos;</div><div class="line">        chainloader +1</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是一个脚本示例，在NOS环境下运行，可以将系统重新启动为ONIE应急模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line"></div><div class="line">echo &quot;Rebooting into ONIE rescue mode...&quot;</div><div class="line"></div><div class="line">grub-reboot ONIE</div><div class="line">/mnt/onie-boot/onie/tools/bin/onie-boot-mode -q -o rescue</div></pre></td></tr></table></figure></p>
+<h4 id="4-3-1-5-ONIE-Boot-Commands-in-GRUB-Prompt"><a href="#4-3-1-5-ONIE-Boot-Commands-in-GRUB-Prompt" class="headerlink" title="4.3.1.5.ONIE Boot Commands in GRUB Prompt"></a>4.3.1.5.ONIE Boot Commands in GRUB Prompt</h4><p>在ONIE GRUB提示符下有几个命令用于在各种模式下引导ONIE：</p>
+<ul>
+<li>onie_install</li>
+<li>onie_rescue</li>
+<li>onie_uninstall</li>
+<li>onie_update</li>
+<li>onie_embed</li>
+<li>diag_bootcmd</li>
+</ul>
+<p>这些命令对于自动测试直接启动特定目标来说非常方便。</p>
+<p>在执行该命令之前，通过在GRUB菜单页面中按c键输入GRUB提示符：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">                    GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">+----------------------------------------------------+</div><div class="line">|*ONIE: Install OS                                   |</div><div class="line">| ONIE: Rescue                                       |</div><div class="line">| ONIE: Uninstall OS                                 |</div><div class="line">| ONIE: Update ONIE                                  |</div><div class="line">| ONIE: Embed ONIE                                   |</div><div class="line">|                                                    |</div><div class="line">|                                                    |</div><div class="line">+----------------------------------------------------+</div><div class="line"></div><div class="line">     Use the ^ and v keys to select which entry is highlighted.</div><div class="line">     Press enter to boot the selected OS, `e&apos; to edit the commands</div><div class="line">     before booting or `c&apos; for a command-line.</div></pre></td></tr></table></figure></p>
+<p>在GRUB提示符下，键入命令来启动所需的目标。以onie_rescue为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">                     GNU GRUB  version 2.02~beta2+e4a1fe391</div><div class="line">   Minimal BASH-like line editing is supported. For the first word, TAB</div><div class="line">   lists possible command completions. Anywhere else TAB lists possible</div><div class="line">   device or file completions. ESC at any time exits.</div><div class="line"></div><div class="line">grub&gt; onie_rescue</div></pre></td></tr></table></figure></p>
+<h2 id="4-4-x86-Linux内核及集成"><a href="#4-4-x86-Linux内核及集成" class="headerlink" title="4.4.x86 Linux内核及集成"></a>4.4.x86 Linux内核及集成</h2><p>大多数x86平台都可以与ONIE x86内核协作，但是一些平台特定的修改可能是必要的。</p>
+<h3 id="4-4-1-内核修改"><a href="#4-4-1-内核修改" class="headerlink" title="4.4.1.内核修改"></a>4.4.1.内核修改</h3><p>要为特定平台的内核添加支持，必须创建或修改以下Linux内核文件：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">File</th>
+<th style="text-align:left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">linux/drivers/platform/x86/vendor_machine.c</td>
+<td style="text-align:left">平台支持c文件。基本的初始化和重置。</td>
+</tr>
+<tr>
+<td style="text-align:left">linux/drivers/platform/x86/Kconfig</td>
+<td style="text-align:left">内核配置片段，允许选择新平台。</td>
+</tr>
+<tr>
+<td style="text-align:left">linux/drivers/platform/x86/Makefile</td>
+<td style="text-align:left">Makefile片段，详细说明在选择平台时要编译的文件</td>
+</tr>
+</tbody>
+</table>
+<p>平台特定的内核文件需要涉及的内容因平台而异。添加特定于平台的内核代码的一些常见原因：</p>
+<ul>
+<li>特殊的复位顺序，可能需要访问特定的CPLD</li>
+<li>将GPIO线路映射到特定的东西，如I2C多路复用器或前面板LED</li>
+</ul>
+<p>生成的stg内核补丁存储在$MACHINE/kernel目录，这里放置的补丁将自动由构建系统应用。<br>有关如何创建stg补丁的信息，请参阅Patching ONIE Using stgit章节描述。</p>
+<h3 id="4-4-2-电路板EEPROM访问-–-onie-syseeprom"><a href="#4-4-2-电路板EEPROM访问-–-onie-syseeprom" class="headerlink" title="4.4.2.电路板EEPROM访问 – onie-syseeprom"></a>4.4.2.电路板EEPROM访问 – onie-syseeprom</h3><p>在x86平台上，使用onie-syseeprom来访问电路板上的EEPROM。命令行语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">ONIE:/ # onie-syseeprom -h</div><div class="line">Display and program the system EEPROM data block.</div><div class="line">Usage: sys-eeprom [-h][-l] [-e] [-s &lt;code&gt;=&lt;value&gt;,...]</div><div class="line">   With no arguments display the EEPROM contents.</div><div class="line">   -h --help</div><div class="line">      Display usage</div><div class="line">   -l --list</div><div class="line">      List the understood TLV codes and names.</div><div class="line">   -e --erase</div><div class="line">      Reset the EEPROM data.</div><div class="line">   -g --get &lt;code&gt;</div><div class="line">      Look up a TLV by code and write the value to stdout.</div><div class="line">   -s --set &lt;code&gt;=&lt;value&gt;,&lt;code&gt;=&lt;value&gt;...</div><div class="line">      Set a TLV code to a value.</div><div class="line">      If no value, TLV is deleted.</div></pre></td></tr></table></figure></p>
+<p>有关EEPROM数据和可用TLV字段格式的更多信息，请参阅“电路板EEPROM信息格式”章节。</p>
+<p>为了是这个工具能正常工具，每个平台必须定义如何访问EEPROM。每个平台至少需要在sys_eeprom_platform.h中定义如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SYS_EEPROM_SIZE       : size of usable eeprom</div><div class="line">SYS_EEPROM_I2C_DEVICE : i2c-bus</div><div class="line">SYS_EEPROM_I2C_ADDR   : address on the bus</div></pre></td></tr></table></figure></p>
+<p>以下内容也可以在这个文件中定义，未定义时将使用默认值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SYS_EEPROM_MAX_SIZE : Total size of the eeprom</div><div class="line">SYS_EEPROM_OFFSET   : offset from where the ONIE TLV header starts</div></pre></td></tr></table></figure></p>
+<p>更多详细信息，请参阅onie-syseeprom补丁onie/patches/i2ctools/i2ctools-sys-eeprom.patch。<br>在x86架构上，onie-sysinfo命令使用onie-syseeprom命令生成其输出的一部分。有关onie-sysinfo命令的信息，请参阅“系统信息”章节描述。</p>
+<h2 id="4-5-x86接口详细信息"><a href="#4-5-x86接口详细信息" class="headerlink" title="4.5.x86接口详细信息"></a>4.5.x86接口详细信息</h2><p>本节介绍用于实现NOS接口的x86特定方法。参考“网络操作系统接口”章节获取更多NOS接口信息。</p>
+<h3 id="4-5-1-x86-NOS接口"><a href="#4-5-1-x86-NOS接口" class="headerlink" title="4.5.1.x86 NOS接口"></a>4.5.1.x86 NOS接口</h3><p>在x86上，NOS和ONIE使用存储在ONIE-BOOT分区的GRUB环境变量进行通信。<br>ONIE提供了onie-boot-mode工具，NOS用于将ONIE引导设置为如下模式：</p>
+<ul>
+<li>install</li>
+<li>uninstall</li>
+<li>rescue</li>
+<li>update</li>
+<li>embed</li>
+<li>diag</li>
+</ul>
+<p>完整的帮助信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">ONIE:/ # onie-boot-mode -h</div><div class="line">usage: onie-boot-mode [-o &lt;onie_mode&gt;] [-lhvq]</div><div class="line">Get or set the default GRUB boot entry.  The default is to show</div><div class="line">the current default entry.</div><div class="line"></div><div class="line">COMMAND LINE OPTIONS</div><div class="line">        -o</div><div class="line">                Set the default GRUB boot entry to a particular &quot;ONIE</div><div class="line">                mode&quot;.  Available ONIE modes are:</div><div class="line"></div><div class="line">                install   -- ONIE OS installer mode</div><div class="line">                rescue    -- ONIE rescue mode</div><div class="line">                uninstall -- ONIE OS uninstall mode</div><div class="line">                update    -- ONIE self update mode</div><div class="line">                embed     -- ONIE self update mode and embed ONIE</div><div class="line">                diag      -- Hardware Vendor&apos;s Diagnostic</div><div class="line">                none      -- Use system default boot mode</div><div class="line"></div><div class="line">                Some platforms may offer additional modes.  Check with</div><div class="line">                your hardware vendor.</div><div class="line"></div><div class="line">                The &apos;none&apos; mode will use the first ONIE boot menu entry.</div><div class="line">        -l</div><div class="line">                List the current default entry.  This is the default.</div><div class="line">        -h</div><div class="line">                Help.  Print this message.</div><div class="line">        -q</div><div class="line">                Quiet.  No printing, except for errors.</div><div class="line">        -v</div><div class="line">                Be verbose.  Print what is happening.</div></pre></td></tr></table></figure></p>
+<p>该工具位于ONIE-BOOT分区onie/tools/bin/onie-boot-mode目录下。NOS可以使用磁盘卷标签ONIE-BOOT方便地安装ONIE-BOOT分区，例如，以下命令将ONIE-BOOT分区挂载到Linux文件系统上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NOS:/ # mkdir /mnt/onie-boot</div><div class="line">NOS:/ # mount LABEL=ONIE-BOOT /mnt/onie-boot</div></pre></td></tr></table></figure></p>
+<p>此后，可以在文件下使用这个工具了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NOS:/ # /mnt/onie-boot/onie/tools/bin/onie-boot-mode</div></pre></td></tr></table></figure></p>
+<p>该工具是grub-editenv命令的一个简单包，它将onie_mode变量设置为所需的值。</p>
+<h4 id="4-5-1-1-x86-NOS安装程序镜像"><a href="#4-5-1-1-x86-NOS安装程序镜像" class="headerlink" title="4.5.1.1.x86 NOS安装程序镜像"></a>4.5.1.1.x86 NOS安装程序镜像</h4><p>X86上NOS安装程序的主要职责是：</p>
+<ul>
+<li>创建分区并格式化文件系统</li>
+<li>安装NOS软件到新分区</li>
+<li>安装GRUB到MBR</li>
+<li>设置其GRUB配置</li>
+</ul>
+<p>安装GRUB并设置GRUB配置是这里描述的最重要的部分。</p>
+<p>X86传统BIOS引导加载程序（GRUB2）部分介绍了安装GRUB和设置GRUB的步骤。<br>所提供的Demo OS Installer也将执行本节中所介绍的所有步骤。</p>
+<p>在随后的章节中，对NOS做出如下假设：</p>
+<ol>
+<li>NOS是基于Linux的</li>
+<li>NOS在/mnt/onie-boot 上挂载了ONIE-BOOT 分区读写</li>
+<li>NOS创建了一个GRUB菜单，名为ONIE</li>
+<li>NOS具有grub-reboot 命令可用</li>
+</ol>
+<p>grub-reboot命令允许NOS的GRUB启动一次ONIE chainload入口，一次启动之后，NOS的GRUB将恢复到默认的NOS GRUB菜单项。</p>
+<h4 id="4-5-1-2-x86重装或安装其他NOS"><a href="#4-5-1-2-x86重装或安装其他NOS" class="headerlink" title="4.5.1.2.x86重装或安装其他NOS"></a>4.5.1.2.x86重装或安装其他NOS</h4><p>为了调用安装操作，NOS运行以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NOS:/ # grub-reboot ONIE</div><div class="line">NOS:/ # /mnt/onie-boot/onie/tools/bin/onie-boot-mode -o install</div></pre></td></tr></table></figure></p>
+<p>有关NOS重装程序接口的信息，请参阅“重装或安装其他NOS”章节描述。</p>
+<h4 id="4-5-1-3-x86-NOS卸载"><a href="#4-5-1-3-x86-NOS卸载" class="headerlink" title="4.5.1.3.x86 NOS卸载"></a>4.5.1.3.x86 NOS卸载</h4><p>为了调用卸载操作系统操作，NOS运行如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NOS:/ # grub-reboot ONIE</div><div class="line">NOS:/ # /mnt/onie-boot/onie/tools/bin/onie-boot-mode -o uninstall</div></pre></td></tr></table></figure></p>
+<p>在卸载流程之后，系统返回到发现和安装阶段。<br>有关NOS卸载的更多信息，请参阅“NOS卸载”章节描述。</p>
+<h4 id="4-5-1-4-x86应急和恢复"><a href="#4-5-1-4-x86应急和恢复" class="headerlink" title="4.5.1.4.x86应急和恢复"></a>4.5.1.4.x86应急和恢复</h4><p>为了调用应急操作，NOS执行如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NOS:/ # grub-reboot ONIE</div><div class="line">NOS:/ # /mnt/onie-boot/onie/tools/bin/onie-boot-mode -o rescue</div></pre></td></tr></table></figure></p>
+<h4 id="4-5-1-5-x86更新及嵌入ONIE"><a href="#4-5-1-5-x86更新及嵌入ONIE" class="headerlink" title="4.5.1.5.x86更新及嵌入ONIE"></a>4.5.1.5.x86更新及嵌入ONIE</h4><p>在x86上，更新操作和嵌入操作有所区别。</p>
+<p>嵌入操作是破坏性的，将会擦除一切（包括任何安装的NOS）并安装新版本的ONIE。通常这是在客户收到产品之前在制造就完成的。</p>
+<p>更新操作不具有破坏性，此操作只会更新ONIE-BOOT分区。通常，在现场使用这个来跟新当前的ONIE版本，同时保持安装的NOS不变。</p>
+<p>要调用更新操作，NOS将运行以下命令：\<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NOS:/ # grub-reboot ONIE</div><div class="line">NOS:/ # /mnt/onie-boot/onie/tools/bin/onie-boot-mode -o update</div></pre></td></tr></table></figure></p>
+<p>要调用嵌入操作，NOS将运行以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NOS:/ # grub-reboot ONIE</div><div class="line">NOS:/ # /mnt/onie-boot/onie/tools/bin/onie-boot-mode -o embed</div></pre></td></tr></table></figure></p>
+<p>有关NOS更新接口的更多信息，请参阅“更新及嵌入ONIE”章节描述。</p>
+<h3 id="4-5-2-x86硬件诊断接口-可选"><a href="#4-5-2-x86硬件诊断接口-可选" class="headerlink" title="4.5.2.x86硬件诊断接口[可选]"></a>4.5.2.x86硬件诊断接口[可选]</h3><p>本节介绍为x86平台提供的硬件诊断方法。有关硬件诊断的更多信息，请参阅“硬件诊断”章节描述。</p>
+<p>安装诊断程序该像安装NOS一样。使用NOS安装程序机制将诊断程序镜像安装到其自己的分区中，这将允许硬件供应商独立于ONIE更新诊断程序镜像。</p>
+<p>所有在本节中指定的要求都由ONIE源码附带的Demo Diag OS说明。更多详细信息，请参阅“Demo Diagnostic OS Installer”章节。</p>
+<h4 id="4-5-2-1-磁盘分区"><a href="#4-5-2-1-磁盘分区" class="headerlink" title="4.5.2.1.磁盘分区"></a>4.5.2.1.磁盘分区</h4><p>诊断镜像驻留在磁盘分区中，本节介绍磁盘分区的属性。</p>
+<h5 id="4-5-2-1-1-GPT分区表"><a href="#4-5-2-1-1-GPT分区表" class="headerlink" title="4.5.2.1.1.GPT分区表"></a>4.5.2.1.1.GPT分区表</h5><p>基于GPT的设备上的诊断镜像安装程序必须执行如下操作：</p>
+<ul>
+<li>命名诊断分区为 <something>-DIAG。参考 sgdisk 程序及 –change-name 选项获取更多信息。其中 <something> 可以是硬件提供商有意义的任意字符串。</something></something></li>
+<li>设置GPT system partition 属性位(bit 0)。参考 sgdisk 程序及 –attributes选项。</li>
+<li>在诊断分区上创建文件系统时，将文件系统标签设置为 <something>-DIAG，与用于GPT诊断分区标签的字符串相同，参考 mkfs.ext4 程序及 -L 选项。</something></li>
+</ul>
+<p>-DIAG后缀和系统分区位通告内ONIE和NOS安装程序，这些分区很重要，不应该被修改。<br>ONIE卸载操作不能删除或修改满足上述要求的分区。<br>ONIE标准的NOS不能删除或修改满足上述要求的分区。</p>
+<h5 id="4-5-2-1-2-MSDOS分区表"><a href="#4-5-2-1-2-MSDOS分区表" class="headerlink" title="4.5.2.1.2.MSDOS分区表"></a>4.5.2.1.2.MSDOS分区表</h5><p>对于使用MSDOS分区表的设备，我们只能用文件系统标签。在diag分区上创建文件系统时，将文件系统标签设置为<something>-DIAG. 以mkfs.ext4 程序及 -L 选项为例。<br>ONIE卸载操作不能删除或修改满足上述需求的分区。<br>ONIE标准的NOS不能删除或修改满足上述要求的分区。</something></p>
+<h4 id="4-5-2-2-GRUB注意事项"><a href="#4-5-2-2-GRUB注意事项" class="headerlink" title="4.5.2.2.GRUB注意事项"></a>4.5.2.2.GRUB注意事项</h4><p>安装诊断镜像时，将GRUB安装到MBR中，就像正常的操作系统一样。<br>此外，将GRUB也安装到diag分区，这样允许NOS以chainload的方式来启动diag OS。</p>
+<p>Diag分区的grub.cfg文件必须包含diag OS所需的所有GRUB菜单条目，以及一个chainload ONIE条目。</p>
+<p>对于2015.11之前的ONIE版本，诊断镜像会将GRUB安装到MBR中。之后更高级的ONIE不再推荐将GRUB安装到MBR中。</p>
+<p>如果诊断镜像安装在早期版本中，则只应该将GRUB安装在诊断分区中，而不要将ONIE设置为默认菜单条目。这使得ONIE和diag OS上的GRUb之间的启动顺序是固定的。</p>
+<p>如果诊断镜像安装在2015.11之后的新版本中，则不应将GRUB同时安装到MBR和diag分区。更高版本支持diag安装程序提供的启动命令。此功能使ONIE与诊断操作系统共享GRUB。即diag没有自己的GRUB实例和grub.cfg。要启用该功能，需要修改diag安装程序以满足该功能。请参考ONIE 2016.02中的Demo Diag OS。</p>
+<h2 id="4-6-x86初始安装和恢复"><a href="#4-6-x86初始安装和恢复" class="headerlink" title="4.6.x86初始安装和恢复"></a>4.6.x86初始安装和恢复</h2><p>在具有空白硬盘驱动设备的机器上安装ONIE会带来一些挑战。传统的操作系统安装技术被用来克服这一点。</p>
+<h3 id="4-6-1-PXE网络安装"><a href="#4-6-1-PXE网络安装" class="headerlink" title="4.6.1.PXE网络安装"></a>4.6.1.PXE网络安装</h3><p>如何配置特定的PXE引导将不在本文中描述。但是，ONIE构建系统会生成合适于PXE引导的内核和initramfs镜像。</p>
+<p>recovery-initrd Makefile目标生成一个ONIE initrd，其中还包含一个ONIE更新程序镜像。<br>假设您已经设置了PXE引导，几个内核命令行选项可以帮助自动安装ONIE：</p>
+<ul>
+<li>boot_env=recovery</li>
+<li>boot_reason</li>
+<li>install_url</li>
+</ul>
+<p>boot_env=recovery参数告诉正在运行的ONIE系统磁盘没有格式化，这使得ONIE不会尝试挂载任何分区。</p>
+<p>boot_reason变量可以采用任何ONIE启动模式，但这里游泳的是rescueand embed。<br>使用boot_reason=rescue您可以引导到系统中，并手动使用onie-self-update -e /lib/onie/onie-updater命令来嵌入recovery-initrd中包含的ONIE镜像。</p>
+<p>要嵌入ONIE，需要onie-self-update命令的-e选项。嵌入操作将分区和格式化磁盘。<br>对于自动嵌入操作，请设置boot_reason=embed及install_url=file:///lib/onie/onie-updater。当ONIE启动时，它将自动开始嵌入recovery-initrd中包含的ONIE镜像。<br>您也可以将install_url设置为任何有效的URL。例如，您可以将它指向HTTP服务器上的ONIE更新镜像。</p>
+<h3 id="4-6-2-USB-安装"><a href="#4-6-2-USB-安装" class="headerlink" title="4.6.2.USB 安装"></a>4.6.2.USB 安装</h3><p>对于有能力的机器，从USB安装是一个更方便的选择。如何配置单个机器从USB启动不在这里描述。</p>
+<p>第一步是创建一个适合安装在USB存储器上的ISO镜像，构建recovery-iso Makefile target。<br>recovery-iso镜像也可以用来从CD-ROM启动。</p>
+<p>下一步是使用dd命令从Linux工作站将ISO拷贝到USB设备中。<br>这将删除USB设备的内容。<br>还要确保你使用正确的/dev/sdX否则你将清除Linux工作站。<br>在将U盘插入之后，您可以通过多dmesg命令找到正确的/dev/sdX。<br>使用dd命令将ISO拷贝到USb设备的操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo dd if=onie-recovery-x86_64-&lt;machine&gt;-r0.iso of=/dev/sdX bs=10M</div></pre></td></tr></table></figure></p>
+<p>USB设备现在已经准备好了。</p>
+<p>当系统起机时你将看到如下菜单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+------------------------------------------+</div><div class="line">|            ONIE Installer                |</div><div class="line">|                                          |</div><div class="line">|  ONIE: Rescue                            |</div><div class="line">|  ONIE: Embed ONIE                        |</div><div class="line">|                                          |</div></pre></td></tr></table></figure></p>
+<p>您可以通过编辑onie/build-config/recovery/syslinux.cfg文件来定制内核命令行参数。请参阅上面有关使用 install_urlkernel参数的注释。</p>
+<h2 id="4-7-x86虚拟设备"><a href="#4-7-x86虚拟设备" class="headerlink" title="4.7.x86虚拟设备"></a>4.7.x86虚拟设备</h2><p>ONIE发行版附带一个基于KVM的虚拟机。<br>有关使用虚拟机的更多信息，请参阅ONIE源码树说明。这些指令位于源码onie/machine/kvm_x86_64/INSTALL目录下。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">杂谈</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ONIE</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/12/06/onie-design-spec-4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/05/begin-again/" class="archive-article-date">
-  	<time datetime="2017-09-05T11:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/05/onie-design-spec-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ONIE设计规格(3)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/05/begin-again/">Begin Again</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">心情</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">杂谈</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#4-x86-CPU架构设计"><span class="toc-number">1.</span> <span class="toc-text">4.x86 CPU架构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-x86硬件需求"><span class="toc-number">1.1.</span> <span class="toc-text">4.1.x86硬件需求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-1-系统BIOS和SMBIOS-DMI标准"><span class="toc-number">1.1.1.</span> <span class="toc-text">4.1.1.系统BIOS和SMBIOS/DMI标准</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-1-Required-SMBIOS-DMI-BIOS-Information-DMI-type-0-Fields"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">4.1.1.1.Required SMBIOS/DMI BIOS Information (DMI type 0) Fields</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-2-Required-SMBIOS-DMI-System-Information-DMI-type-1-Fields"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">4.1.1.2.Required SMBIOS/DMI System Information (DMI type 1) Fields</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-1-3-Required-SMBIOS-DMI-Chassis-Information-DMI-type-3-Fields"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">4.1.1.3.Required SMBIOS/DMI Chassis Information (DMI type 3) Fields</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-x86-UEFI-固件支持"><span class="toc-number">1.2.</span> <span class="toc-text">4.2.x86 UEFI 固件支持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-术语"><span class="toc-number">1.2.1.</span> <span class="toc-text">4.2.1.术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-概述"><span class="toc-number">1.2.2.</span> <span class="toc-text">4.2.2.概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-ONIE需求"><span class="toc-number">1.2.3.</span> <span class="toc-text">4.2.3.ONIE需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-目标UEFI版本"><span class="toc-number">1.2.4.</span> <span class="toc-text">4.2.4.目标UEFI版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-5-ONIE与UEFI集成"><span class="toc-number">1.2.5.</span> <span class="toc-text">4.2.5.ONIE与UEFI集成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-5-1-Linux-Kernel支持UEFI"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">4.2.5.1.Linux Kernel支持UEFI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-5-2-UEFI用户空间工具"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">4.2.5.2.UEFI用户空间工具</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-6-Efibootmgr和efivar"><span class="toc-number">1.2.6.</span> <span class="toc-text">4.2.6.Efibootmgr和efivar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-7-FAT文件系统支持和工具"><span class="toc-number">1.2.7.</span> <span class="toc-text">4.2.7.FAT文件系统支持和工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-8-UEFI-x86-Boot-Loader-GRUB-x86-64-efi"><span class="toc-number">1.2.8.</span> <span class="toc-text">4.2.8.UEFI x86 Boot Loader (GRUB-x86_64-efi)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-8-1-磁盘分区布局"><span class="toc-number">1.2.8.1.</span> <span class="toc-text">4.2.8.1.磁盘分区布局</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-8-1-1-分区表格式"><span class="toc-number">1.2.8.1.1.</span> <span class="toc-text">4.2.8.1.1.分区表格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-8-1-2-EFI系统分区-ESP"><span class="toc-number">1.2.8.1.2.</span> <span class="toc-text">4.2.8.1.2.EFI系统分区(ESP)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2-8-1-3-ONIE-BOOT分区"><span class="toc-number">1.2.8.1.3.</span> <span class="toc-text">4.2.8.1.3.ONIE-BOOT分区</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-8-2-初始ONIE安装"><span class="toc-number">1.2.8.2.</span> <span class="toc-text">4.2.8.2.初始ONIE安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-9-NOS安装程序镜像"><span class="toc-number">1.2.9.</span> <span class="toc-text">4.2.9.NOS安装程序镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-10-ONIE加载链"><span class="toc-number">1.2.10.</span> <span class="toc-text">4.2.10.ONIE加载链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-11-UEFI-ONIE-NOS接口"><span class="toc-number">1.2.11.</span> <span class="toc-text">4.2.11.UEFI ONIE NOS接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-11-1-ONIE引导模式"><span class="toc-number">1.2.11.1.</span> <span class="toc-text">4.2.11.1.ONIE引导模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-12-硬件诊断操作系统-可选"><span class="toc-number">1.2.12.</span> <span class="toc-text">4.2.12.硬件诊断操作系统(可选)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-12-1-HDOS磁盘分区"><span class="toc-number">1.2.12.1.</span> <span class="toc-text">4.2.12.1.HDOS磁盘分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-12-2-GRUB注意事项"><span class="toc-number">1.2.12.2.</span> <span class="toc-text">4.2.12.2.GRUB注意事项</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-13-UEFI-参考文档"><span class="toc-number">1.2.13.</span> <span class="toc-text">4.2.13.UEFI 参考文档</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-x86传统BIOS引导-GRUB2"><span class="toc-number">1.3.</span> <span class="toc-text">4.3.x86传统BIOS引导(GRUB2)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-1-磁盘分区布局"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.3.1.磁盘分区布局</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-1-磁盘分区类型"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">4.3.1.1.磁盘分区类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-2-初始ONIE安装-嵌入式"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">4.3.1.2.初始ONIE安装(嵌入式)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-3-NOS安装程序运行之后"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">4.3.1.3.NOS安装程序运行之后</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-4-Chainloading-and-Selecting-ONIE-Mode"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">4.3.1.4.Chainloading and Selecting ONIE Mode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1-5-ONIE-Boot-Commands-in-GRUB-Prompt"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">4.3.1.5.ONIE Boot Commands in GRUB Prompt</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-x86-Linux内核及集成"><span class="toc-number">1.4.</span> <span class="toc-text">4.4.x86 Linux内核及集成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-1-内核修改"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.4.1.内核修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-2-电路板EEPROM访问-–-onie-syseeprom"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.4.2.电路板EEPROM访问 – onie-syseeprom</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-x86接口详细信息"><span class="toc-number">1.5.</span> <span class="toc-text">4.5.x86接口详细信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-1-x86-NOS接口"><span class="toc-number">1.5.1.</span> <span class="toc-text">4.5.1.x86 NOS接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-1-x86-NOS安装程序镜像"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">4.5.1.1.x86 NOS安装程序镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-2-x86重装或安装其他NOS"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">4.5.1.2.x86重装或安装其他NOS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-3-x86-NOS卸载"><span class="toc-number">1.5.1.3.</span> <span class="toc-text">4.5.1.3.x86 NOS卸载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-4-x86应急和恢复"><span class="toc-number">1.5.1.4.</span> <span class="toc-text">4.5.1.4.x86应急和恢复</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1-5-x86更新及嵌入ONIE"><span class="toc-number">1.5.1.5.</span> <span class="toc-text">4.5.1.5.x86更新及嵌入ONIE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-2-x86硬件诊断接口-可选"><span class="toc-number">1.5.2.</span> <span class="toc-text">4.5.2.x86硬件诊断接口[可选]</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-2-1-磁盘分区"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">4.5.2.1.磁盘分区</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-5-2-1-1-GPT分区表"><span class="toc-number">1.5.2.1.1.</span> <span class="toc-text">4.5.2.1.1.GPT分区表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-5-2-1-2-MSDOS分区表"><span class="toc-number">1.5.2.1.2.</span> <span class="toc-text">4.5.2.1.2.MSDOS分区表</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-2-2-GRUB注意事项"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">4.5.2.2.GRUB注意事项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-6-x86初始安装和恢复"><span class="toc-number">1.6.</span> <span class="toc-text">4.6.x86初始安装和恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-1-PXE网络安装"><span class="toc-number">1.6.1.</span> <span class="toc-text">4.6.1.PXE网络安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-2-USB-安装"><span class="toc-number">1.6.2.</span> <span class="toc-text">4.6.2.USB 安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-7-x86虚拟设备"><span class="toc-number">1.7.</span> <span class="toc-text">4.7.x86虚拟设备</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+  <div id="SOHUCS" sid="onie-design-spec-4" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+  
+
+  
+
+  
 
 
           </div>
@@ -315,9 +876,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
