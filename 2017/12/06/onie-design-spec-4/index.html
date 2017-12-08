@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://lockless.github.io">
   <title>ONIE设计规格(4) | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.">
+  <meta name="description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.   大容量存储器4GB(最小), 16GB (推荐) GRUB，ONIE内核及NOS驻留在大容量存">
 <meta name="keywords" content="开源,网络,OCP,ONIE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ONIE设计规格(4)">
 <meta property="og:url" content="http://lockless.github.io/2017/12/06/onie-design-spec-4/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.">
-<meta property="og:updated_time" content="2017-12-06T09:14:58.092Z">
+<meta property="og:description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.   大容量存储器4GB(最小), 16GB (推荐) GRUB，ONIE内核及NOS驻留在大容量存">
+<meta property="og:updated_time" content="2017-12-08T03:42:39.517Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ONIE设计规格(4)">
-<meta name="twitter:description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.">
+<meta name="twitter:description" content="4.x86 CPU架构设计4.1.x86硬件需求对于通用交换机硬件需求，请参阅“交换机硬件需求”章节描述。 x86 CPU架构交换机硬件需求如下：    Required Hardware Purpose     1GB (最小) CPU DRAM The DRAM used by the CPU.   大容量存储器4GB(最小), 16GB (推荐) GRUB，ONIE内核及NOS驻留在大容量存">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -220,10 +220,21 @@ var _hmt = _hmt || [];
 <td style="text-align:left">1GB (最小) CPU DRAM</td>
 <td style="text-align:left">The DRAM used by the CPU.</td>
 </tr>
+<tr>
+<td style="text-align:left">大容量存储器4GB(最小), 16GB (推荐)</td>
+<td style="text-align:left">GRUB，ONIE内核及NOS驻留在大容量存储设备中。虽然最小要求4GB，但是推荐使用16GB</td>
+</tr>
+<tr>
+<td style="text-align:left">非易失性存储器</td>
+<td style="text-align:left">用于存储板卡信息、制造数据信息（如设备系列号和MAC地址等）的EEPROM(或NOR/NAND flash)</td>
+</tr>
+<tr>
+<td style="text-align:left">以太网管理口</td>
+<td style="text-align:left">用于下载操作系统安装程序</td>
+</tr>
 </tbody>
 </table>
 <a id="more"></a>
-<p>| 大容量存储器4GB(最小), 16GB (推荐) | GRUB，ONIE内核及NOS驻留在大容量存储设备中。虽然最小要求4GB，但是推荐使用16GB |<br>| 非易失性存储器 | 用于存储板卡信息、制造数据信息（如设备系列号和MAC地址等）的EEPROM(或NOR/NAND flash) |<br>| 以太网管理口 | 用于下载操作系统安装程序 |</p>
 <p>对于大容量存储设，可以使用多种介质。唯一真正的要求的BIOS将设备识别为可引导的。可以使用如下类型：</p>
 <ul>
 <li>mSATA</li>
