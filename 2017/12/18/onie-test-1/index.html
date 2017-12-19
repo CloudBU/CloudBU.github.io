@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-cf08b43451748348.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-7942842730262862.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-c1e04c74152d4926.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-18T09:52:59.169Z">
+<meta property="og:updated_time" content="2017-12-19T08:36:33.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ONIE实验记录(1)">
 <meta name="twitter:description" content="1.    在KVM x86_64虚拟机上安装ONIE1.1. 交叉编译ONIE使用命令获取源码（需要先安装git）1git clone https://github.com/opencomputeproject/onie.gitss 切换目录到build-config，使用如下命令进行编译：12$ cd build-config$ make -j4 MACHINE=kvm_x86_64 all">
@@ -223,7 +223,7 @@ var _hmt = _hmt || [];
 </ul>
 <h2 id="1-2-使用ISO映象创建一个新的x86-64虚拟机"><a href="#1-2-使用ISO映象创建一个新的x86-64虚拟机" class="headerlink" title="1.2. 使用ISO映象创建一个新的x86_64虚拟机"></a>1.2. 使用ISO映象创建一个新的x86_64虚拟机</h2><p>ISO映象可以与Legacy BIOS或UEFI固件机器一起使用。<br>为了使用UEFI固件启动qemu，您需要从<a href="http://www.tianocore.org/ovmf/" target="_blank" rel="external">UEFI</a>下载OVMF固件。</p>
 <p>创建VM：</p>
-<ol>
+<ul>
 <li><p>创建一个1GB的空白磁盘映象作为虚拟机的硬盘。将文件命名为onie-x86-demo.img，并放在您的主目录中</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ qemu-img create -f qcow2 onie-x86-demo.img 1G</div></pre></td></tr></table></figure>
 </li>
@@ -235,9 +235,8 @@ var _hmt = _hmt || [];
 <li><p>设置CDROM变量指向ISO映象，如</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ CDROM=&quot;/home/skunlin/onie-kvm/onie-recovery-x86_64-kvm_x86_64-r0.iso&quot;</div></pre></td></tr></table></figure>
 </li>
-</ul>
-<ul>
-<li>设置mode变量为cdrom，这将启动上面设置的iso映象</li>
+<li><p>设置mode变量为cdrom，这将启动上面设置的iso映象</p>
+</li>
 <li>对于UEFI固件启动方式：<ul>
 <li>设置OVMF变量指向OVFM.fd固件路径</li>
 <li>设置firmware变量为uefi</li>
@@ -253,7 +252,7 @@ var _hmt = _hmt || [];
 </li>
 <li><p>安装OS之后，就一直处于发现阶段，直到发现NOS安装包<br><img src="http://upload-images.jianshu.io/upload_images/7246758-c1e04c74152d4926.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onie-discovery.png"></p>
 </li>
-</ol>
+</ul>
 
       
 
@@ -348,6 +347,15 @@ var _hmt = _hmt || [];
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/12/19/OpenBMC-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          OpenBMC：用于Facebook所有硬件的板卡管理软件
+        
+      </div>
+    </a>
   
   
     <a href="/2017/12/06/onie-design-spec-4/" id="article-nav-older" class="article-nav-link-wrap">
@@ -495,18 +503,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">心情</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
               </li>
              
@@ -520,6 +516,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">心情</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">

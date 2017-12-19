@@ -6,18 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Tag: 数据平面 | 拙言</title>
+  <title>OpenBMC：用于Facebook所有硬件的板卡管理软件 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本博客主要关注">
-<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
-<meta property="og:type" content="website">
-<meta property="og:title" content="拙言">
-<meta property="og:url" content="http://lockless.github.io/tags/数据平面/page/3/index.html">
+  <meta name="description" content="去年在OCP峰会上，我们发布了OpenBMC，这是一款低级的基板管理软件，可以为BMC芯片提供灵活性和快速开发。开源TOR交换机Wedge，是我们数据中心中首款支持OpenBMC的硬件，接下来就是我们的模块化交换机6-pack。六个月前，我们将OpenBMC的支持扩展到服务器，这改变了我们接触多节点1S服务器的基板管理方式。如今，我很高兴地宣布OpenBMC对存储的支持，更具体地说，它将支持我们基">
+<meta name="keywords" content="开源,网络,OCP,国外博文系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenBMC：用于Facebook所有硬件的板卡管理软件">
+<meta property="og:url" content="http://lockless.github.io/2017/12/19/OpenBMC-2/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本博客主要关注">
+<meta property="og:description" content="去年在OCP峰会上，我们发布了OpenBMC，这是一款低级的基板管理软件，可以为BMC芯片提供灵活性和快速开发。开源TOR交换机Wedge，是我们数据中心中首款支持OpenBMC的硬件，接下来就是我们的模块化交换机6-pack。六个月前，我们将OpenBMC的支持扩展到服务器，这改变了我们接触多节点1S服务器的基板管理方式。如今，我很高兴地宣布OpenBMC对存储的支持，更具体地说，它将支持我们基">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-d3ccf300824fa5c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-12-19T08:32:28.219Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拙言">
-<meta name="twitter:description" content="本博客主要关注">
+<meta name="twitter:title" content="OpenBMC：用于Facebook所有硬件的板卡管理软件">
+<meta name="twitter:description" content="去年在OCP峰会上，我们发布了OpenBMC，这是一款低级的基板管理软件，可以为BMC芯片提供灵活性和快速开发。开源TOR交换机Wedge，是我们数据中心中首款支持OpenBMC的硬件，接下来就是我们的模块化交换机6-pack。六个月前，我们将OpenBMC的支持扩展到服务器，这改变了我们接触多节点1S服务器的基板管理方式。如今，我很高兴地宣布OpenBMC对存储的支持，更具体地说，它将支持我们基">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-d3ccf300824fa5c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -185,445 +188,202 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OpenBMC-2" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OpenBMC：用于Facebook所有硬件的板卡管理软件
+    </h1>
+  
+
+        
+        <a href="/2017/12/19/OpenBMC-2/" class="archive-article-date">
+  	<time datetime="2017-12-19T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-19</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>去年在OCP峰会上，我们发布了OpenBMC，这是一款低级的基板管理软件，可以为BMC芯片提供灵活性和快速开发。<br>开源TOR交换机Wedge，是我们数据中心中首款支持OpenBMC的硬件，接下来就是我们的模块化交换机6-pack。<br>六个月前，我们将OpenBMC的支持扩展到服务器，这改变了我们接触多节点1S服务器的基板管理方式。<br>如今，我很高兴地宣布OpenBMC对存储的支持，更具体地说，它将支持我们基于NVMe的存储平台Lightning，这意味着OpenBMC软件开始支持Facebook数据中心的所有硬件。</p>
+<a id="more"></a>
+<h2 id="为什么要移植OpenBMC到Lightning"><a href="#为什么要移植OpenBMC到Lightning" class="headerlink" title="为什么要移植OpenBMC到Lightning"></a>为什么要移植OpenBMC到Lightning</h2><p>Lightning是Open Vault Storage解决方案的PCIe版本，专为OCP的Open Rack构建。它支持通过Gen3 PCIe链接到外部主机或多达四台主机（服务器）连接的多达60个固态硬盘（SSD）。每个托盘上都有一个PCIe交换机，最多支持2个x16上行端口，总共32个上行通道，交换机下游多达30个SSD设备（每个设备x2）。</p>
+<p>我们知道，NVMe标准相对较新，与SCSI机箱管理（SES）不同，还没有一个定义良好的NVMe机箱管理标准。Lightning设计需要一些控制器，不仅用于机箱管理，还用于附件管理。每个托盘都有一个BMC通过I2C接口和PCIe接口与PCIe交换机连接。</p>
+<h2 id="OpenBMC接口"><a href="#OpenBMC接口" class="headerlink" title="OpenBMC接口"></a>OpenBMC接口</h2><p>Lightning平台上的BMC设计不是传统的设计。传统上，BMC通常使用共享网卡NCSI接口连接。但Lightning上BMC设计没有任何这样的网卡，这在管理端需要加入一个进口。另外一些挑战是，Lightning机箱需要作为单独的系统进行管理，而不是服务器系统的一部分，所有的安全和配置工具都将运行在Lighting BMC的低端CPU上。这些挑战面临着基础设施方面的其他问题。</p>
+<p>不采用NCSI，我们使用以下接口访问Lightning上的OpenBMC：</p>
+<ul>
+<li>Host 与 Lightning BMC之间的USB Bus（带内）</li>
+<li>Host 与 Lightning BMC之间的I2C Bus</li>
+<li>Host 与 Lightning BMC之间的PCIe x1 (Gen1)接口（带内）</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/7246758-d3ccf300824fa5c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bcm connect"></p>
+<h3 id="USB接口"><a href="#USB接口" class="headerlink" title="USB接口"></a>USB接口</h3><p>USB通道指从Host USB到Lightning USB之间的定制的mini SAS HD cable。OpenBMC使用Ethernet over USB接口连接Host USB和Lightning BMC USB设备。这使得主机操作系统能够通过SSH和REST API客户端与OpenBMC进行通信。这个连接是Host 与Lightning BMC之间的主要通信模式。</p>
+<h3 id="I2C接口"><a href="#I2C接口" class="headerlink" title="I2C接口"></a>I2C接口</h3><p>Lightnint BMC通过I2C直接连接到一个或多个Host BMC。但是在我们目前的Lightning设计中，我们只使用一台Host。两个BMC之间的I2C总线用作IPMB通道。Host BMC软件使用IPMI标准的消息桥接机制。这个“桥接”功能应能够在带内和/或带外接收IPMB命令，并将它们发送到IPMB通道上的Lightning BMC，并提供响应。在这种情况下，Lightning BMC可以通过Host进行带内访问，甚至在Host CPU断电时进行带外访问。</p>
+<h3 id="PICe接口"><a href="#PICe接口" class="headerlink" title="PICe接口"></a>PICe接口</h3><p>从PCIe交换机到BMC有一个PCIe x1 Gen1链路。 我们计划在OpenBMC中添加对MCTP的支持。</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><p>在以前平台的开发过程中，我们将所有常用的实用程序代码移动到了一个通用目录（meta-openbmc/common/），这使得我们可以轻松地在OpenBMC中增加对更多平台的支持。我们已经重用了大部分的常用工具，包括“fruid-util”，“sensor-util”，“gpio-util”。我们增加了对新功能的支持，例如：</p>
+<ul>
+<li>‘fscd’，一个守护进程，用来控制基于OCP FSC（风扇速度控制）的风扇。它支持用户提供的线性和非线性fsc表。</li>
+<li>‘log-util’，它捕获连接到Lightning BMC的从属设备（传感器，SSD，PCIe交换机等）的所有事件/错误日志。</li>
+<li>‘flash-util’可读取基于NVMe管理接口标准（NVMe-MI）的SSD边带状态信息（如温度，错误数量等），可重置PCIe交换机，并可更新其固件和配置I2C。</li>
+</ul>
+<p>注意：Lightning硬件和OpenBMC针对Lightning的功能仍处于开发阶段。上述大多数功能都由使用IPv6 over USB接口的SSH或RESTful API支持。</p>
+<h2 id="在Facebook基础设施中的使用"><a href="#在Facebook基础设施中的使用" class="headerlink" title="在Facebook基础设施中的使用"></a>在Facebook基础设施中的使用</h2><p>随着OpenBMC对存储设备的支持，我们将在我们的基础架构中为OpenBMC提供对所有类型硬件的支持。数据中心的配置一直是来自不同制造商的硬件的一个挑战，因为它们拥有专有的工具。这些工具也会对灵活的硬件配置造成限制。另一方面，OpenBMC可以在所有工具和事件/错误日志中实现一致性，这将为改善硬件管理和硬件故障分析（FA）提供机会。跨网络，计算和存储平台运行OpenBMC是构建更灵活可靠的基础设施的又一步。</p>
+<p>如果您仍然对OpenBMC感到好奇或者对于任何功能有任何疑问，可以查看我们在<a href="https://github.com/facebook/openbmc" target="_blank" rel="external">GitHub</a>上的最新更新。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-18/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-18/">DPDK编程指南（十八）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/12/19/OpenBMC-2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-17/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/18/onie-test-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ONIE实验记录(1)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-17/">DPDK编程指南（十七）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要移植OpenBMC到Lightning"><span class="toc-number">1.</span> <span class="toc-text">为什么要移植OpenBMC到Lightning</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenBMC接口"><span class="toc-number">2.</span> <span class="toc-text">OpenBMC接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#USB接口"><span class="toc-number">2.1.</span> <span class="toc-text">USB接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I2C接口"><span class="toc-number">2.2.</span> <span class="toc-text">I2C接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PICe接口"><span class="toc-number">2.3.</span> <span class="toc-text">PICe接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特性"><span class="toc-number">3.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在Facebook基础设施中的使用"><span class="toc-number">4.</span> <span class="toc-text">在Facebook基础设施中的使用</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/09/dpdk-pg-16/" class="archive-article-date">
-  	<time datetime="2017-09-09T03:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-09</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/09/dpdk-pg-16/">DPDK编程指南（十六）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-15/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-15/">DPDK编程指南（十五）</a>
-    </h1>
+  <div id="SOHUCS" sid="OpenBMC-2" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = "cytcwNIfK"; 
+var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-14/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-14/">DPDK编程指南（十四）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-12/" class="archive-article-date">
-  	<time datetime="2017-09-08T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-12/">DPDK编程指南（十二）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-11/" class="archive-article-date">
-  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-11/">DPDK编程指南（十一）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/08/dpdk-pg-10/" class="archive-article-date">
-  	<time datetime="2017-09-08T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/08/dpdk-pg-10/">DPDK编程指南（十）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/dpdk-pg-8/" class="archive-article-date">
-  	<time datetime="2017-09-07T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/dpdk-pg-8/">DPDK编程指南（八）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/07/dpdk-pg-7/" class="archive-article-date">
-  	<time datetime="2017-09-07T00:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/07/dpdk-pg-7/">DPDK编程指南（七）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/tags/数据平面/page/2/">&laquo; Prev</a><a class="page-number" href="/tags/数据平面/">1</a><a class="page-number" href="/tags/数据平面/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/tags/数据平面/page/4/">4</a><a class="extend next" rel="next" href="/tags/数据平面/page/4/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -647,9 +407,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
