@@ -187,6 +187,353 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Using-EDK-II-with-Native-GCC" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/25/Using-EDK-II-with-Native-GCC/">EDK-II: Using-EDK-II-with-Native-GCC</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/25/Using-EDK-II-with-Native-GCC/" class="archive-article-date">
+  	<time datetime="2018-01-25T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>参考：<a href="https://github.com/tianocore/tianocore.github.io/wiki/Using-EDK-II-with-Native-GCC" target="_blank" rel="external">https://github.com/tianocore/tianocore.github.io/wiki/Using-EDK-II-with-Native-GCC</a></p>
+</blockquote>
+<p>本文提供了使用GCC（version&gt;=4.4）在Linux操作系统上搭建<a href="http://www.tianocore.org/edk2/" target="_blank" rel="external">EDK II</a> 构建环境的基本步骤。这个EDK II设置不需要建立Mingw版本的GCC，因此可以更快地搭建完成。</p>
+<h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><p>这些指令将被写成在终端执行的一系列命令，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash$ echo this text is a sample command</div></pre></td></tr></table></figure></p>
+<p>要执行这个命令，请在Web浏览器上高亮命令文本。（注意，’bash$’ 并不是命令的一部分）。大部分浏览器可以通过Copy按钮来复制这个命令。现在，返回终端应用程序，粘贴该命令到终端，并执行。</p>
+<p>当然，还有其他的方法可以复制和粘贴命令到终端。即便是无法复制，也可以手动敲入命令。</p>
+        
+          <a class="article-more-a" href="/2018/01/25/Using-EDK-II-with-Native-GCC/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">UEFI</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">EDK-II</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/25/Using-EDK-II-with-Native-GCC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Yocto" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/12/Yocto/">Yocto: Quick Start</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/12/Yocto/" class="archive-article-date">
+  	<time datetime="2018-01-12T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>参考：<a href="http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.html" target="_blank" rel="external">http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.html</a></p>
+</blockquote>
+<p>文档授权：Permission is granted to copy, distribute and/or modify this document under the terms of the Creative Commons Attribution-Share Alike 2.0 UK: England &amp; Wales as published by Creative Commons.</p>
+<p>本文档为Yocto Project的2.4发行版。为了确保您拥有本手册的最新版本，请参阅官网<a href="https://www.yoctoproject.org/documentation" target="_blank" rel="external">Yocto Project documentation page</a>。</p>
+<p>与Yocto Project其他版本相关的手册，请跳转到官网<a href="https://www.yoctoproject.org/documentation" target="_blank" rel="external">Yocto Project documentation</a>页面，点击”Active Releases”下拉按钮选择对应的文档。</p>
+<p>要报告本手册中的任何错误或问题，请发送电子邮件到 yocto@yoctoproject.com 或者登录到 freenode #yocto 通道。</p>
+<h2 id="欢迎"><a href="#欢迎" class="headerlink" title="欢迎"></a>欢迎</h2><p>欢迎来到Yocto项目！ Yocto项目是一个开源的协作项目，其主要关注者是嵌入式Linux系统的开发人员。除此之外，Yocto项目使用基于OpenEmbedded（OE）项目的构建主机，该项目使用BitBake工具来构建完整的Linux映像。BitBake和OE组件结合在一起形成一个构建主机，也就是所知的Poky（Pah-kee）。</p>
+<p>这个快速入门是为了让您可以快速获得使用Yocto项目的构建主机，并用于构建一些Linux映像。 这个快速入门文档并不详细介绍Yocto项目及其许多功能，而是提供了您要使用Yocto来构建一个受支持的Linux构建主机或CROPS构建主机所需的最基本的信息。</p>
+<p>阅读和使用快速入门应该使您对Yocto项目是什么以及如何使用其核心组件有一个基本的了解。您还将完成一些步骤来生成两个image：一个在模拟器（QEMU）上运行，另一个在实际硬件上启动（即MinnowBoard Turbot）。这些示例重点展示了使用Yocto项目为多种类型的硬件创建image的过程。</p>
+<p>以下是本指南的关键部分：</p>
+<ul>
+<li>设置并使用Yocto Project</li>
+<li>构建一个用于仿真的Image</li>
+<li>构建一个用于硬件设备的Image</li>
+</ul>
+<p>有关Yocto Project的更多详细信息，你可以参考以下资源：</p>
+<ul>
+<li><em>Website</em>: <a href="https://www.yoctoproject.org/" target="_blank" rel="external">Yocto Project官网</a> ,提供了背景信息，最新版本，突发新闻，完整的开发文档及丰富的开发者社区。</li>
+<li><em>Yocto Project Development Environment Overview</em>: <a href="https://www.yoctoproject.org/docs/2.4/ref-manual/ref-manual.html#yp-intro" target="_blank" rel="external">“Introducing the Yocto Project Development Environment”</a> 部分介绍了Yocto Project开发环境。</li>
+<li><em>FAQs</em>: 列出了Yocto Project常见问题和解答。您可以找到两个FAQs: <a href="https://wiki.yoctoproject.org/wiki/FAQ" target="_blank" rel="external">Yocto Project FAQ</a> 及Yocto Project 参考文档的<a href="https://www.yoctoproject.org/docs/2.4/ref-manual/ref-manual.html#faq" target="_blank" rel="external">FAQ</a> 章节。</li>
+<li><em>Developer Screencast</em>: <a href="https://vimeo.com/36450321" target="_blank" rel="external">Yocto项目入门 - 新开发者录像教程</a>为不熟悉Yocto项目的用户创建了一个30分钟的视频。 虽然这个视频有点过时，但入门和基本概念对初学者很有用。</li>
+<li><em>Comprehensive List of Links and Other Documentation</em>: <a href="https://www.yoctoproject.org/docs/2.4/ref-manual/ref-manual.html#resources-links-and-related-documentation" target="_blank" rel="external">文档连接</a>章节提供了相关的文章链接和完整的文档列表。</li>
+</ul>
+<h2 id="设置使用Yocto-Project"><a href="#设置使用Yocto-Project" class="headerlink" title="设置使用Yocto Project"></a>设置使用Yocto Project</h2><p>设置使用Yocto项目需要转变好您的构建主机。如果您有一台运行Yocto Project支持的发行版的本机Linux机器，如Yocto项目参考手册中的“支持的Linux发行版”部分所述，则可以将该机器准备为构建主机。 有关更多信息，请参阅“使用本地Linux机器”部分。</p>
+<p>如果您不想在本地Linux机器上运行Yocto项目，则可以利用Docker Containers的CROPS。您可以为Windows，Mac和Linux机器设置构建主机。 请参阅“使用CROPS和容器”部分了解更多信息。</p>
+<h2 id="使用CROPS和容器"><a href="#使用CROPS和容器" class="headerlink" title="使用CROPS和容器"></a>使用CROPS和容器</h2><p>Follow these steps to get your build host set up with a Poky container that you can use to complete the build examples further down in the Quick Start:</p>
+<p>Set Up to use CROss PlatformS (CROPS): Work through the first six steps of the procedure in the “Setting Up to Use CROss PlatformS (CROPS)” section of the Yocto Project Development Tasks Manual.</p>
+<p>Set Up the Poky Container to Use the Yocto Project: Go to <a href="https://github.com/crops/poky-container/blob/master/README.md" target="_blank" rel="external">https://github.com/crops/poky-container/blob/master/README.md</a> and follow the directions to set up the Poky container on your build host.</p>
+<p>Once you complete the setup instructions for your machine, you need to get a copy of the poky repository on your build host. See the “Yocto Project Release” section to continue.</p>
+<h2 id="使用本地Linux机器"><a href="#使用本地Linux机器" class="headerlink" title="使用本地Linux机器"></a>使用本地Linux机器</h2><p>The following list shows what you need in order to use a Linux-based build host to use the Yocto Project to build images:</p>
+<p>Build Host A build host with a minimum of 50 Gbytes of free disk space that is running a supported Linux distribution (i.e. recent releases of Fedora, openSUSE, CentOS, Debian, or Ubuntu).</p>
+<p>Build Host Packages Appropriate packages installed on the build host.</p>
+<h3 id="Linux发行版"><a href="#Linux发行版" class="headerlink" title="Linux发行版"></a>Linux发行版</h3><p>The Yocto Project team verifies each release against recent versions of the most popular Linux distributions that provide stable releases. In general, if you have the current release minus one of the following distributions, you should have no problems.</p>
+<p>Ubuntu</p>
+<p>Fedora</p>
+<p>openSUSE</p>
+<p>CentOS</p>
+<p>Debian</p>
+<p>For a more detailed list of distributions that support the Yocto Project, see the “Supported Linux Distributions” section in the Yocto Project Reference Manual.</p>
+<p>The OpenEmbedded build system should be able to run on any modern distribution that has the following versions for Git, tar, and Python.</p>
+<p>Git 1.8.3.1 or greater</p>
+<p>tar 1.27 or greater</p>
+<p>Python 3.4.0 or greater.</p>
+<p>If your build host does not meet any of these three listed version requirements, you can take steps to prepare the system so that you can still use the Yocto Project. See the “Required Git, tar, and Python Versions” section in the Yocto Project Reference Manual for information.</p>
+<h3 id="构建主机软件包"><a href="#构建主机软件包" class="headerlink" title="构建主机软件包"></a>构建主机软件包</h3><p>Required build host packages vary depending on your build machine and what you want to do with the Yocto Project. For example, if you want to build an image that can run on QEMU in graphical mode (a minimal, basic build requirement), then the build host package requirements are different than if you want to build an image on a headless system or build out the Yocto Project documentation set.</p>
+<p>Collectively, the number of required packages is large if you want to be able to cover all cases.</p>
+<p>Note<br>In general, you need to have root access and then install the required packages. Thus, the commands in the following section may or may not work depending on whether or not your Linux distribution has sudo installed.<br>The following list shows the required packages needed to build an image that runs on QEMU in graphical mode (e.g. essential plus graphics support). For lists of required packages for other scenarios, see the “Required Packages for the Host Development System” section in the Yocto Project Reference Manual.</p>
+<p>Ubuntu and Debian</p>
+<pre><code>$ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
+xz-utils debianutils iputils-ping libsdl1.2-dev xterm
+</code></pre><p>Fedora</p>
+<pre><code>$ sudo dnf install gawk make wget tar bzip2 gzip python3 unzip perl patch \
+diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath \
+ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue perl-bignum socat \
+python3-pexpect findutils which file cpio python python3-pip xz SDL-devel xterm
+</code></pre><p>OpenSUSE</p>
+<pre><code>$ sudo zypper install python gcc gcc-c++ git chrpath make wget python-xml \
+diffstat makeinfo python-curses patch socat python3 python3-curses tar python3-pip \
+python3-pexpect xz which libSDL-devel xterm
+</code></pre><p>CentOS</p>
+<pre><code>$ sudo yum install -y epel-release
+$ sudo yum makecache
+$ sudo yum install gawk make wget tar bzip2 gzip python unzip perl patch \
+diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat \
+perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue python3-pip xz \
+which SDL-devel xterm
+</code></pre><p>Notes<br>CentOS 6.x users need to ensure that the required versions of Git, tar and Python are available. For details, See the “Required Git, tar, and Python Versions” section in the Yocto Project Reference Manual for information.</p>
+<p>Extra Packages for Enterprise Linux (i.e. epel-release) is a collection of packages from Fedora built on RHEL/CentOS for easy installation of packages not included in enterprise Linux by default. You need to install these packages separately.</p>
+<p>The makecache command consumes additional Metadata from epel-release.</p>
+<p>Once you complete the setup instructions for your machine, you need to get a copy of the poky repository on your build host. Continue with the “Yocto Project Release” section.</p>
+<h2 id="Yocto-Project-发布"><a href="#Yocto-Project-发布" class="headerlink" title="Yocto Project 发布"></a>Yocto Project 发布</h2><p>Now that your build host has the right packages (native Linux machine) or you have the Poky container set up (CROPS), you need to get a copy of the Yocto Project. It is recommended that you get the latest Yocto Project release by setting up (cloning in Git terms) a local copy of the poky Git repository on your build host and then checking out the latest release. Doing so allows you to easily update to newer Yocto Project releases as well as contribute back to the Yocto Project.</p>
+<p>Here is an example from a native Linux machine that is running Ubuntu.</p>
+<p>Note<br>If your build host is using a Poky container, you can use the same Git commands.<br>The following example clones the poky repository and then checks out the latest Yocto Project Release by tag (i.e. yocto-2.4):</p>
+<pre><code>$ git clone git://git.yoctoproject.org/poky
+Cloning into &apos;poky&apos;...
+remote: Counting objects: 361782, done.
+remote: Compressing objects: 100% (87100/87100), done.
+remote: Total 361782 (delta 268619), reused 361439 (delta 268277)
+Receiving objects: 100% (361782/361782), 131.94 MiB | 6.88 MiB/s, done.
+Resolving deltas: 100% (268619/268619), done.
+Checking connectivity... done.
+$ git checkout tags/yocto-2.4 -b poky_2.4
+</code></pre><p>The previous Git checkout command creates a local branch named poky_2.4. The files available to you in that branch exactly match the repository’s files in the rocko development branch at the time of the Yocto Project 2.4 release.</p>
+<p>Note<br>Rather than checking out the entire development branch of a release (i.e. the tip), which could be continuously changing while you are doing your development, you would check out a branch based on a release tag as shown in the previous example. Doing so provides you with an unchanging, stable set of files.<br>For more options and information about accessing Yocto Project related repositories, see the “Working With Yocto Project Source Files” section in the Yocto Project Development Tasks Manual.</p>
+<p>Building Images¶</p>
+<p>You are now ready to give the Yocto Project a try. For this example, you will be using the command line to build your images.</p>
+<p>Note<br>A graphical user interface to the Yocto Project is available through Toaster. See the Toaster User Manual for more information.<br>The remainder of this quick start steps you through the following:</p>
+<p>Build a qemux86 reference image and run it in the QEMU emulator.</p>
+<p>Easily change configurations so that you can quickly create a second image that you can load onto bootable media and actually boot target hardware. This example uses the MinnowBoard Turbot-compatible boards.</p>
+<p>Note<br>The steps in the following two sections do not provide detail, but rather provide minimal, working commands and examples designed to just get you started. For more details, see the appropriate manuals in the Yocto Project manual set.<br>Building an Image for Emulation¶</p>
+<p>Use the following commands to build your image. The OpenEmbedded build system creates an entire Linux distribution, including the toolchain, from source.</p>
+<p>Notes about Network Proxies<br>By default, the build process searches for source code using a pre-determined order through a set of locations. If you are working behind a firewall and your build host is not set up for proxies, you could encounter problems with the build process when fetching source code (e.g. fetcher failures or Git failures).</p>
+<p>If you do not know your proxy settings, consult your local network infrastructure resources and get that information. A good starting point could also be to check your web browser settings. Finally, you can find more information on using the Yocto Project behind a firewall in the Yocto Project Reference Manual FAQ and on the “Working Behind a Network Proxy” wiki page.</p>
+<p>Be Sure Your Build Host is Set Up: The steps to build an image in this section depend on your build host being properly set up. Be sure you have worked through the requirements described in the “Setting Up to Use the Yocto Project” section.</p>
+<p>Check Out Your Branch: Be sure you are in the Source Directory (e.g. poky) and then check out the branch associated with the latest Yocto Project Release:</p>
+<pre><code>$ cd ~/poky
+$ git checkout -b rocko origin/rocko
+</code></pre><p>Git’s checkout command checks out the current Yocto Project release into a local branch whose name matches the release (i.e. rocko). The local branch tracks the upstream branch of the same name. Creating your own branch based on the released branch ensures you are using the latest files for that release.</p>
+<p>Initialize the Build Environment: Run the oe-init-build-env environment setup script to define the OpenEmbedded build environment on your build host.</p>
+<pre><code>$ source oe-init-build-env
+</code></pre><p>Among other things, the script creates the Build Directory, which is build in this case and is located in the Source Directory. After the script runs, your current working directory is set to the Build Directory. Later, when the build completes, the Build Directory contains all the files created during the build.</p>
+<p>Examine Your Local Configuration File: When you set up the build environment, a local configuration file named local.conf becomes available in a conf subdirectory of the Build Directory. Before using BitBake to start the build, you can look at this file and be sure your general configurations are how you want them:</p>
+<p>To help conserve disk space during builds, you can add the following statement to your project’s configuration file, which for this example is poky/build/conf/local.conf. Adding this statement deletes the work directory used for building a recipe once the recipe is built.</p>
+<pre><code>INHERIT += &quot;rm_work&quot;
+</code></pre><p>By default, the target machine for the build is qemux86, which produces an image that can be used in the QEMU emulator and is targeted at an Intel® 32-bit based architecture. Further on in this example, this default is easily changed through the MACHINE variable so that you can quickly build an image for a different machine.</p>
+<p>Another consideration before you build is the package manager used when creating the image. The default local.conf file selects the RPM package manager. You can control this configuration by using the PACKAGE_CLASSES variable.</p>
+<p>Selection of the package manager is separate from whether package management is used at runtime in the target image.</p>
+<p>For additional package manager selection information, see the “package.bbclass” section in the Yocto Project Reference Manual.</p>
+<p>Start the Build: Continue with the following command to build an OS image for the target, which is core-image-sato in this example:</p>
+<p>Note<br>Depending on the number of processors and cores, the amount of RAM, the speed of your Internet connection and other factors, the build process could take several hours the first time you run it. Subsequent builds run much faster since parts of the build are cached.<br>     $ bitbake core-image-sato</p>
+<p>Note<br>If you experience a build error due to resources temporarily being unavailable and it appears you should not be having this issue, it might be due to the combination of a 4.3+ Linux kernel and systemd version 228+ (i.e. see this link for information).</p>
+<p>To work around this issue, you can try either of the following:</p>
+<p>Try the build again.</p>
+<p>Modify the “DefaultTasksMax” systemd parameter by uncommenting it and setting it to “infinity”. You can find this parameter in the system.conf file located in /etc/systemd on most systems.</p>
+<p>For information on using the bitbake command, see the “BitBake” section in the Yocto Project Reference Manual, or see the “BitBake Command” section in the BitBake User Manual. For information on other targets, see the “Images” chapter in the Yocto Project Reference Manual.</p>
+<p>Simulate Your Image Using QEMU: Once this particular image is built, you can start QEMU and run the image:</p>
+<pre><code>$ runqemu qemux86
+</code></pre><p>If you want to learn more about running QEMU, see the “Using the Quick EMUlator (QEMU)” chapter in the Yocto Project Development Tasks Manual.</p>
+<p>Exit QEMU: Exit QEMU by either clicking on the shutdown icon or by typing Ctrl-C in the QEMU transcript window from which you evoked QEMU.</p>
+<p>Building an Image for Hardware¶</p>
+<p>The following steps show how easy it is to set up to build an image for a new machine. These steps build an image for the MinnowBoard Turbot, which is supported by the Yocto Project and the meta-intel intel-corei7-64 and intel-core2-32 Board Support Packages (BSPs).</p>
+<p>Note<br>The MinnowBoard Turbot ships with 64-bit firmware. If you want to use the board in 32-bit mode, you must download the 32-bit firmware.<br>Create a Local Copy of the meta-intel Repository: Building an image for the MinnowBoard Turbot requires the meta-intel layer. Use the git clone command to create a local copy of the repository inside your Source Directory, which is poky in this example:</p>
+<pre><code>$ cd $HOME/poky
+$ git clone git://git.yoctoproject.org/meta-intel
+Cloning into &apos;meta-intel&apos;...
+remote: Counting objects: 14039, done.
+remote: Compressing objects: 100% (4471/4471), done.
+remote: Total 14039 (delta 8130), reused 13837 (delta 7947)
+Receiving objects: 100% (14039/14039), 4.27 MiB | 3.98 MiB/s, done.
+Resolving deltas: 100% (8130/8130), done.
+Checking connectivity... done.
+</code></pre><p>By default when you clone a Git repository, the “master” branch is checked out. Before you build your image that uses the meta-intel layer, you must be sure that both repositories (meta-intel and poky) are using the same releases. Because you used the yocto-2.4 tag when you checked out the poky repository by tag, you should use a meta-intel tag that corresponds with the release you used for poky. Consequently, you need to checkout out the “8.0-rocko-2.4” branch after cloning meta-intel:</p>
+<pre><code>$ cd $HOME/poky/meta-intel
+$ git checkout tags/8.0-rocko-2.4 -b meta-intel-rocko-2.4
+Switched to a new branch &apos;meta-intel-rocko-2.4&apos;
+</code></pre><p>The previous Git checkout command creates a local branch named meta-intel-rocko-2.4. You have the option to name your local branch whatever you want by providing any name you like for “meta-intel-rocko-2.4” in the above example.</p>
+<p>Configure the Build: To configure the build, you edit the bblayers.conf and local.conf files, both of which are located in the build/conf directory.</p>
+<p>Here is a quick way to make the edits. The first command uses the bitbake-layers add-layer command to add the meta-intel layer, which contains the intel-core* BSPs to the build. The second command selects the BSP by setting the MACHINE variable.</p>
+<pre><code>$ cd $HOME/poky/build
+$ bitbake-layers add-layer &quot;$HOME/poky/meta-intel&quot;
+$ echo &apos;MACHINE = &quot;intel-corei7-64&quot;&apos; &gt;&gt; conf/local.conf
+</code></pre><p>Notes<br>If you want a 64-bit build, use the following:</p>
+<pre><code>$ echo &apos;MACHINE = &quot;intel-corei7-64&quot;&apos; &gt;&gt; conf/local.conf
+</code></pre><p>If you want 32-bit images, use the following:</p>
+<pre><code>$ echo &apos;MACHINE = &quot;intel-core2-32&quot;&apos; &gt;&gt; conf/local.conf
+</code></pre><p>Build an Image for MinnowBoard Turbot: The type of image you build depends on your goals. For example, the previous build created a core-image-sato image, which is an image with Sato support. It is possible to build many image types for the MinnowBoard Turbot. Some possibilities are core-image-base, which is a console-only image. Another choice could be a core-image-full-cmdline, which is another console-only image but has more full-features Linux system functionality installed. For types of images you can build using the Yocto Project, see the “Images” chapter in the Yocto Project Reference Manual.</p>
+<p>Because configuration changes are minimal to set up for this second build, the OpenEmbedded build system can re-use files from previous builds as much as possible. Re-using files means this second build will be much faster than an initial build. For this example, the core-image-base image is built:</p>
+<pre><code>$ bitbake core-image-base
+</code></pre><p>Note<br>If you experience a build error due to resources temporarily being unavailable and it appears you should not be having this issue, it might be due to the combination of a 4.3+ Linux kernel and systemd version 228+ (i.e. see this link for information).</p>
+<p>To work around this issue, you can try either of the following:</p>
+<p>Try the build again.</p>
+<p>Modify the “DefaultTasksMax” systemd parameter by uncommenting it and setting it to “infinity”. You can find this parameter in the system.conf file located in /etc/systemd on most systems.</p>
+<p>Once the build completes, the resulting console-only image is located in the Build Directory here:</p>
+<pre><code>tmp/deploy/images/intel-corei7-64/core-image-base-intel-corei7-64.wic
+</code></pre><p>Write the Image: You can write the image just built to a bootable media (e.g. a USB key, SATA drive, SD card, etc.) using the dd utility:</p>
+<pre><code>$ sudo dd if=tmp/deploy/images/intel-corei7-64/core-image-base-intel-corei7-64.wic of=TARGET_DEVICE
+</code></pre><p>In the previous command, the TARGET_DEVICE is the device node in the host machine (e.g. /dev/sdc, which is most likely a USB stick, or /dev/mmcblk0, which is most likely an SD card).</p>
+<p>Boot the Hardware: With the boot device provisioned, you can insert the media into the MinnowBoard Turbot and boot the hardware. The board should automatically detect the media and boot to the bootloader and subsequently the operating system.</p>
+<p>If the board does not boot automatically, you can boot it manually from the EFI shell as follows:</p>
+<pre><code>Shell&gt; connect -r
+Shell&gt; map -r
+Shell&gt; fs0:
+Shell&gt; bootx64
+</code></pre><p>Note<br>For a 32-bit image use the following:<br>     Shell&gt; bootia32</p>
+<p>Next Steps¶</p>
+<p>If you completed all the steps in the previous section then congratulations! What now?</p>
+<p>Depending on what you primary interests are with the Yocto Project, you could consider any of the following:</p>
+<p>Visit the Yocto Project Web Site: The official Yocto Project web site contains information on the entire project. Visiting this site is a good way to familiarize yourself with the overall project.</p>
+<p>Look Through the Yocto Project Development Tasks Manual: This manual contains procedural information grouped to help you get set up, work with layers, customize images, write new recipes, work with libraries, and use QEMU. The information is task-based and spans the breadth of the Yocto Project.</p>
+<p>Look Through the Yocto Project Application Development and the Extensible Software Development Kit (eSDK) manual: This manual describes how to use both the standard SDK and the extensible SDK, which are used primarily for application development. This manual also provides example workflows that use the popular Eclipse™ development environment and that use devtool. See the “Workflow using Eclipse™” and “Using devtool in your SDK Workflow” sections for more information.</p>
+<p>Learn About Kernel Development: If you want to see how to work with the kernel and understand Yocto Linux kernels, see the Yocto Project Linux Kernel Development Manual. This manual provides information on how to patch the kernel, modify kernel recipes, and configure the kernel.</p>
+<p>Learn About Board Support Packages (BSPs): If you want to learn about BSPs, see the Yocto Project Board Support Packages (BSP) Developer’s Guide. This manual also provides an example BSP creation workflow. See the “Developing a Board Support Package (BSP)” section.</p>
+<p>Learn About Toaster: Toaster is a web interface to the Yocto Project’s OpenEmbedded build system. If you are interested in using this type of interface to create images, see the Toaster User Manual.</p>
+<p>Have Available the Yocto Project Reference Manual: Unlike the rest of the Yocto Project manual set, this manual is comprised of material suited for reference rather than procedures. You can get build details, a closer look at how the pieces of the Yocto Project development environment work together, information on various technical details, guidance on migrating to a newer Yocto Project release, reference material on the directory structure, classes, and tasks. The Yocto Project Reference Manual also contains a fairly comprehensive glossary of variables used within the Yocto Project.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Yocto</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/12/Yocto/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Bitbake-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -954,182 +1301,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-onie-user-guide" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/29/onie-user-guide/">ONIE：用户指南</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/29/onie-user-guide/" class="archive-article-date">
-  	<time datetime="2017-11-29T01:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ONIE支持多种查找网络操作系统（NOS）镜像的方法，从简单到相对复杂。<br>简单的方法适合在少量交换机上安装NOS，作为概念验证或演示。这些方法虽然易于设置，但是对复杂网络可能需要的配置支持有限。<br>相对复杂的方法适用复杂网络和大规模交换机部署的场景。这些方法提供了广泛的灵选项，缺点是你需要了解和配置这些选项。<br>本节中的示例引用了一个假想的，基于PowerPC的交换机，成为MACHINE，由假定的制造商商VENDOR提供。</p>
-        
-          <a class="article-more-a" href="/2017/11/29/onie-user-guide/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ONIE</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/29/onie-user-guide/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-onie" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/29/onie/">ONIE：开放网络安装环境</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/29/onie/" class="archive-article-date">
-  	<time datetime="2017-11-29T01:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1.    概述"></a>1.    概述</h1><h2 id="1-1-项目概述"><a href="#1-1-项目概述" class="headerlink" title="1.1. 项目概述"></a>1.1. 项目概述</h2><p>Open Network Install Environment (ONIE)是一个开源计划，为现代网络硬件定义了一个开放的安装环境。ONIE造就了一个开放的网络硬件生态系统，使得最终用户可以在不同的网络操作系统中进行选择。<br>在ONIE出现之前，以太网交换机使用预装的专有操作系统，这中网络设备将最终用户锁定到设备的垂直供应链上。</p>
-        
-          <a class="article-more-a" href="/2017/11/29/onie/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ONIE</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/29/onie/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1235,10 +1406,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
               </li>
              
@@ -1260,6 +1427,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1288,6 +1459,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
               </li>
             
             <div class="clearfix"></div>
