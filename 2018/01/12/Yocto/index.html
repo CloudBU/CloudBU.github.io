@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2018/01/12/Yocto/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="参考：http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.html  文档授权：Permission is granted to copy, distribute and/or modify this document under the terms of the Creative Commons">
-<meta property="og:updated_time" content="2018-01-12T09:10:58.373Z">
+<meta property="og:updated_time" content="2018-02-26T01:27:56.080Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Yocto: Quick Start">
 <meta name="twitter:description" content="参考：http://www.yoctoproject.org/docs/current/yocto-project-qs/yocto-project-qs.html  文档授权：Permission is granted to copy, distribute and/or modify this document under the terms of the Creative Commons">
@@ -213,7 +213,9 @@ var _hmt = _hmt || [];
 <p>本文档为Yocto Project的2.4发行版。为了确保您拥有本手册的最新版本，请参阅官网<a href="https://www.yoctoproject.org/documentation" target="_blank" rel="external">Yocto Project documentation page</a>。</p>
 <p>与Yocto Project其他版本相关的手册，请跳转到官网<a href="https://www.yoctoproject.org/documentation" target="_blank" rel="external">Yocto Project documentation</a>页面，点击”Active Releases”下拉按钮选择对应的文档。</p>
 <p>要报告本手册中的任何错误或问题，请发送电子邮件到 yocto@yoctoproject.com 或者登录到 freenode #yocto 通道。</p>
-<h2 id="欢迎"><a href="#欢迎" class="headerlink" title="欢迎"></a>欢迎</h2><p>欢迎来到Yocto项目！ Yocto项目是一个开源的协作项目，其主要关注者是嵌入式Linux系统的开发人员。除此之外，Yocto项目使用基于OpenEmbedded（OE）项目的构建主机，该项目使用BitBake工具来构建完整的Linux映像。BitBake和OE组件结合在一起形成一个构建主机，也就是所知的Poky（Pah-kee）。</p>
+<h2 id="欢迎"><a href="#欢迎" class="headerlink" title="欢迎"></a>欢迎</h2><p>欢迎来到Yocto项目！ </p>
+<a id="more"></a>
+<p>Yocto项目是一个开源的协作项目，其主要关注者是嵌入式Linux系统的开发人员。除此之外，Yocto项目使用基于OpenEmbedded（OE）项目的构建主机，该项目使用BitBake工具来构建完整的Linux映像。BitBake和OE组件结合在一起形成一个构建主机，也就是所知的Poky（Pah-kee）。</p>
 <p>这个快速入门是为了让您可以快速获得使用Yocto项目的构建主机，并用于构建一些Linux映像。 这个快速入门文档并不详细介绍Yocto项目及其许多功能，而是提供了您要使用Yocto来构建一个受支持的Linux构建主机或CROPS构建主机所需的最基本的信息。</p>
 <p>阅读和使用快速入门应该使您对Yocto项目是什么以及如何使用其核心组件有一个基本的了解。您还将完成一些步骤来生成两个image：一个在模拟器（QEMU）上运行，另一个在实际硬件上启动（即MinnowBoard Turbot）。这些示例重点展示了使用Yocto项目为多种类型的硬件创建image的过程。</p>
 <p>以下是本指南的关键部分：</p>
@@ -640,15 +642,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -664,11 +662,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -677,6 +683,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -693,18 +707,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
               </li>
             
             <div class="clearfix"></div>
