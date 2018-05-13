@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://lockless.github.io">
   <title>Use of efibootmgr | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="参考：https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation  1. efibootmgr介绍efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。 1.1.安">
+  <meta name="description" content="1. efibootmgr介绍efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。 1.1.安装需要内核支持，内核选项CONFIG_EFI_VARS需要打开：123Firmware Drivers  ---&amp;gt;   EFI (Extensible Firmwa">
 <meta name="keywords" content="用户手册系列,UEFI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Use of efibootmgr">
 <meta property="og:url" content="http://lockless.github.io/2018/05/13/UEFI-tool/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="参考：https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation  1. efibootmgr介绍efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。 1.1.安">
-<meta property="og:updated_time" content="2018-05-13T10:19:11.298Z">
+<meta property="og:description" content="1. efibootmgr介绍efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。 1.1.安装需要内核支持，内核选项CONFIG_EFI_VARS需要打开：123Firmware Drivers  ---&amp;gt;   EFI (Extensible Firmwa">
+<meta property="og:updated_time" content="2018-05-13T10:29:09.818Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Use of efibootmgr">
-<meta name="twitter:description" content="参考：https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation  1. efibootmgr介绍efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。 1.1.安">
+<meta name="twitter:description" content="1. efibootmgr介绍efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。 1.1.安装需要内核支持，内核选项CONFIG_EFI_VARS需要打开：123Firmware Drivers  ---&amp;gt;   EFI (Extensible Firmwa">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -206,10 +206,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>参考：<a href="https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation" target="_blank" rel="external">https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation</a></p>
-</blockquote>
-<h1 id="1-efibootmgr介绍"><a href="#1-efibootmgr介绍" class="headerlink" title="1. efibootmgr介绍"></a>1. efibootmgr介绍</h1><p>efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。</p>
+        <h1 id="1-efibootmgr介绍"><a href="#1-efibootmgr介绍" class="headerlink" title="1. efibootmgr介绍"></a>1. efibootmgr介绍</h1><p>efibootmgr是一个管理UEFI引导条目的工具。他并不是一个bootloader，而是一个与系统UEFI固件交互的工具，使用efibootmgr可以方便地创建、删除及重新组合启动项。</p>
 <h2 id="1-1-安装"><a href="#1-1-安装" class="headerlink" title="1.1.安装"></a>1.1.安装</h2><p>需要内核支持，内核选项CONFIG_EFI_VARS需要打开：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Firmware Drivers  ---&gt;</div><div class="line">   EFI (Extensible Firmware Interface) Support  ---&gt;</div><div class="line">       &lt;*&gt; EFI Variable Support via sysfs</div></pre></td></tr></table></figure></p>
 <p>默认未使用，选择使用工具包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root #emerge --ask sys-boot/efibootmgr</div></pre></td></tr></table></figure></p>
 <a id="more"></a>
@@ -465,18 +462,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">心情</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
               </li>
              
@@ -493,11 +478,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+                <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color3">心情</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -517,6 +510,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
@@ -533,15 +530,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
