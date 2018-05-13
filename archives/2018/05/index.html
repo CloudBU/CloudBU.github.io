@@ -6,19 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>EDK-II-User-Manual-0.7 : Introduction | 拙言</title>
+  <title>Archives: 2018/5 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="参考：https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation  1. EDKII介绍本文档提供了有关下载，配置和构建EDKII项目以及运行EDKII仿真环境的详细说明。 1.1.概述本章介绍EDKII项目引入的功能，并阐述了几个关键特性所起的作用。阅读完本章，读者将对EDKII有个基本的了解。">
-<meta name="keywords" content="用户手册系列,UEFI,EDK-II">
-<meta property="og:type" content="article">
-<meta property="og:title" content="EDK-II-User-Manual-0.7 : Introduction">
-<meta property="og:url" content="http://lockless.github.io/2018/03/01/EDK-II-User-Manual-0.7-1/index.html">
+  <meta name="description" content="本博客主要关注">
+<meta name="keywords" content="通信,c,python,javascript,程序猿,代码,交换机,路由器">
+<meta property="og:type" content="website">
+<meta property="og:title" content="拙言">
+<meta property="og:url" content="http://lockless.github.io/archives/2018/05/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="参考：https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation  1. EDKII介绍本文档提供了有关下载，配置和构建EDKII项目以及运行EDKII仿真环境的详细说明。 1.1.概述本章介绍EDKII项目引入的功能，并阐述了几个关键特性所起的作用。阅读完本章，读者将对EDKII有个基本的了解。">
-<meta property="og:updated_time" content="2018-03-01T02:54:55.787Z">
+<meta property="og:description" content="本博客主要关注">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EDK-II-User-Manual-0.7 : Introduction">
-<meta name="twitter:description" content="参考：https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation  1. EDKII介绍本文档提供了有关下载，配置和构建EDKII项目以及运行EDKII仿真环境的详细说明。 1.1.概述本章介绍EDKII项目引入的功能，并阐述了几个关键特性所起的作用。阅读完本章，读者将对EDKII有个基本的了解。">
+<meta name="twitter:title" content="拙言">
+<meta name="twitter:description" content="本博客主要关注">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,96 +185,36 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-EDK-II-User-Manual-0.7-1" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      EDK-II-User-Manual-0.7 : Introduction
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/05/13/UEFI-tool/" class="archive-article-date">
+  	<time datetime="2018-05-13T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-13</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/05/13/UEFI-tool/">Use of efibootmgr</a>
     </h1>
   
 
-        
-        <a href="/2018/03/01/EDK-II-User-Manual-0.7-1/" class="archive-article-date">
-  	<time datetime="2018-03-01T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>参考：<a href="https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation" target="_blank" rel="external">https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-User-Documentation</a></p>
-</blockquote>
-<h1 id="1-EDKII介绍"><a href="#1-EDKII介绍" class="headerlink" title="1. EDKII介绍"></a>1. EDKII介绍</h1><p>本文档提供了有关下载，配置和构建EDKII项目以及运行EDKII仿真环境的详细说明。</p>
-<h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1.概述"></a>1.1.概述</h2><p>本章介绍EDKII项目引入的功能，并阐述了几个关键特性所起的作用。阅读完本章，读者将对EDKII有个基本的了解。</p>
-<p>EDKII引入的特性包括：</p>
-<ul>
-<li>最小分配单元<br>EDKII引入了“Packages”的概念。这是代码发布的基本单位。与EDK相比，EDK II用户可以发布和使用“Packages”，而不是使用“Whole Source Tree”。</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li><p>相同功能的不同实现<br>EDKII引入了“Library Class/Library Instance”的概念，“Library Class”是一组用于常见的支持例程的标准接口。“Library Instance”提供了这些接口的具体实现。平台集成商可以根据不同的应用场景选择不同的实现。</p>
-</li>
-<li><p>统一的配置接口<br>平台配置数据库（PCD）是一种为模块开发者提供统一接口的机制，用于提取固件的编译时或运行时所确定的外部输入信息。该机制标准化了平台和模块设置暴露的问题，可以促进平台移植。</p>
-</li>
-<li><p>跨结构和交叉编译的能力<br>EDKII源码支持各种架构（如IA32、X64、IA64）以及各种工具链（如Microsoft VC、GNU GCC和Intel ICC）。为了支持这些功能，EDKII为库中的架构相关或编译器相关的功能提供了特定的实现。</p>
-</li>
-<li><p>已有模块的兼容性<br>EDKII提供了trunk驱动程序，以解决在主要由EDKII模块组成的平台中使用已有的EDK模块的二进制兼容性问题。</p>
-</li>
-<li><p>重定义基础API（即模块化开发环境库）<br>在EDKII中，有很多API可以被模块化开发者重新定义和增加，如PCI库、I/O库和Print库等。</p>
-</li>
-<li><p>增强的构建系统<br>其基础架构基于Python，独立于操作系统。它公开几个配置文件，用户可以用它来选择各种工具链，甚至是构建规则或生成目标。</p>
-</li>
-</ul>
-<p>EDKII提供EDK模块所需的定义和库接口，因此EDK模块可以被集成到EDKII中。</p>
-<h3 id="1-1-1-UEFI-amp-PI"><a href="#1-1-1-UEFI-amp-PI" class="headerlink" title="1.1.1. UEFI &amp; PI"></a>1.1.1. UEFI &amp; PI</h3><p>统一可扩展固件接口（UEFI）规范定义了操作系统和平台固件之间的一组标准接口。UEFI的前身是Intel开发的可扩展固件接口（EFI）。Intel后来将EFI的所有权交给了一个非营利性组织UEFI论坛，该论坛现在负责UEFI的开发和推广工作。</p>
-<p>UEFI平台初始化规范（PI）是UEFI论坛和UEFI一起定制的一套规范。PI的前身是Intel面向EFI的平台创新框架。UEFI/EFI指定操作系统到固件的接口，PI/Framework规范指定了构建固件的结构。</p>
-<h3 id="1-1-2-EDK-amp-EDKII"><a href="#1-1-2-EDK-amp-EDKII" class="headerlink" title="1.1.2. EDK &amp; EDKII"></a>1.1.2. EDK &amp; EDKII</h3><p>EFI开发工具包（EDK）是Framework Core Interface Specification定义的开源框架版本，以及一组示例驱动程序，并为Nt32、Unix和DUET平台实现了三个目标样本。除了开源框架基础代码之外，EDK还允许开发、调试和测试EFI和DXE驱动程序，OptionROM和pre-Boot应用程序。</p>
-<p>为了解决使用EDK所暴露的问题，Intel启动了现在称为EDKII的重构计划。它着重于如何让客户轻松编写特定类型的模块，将模块移植到平台上或重新定制。以下部分详细介绍了EDKII引入的几个关键概念，如包、库类/库实例和PCD等。</p>
-<h4 id="1-1-2-1-Package"><a href="#1-1-2-1-Package" class="headerlink" title="1.1.2.1. Package"></a>1.1.2.1. Package</h4><p>没有整个源码树就不能编译EDK。并且，最小分配单元为整个源码树。为了解决这个问题，EDKII推出了Package的概念。使用这个，可以不需要整个源码树。</p>
-<p>Package是最小的分配单位，同时在一个项目中提供一个自然的分配体系，为不同的目的服务。例如，从硬件的角度看，开发者可以将CPU/芯片组/平台相关的定义和驱动程序单独分成三个package，以便用户发布和重用。开发人员也可以将独立于各个平台的所有模块放在一个package中。这样，当平台移植时，开发者只需要关注平台相关的代码。</p>
-<p>EDKII提供了一整套Package，这部分将在下面介绍。由于某些软件包并不是构建指定模块或固件所必须的，固件开发人员需要选择相关软件包来完成构建或发布。此外，开发人员还可以基于EDKII代码库创建和发布自己的软件包。欲了解更多信息，请参阅EDKII Package规格文档。</p>
-<h4 id="1-1-2-2-Library-class-Library-Instance"><a href="#1-1-2-2-Library-class-Library-Instance" class="headerlink" title="1.1.2.2. Library class/Library Instance"></a>1.1.2.2. Library class/Library Instance</h4><p>因为在固件开发中可能存在相同的功能需求需要不同的实现，如：</p>
-<p>l 使用C代码提供跨体系结构的功能，而不是使用汇编代码来提供更好的性能</p>
-<p>l 使用I/O端口执行PCI配置周期，而不是使用内存I/O指令</p>
-<p>Library class是一组标准的API定义，用于提供某些功能。模块编写者可以直接使用它们进行编程。Library Instance提供这些API的实现。Library class和Library Instance之间的关系是一对多的关系。一个Library class可能有多个实现，即多个Library Instance。一个模块只依赖于一个Library class而不是具体的实现，所以相同的模块源代码可以很容易地配置为与不同的Library Instance链接以满足各种需求。EDKII提供了很多Library class/Library Instance，以方便用户在MdePkg中进行开发。例如，MdePkg提供一个名为BaseMemoryLib的Library class，其中有许多与内存操作相关的API。对于这个Library class，有多个Library Instance，如：</p>
-<ul>
-<li>一个用C代码实现跨平台</li>
-<li>一个用ASM实现以提高内存操作的效率</li>
-</ul>
-<p>平台集成商可以选择性地使用各种实现。</p>
-<h4 id="1-1-2-3-PCD"><a href="#1-1-2-3-PCD" class="headerlink" title="1.1.2.3. PCD"></a>1.1.2.3. PCD</h4><p>PCD是模块用于从外部来源提取信息和控制程序行为的统一机制。信息可以来自许多不同的地方。信息可能是：</p>
-<ul>
-<li>编译时</li>
-<li>生成image时</li>
-<li>运行时</li>
-</ul>
-<p>模块编写者不需要知道信息来自哪里，因为平台开发人员可以自行选择。模块的源代码可以保持不变以支持多个平台，因为所有的外部输入信息都是由同一的PCD接口提取的。</p>
-<p>例如，PCD“PcdDebugPrintErrorLevel”用于控制调试打印级别。模块开发人员只需调用PCD接口PcdGet32（PcdDebugPrintErrorLevel）来提取其值。PCD的值由模块构建中的平台配置决定。各种值可能导致不同的行为，例如启用或禁用特定调试打印语句的显示。</p>
-<h2 id="1-2-相关信息"><a href="#1-2-相关信息" class="headerlink" title="1.2.相关信息"></a>1.2.相关信息</h2><h3 id="1-2-1-有用的文章和信息源"><a href="#1-2-1-有用的文章和信息源" class="headerlink" title="1.2.1. 有用的文章和信息源"></a>1.2.1. 有用的文章和信息源</h3><ul>
-<li>Unified Extensible Firmware Interface Specification Version 2.1, The Unified EFI Forum, Inc, 2007, <a href="http://www.uefi.org" target="_blank" rel="external">http://www.uefi.org</a> .</li>
-<li>Unified Extensible Firmware Interface Specification Version 2.1, The Unified EFI Forum, Inc, 2007, <a href="http://www.uefi.org" target="_blank" rel="external">http://www.uefi.org</a> .</li>
-<li>Intel® Platform Innovation Framework for EFI Specifications, Intel, 2006, <a href="http://www.intel.com/technology/framework/" target="_blank" rel="external">http://www.intel.com/technology/framework/</a> .</li>
-</ul>
-<h4 id="1-2-1-1-TianoCore文档"><a href="#1-2-1-1-TianoCore文档" class="headerlink" title="1.2.1.1. TianoCore文档"></a>1.2.1.1. TianoCore文档</h4><p><a href="http://sourceforge.net/projects/edk2/files/" target="_blank" rel="external">http://sourceforge.net/projects/edk2/files/</a></p>
-<ul>
-<li>EDK II INF File Specification, Version 1.2, Intel, 2009.</li>
-<li>EDK II DSC File Specification, Version 1.2, Intel, 2009.</li>
-<li>EDK II DEC File Specification, Version 1.2, Intel, 2009.</li>
-<li>EDK II FDF (Flash Description File) File Specification, Version 1,2, Intel, 2009.</li>
-<li>EDK II Build Specification, Version 1.2, Intel, 2009.</li>
-</ul>
-<h2 id="1-3-术语"><a href="#1-3-术语" class="headerlink" title="1.3.术语"></a>1.3.术语</h2><h2 id="1-4-读者"><a href="#1-4-读者" class="headerlink" title="1.4.读者"></a>1.4.读者</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -287,145 +226,23 @@ var _hmt = _hmt || [];
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">UEFI</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">EDK-II</a>
-        		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2018/03/01/EDK-II-User-Manual-0.7-1/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/05/13/UEFI-tool/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Use of efibootmgr
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/01/25/Using-EDK-II-with-Native-GCC/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">EDK-II: Using-EDK-II-with-Native-GCC</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-EDKII介绍"><span class="toc-number">1.</span> <span class="toc-text">1. EDKII介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-概述"><span class="toc-number">1.1.</span> <span class="toc-text">1.1.概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-1-UEFI-amp-PI"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1.1. UEFI & PI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-2-EDK-amp-EDKII"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.1.2. EDK & EDKII</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-1-Package"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.1.2.1. Package</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-2-Library-class-Library-Instance"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">1.1.2.2. Library class/Library Instance</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-3-PCD"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">1.1.2.3. PCD</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-相关信息"><span class="toc-number">1.2.</span> <span class="toc-text">1.2.相关信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1-有用的文章和信息源"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.1. 有用的文章和信息源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-1-TianoCore文档"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">1.2.1.1. TianoCore文档</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-术语"><span class="toc-number">1.3.</span> <span class="toc-text">1.3.术语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-读者"><span class="toc-number">1.4.</span> <span class="toc-text">1.4.读者</span></a></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-  <div id="SOHUCS" sid="EDK-II-User-Manual-0.7-1" ></div> 
-<script type="text/javascript"> 
-(function(){ 
-var appid = "cytcwNIfK"; 
-var conf = "prod_8865b6f5e8bc140dd172e59da8d2a93e"; 
-var width = window.innerWidth || document.documentElement.clientWidth; 
-if (width < 960) { 
-window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("//changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -448,8 +265,8 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
