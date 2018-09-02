@@ -187,6 +187,480 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-APCI-Power-State" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/02/APCI-Power-State/">ACPI Power State</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/02/APCI-Power-State/" class="archive-article-date">
+  	<time datetime="2018-09-02T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>参考 <a href="http://www.bbwxbbs.com/forum.php?mod=viewthread&amp;tid=2552" target="_blank" rel="external">http://www.bbwxbbs.com/forum.php?mod=viewthread&amp;tid=2552</a></p>
+</blockquote>
+<p>ACPI全称Advanced Configuration and Power Interface定义了一台计算机系统可以有以下7种状态。</p>
+<h1 id="1-全局状态"><a href="#1-全局状态" class="headerlink" title="1. 全局状态"></a>1. 全局状态</h1><ul>
+<li><strong>G0</strong> <ul>
+<li>G0工作状态，在此状态下，可以运行应用程序</li>
+<li>整个计算机系统都可以运行，但是外设、CPU可以动态改变自己的功耗。</li>
+<li>是所有G状态下功耗最大的模式</li>
+<li>对应S状态的S0</li>
+</ul>
+</li>
+<li><strong>G1</strong><ul>
+<li>G1睡眠状态，在此状态下，无法运行应用程序，在用户视角下呈现出关闭状态。</li>
+<li>G1状态下，无需重新启动，操作系统即可恢复成正常状态G0</li>
+<li>计算机的大部分内容都会保存在RAM内存或者硬盘中</li>
+<li>唤醒延迟也有多种，取决于G1状态下的S-State</li>
+<li>功耗很小，可能降低至几瓦（取决于S-State）</li>
+<li>对应的S状态为S1～S4</li>
+</ul>
+</li>
+<li><strong>G2</strong><ul>
+<li>G2软关机状态，不可运行应用程序和操作系统（保留在G2状态中）</li>
+<li>除了主要的电源供电单元，基本上会关闭整个系统</li>
+<li>功耗约等于0</li>
+<li>需要重启系统，唤醒延迟时间较长</li>
+<li>例如，在window系统下关闭计算机，但是电源并没有关闭</li>
+</ul>
+</li>
+<li><strong>G3</strong><ul>
+<li>G3机械性关机，通过切断总电源来彻底关闭计算机</li>
+<li>使用笔记本电源，只有实时时钟频率</li>
+<li>不考虑电池，功耗为0</li>
+<li>切换到工作状态事件比较长</li>
+</ul>
+</li>
+</ul>
+<p>全局状态概要如下：</p>
+<table>
+<thead>
+<tr>
+<th>全局状态</th>
+<th>运行程序</th>
+<th>唤醒延迟</th>
+<th>功耗</th>
+<th>重启系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G0</td>
+<td>可以</td>
+<td>不可以</td>
+<td>中到大</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>G1</td>
+<td>不可以</td>
+<td>短至中</td>
+<td>小</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>不可以</td>
+<td>长时间</td>
+<td>接近零</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>不可以</td>
+<td>最长时间</td>
+<td>仅电池</td>
+<td>需要</td>
+</tr>
+</tbody>
+</table>
+<h1 id="2-睡眠状态"><a href="#2-睡眠状态" class="headerlink" title="2. 睡眠状态"></a>2. 睡眠状态</h1><ul>
+<li><strong>S1</strong> <ul>
+<li>CPU输入频率被终止，缓存无效</li>
+<li>系统内存进入“self-refreshing”模式</li>
+<li>除了实时时钟频率外，系统所有频率被关闭</li>
+<li>功耗比G0工作状态下更低</li>
+<li>一般需要2s切换回G0状态</li>
+</ul>
+</li>
+<li><strong>S2</strong><ul>
+<li>与S1状态相似，除了CPU的功耗状态</li>
+<li>在S2中，CPU和缓存被关闭</li>
+<li>S2状态中的唤醒比S1长，但更省电</li>
+</ul>
+</li>
+<li><strong>S3</strong><ul>
+<li>除了RAM，CPU、缓存、芯片组、外设均被关闭</li>
+<li>需要调用内存的设备仍然运行</li>
+<li>RAM转入低功耗、自我更新模式</li>
+<li>只有RAM与板载配置的功耗</li>
+<li>唤醒延迟为5～6s</li>
+</ul>
+</li>
+<li><strong>S4</strong><ul>
+<li>包括RAM在内的所有部件均被关闭</li>
+<li>只保留平台设置，其他部分设置保留在硬盘的特殊位置中</li>
+<li>成功切换至S4之后，系统会关闭</li>
+<li>因为几乎所有的程序和配置已经停止运行，功耗&lt;3W</li>
+<li>唤醒计算机需要重新进入“BIOS Boot Sequence”</li>
+<li>不需重启系统，计算机会继续执行</li>
+</ul>
+</li>
+</ul>
+<p>睡眠状态概要如下：</p>
+<table>
+<thead>
+<tr>
+<th>睡眠状态</th>
+<th>唤醒延迟</th>
+<th>功耗</th>
+<th>BIOS重启</th>
+<th>系统重启</th>
+<th>CPU</th>
+<th>缓存</th>
+<th>芯片组</th>
+<th>RAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0</td>
+<td>无</td>
+<td>大</td>
+<td>不需要</td>
+<td>不需要</td>
+<td>开启</td>
+<td>开启</td>
+<td>开启</td>
+<td>开启</td>
+</tr>
+<tr>
+<td>S1</td>
+<td>2～3s</td>
+<td>中</td>
+<td>不需要</td>
+<td>不需要</td>
+<td>无频率</td>
+<td>无效</td>
+<td>无频率</td>
+<td>自动更新</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>3～4s</td>
+<td>中至低</td>
+<td>不需要</td>
+<td>不需要</td>
+<td>关闭</td>
+<td>关闭</td>
+<td>无频率</td>
+<td>自动更新</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>5～6s</td>
+<td>低</td>
+<td>不需要</td>
+<td>不需要</td>
+<td>关闭</td>
+<td>关闭</td>
+<td>关闭</td>
+<td>低功耗</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>20～30s</td>
+<td>非常低</td>
+<td>需要</td>
+<td>需要</td>
+<td>关闭</td>
+<td>关闭</td>
+<td>关闭</td>
+<td>自动更新</td>
+</tr>
+<tr>
+<td>S5</td>
+<td>&gt;30s</td>
+<td>接近零</td>
+<td>需要</td>
+<td>需要</td>
+<td>关闭</td>
+<td>关闭</td>
+<td>关闭</td>
+<td>关闭</td>
+</tr>
+</tbody>
+</table>
+<h1 id="3-设备状态"><a href="#3-设备状态" class="headerlink" title="3. 设备状态"></a>3. 设备状态</h1><p>D-Satte只有在G0下才有用。</p>
+<ul>
+<li><strong>D0</strong> <ul>
+<li>计算机在全功耗和全功能下运行</li>
+</ul>
+</li>
+<li><strong>D1</strong><ul>
+<li>功耗比D0状态下低</li>
+<li>例如在不使用的情况下会自动关闭DVD-ROM光驱，但驱动仍在运行</li>
+</ul>
+</li>
+<li><strong>D2</strong><ul>
+<li>与D1相似，但电压更低</li>
+<li>在此状态下更节能，不过从D2状态唤醒的时间更长</li>
+</ul>
+</li>
+<li><strong>D3</strong><ul>
+<li>此状态下，所有设备均被关闭</li>
+<li>可最大限度节能</li>
+<li>唤醒时间是所有D状态下最慢的</li>
+</ul>
+</li>
+</ul>
+<p>D状态实例 ：硬盘驱动功耗管理</p>
+<table>
+<thead>
+<tr>
+<th>设备状态</th>
+<th>功耗</th>
+<th>唤醒延迟</th>
+<th>驱动监控</th>
+<th>驱动控制器</th>
+<th>界面内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D0</td>
+<td>100%</td>
+<td>无</td>
+<td>开启</td>
+<td>功能性</td>
+<td>保存</td>
+</tr>
+<tr>
+<td>D1</td>
+<td>80%</td>
+<td>5s</td>
+<td>关闭</td>
+<td>功能性</td>
+<td>保存</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>待定</td>
+<td>待定</td>
+<td>待定</td>
+<td>待定</td>
+<td>待定</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>10%</td>
+<td>6～7s</td>
+<td>关闭</td>
+<td>非功能性</td>
+<td>不保存</td>
+</tr>
+</tbody>
+</table>
+<h1 id="4-CPU电源状态"><a href="#4-CPU电源状态" class="headerlink" title="4. CPU电源状态"></a>4. CPU电源状态</h1><p>一般用户很少注意到这个状态，通常只会在使用CPU-Z来监控时钟频率和电压时才会留意到它。移动处理器的C状态比台式机的多。例如，Core 2 Duo处理器（Meron）会支持C0-C4状态，然后桌面型Core 2 Duo处理（Conroe）仅支持C1-C0状态。<br>C0状态（激活）这是CPU最大工作状态，在此状态下可以接收指令和处理数据 ,所有现代处理器必须支持这一功耗状态。</p>
+<ul>
+<li><strong>C1 - 挂起</strong><ul>
+<li>可以通过执行汇编指令“HLT（挂起）”进入这一状态</li>
+<li>唤醒时间超快！（快到只需10纳秒！）</li>
+<li>可以节省70%的CPU功耗</li>
+<li>所有现代处理器都必须支持这一功耗状态</li>
+</ul>
+</li>
+<li><strong>C2 - 允许停止</strong><ul>
+<li>处理器时钟频率和I/O缓冲被停止</li>
+<li>处理器时钟频率和I/O缓冲被停止</li>
+<li>在C2状态下也可以节约70%的CPU和平台能耗</li>
+<li>从C2切换到C0状态需要100纳秒以上</li>
+</ul>
+</li>
+<li><strong>C3 - 深度睡眠</strong><ul>
+<li>总线频率和PLL均被锁定</li>
+<li>在多核心系统下，缓存无效</li>
+<li>在单核心系统下，内存被关闭，但缓存仍有效</li>
+<li>可以节省70%的CPU功耗，但平台功耗比C2状态下大一些</li>
+<li>唤醒时间需要50微秒</li>
+</ul>
+</li>
+<li><strong>C4 - 更深度睡眠</strong><ul>
+<li>与C3相似，但有两大区别：一是核心电压低于1.0V，二是二级缓存内的数据存储将有所减少</li>
+<li>可以节约98%的CPU最大功耗</li>
+<li>唤醒时间比较慢，但不超过1秒</li>
+</ul>
+</li>
+<li><strong>C5</strong><ul>
+<li>二级缓存的数据被减为零</li>
+<li>唤醒时间超过200微妙</li>
+</ul>
+</li>
+<li><strong>C6</strong><ul>
+<li>这是Penryn处理器中新增的功耗管理模式</li>
+<li>二级缓存减至零后，CPU的核心电压更低</li>
+<li>不保存CPU context</li>
+<li>功耗未知，应该接近零</li>
+<li>唤醒时间未知</li>
+</ul>
+</li>
+</ul>
+<p>CPU状态概要</p>
+<table>
+<thead>
+<tr>
+<th>CPU状态</th>
+<th>执行</th>
+<th>唤醒时间</th>
+<th>CPU功耗</th>
+<th>平台</th>
+<th>核心电压</th>
+<th>缓存收缩</th>
+<th>内容丢失</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C0</td>
+<td>是</td>
+<td>0</td>
+<td>大</td>
+<td>正常</td>
+<td>正常</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>否</td>
+<td>10ns</td>
+<td>30%</td>
+<td>正常</td>
+<td>正常</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>否</td>
+<td>100ns</td>
+<td>30%</td>
+<td>无I/0缓冲</td>
+<td>正常</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>否</td>
+<td>50000ns</td>
+<td>30%</td>
+<td>I/0，无监控</td>
+<td>正常</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>否</td>
+<td>160000ns</td>
+<td>2%</td>
+<td>I/0，无监控</td>
+<td>C4_VID</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>否</td>
+<td>200000ns</td>
+<td>待定</td>
+<td>待定</td>
+<td>C5_VID</td>
+<td>L2=0KB</td>
+<td>否</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>否</td>
+<td>待定</td>
+<td>待定</td>
+<td>待定</td>
+<td>C6_VID</td>
+<td>L2=0KB</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">BIOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/02/APCI-Power-State/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-DBus" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -461,11 +935,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">UEFI</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">UEFI</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
         		</li>
       		
 		</ul>
@@ -549,15 +1023,15 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">UEFI</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">EDK-II</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
         		</li>
       		
 		</ul>
@@ -639,15 +1113,15 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">UEFI</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">EDK-II</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
         		</li>
       		
 		</ul>
@@ -730,11 +1204,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -818,15 +1292,15 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Bitbake</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
         		</li>
       		
 		</ul>
@@ -919,126 +1393,6 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/02/2018/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-OpenBMC-3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/20/OpenBMC-3/">OpenBMC：构建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/20/OpenBMC-3/" class="archive-article-date">
-  	<time datetime="2017-12-20T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>OpenBMC是一个开源的软件架构用于构建一个完整的基板管理控制器（BMC）的Linux image。</p>
-<p>OpenBMC使用<a href="https://www.yoctoproject.org" target="_blank" rel="external">Yocto Project</a>作为底层都见和发布框架。</p>
-<table>
-<thead>
-<tr>
-<th>Board</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://code.facebook.com/posts/1802489260027439/wedge-100-more-open-and-versatile-than-ever/" target="_blank" rel="external"><strong>Wedge100</strong></a></td>
-<td><a href="https://jenkins.osquery.io/job/openbmcHeliumBuildWedge100/" target="_blank" rel="external"><img src="https://jenkins.osquery.io/job/openbmcHeliumBuildWedge100/badge/icon" alt="Build Status"></a></td>
-<td>一个32x100G TOR交换机</td>
-</tr>
-<tr>
-<td><a href="https://code.facebook.com/posts/989638804458007/introducing-lightning-a-flexible-nvme-jbof/" target="_blank" rel="external"><strong>Lightning</strong></a></td>
-<td><a href="https://jenkins.osquery.io/job/openbmcHeliumBuildLightning/" target="_blank" rel="external"><img src="https://jenkins.osquery.io/job/openbmcHeliumBuildLightning/badge/icon" alt="Build Status"></a></td>
-<td>一个灵活的NVMe JBOF</td>
-</tr>
-<tr>
-<td><a href="https://code.facebook.com/posts/1616052405274961/introducing-yosemite-the-first-open-source-modular-chassis-for-high-powered-microservers-" target="_blank" rel="external"><strong>Yosemite</strong></a></td>
-<td><a href="https://jenkins.osquery.io/job/openbmcHeliumBuildYosemite/" target="_blank" rel="external"><img src="https://jenkins.osquery.io/job/openbmcHeliumBuildYosemite/badge/icon" alt="Build Status"></a></td>
-<td>用于大功率微型服务器的开源的模块化机箱</td>
-</tr>
-<tr>
-<td><a href="https://code.facebook.com/posts/681382905244727/introducing-wedge-and-fboss-the-next-steps-toward-a-disaggregated-network/" target="_blank" rel="external"><strong>Wedge</strong></a></td>
-<td><a href="https://jenkins.osquery.io/job/openbmcHeliumBuildWedge/" target="_blank" rel="external"><img src="https://jenkins.osquery.io/job/openbmcHeliumBuildWedge/badge/icon" alt="Build Status"></a></td>
-<td>任意操作系统的40G TOR交换机</td>
-</tr>
-</tbody>
-</table>
-        
-          <a class="article-more-a" href="/2017/12/20/OpenBMC-3/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/20/OpenBMC-3/">展开全文 >></a>
         </p>
       
 
@@ -1161,6 +1515,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
@@ -1173,15 +1539,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1209,19 +1579,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1230,10 +1592,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
