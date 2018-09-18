@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2018/09/17/IPMI-Command/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="https://blog.csdn.net/zuiaituantuan/article/details/5816380  概要IPMItool支持如下三个协议的命令：  ipmitool [-c|-h|-v|-V] -I open  ipmitool [-c|-h|-v|-V] -I lan -H  [-p ] [-U ] [-A ] [-L ] [-a|-E|-P|-f ] [-o ]  ip">
-<meta property="og:updated_time" content="2018-09-17T13:50:51.508Z">
+<meta property="og:updated_time" content="2018-09-18T01:58:22.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPMI命令解析">
 <meta name="twitter:description" content="https://blog.csdn.net/zuiaituantuan/article/details/5816380  概要IPMItool支持如下三个协议的命令：  ipmitool [-c|-h|-v|-V] -I open  ipmitool [-c|-h|-v|-V] -I lan -H  [-p ] [-U ] [-A ] [-L ] [-a|-E|-P|-f ] [-o ]  ip">
@@ -579,7 +579,25 @@ user
     Enable &lt;userid&gt;        使指定的用户启用访问BMC。
     test &lt;userid&gt; &lt;16|20&gt; [&lt;password&gt;]    确定密码是否已被16或20个字节存储。
     注意：要确定LAN接口位于哪个通道，使用命令`channel info channel&apos;。
-</code></pre>
+</code></pre><h2 id="本地接口"><a href="#本地接口" class="headerlink" title="本地接口"></a>本地接口</h2><p>Ipmitool的open协议利用openipmi的内核设备驱动程序。<br>该驱动存在于所有的2.4版本和所有2.6核心，以及最新的Linux发行版的内核中。<br>在OpenIPMI的主页中同样有各种针对于使不同版本的核心可用的IPMI驱动核心补丁。<br>2.4和2.6核心所需要的核心模块是不一样的。</p>
+<p>2.4中需要安装如下基础模块，才能保证ipmitool顺利运行：</p>
+<ul>
+<li>ipmi_msghandler 为IPMI接口处理传入和传出的信息</li>
+<li>ipmi_kcs_drv    一个针对消息处理的IPMI键盘控制器的风格接口。</li>
+<li>ipmi_devintf    Linux字符的消息处理设备接口</li>
+</ul>
+<p>下列的核心模块就需要装载一个2.6基础核心，从而保证ipmitool顺利运行：</p>
+<ul>
+<li>ipmi_msghandler 为IPMI接口处理传入和传出的信息</li>
+<li>ipmi_si         一个IPMI的系统消息处理程序接口的驱动程序。该模块支持各种IPMI的系统接口，例如KCS, BT, SMIC，甚至2.6核心下的SMBus。</li>
+<li>ipmi_devintf    Linux字符的消息处理设备接口</li>
+</ul>
+<p>一旦需要的模块被加载，将会有一个动态的字符输入装置存在于/dev/ipmi0。对于系统，使用devfs或udev将会在/dev/ipmi/0中。<br>要创建设备节点，首先要通过查看/proc/devices来确定内核指派的动态主设备号，以及检查ipmidev输入。<br>通常，如果这是第一个动态设备，那么主设备号为254，第一个系统接口的次设备号为0，所以，你可以通过输入以下命令来创建设备：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mknod /dev/ipmi0 c 254 0</div></pre></td></tr></table></figure></p>
+<p>ipmitool包括了一些简单的初始化代码，这样就可以在启动时自动执行一些任务。<br>为了使ipmitool使用openipmi设备接口，你可以用以下的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ipmitool -I open &lt;command&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="LAN-INTERFACE"><a href="#LAN-INTERFACE" class="headerlink" title="LAN INTERFACE"></a>LAN INTERFACE</h2><p>Ipmitool的lan接口在IPv4下利用UDP通过一个以太局域网连接与BMC相关联。UDP数据报被格式化，通过一个IPMI会话头与RMCP（远程管理控制协议）头 来包含IPMI请求/回复。</p>
+<p>IPMI-over-LAN利用了1版本的远程管理控制协议（RMCP）来支持预操作系统和操作系统缺失的管理。<br>RMCP是一个在623端口上利用UDP数据报的一个请求-回复传输协议。<br>LAN接口是一个自动的多会话连接；移交给BMC的信息可以用一个 攻击/回应 协议来认证，使用一个直密码/key 或 消息摘要算法。<br>Ipmitool将会尝试着使用administrator权限级别来连接 从而来执行机架电源功能。<br>你可以让ipmitool使用lan接口通过“-I lan”操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ipmitool -I lan -H &lt;hostname&gt; [-U &lt;username&gt;] [-P &lt;password&gt;] &lt;command&gt;</div></pre></td></tr></table></figure></p>
+<p>当使用ipmitool的lan接口时，在命令行中必须要主机名。<br>密码部分是可选的；如果在命令行中没有提供密码，ipmitool将会在无验证的情况下去连接。<br>如果你指定了密码，他将使用MD5认证。</p>
+
       
 
       
@@ -695,7 +713,7 @@ user
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概要"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选项"><span class="toc-number">1.2.</span> <span class="toc-text">选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全"><span class="toc-number">1.3.</span> <span class="toc-text">安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指令集"><span class="toc-number">1.4.</span> <span class="toc-text">指令集</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概要"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选项"><span class="toc-number">1.2.</span> <span class="toc-text">选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全"><span class="toc-number">1.3.</span> <span class="toc-text">安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#指令集"><span class="toc-number">1.4.</span> <span class="toc-text">指令集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地接口"><span class="toc-number">1.5.</span> <span class="toc-text">本地接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LAN-INTERFACE"><span class="toc-number">1.6.</span> <span class="toc-text">LAN INTERFACE</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -812,18 +830,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
@@ -836,11 +842,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+                <a href="javascript:void(0)" class="js-tag color3">开源</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">开源</a>
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -852,23 +858,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">BMC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -880,11 +870,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">BMC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -909,6 +923,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
               </li>
             
             <div class="clearfix"></div>
