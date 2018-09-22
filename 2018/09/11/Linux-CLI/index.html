@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://lockless.github.io">
   <title>一些有用的Linux命令 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文用于记录平时用到的一些Linux命令 od命令od命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。 12345ls -l /etc/localtime | awk -Fzoneinfo/ &amp;apos;&amp;#123;printf &amp;quot;%s&amp;quot;, $2&amp;#125;&amp;apos;==&amp;gt;America/New_Yorkls">
+  <meta name="description" content="本文用于记录平时用到的一些Linux命令 odod命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。 12345ls -l /etc/localtime | awk -Fzoneinfo/ &amp;apos;&amp;#123;printf &amp;quot;%s&amp;quot;, $2&amp;#125;&amp;apos;==&amp;gt;America/New_Yorkls -">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一些有用的Linux命令">
 <meta property="og:url" content="http://lockless.github.io/2018/09/11/Linux-CLI/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="本文用于记录平时用到的一些Linux命令 od命令od命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。 12345ls -l /etc/localtime | awk -Fzoneinfo/ &amp;apos;&amp;#123;printf &amp;quot;%s&amp;quot;, $2&amp;#125;&amp;apos;==&amp;gt;America/New_Yorkls">
-<meta property="og:updated_time" content="2018-09-11T01:51:56.859Z">
+<meta property="og:description" content="本文用于记录平时用到的一些Linux命令 odod命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。 12345ls -l /etc/localtime | awk -Fzoneinfo/ &amp;apos;&amp;#123;printf &amp;quot;%s&amp;quot;, $2&amp;#125;&amp;apos;==&amp;gt;America/New_Yorkls -">
+<meta property="og:updated_time" content="2018-09-22T02:57:40.350Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些有用的Linux命令">
-<meta name="twitter:description" content="本文用于记录平时用到的一些Linux命令 od命令od命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。 12345ls -l /etc/localtime | awk -Fzoneinfo/ &amp;apos;&amp;#123;printf &amp;quot;%s&amp;quot;, $2&amp;#125;&amp;apos;==&amp;gt;America/New_Yorkls">
+<meta name="twitter:description" content="本文用于记录平时用到的一些Linux命令 odod命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。 12345ls -l /etc/localtime | awk -Fzoneinfo/ &amp;apos;&amp;#123;printf &amp;quot;%s&amp;quot;, $2&amp;#125;&amp;apos;==&amp;gt;America/New_Yorkls -">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -207,8 +207,11 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>本文用于记录平时用到的一些Linux命令</p>
-<h4 id="od命令"><a href="#od命令" class="headerlink" title="od命令"></a>od命令</h4><p>od命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。</p>
+<h4 id="od"><a href="#od" class="headerlink" title="od"></a>od</h4><p>od命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ls -l /etc/localtime | awk -Fzoneinfo/ &apos;&#123;printf &quot;%s&quot;, $2&#125;&apos;</div><div class="line">==&gt;America/New_York</div><div class="line"></div><div class="line">ls -l /etc/localtime | awk -Fzoneinfo/ &apos;&#123;printf &quot;%s&quot;, $2&#125;&apos; | od -An -t dC</div><div class="line">==&gt; 65 109 101 114 105 99 97 47 78 101 119 95 89 111 114 107</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h4 id="locate"><a href="#locate" class="headerlink" title="locate"></a>locate</h4><p>locate命令用于查找文件或目录，它比find -name命令要快很多，因为它并不搜索具体的目录，而是搜索一个数据库/var/lib/mlocate/mlocate.db。<br>这个数据库中包含所有本地文件的信息。<br>Linux系统自动创建这个数据库，并且每天自动更新一次。<br>我们有时候在用whereis或者locate查找文件时会找到已经删除的文件，或者刚刚创建的文件却无法找到，这都是因为数据库没及时更新的缘故。<br>为了避免这种情况，可以在使用locate之前，先使用updatedb手动更新一下数据库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">locate [OPTION]... [PATTERN]...</div><div class="line"></div><div class="line">  -b, --basename         match only the base name of path names</div><div class="line">  -c, --count            只输出找到的数量</div><div class="line">  -d, --database DBPATH  使用DBPATH指定的数据库，而不是默认数据库 /var/lib/mlocate/mlocate.db</div><div class="line">  -e, --existing         only print entries for currently existing files</div><div class="line">  -L, --follow           follow trailing symbolic links when checking file existence (default)</div><div class="line">  -h, --help             显示帮助</div><div class="line">  -i, --ignore-case      忽略大小写</div><div class="line">  -l, --limit, -n LIMIT  limit output (or counting) to LIMIT entries</div><div class="line">  -m, --mmap             ignored, for backward compatibility</div><div class="line">  -P, --nofollow, -H     don&apos;t follow trailing symbolic links when checking file existence</div><div class="line">  -0, --null             separate entries with NUL on output</div><div class="line">  -S, --statistics       don&apos;t search for entries, print statistics about eachused database</div><div class="line">  -q, --quiet            安静模式，不会显示任何错误讯息</div><div class="line">  -r, --regexp REGEXP    使用基本正则表达式</div><div class="line">      --regex            使用扩展正则表达式</div><div class="line">  -s, --stdio            ignored, for backward compatibility</div><div class="line">  -V, --version          显示版本信息</div><div class="line">  -w, --wholename        match whole path name (default)</div></pre></td></tr></table></figure>
       
 
       
@@ -329,7 +332,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#od命令"><span class="toc-number">1.</span> <span class="toc-text">od命令</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#od"><span class="toc-number">1.</span> <span class="toc-text">od</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#locate"><span class="toc-number">2.</span> <span class="toc-text">locate</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -446,6 +449,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">杂谈</a>
               </li>
              
@@ -458,23 +469,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">OCP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -486,23 +485,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -514,11 +497,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+                <a href="javascript:void(0)" class="js-tag color4">OCP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -527,6 +530,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,10 +546,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
               </li>
             
             <div class="clearfix"></div>
