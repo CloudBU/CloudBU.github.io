@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2018/06/22/Git/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="由于工作需要，在 Ubuntu16.04 环境上搭建一个本地内网的Git服务器。 1. 安装必要的软件安装Git个ssh工具：1sudo apt-get install git openssh-server openssh-client 2. 创建git用户来管理Git服务器创建git用户和密码，所有git相关都在/home/git下进行12sudo useradd -m gitsudo pass">
-<meta property="og:updated_time" content="2018-06-22T11:53:13.269Z">
+<meta property="og:updated_time" content="2018-11-30T01:39:56.248Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu上搭建Git服务器">
 <meta name="twitter:description" content="由于工作需要，在 Ubuntu16.04 环境上搭建一个本地内网的Git服务器。 1. 安装必要的软件安装Git个ssh工具：1sudo apt-get install git openssh-server openssh-client 2. 创建git用户来管理Git服务器创建git用户和密码，所有git相关都在/home/git下进行12sudo useradd -m gitsudo pass">
@@ -216,7 +216,13 @@ var _hmt = _hmt || [];
 <p>有些时候，看git status，但是却找不到我们修改的文件，那是因为在git仓库下有一个.gitignore文件<br>里面列出了需要忽略的文件或者文件夹的规则</p>
 <p>如果不想改.gitignore文件，可以使用git add -f命令将需要添加的文件强制添加提交。</p>
 <h3 id="6-提交到远程服务器"><a href="#6-提交到远程服务器" class="headerlink" title="6. 提交到远程服务器"></a>6. 提交到远程服务器</h3><p>可能，有时候，我们从github或者google source上git clone下来一份代码，需要提交到我们本地的git服务器上；<br>此时，可以通过如下命令来提交<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">git remote add sonic-local git@192.168.23.210:/home/git/repositories/sonic.git</div><div class="line">==&gt;sonic-local是我们随便取的名字（只要不跟现有的remote冲突即可）</div><div class="line">==&gt;后面这个就是我们本地仓库的地址</div><div class="line"></div><div class="line">git push sonic-local master</div><div class="line">==&gt;相当于将master分支代码提交到了我们本地仓库的master分支上</div><div class="line">==&gt;也可以提交其他分支代码，但是需要在当前仓库下线checkout到该分支再push</div><div class="line"></div><div class="line">有些代码可能带有tags，提交的时候需要用 --tags命令</div><div class="line">git push sonic-local master --tags</div></pre></td></tr></table></figure></p>
-<h3 id="7-设置免密码访问"><a href="#7-设置免密码访问" class="headerlink" title="7. 设置免密码访问"></a>7. 设置免密码访问</h3><p>在设备B上使用ssh-keygen -t rsa来获取公钥<br>log如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">suger@vm:~$ ssh-keygen -t rsa</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter file in which to save the key (/home/suger/.ssh/id_rsa): </div><div class="line">Enter passphrase (empty for no passphrase): </div><div class="line">Enter same passphrase again: </div><div class="line">Your identification has been saved in /home/suger/.ssh/id_rsa.</div><div class="line">Your public key has been saved in /home/suger/.ssh/id_rsa.pub.</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:lzALs/9NtPb99Yzpzy9ILpQN+6Cj7XXlx9H5IE2263M suger@vm</div><div class="line">The key&apos;s randomart image is:</div><div class="line">+---[RSA 2048]----+</div><div class="line">|                 |</div><div class="line">|                 |</div><div class="line">|      o o     o  |</div><div class="line">|       + +.. + .o|</div><div class="line">|      . S o=o =o.|</div><div class="line">|       . .=.o= +o|</div><div class="line">|        .o.==.o =|</div><div class="line">|       .oo.=+ooBE|</div><div class="line">|      .oo.....*=@|</div><div class="line">+----[SHA256]-----+</div><div class="line">suger@vm:~$ cd .ssh/</div><div class="line">suger@vm:~/.ssh$ ls</div><div class="line">id_rsa  id_rsa.pub  known_hosts</div><div class="line">suger@vm:~/.ssh$ cat id_rsa.pub </div><div class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDbV3/xQyl5uwRUn0zv/viDw6xB+FKibOrCmB+cUAFblBSwY7MvpdOOt5mHeAnkmw15P+b3fMCZWl1Dv5La0ZBh0or5h4H8Vi0fTQdd5yGoRec4MJltJTYTD5ewKK9aViLwmimpo5M8R5b3nna0NgCCwg2W0jwGc5OwggPJJAshRXL6XjboWRy67uixzizAS9TlNkU0rcjSVtUWkxUiCx5e9PFvdaa9FjXvWvLbI2UGUvS+Z66k+z0tmQuShVzQ7mNxWgtLDUlid23lH5mKXWK2Fkby77NgPRyyv8oKv4rDDDNpGX4jcp8+iW9IrouXMV0tRgA6wrWffEJckGENlKj7 suger@vm</div></pre></td></tr></table></figure></p>
+<h3 id="7-撤销一次push"><a href="#7-撤销一次push" class="headerlink" title="7. 撤销一次push"></a>7. 撤销一次push</h3><p>可能，有时候，我们git push之后发现提交的内容不是我们想要的，这个时候就需要将提交的内容撤销掉。<br>我们可以先使用如下的命令，将本地的commit回退<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git reset --hard &lt;commit id&gt;</div><div class="line">git reset --soft &lt;commit id&gt;</div></pre></td></tr></table></figure></p>
+<p>我们每次代码提交都会生成一次commit id，也就是所谓的版本号。通常的，我们可以使用如下命令来看自己项目中的commit id<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reflog</div></pre></td></tr></table></figure></p>
+<p>而git reset操作就是改变当前HEAD所指向的commit id。</p>
+<p>所以，假如我们要回退到上一个版本，可以使用如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">git reset --hard &lt;commit id&gt;</div><div class="line">git reset --hard HEAD~1</div><div class="line">git reset --soft &lt;commit id&gt;</div><div class="line">git reset --soft HEAD~1 ==&gt;HEAD为当前版本</div></pre></td></tr></table></figure></p>
+<p>此时，HEAD已经指向了上一个版本的commit id了。此时，如果使用commit status，可以发现，当前版本提交的已经在缓存中了。<br>这个时候，我们就可以选择修改代码在commit， 或者直接放弃缓存中的内容，直接push。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push origin 分支 –force</div></pre></td></tr></table></figure></p>
+<p>因为当前分支的版本低于远程分支的版本，所以要想覆盖掉它，必须使用force</p>
+<h3 id="8-设置免密码访问"><a href="#8-设置免密码访问" class="headerlink" title="8. 设置免密码访问"></a>8. 设置免密码访问</h3><p>在设备B上使用ssh-keygen -t rsa来获取公钥<br>log如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">suger@vm:~$ ssh-keygen -t rsa</div><div class="line">Generating public/private rsa key pair.</div><div class="line">Enter file in which to save the key (/home/suger/.ssh/id_rsa): </div><div class="line">Enter passphrase (empty for no passphrase): </div><div class="line">Enter same passphrase again: </div><div class="line">Your identification has been saved in /home/suger/.ssh/id_rsa.</div><div class="line">Your public key has been saved in /home/suger/.ssh/id_rsa.pub.</div><div class="line">The key fingerprint is:</div><div class="line">SHA256:lzALs/9NtPb99Yzpzy9ILpQN+6Cj7XXlx9H5IE2263M suger@vm</div><div class="line">The key&apos;s randomart image is:</div><div class="line">+---[RSA 2048]----+</div><div class="line">|                 |</div><div class="line">|                 |</div><div class="line">|      o o     o  |</div><div class="line">|       + +.. + .o|</div><div class="line">|      . S o=o =o.|</div><div class="line">|       . .=.o= +o|</div><div class="line">|        .o.==.o =|</div><div class="line">|       .oo.=+ooBE|</div><div class="line">|      .oo.....*=@|</div><div class="line">+----[SHA256]-----+</div><div class="line">suger@vm:~$ cd .ssh/</div><div class="line">suger@vm:~/.ssh$ ls</div><div class="line">id_rsa  id_rsa.pub  known_hosts</div><div class="line">suger@vm:~/.ssh$ cat id_rsa.pub </div><div class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDbV3/xQyl5uwRUn0zv/viDw6xB+FKibOrCmB+cUAFblBSwY7MvpdOOt5mHeAnkmw15P+b3fMCZWl1Dv5La0ZBh0or5h4H8Vi0fTQdd5yGoRec4MJltJTYTD5ewKK9aViLwmimpo5M8R5b3nna0NgCCwg2W0jwGc5OwggPJJAshRXL6XjboWRy67uixzizAS9TlNkU0rcjSVtUWkxUiCx5e9PFvdaa9FjXvWvLbI2UGUvS+Z66k+z0tmQuShVzQ7mNxWgtLDUlid23lH5mKXWK2Fkby77NgPRyyv8oKv4rDDDNpGX4jcp8+iW9IrouXMV0tRgA6wrWffEJckGENlKj7 suger@vm</div></pre></td></tr></table></figure></p>
 <p>将最后这段公钥安置在git服务器上。<br>git服务器上创建.ssh文件夹，并在其下创建authorized_keys文件<br>设置权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mkdir ~/.ssh</div><div class="line">touch ~/.ssh/authorized_keys</div><div class="line">chmod 700 ~/.ssh</div><div class="line">chmod 644 ~/.ssh/authorized_keys</div></pre></td></tr></table></figure></p>
 <p>将上面那段公钥粘贴到authorized_keys文件中<br>这样就可以在B设备上免密码来访问git仓库。</p>
 <p>====》其他内容待添加</p>
@@ -345,7 +351,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装必要的软件"><span class="toc-number">1.</span> <span class="toc-text">1. 安装必要的软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-创建git用户来管理Git服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 创建git用户来管理Git服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-创建存放的仓库"><span class="toc-number">3.</span> <span class="toc-text">3. 创建存放的仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-此时在远端，就可以使用命令来下载这个git工程"><span class="toc-number">4.</span> <span class="toc-text">4. 此时在远端，就可以使用命令来下载这个git工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-修改并push"><span class="toc-number">5.</span> <span class="toc-text">5. 修改并push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-提交到远程服务器"><span class="toc-number">6.</span> <span class="toc-text">6. 提交到远程服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-设置免密码访问"><span class="toc-number">7.</span> <span class="toc-text">7. 设置免密码访问</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装必要的软件"><span class="toc-number">1.</span> <span class="toc-text">1. 安装必要的软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-创建git用户来管理Git服务器"><span class="toc-number">2.</span> <span class="toc-text">2. 创建git用户来管理Git服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-创建存放的仓库"><span class="toc-number">3.</span> <span class="toc-text">3. 创建存放的仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-此时在远端，就可以使用命令来下载这个git工程"><span class="toc-number">4.</span> <span class="toc-text">4. 此时在远端，就可以使用命令来下载这个git工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-修改并push"><span class="toc-number">5.</span> <span class="toc-text">5. 修改并push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-提交到远程服务器"><span class="toc-number">6.</span> <span class="toc-text">6. 提交到远程服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-撤销一次push"><span class="toc-number">7.</span> <span class="toc-text">7. 撤销一次push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-设置免密码访问"><span class="toc-number">8.</span> <span class="toc-text">8. 设置免密码访问</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -502,7 +508,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -514,23 +524,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Network</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -542,7 +540,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Network</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -551,6 +557,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -563,10 +573,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
               </li>
             
             <div class="clearfix"></div>
