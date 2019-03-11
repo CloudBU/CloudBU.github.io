@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>Ubuntu上搭建Git服务器 | 拙言</title>
+  <title>Git常用命令总结 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="由于工作需要，在 Ubuntu16.04 环境上搭建一个本地内网的Git服务器。 1. 安装必要的软件安装Git个ssh工具：1sudo apt-get install git openssh-server openssh-client 2. 创建git用户来管理Git服务器创建git用户和密码，所有git相关都在/home/git下进行12sudo useradd -m gitsudo pass">
 <meta name="keywords" content="Linux,Git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu上搭建Git服务器">
+<meta property="og:title" content="Git常用命令总结">
 <meta property="og:url" content="http://lockless.github.io/2018/06/22/Git/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="由于工作需要，在 Ubuntu16.04 环境上搭建一个本地内网的Git服务器。 1. 安装必要的软件安装Git个ssh工具：1sudo apt-get install git openssh-server openssh-client 2. 创建git用户来管理Git服务器创建git用户和密码，所有git相关都在/home/git下进行12sudo useradd -m gitsudo pass">
-<meta property="og:updated_time" content="2018-11-30T01:39:56.248Z">
+<meta property="og:updated_time" content="2019-03-11T02:07:07.183Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu上搭建Git服务器">
+<meta name="twitter:title" content="Git常用命令总结">
 <meta name="twitter:description" content="由于工作需要，在 Ubuntu16.04 环境上搭建一个本地内网的Git服务器。 1. 安装必要的软件安装Git个ssh工具：1sudo apt-get install git openssh-server openssh-client 2. 创建git用户来管理Git服务器创建git用户和密码，所有git相关都在/home/git下进行12sudo useradd -m gitsudo pass">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
@@ -193,7 +193,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      Ubuntu上搭建Git服务器
+      Git常用命令总结
     </h1>
   
 
@@ -226,6 +226,9 @@ var _hmt = _hmt || [];
 <p>将最后这段公钥安置在git服务器上。<br>git服务器上创建.ssh文件夹，并在其下创建authorized_keys文件<br>设置权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mkdir ~/.ssh</div><div class="line">touch ~/.ssh/authorized_keys</div><div class="line">chmod 700 ~/.ssh</div><div class="line">chmod 644 ~/.ssh/authorized_keys</div></pre></td></tr></table></figure></p>
 <p>将上面那段公钥粘贴到authorized_keys文件中<br>这样就可以在B设备上免密码来访问git仓库。</p>
 <p>====》其他内容待添加</p>
+<p>2019-03-11<br>添加代码量统计</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git log --author=&quot;提交用户名&quot; --pretty=tformat: --numstat | grep 目录名/文件名 | gawk &apos;&#123; add += $1 ; subs += $2 ; loc += $1 + $2 &#125; END &#123; printf &quot;added lines: %s removed lines : %s total lines: %s\n&quot;,add,subs,loc &#125;&apos;</div></pre></td></tr></table></figure>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git log --author=&quot;dpanic&quot; --pretty=tformat: --numstat | grep meta-bmc10b | gawk &apos;&#123; add += $1 ; subs += $2 ; loc += $1 + $2 &#125; END &#123; printf &quot;added lines: %s removed lines : %s total lines: %s\n&quot;,add,subs,loc &#125;&apos;</div><div class="line">added lines: 4669 removed lines : 302 total lines: 4971</div></pre></td></tr></table></figure></p>
 
       
 
@@ -480,11 +483,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+                <a href="javascript:void(0)" class="js-tag color3">开源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">OCP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -492,7 +511,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">开源</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Network</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -512,23 +539,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Network</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">OCP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -537,18 +552,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
               </li>
              
               <li class="article-tag-list-item">
