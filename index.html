@@ -448,7 +448,40 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="关于Systemd的使用于理解-—-待添加"><a href="#关于Systemd的使用于理解-—-待添加" class="headerlink" title="关于Systemd的使用于理解 — 待添加"></a>关于Systemd的使用于理解 — 待添加</h4>
+        <blockquote>
+<p><a href="https://wiki.archlinux.org/index.php/systemd_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E7.BC.96.E5.86.99.E5.8D.95.E5.85.83.E6.96.87.E4.BB.B6" target="_blank" rel="external">https://wiki.archlinux.org/index.php/systemd_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E7.BC.96.E5.86.99.E5.8D.95.E5.85.83.E6.96.87.E4.BB.B6</a><br><a href="http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html</a></p>
+</blockquote>
+<h3 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h3><p>早期，linux的启动一直是采用init进程来实现的，例如使用下面的命令来启动服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/apache2 start</div><div class="line">service apache2 start</div></pre></td></tr></table></figure></p>
+<p>这种方法有两个缺陷：</p>
+<ul>
+<li>一是启动时间长，init进程是串行启动，只有前一个启动完成，才会启动下一个进程</li>
+<li>二是启动脚本复杂，init进程只负责启动脚本，不管其他事情，脚本需要自己处理各种情况，这往往使得脚本变得很长</li>
+</ul>
+<h3 id="systemd基本工具"><a href="#systemd基本工具" class="headerlink" title="systemd基本工具"></a>systemd基本工具</h3><p>监视和控制systemd的主要命令是systemctl，该命令可以用于查看系统状态和管理系统及服务。<br><strong> 在systemctl参数中添加 -H username@hostip 可以实现对其他机器的远程控制 </strong></p>
+<h4 id="分析系统状态"><a href="#分析系统状态" class="headerlink" title="分析系统状态"></a>分析系统状态</h4><p>显示系统状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status</div></pre></td></tr></table></figure></p>
+<p>输出激活的单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemctl</div><div class="line">或者</div><div class="line">systemctl list-units</div></pre></td></tr></table></figure></p>
+<p>输出运行失败的单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl --failed</div></pre></td></tr></table></figure></p>
+<p>查看设备上所有可用单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl list-unit-files</div></pre></td></tr></table></figure></p>
+<p>显示 cgroup slice, 内存和父 PID<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status [pid]</div></pre></td></tr></table></figure></p>
+<h4 id="单元"><a href="#单元" class="headerlink" title="单元"></a>单元</h4><p>跟原来理解的有些出入，不仅仅是service文件，一个单元配置文件可以描述如下内容之一：系统服务（.service）、挂载点（.mount）、sockets（.sockets） 、系统设备（.device）、交换分区（.swap）、文件路径（.path）、启动目标（.target）、由 systemd 管理的计时器（.timer）。</p>
+<p>使用systemctl控制单元时，通常需要使用单元文件的全名，包括扩展名如 sshd.service，但是有些单元可以在systemctl中使用简写方式。</p>
+<ul>
+<li>如无扩展名，systemctl默认把扩展名当作.service。</li>
+<li>挂载点会自动转化为相应的.mount单元</li>
+<li>设备会自动转化为响应的.device单元，所以，/dev/sda2等价于dev-sda2.device<br><strong> 注意， 有一些单元的名称包含一个@标记，如name@string.service 者意味着它是模板单元name@.service的一个实例, string被称作实例标识符，在systemctl调用模板单元时，会将其当作一个参数传递给模板单元，模板单元会使用这个传入的参数代替模板中的%I指示符。 在实例化之前，systemd会先检查name@string.suffix文件是否存在（如果存在，就直接使用这个文件，而不是模板实例化），大多数情况下，包含@标记都意味着这个文件是模板。如果一个模板单元没有实例化就调用，该调用就会返回失败，因为模板单元中的%I指示符没有被替换 </strong></li>
+</ul>
+<p><strong> 下面命令都可以同时跟多个单元名 </strong><br><strong> sustemctl命令在enable、disable和mask子命令中增加了–now选项， 可以实现激活的同时启动服务，取消激活的同时关闭服务 </strong><br><strong> 一个软件包可能提供多个不同的单元，如果你已经安装了软件包，可以通过pacman -Qql package | grep systemd命令检查这个软件包提供了哪些单元 </strong></p>
+<p>立即激活<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>立即停止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl stop &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>重启单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl restart &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>重新加载配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl reload &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>输出单元运行状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>检查单元是否配置为自动启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl is-enable &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>开机自启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl enable &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>取消开机自启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl disable &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
+<p>重新载入systemd系统配置，扫描单元文件改动。注意，这里并不会重新加载变更的单元文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl daemon-reload</div></pre></td></tr></table></figure></p>
+<h3 id="编写单元文件"><a href="#编写单元文件" class="headerlink" title="编写单元文件"></a>编写单元文件</h3><p>systemd单元文件的语法来源于XDG桌面项配置文件.desktop，最初的源头则是微软的.ini文件。<br>单元文件可以从多个地方加载，使用systemctl show –property=UnitPath可以按优先级从低到高显示加载目录。</p>
+
       
 
       
@@ -1101,19 +1134,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1125,19 +1150,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Network</a>
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1149,19 +1166,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">BMC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1173,15 +1178,43 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">BMC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Network</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据平面</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
