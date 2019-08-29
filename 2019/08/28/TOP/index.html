@@ -6,24 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>TIPC协议 | 拙言</title>
+  <title>CPU利用率计算机制 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.TIPC协议概述TIPC是爱立信开源的透明进程通信协议，一般用于集群系统中。虽然tipc是基于socket实现的，但是与一般的socket还有所区别。平时我们使用socket，无论是TCP也好，UDP也好，用来标识一对socket的通信，无非是用两个socket的IP地址和端口号。比如使用UDP的socket，要发送一个datagram到另一个socket，需要指定对端的地址，这个地址是由对端">
-<meta name="keywords" content="网络,Linux">
+  <meta name="description" content="www.ilinuxkernel.com  概念获取系统CPU的利用率，我们一般使用top命令，如下：12345678dpanic@Ubuntu:/proc$ toptop - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00Tasks: 381 total,   2 running, 286 sleepi">
+<meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TIPC协议">
-<meta property="og:url" content="http://lockless.github.io/2017/09/11/tipc/index.html">
+<meta property="og:title" content="CPU利用率计算机制">
+<meta property="og:url" content="http://lockless.github.io/2019/08/28/TOP/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="1.TIPC协议概述TIPC是爱立信开源的透明进程通信协议，一般用于集群系统中。虽然tipc是基于socket实现的，但是与一般的socket还有所区别。平时我们使用socket，无论是TCP也好，UDP也好，用来标识一对socket的通信，无非是用两个socket的IP地址和端口号。比如使用UDP的socket，要发送一个datagram到另一个socket，需要指定对端的地址，这个地址是由对端">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-e71e9d143e49d8a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-6655e339c18ce00d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-e2271529e6446cc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-8579c92ba7506525.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-09-11T11:49:06.344Z">
+<meta property="og:description" content="www.ilinuxkernel.com  概念获取系统CPU的利用率，我们一般使用top命令，如下：12345678dpanic@Ubuntu:/proc$ toptop - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00Tasks: 381 total,   2 running, 286 sleepi">
+<meta property="og:updated_time" content="2019-08-29T02:03:57.054Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TIPC协议">
-<meta name="twitter:description" content="1.TIPC协议概述TIPC是爱立信开源的透明进程通信协议，一般用于集群系统中。虽然tipc是基于socket实现的，但是与一般的socket还有所区别。平时我们使用socket，无论是TCP也好，UDP也好，用来标识一对socket的通信，无非是用两个socket的IP地址和端口号。比如使用UDP的socket，要发送一个datagram到另一个socket，需要指定对端的地址，这个地址是由对端">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-e71e9d143e49d8a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="CPU利用率计算机制">
+<meta name="twitter:description" content="www.ilinuxkernel.com  概念获取系统CPU的利用率，我们一般使用top命令，如下：12345678dpanic@Ubuntu:/proc$ toptop - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00Tasks: 381 total,   2 running, 286 sleepi">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -191,50 +186,46 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-tipc" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-TOP" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      TIPC协议
+      CPU利用率计算机制
     </h1>
   
 
         
-        <a href="/2017/09/11/tipc/" class="archive-article-date">
-  	<time datetime="2017-09-11T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
+        <a href="/2019/08/28/TOP/" class="archive-article-date">
+  	<time datetime="2019-08-28T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-TIPC协议概述"><a href="#1-TIPC协议概述" class="headerlink" title="1.TIPC协议概述"></a>1.TIPC协议概述</h1><p>TIPC是爱立信开源的透明进程通信协议，一般用于集群系统中。<br>虽然tipc是基于socket实现的，但是与一般的socket还有所区别。平时我们使用socket，无论是TCP也好，UDP也好，用来标识一对socket的通信，无非是用两个socket的IP地址和端口号。比如使用UDP的socket，要发送一个datagram到另一个socket，需要指定对端的地址，这个地址是由对端设备的IP和端口号组成的。Socket是在内核中进行管理，当内核检测到socket有数据可读时，就会通知拥有这个socket的进程去读取数据。<br>这种实现由一种不方便，就是需要指定对端的地址，我们必须知道这个socket在哪台设备上，设备IP是多少，使用的端口号是什么，才能发送数据。<br>TIPC解决了这个问题。使用TIPC，我们在创建socket的时候，在内核中注册自己的服务类型，那么在发送端，只需要指定服务类型就可以由内核路由到相应的socket。这个时候，对应用层来讲，对端地址仅仅是一个服务类型。显然，内核维护着这样一张路由表，可以根据服务类型去找到对应的socket。每台设备都有这样的路由表，他们的信息就能够像普通路由表一样共享到整个集群网络中去，所有设备都可以进行socket查找。因此，有了TIPC，我们无需关心socket使用了哪个IP，哪个端口。</p>
-<a id="more"></a>
-<p>Tipc还具有如下特性：</p>
+        <blockquote>
+<p>www.ilinuxkernel.com</p>
+</blockquote>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>获取系统CPU的利用率，我们一般使用top命令，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/proc$ top</div><div class="line">top - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00</div><div class="line">Tasks: 381 total,   2 running, 286 sleeping,  30 stopped,   0 zombie</div><div class="line">%Cpu(s):  2.9 us,  0.8 sy,  2.7 ni, 93.4 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem : 16327140 total,  5898152 free,  1204052 used,  9224936 buff/cache</div><div class="line">KiB Swap: 16676860 total, 16672120 free,     4740 used. 14392180 avail Mem</div><div class="line"></div><div class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div></pre></td></tr></table></figure></p>
+<p>我们定位到第三行，解释一下各个数据的含义：</p>
 <ul>
-<li>有些时候，多个进程提供相同的服务，仅仅是为了负载均衡或冗余备份等原因，这种情况下可以用一个整数变量instance来标识不同的socket，但是指定同样的服务类型。此时，socket是由service type和instance共同指定的。发送数据的时候只需要指定service type和一个instance值即可。也可以指定service type和instance的一个区间，这种情况就是broadcast你的datagram</li>
-<li>管理tipc路由表的是内核中的name server进程。他维护着集群中所有的tipc socket。在发送datagram给某个socket之前，可以向他请求</li>
+<li>us ： user time，表示CPU执行用户进程的时间，<font color="#FF0000">包括nice时间</font>。通常都是希望用户空间CPU越高越好。</li>
+<li>sy ： system time，表示CPU在内核运行的时间，<font color="#FF0000">包括IRQ和softirq</font>。系统CPU占用越高，表明系统某部分存在瓶颈。通常这个值越低越好。</li>
+<li>ni ： nice time，表示系统调整进程优先级所花费的时间。</li>
+<li>id ： idle time，表示系统处于空闲期，等待进程运行。</li>
+<li>wa ： waiting time，表示CPU在等待IO操作完成所花费的时间。系统不应该花费大量的时间来等待IO操作，否则就说明IO存在瓶颈。</li>
+<li>hi ： hard irq time，表示系统处理硬中断所花费的时间。</li>
+<li>si ： soft irq time，表示系统处理软中断所花费的时间。</li>
+<li>st ： steal time，被强制等待（involuntary wait）虚拟CPU的时间，此时hypervisor在为另一个虚拟处理器服务。</li>
 </ul>
-<h1 id="2-实验结果"><a href="#2-实验结果" class="headerlink" title="2.实验结果"></a>2.实验结果</h1><p>本实验在Ubuntu 14.04环境中测试，两台虚拟机搭建集群环境<br>虚拟机操作系统需要先加载tipc模块，使用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">modprobe tipc</div></pre></td></tr></table></figure></p>
-<p>编译并运行tipcutils，方便我们对tipc进行配置<br>tipcutils代码可以在github上获取<a href="https://github.com/parbhu/tipcutils/tree/96413b283861d271bff23f3098565da58536c628" target="_blank" rel="external">https://github.com/parbhu/tipcutils/tree/96413b283861d271bff23f3098565da58536c628</a><br>或者<br><a href="https://github.com/TIPC/tipcutils" target="_blank" rel="external">https://github.com/TIPC/tipcutils</a></p>
-<h2 id="2-1-集群配置"><a href="#2-1-集群配置" class="headerlink" title="2.1.集群配置"></a>2.1.集群配置</h2><p>配置tipc的网卡和地址，配置成功之后，两台设备上都可以发现tipc邻居，具体结果如下图所示</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-e71e9d143e49d8a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="neighbor-1.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-6655e339c18ce00d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="neighbor-2.png"></p>
-<p>此时就可以通过tipc进行通信了。</p>
-<h2 id="2-2-通信测试"><a href="#2-2-通信测试" class="headerlink" title="2.2.通信测试"></a>2.2.通信测试</h2><p>以hello_world模块进行测试</p>
-<ul>
-<li>1.1.2设备当成集群的服务端，运行server_tipc程序</li>
-<li>1.1.3设备当成集群的客户端，运行client_tipc程序</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//服务端可客户端定义应该一样</div><div class="line">#define SERVER_TYPE  18888</div><div class="line">#define SERVER_INST  17</div></pre></td></tr></table></figure>
-<h4 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h4><p>根据参数创建socket之后，就一直处于监听socket，等待数据到来，并对数据进行处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">server_addr.family = AF_TIPC;</div><div class="line">server_addr.addrtype = TIPC_ADDR_NAMESEQ;</div><div class="line">server_addr.addr.nameseq.type = SERVER_TYPE;</div><div class="line">server_addr.addr.nameseq.lower = SERVER_INST;</div><div class="line">server_addr.addr.nameseq.upper = SERVER_INST;</div><div class="line">server_addr.scope = TIPC_ZONE_SCOPE;</div><div class="line"></div><div class="line">sd = socket(AF_TIPC, SOCK_RDM, 0);</div><div class="line"></div><div class="line">if (0 != bind(sd, (struct sockaddr *)&amp;server_addr, sizeof(server_addr))) &#123;</div><div class="line">	printf(&quot;Server: failed to bind port name\n&quot;);</div><div class="line">	exit(1);</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (0 &gt;= recvfrom(sd, inbuf, sizeof(inbuf), 0,</div><div class="line">                  (struct sockaddr *)&amp;client_addr, &amp;alen)) &#123;</div><div class="line">	perror(&quot;Server: unexpected message&quot;);</div><div class="line">&#125;</div><div class="line">printf(&quot;Server: Message received: %s !\n&quot;, inbuf);</div><div class="line"></div><div class="line">if (0 &gt; sendto(sd, outbuf, strlen(outbuf)+1, 0,</div><div class="line">                (struct sockaddr *)&amp;client_addr, sizeof(client_addr))) &#123;</div><div class="line">	perror(&quot;Server: failed to send&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p>创建socket之后主动发送数据，监听socket<br>服务端调用wait_for_server来等待server连上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">wait_for_server(SERVER_TYPE, SERVER_INST, 10000);</div><div class="line"></div><div class="line">sd = socket(AF_TIPC, SOCK_RDM, 0);</div><div class="line"></div><div class="line">server_addr.family = AF_TIPC;</div><div class="line">server_addr.addrtype = TIPC_ADDR_NAME;</div><div class="line">server_addr.addr.name.name.type = SERVER_TYPE;</div><div class="line">server_addr.addr.name.name.instance = SERVER_INST;</div><div class="line">server_addr.addr.name.domain = 0;</div><div class="line"></div><div class="line">if (0 &gt; sendto(sd, buf, strlen(buf)+1, 0,</div><div class="line">                (struct sockaddr*)&amp;server_addr, sizeof(server_addr))) &#123;</div><div class="line">	perror(&quot;Client: failed to send&quot;);</div><div class="line">	exit(1);</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (0 &gt;= recv(sd, buf, sizeof(buf), 0)) &#123;</div><div class="line">	perror(&quot;Client: unexpected response&quot;);</div><div class="line">	exit(1);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h4><p><img src="http://upload-images.jianshu.io/upload_images/7246758-e2271529e6446cc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="server.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-8579c92ba7506525.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="client.png"></p>
-<p>同时发布于简书：<a href="http://www.jianshu.com/p/7fb89e3d19af" target="_blank" rel="external">TIPC协议</a> 。</p>
+<h3 id="CPU占用率计算"><a href="#CPU占用率计算" class="headerlink" title="CPU占用率计算"></a>CPU占用率计算</h3><p>Linux CPU占用率计算都是根据/proc/stat文件内容计算而来的，下面是stat的详细内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/proc$ cat stat</div><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div><div class="line">cpu0 10238217 9784256 2254122 329321540 267744 0 69840 0 0 0</div><div class="line">cpu1 10134384 9971461 2615448 328744241 298355 0 85254 0 0 0</div><div class="line">cpu2 9822282 9570130 2321324 329429492 622742 0 47753 0 0 0</div><div class="line">cpu3 11259838 9747449 5228725 325034835 550218 0 34894 0 0 0</div><div class="line">cpu4 9760874 9296926 2229460 329933652 551517 0 38698 0 0 0</div><div class="line">cpu5 9920968 9253507 3005060 329288663 301220 0 17217 0 0 0</div><div class="line">intr 1383033586 10 0 0 0 0 0 0 0 1 3 533 0 0 0 0 0 0 0 395108 0 0 0 0 0 0 0 0 0 0 0 0 0 6774432 0 58248378 129760431 25866624 20727668 24027163 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</div><div class="line">ctxt 4724064671</div><div class="line">btime 1563521074</div><div class="line">processes 4152358</div><div class="line">procs_running 2</div><div class="line">procs_blocked 0</div><div class="line">softirq 1379181786 14314 476811039 913922 330537962 6904199 0 2450894 277902632 0 283646824</div></pre></td></tr></table></figure></p>
+<p>对应时刻下的cpu占用率获取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">top - 21:49:10 up 40 days, 18:24,  8 users,  load average: 1.00, 1.03, 1.00</div><div class="line">Tasks: 382 total,   2 running, 288 sleeping,  30 stopped,   0 zombie</div><div class="line">%Cpu(s):  2.9 us,  0.8 sy,  2.7 ni, 93.4 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem : 16327140 total,  5895564 free,  1206668 used,  9224908 buff/cache</div><div class="line">KiB Swap: 16676860 total, 16672120 free,     4740 used. 14389608 avail Mem</div></pre></td></tr></table></figure></p>
+<p>先看这一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div></pre></td></tr></table></figure></p>
+<p>注意，这里有些系统会显示10个值， 有些系统只显示8个值， 我们一般也只关注前面8个值，分别对应如下：<br>user，nice, system, idle, wait, irq, softirq, steal<br>后面的两个值我们不关心。（猜测是预留的）<br>所以上面的数据如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">user time = 61136565</div><div class="line">nice time = 57623732</div><div class="line">system time = 17654140</div><div class="line">idel time = 1971752426</div><div class="line">wait time = 2591798</div><div class="line">irq time = 0</div><div class="line">softirq time = 293657</div><div class="line">steal time = 0</div><div class="line"></div><div class="line">CPU总时间 = user + nice + system + idle + wait + irq + softirq + steal = 2111052318</div><div class="line">%us = (user + nice)/cpu = 5.6% ==&gt;???</div><div class="line">%sy = (system + irq + softirq)/CPU = ???</div><div class="line">%id = idel/CPU = 93.4%</div><div class="line">%wa = wait/CPU = 0.1%</div><div class="line">%hi = irq/CPU = 0.0%</div><div class="line">%si = softirq/CPU = 0.0%</div><div class="line">%st = steal/CPU = 0.0%</div></pre></td></tr></table></figure></p>
+<p>==》<font color="#FF0000"><strong> 这里有疑问，sys和us的计算，其实只是直接除，并没有像上面说的，加上了其他参数？？ </strong></font></p>
 
       
 
@@ -247,10 +238,6 @@ var _hmt = _hmt || [];
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
@@ -308,7 +295,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2017/09/11/tipc/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://lockless.github.io/2019/08/28/TOP/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -322,18 +309,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/11/raft/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Raft一致性算法简述
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/09/dpdk-pg-23/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（二十三）</div>
+    <a href="/2019/08/11/Algorithm - Sort/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">排序算法</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -360,7 +338,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-TIPC协议概述"><span class="toc-number">1.</span> <span class="toc-text">1.TIPC协议概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-实验结果"><span class="toc-number">2.</span> <span class="toc-text">2.实验结果</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-集群配置"><span class="toc-number">2.1.</span> <span class="toc-text">2.1.集群配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-通信测试"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.通信测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#服务端"><span class="toc-number">2.2.0.1.</span> <span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端"><span class="toc-number">2.2.0.2.</span> <span class="toc-text">客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运行结果"><span class="toc-number">2.2.0.3.</span> <span class="toc-text">运行结果</span></a></li></ol></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU占用率计算"><span class="toc-number">2.</span> <span class="toc-text">CPU占用率计算</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -376,7 +354,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="tipc" ></div> 
+  <div id="SOHUCS" sid="TOP" ></div> 
 <script type="text/javascript"> 
 (function(){ 
 var appid = "cytcwNIfK"; 

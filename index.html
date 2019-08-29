@@ -187,6 +187,99 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-TOP" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/28/TOP/">CPU利用率计算机制</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/28/TOP/" class="archive-article-date">
+  	<time datetime="2019-08-28T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>www.ilinuxkernel.com</p>
+</blockquote>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>获取系统CPU的利用率，我们一般使用top命令，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/proc$ top</div><div class="line">top - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00</div><div class="line">Tasks: 381 total,   2 running, 286 sleeping,  30 stopped,   0 zombie</div><div class="line">%Cpu(s):  2.9 us,  0.8 sy,  2.7 ni, 93.4 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem : 16327140 total,  5898152 free,  1204052 used,  9224936 buff/cache</div><div class="line">KiB Swap: 16676860 total, 16672120 free,     4740 used. 14392180 avail Mem</div><div class="line"></div><div class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div></pre></td></tr></table></figure></p>
+<p>我们定位到第三行，解释一下各个数据的含义：</p>
+<ul>
+<li>us ： user time，表示CPU执行用户进程的时间，<font color="#FF0000">包括nice时间</font>。通常都是希望用户空间CPU越高越好。</li>
+<li>sy ： system time，表示CPU在内核运行的时间，<font color="#FF0000">包括IRQ和softirq</font>。系统CPU占用越高，表明系统某部分存在瓶颈。通常这个值越低越好。</li>
+<li>ni ： nice time，表示系统调整进程优先级所花费的时间。</li>
+<li>id ： idle time，表示系统处于空闲期，等待进程运行。</li>
+<li>wa ： waiting time，表示CPU在等待IO操作完成所花费的时间。系统不应该花费大量的时间来等待IO操作，否则就说明IO存在瓶颈。</li>
+<li>hi ： hard irq time，表示系统处理硬中断所花费的时间。</li>
+<li>si ： soft irq time，表示系统处理软中断所花费的时间。</li>
+<li>st ： steal time，被强制等待（involuntary wait）虚拟CPU的时间，此时hypervisor在为另一个虚拟处理器服务。</li>
+</ul>
+<h3 id="CPU占用率计算"><a href="#CPU占用率计算" class="headerlink" title="CPU占用率计算"></a>CPU占用率计算</h3><p>Linux CPU占用率计算都是根据/proc/stat文件内容计算而来的，下面是stat的详细内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/proc$ cat stat</div><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div><div class="line">cpu0 10238217 9784256 2254122 329321540 267744 0 69840 0 0 0</div><div class="line">cpu1 10134384 9971461 2615448 328744241 298355 0 85254 0 0 0</div><div class="line">cpu2 9822282 9570130 2321324 329429492 622742 0 47753 0 0 0</div><div class="line">cpu3 11259838 9747449 5228725 325034835 550218 0 34894 0 0 0</div><div class="line">cpu4 9760874 9296926 2229460 329933652 551517 0 38698 0 0 0</div><div class="line">cpu5 9920968 9253507 3005060 329288663 301220 0 17217 0 0 0</div><div class="line">intr 1383033586 10 0 0 0 0 0 0 0 1 3 533 0 0 0 0 0 0 0 395108 0 0 0 0 0 0 0 0 0 0 0 0 0 6774432 0 58248378 129760431 25866624 20727668 24027163 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</div><div class="line">ctxt 4724064671</div><div class="line">btime 1563521074</div><div class="line">processes 4152358</div><div class="line">procs_running 2</div><div class="line">procs_blocked 0</div><div class="line">softirq 1379181786 14314 476811039 913922 330537962 6904199 0 2450894 277902632 0 283646824</div></pre></td></tr></table></figure></p>
+<p>对应时刻下的cpu占用率获取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">top - 21:49:10 up 40 days, 18:24,  8 users,  load average: 1.00, 1.03, 1.00</div><div class="line">Tasks: 382 total,   2 running, 288 sleeping,  30 stopped,   0 zombie</div><div class="line">%Cpu(s):  2.9 us,  0.8 sy,  2.7 ni, 93.4 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem : 16327140 total,  5895564 free,  1206668 used,  9224908 buff/cache</div><div class="line">KiB Swap: 16676860 total, 16672120 free,     4740 used. 14389608 avail Mem</div></pre></td></tr></table></figure></p>
+<p>先看这一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div></pre></td></tr></table></figure></p>
+<p>注意，这里有些系统会显示10个值， 有些系统只显示8个值， 我们一般也只关注前面8个值，分别对应如下：<br>user，nice, system, idle, wait, irq, softirq, steal<br>后面的两个值我们不关心。（猜测是预留的）<br>所以上面的数据如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">user time = 61136565</div><div class="line">nice time = 57623732</div><div class="line">system time = 17654140</div><div class="line">idel time = 1971752426</div><div class="line">wait time = 2591798</div><div class="line">irq time = 0</div><div class="line">softirq time = 293657</div><div class="line">steal time = 0</div><div class="line"></div><div class="line">CPU总时间 = user + nice + system + idle + wait + irq + softirq + steal = 2111052318</div><div class="line">%us = (user + nice)/cpu = 5.6% ==&gt;???</div><div class="line">%sy = (system + irq + softirq)/CPU = ???</div><div class="line">%id = idel/CPU = 93.4%</div><div class="line">%wa = wait/CPU = 0.1%</div><div class="line">%hi = irq/CPU = 0.0%</div><div class="line">%si = softirq/CPU = 0.0%</div><div class="line">%st = steal/CPU = 0.0%</div></pre></td></tr></table></figure></p>
+<p>==》<font color="#FF0000"><strong> 这里有疑问，sys和us的计算，其实只是直接除，并没有像上面说的，加上了其他参数？？ </strong></font></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/28/TOP/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Algorithm - Sort" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -959,98 +1052,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-APCI-Power-State" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/02/APCI-Power-State/">ACPI Power State</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/02/APCI-Power-State/" class="archive-article-date">
-  	<time datetime="2018-09-02T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>参考 <a href="http://www.bbwxbbs.com/forum.php?mod=viewthread&amp;tid=2552" target="_blank" rel="external">http://www.bbwxbbs.com/forum.php?mod=viewthread&amp;tid=2552</a></p>
-</blockquote>
-<p>ACPI全称Advanced Configuration and Power Interface定义了一台计算机系统可以有以下7种状态。</p>
-<h1 id="1-全局状态"><a href="#1-全局状态" class="headerlink" title="1. 全局状态"></a>1. 全局状态</h1><ul>
-<li><strong>G0</strong> <ul>
-<li>G0工作状态，在此状态下，可以运行应用程序</li>
-<li>整个计算机系统都可以运行，但是外设、CPU可以动态改变自己的功耗。</li>
-<li>是所有G状态下功耗最大的模式</li>
-<li>对应S状态的S0</li>
-</ul>
-</li>
-</ul>
-        
-          <a class="article-more-a" href="/2018/09/02/APCI-Power-State/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">BIOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/02/APCI-Power-State/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1156,6 +1157,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
               </li>
              
@@ -1176,39 +1181,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">交换机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1220,6 +1197,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
               </li>
              
@@ -1228,19 +1209,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Network</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Tool</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color3">Network</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
+                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1249,6 +1242,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
