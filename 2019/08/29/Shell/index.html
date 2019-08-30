@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2019/08/29/Shell/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="模式Pattern是指那些重复出现的结构或者原则。不同的领域有不同的pattern，pattern是对自己已有知识的总结和优化，它对现有知识的维护，以及未来的工作都有帮助。通俗来讲，pattern是一种不断总结出来的最佳实践。就shell脚本编码来讲，我们后续在编写shell脚本时，如果按照这个模式进行，可能会编写出优雅、健壮的代码，并且上手很快。 下面， 几个编码模式，我们就直接用P1、P2…来">
-<meta property="og:updated_time" content="2019-08-30T01:36:43.241Z">
+<meta property="og:updated_time" content="2019-08-30T03:24:06.541Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="整理出自己的shell脚本编码模式">
 <meta name="twitter:description" content="模式Pattern是指那些重复出现的结构或者原则。不同的领域有不同的pattern，pattern是对自己已有知识的总结和优化，它对现有知识的维护，以及未来的工作都有帮助。通俗来讲，pattern是一种不断总结出来的最佳实践。就shell脚本编码来讲，我们后续在编写shell脚本时，如果按照这个模式进行，可能会编写出优雅、健壮的代码，并且上手很快。 下面， 几个编码模式，我们就直接用P1、P2…来">
@@ -209,7 +209,11 @@ var _hmt = _hmt || [];
         <h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>Pattern是指那些重复出现的结构或者原则。不同的领域有不同的pattern，pattern是对自己已有知识的总结和优化，<br>它对现有知识的维护，以及未来的工作都有帮助。通俗来讲，pattern是一种不断总结出来的最佳实践。<br>就shell脚本编码来讲，我们后续在编写shell脚本时，如果按照这个模式进行，可能会编写出优雅、健壮的代码，<br>并且上手很快。</p>
 <p>下面， 几个编码模式，我们就直接用P1、P2…来表示。</p>
 <a id="more"></a>
-<h3 id="P1-shell脚本的参数输入"><a href="#P1-shell脚本的参数输入" class="headerlink" title="P1. shell脚本的参数输入"></a>P1. shell脚本的参数输入</h3>
+<h3 id="P1-shell脚本的参数输入"><a href="#P1-shell脚本的参数输入" class="headerlink" title="P1. shell脚本的参数输入"></a>P1. shell脚本的参数输入</h3><ul>
+<li>使用变量保存所有的参数 CMDLINE=”$@” ,方便后续打印调试，确认参数是否正确</li>
+<li>使用getopt来对可选的入参进行初次判断，判断格式是否正确</li>
+</ul>
+
       
 
       
