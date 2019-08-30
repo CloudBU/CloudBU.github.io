@@ -227,6 +227,22 @@ var _hmt = _hmt || [];
 <p>先看这一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div></pre></td></tr></table></figure></p>
 <p>注意，这里有些系统会显示10个值， 有些系统只显示8个值， 我们一般也只关注前面8个值，分别对应如下：<br>user，nice, system, idle, wait, irq, softirq, steal<br>后面的两个值我们不关心。（猜测是预留的）<br>所以上面的数据如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">user time = 61136565</div><div class="line">nice time = 57623732</div><div class="line">system time = 17654140</div><div class="line">idel time = 1971752426</div><div class="line">wait time = 2591798</div><div class="line">irq time = 0</div><div class="line">softirq time = 293657</div><div class="line">steal time = 0</div><div class="line"></div><div class="line">CPU总时间 = user + nice + system + idle + wait + irq + softirq + steal = 2111052318</div><div class="line">%us = (user + nice)/cpu = 5.6% ==&gt;???</div><div class="line">%sy = (system + irq + softirq)/CPU = ???</div><div class="line">%id = idel/CPU = 93.4%</div><div class="line">%wa = wait/CPU = 0.1%</div><div class="line">%hi = irq/CPU = 0.0%</div><div class="line">%si = softirq/CPU = 0.0%</div><div class="line">%st = steal/CPU = 0.0%</div></pre></td></tr></table></figure></p>
 <p>==》<font color="#FF0000"><strong> 这里有疑问，sys和us的计算，其实只是直接除，并没有像上面说的，加上了其他参数？？ </strong></font></p>
+<h3 id="CPU占用率的精度"><a href="#CPU占用率的精度" class="headerlink" title="CPU占用率的精度"></a>CPU占用率的精度</h3><p>使用top命令时，可以指定其刷新时间, 如，指定3s刷新一次<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">top -d 3</div></pre></td></tr></table></figure></p>
+<p>根据上面描述， top的计算是根据/proc/stat文件内容：</p>
+<ul>
+<li>/proc/stat文件中的内容单位是什么？</li>
+<li>/proc/stat文件中的内容多久刷新一次？</li>
+</ul>
+<h4 id="精度"><a href="#精度" class="headerlink" title="精度"></a>精度</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div></pre></td></tr></table></figure>
+<p>/proc/stat文件中的值，其单位为ticks。我们知道内核中有个全局变量jeffies，记录了系统起机以来经过的所有ticks数。<br>ticks就是系统时钟中断的数目，该值与HZ有关。HZ的大小在内核编译时是可以配置的。<br>比如， 我的设备中HZ的值为250<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/boot$ uname -a</div><div class="line">Linux Ubuntu 4.15.0-54-generic #58~16.04.1-Ubuntu SMP Mon Jun 24 13:21:41 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</div><div class="line">dpanic@Ubuntu:/boot$ cat /boot/config-4.15.0-54-generic | grep CONFIG_HZ</div><div class="line"># CONFIG_HZ_PERIODIC is not set</div><div class="line"># CONFIG_HZ_100 is not set</div><div class="line">CONFIG_HZ_250=y</div><div class="line"># CONFIG_HZ_300 is not set</div><div class="line"># CONFIG_HZ_1000 is not set</div><div class="line">CONFIG_HZ=250</div><div class="line">dpanic@Ubuntu:/boot$</div></pre></td></tr></table></figure></p>
+<p>HZ的值就是每秒钟系统中时钟中断的数量。（可以观察/proc/interrupt中时钟中断的数目），当HZ为250时，ticks的单位为1/250，即4ms</p>
+<h4 id="统计周期"><a href="#统计周期" class="headerlink" title="统计周期"></a>统计周期</h4><p>在时钟中断程序中，CPU信息被更新，即每个ticks更新一次。<br>内核中有个kernel_stat变量，用于记录CPU信息（include/linux/kernel_stat.h）。<br>每次时钟中断时，就会更新kernel_stat变量中的各个值。<br>而/proc/stat文件中的值，则是在程序读取时，从内核中获取的， /proc/stat并不会主动定期更新。</p>
+<h4 id="精度分析"><a href="#精度分析" class="headerlink" title="精度分析"></a>精度分析</h4><ul>
+<li>Linux CPU占用率是根据/proc/stat文件中的值计算出来的</li>
+<li>/proc/stat中的数据，其精度为ticks，也就是说， top -d xx 最多只能设置到4ms(举例)，设置再小的值，精度并不能提高</li>
+<li>内核每ticks更新一次kernel_stat变量</li>
+<li>执行top命令，或者直接读取/proc/stat文件时，将从内核中捞取数据</li>
+</ul>
 
       
 
@@ -399,11 +415,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1157,15 +1173,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1177,15 +1193,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1193,11 +1217,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color3">Network</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1213,27 +1241,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Network</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1242,10 +1254,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1258,6 +1266,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
               </li>
             
             <div class="clearfix"></div>
