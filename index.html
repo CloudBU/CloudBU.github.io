@@ -187,6 +187,83 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Shell" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/29/Shell/">整理出自己的shell脚本编码模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/29/Shell/" class="archive-article-date">
+  	<time datetime="2019-08-29T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>Pattern是指那些重复出现的结构或者原则。不同的领域有不同的pattern，pattern是对自己已有知识的总结和优化，<br>它对现有知识的维护，以及未来的工作都有帮助。通俗来讲，pattern是一种不断总结出来的最佳实践。<br>就shell脚本编码来讲，我们后续在编写shell脚本时，如果按照这个模式进行，可能会编写出优雅、健壮的代码，<br>并且上手很快。</p>
+<p>下面， 几个编码模式，我们就直接用P1、P2…来表示。</p>
+        
+          <a class="article-more-a" href="/2019/08/29/Shell/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Linux shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/29/Shell/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-TOP" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -211,39 +288,9 @@ var _hmt = _hmt || [];
 <p>www.ilinuxkernel.com</p>
 </blockquote>
 <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>获取系统CPU的利用率，我们一般使用top命令，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/proc$ top</div><div class="line">top - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00</div><div class="line">Tasks: 381 total,   2 running, 286 sleeping,  30 stopped,   0 zombie</div><div class="line">%Cpu(s):  2.9 us,  0.8 sy,  2.7 ni, 93.4 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem : 16327140 total,  5898152 free,  1204052 used,  9224936 buff/cache</div><div class="line">KiB Swap: 16676860 total, 16672120 free,     4740 used. 14392180 avail Mem</div><div class="line"></div><div class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div></pre></td></tr></table></figure></p>
-<p>我们定位到第三行，解释一下各个数据的含义：</p>
-<ul>
-<li>us ： user time，表示CPU执行用户进程的时间，<font color="#FF0000">包括nice时间</font>。通常都是希望用户空间CPU越高越好。</li>
-<li>sy ： system time，表示CPU在内核运行的时间，<font color="#FF0000">包括IRQ和softirq</font>。系统CPU占用越高，表明系统某部分存在瓶颈。通常这个值越低越好。</li>
-<li>ni ： nice time，表示系统调整进程优先级所花费的时间。</li>
-<li>id ： idle time，表示系统处于空闲期，等待进程运行。</li>
-<li>wa ： waiting time，表示CPU在等待IO操作完成所花费的时间。系统不应该花费大量的时间来等待IO操作，否则就说明IO存在瓶颈。</li>
-<li>hi ： hard irq time，表示系统处理硬中断所花费的时间。</li>
-<li>si ： soft irq time，表示系统处理软中断所花费的时间。</li>
-<li>st ： steal time，被强制等待（involuntary wait）虚拟CPU的时间，此时hypervisor在为另一个虚拟处理器服务。</li>
-</ul>
-<h3 id="CPU占用率计算"><a href="#CPU占用率计算" class="headerlink" title="CPU占用率计算"></a>CPU占用率计算</h3><p>Linux CPU占用率计算都是根据/proc/stat文件内容计算而来的，下面是stat的详细内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/proc$ cat stat</div><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div><div class="line">cpu0 10238217 9784256 2254122 329321540 267744 0 69840 0 0 0</div><div class="line">cpu1 10134384 9971461 2615448 328744241 298355 0 85254 0 0 0</div><div class="line">cpu2 9822282 9570130 2321324 329429492 622742 0 47753 0 0 0</div><div class="line">cpu3 11259838 9747449 5228725 325034835 550218 0 34894 0 0 0</div><div class="line">cpu4 9760874 9296926 2229460 329933652 551517 0 38698 0 0 0</div><div class="line">cpu5 9920968 9253507 3005060 329288663 301220 0 17217 0 0 0</div><div class="line">intr 1383033586 10 0 0 0 0 0 0 0 1 3 533 0 0 0 0 0 0 0 395108 0 0 0 0 0 0 0 0 0 0 0 0 0 6774432 0 58248378 129760431 25866624 20727668 24027163 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</div><div class="line">ctxt 4724064671</div><div class="line">btime 1563521074</div><div class="line">processes 4152358</div><div class="line">procs_running 2</div><div class="line">procs_blocked 0</div><div class="line">softirq 1379181786 14314 476811039 913922 330537962 6904199 0 2450894 277902632 0 283646824</div></pre></td></tr></table></figure></p>
-<p>对应时刻下的cpu占用率获取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">top - 21:49:10 up 40 days, 18:24,  8 users,  load average: 1.00, 1.03, 1.00</div><div class="line">Tasks: 382 total,   2 running, 288 sleeping,  30 stopped,   0 zombie</div><div class="line">%Cpu(s):  2.9 us,  0.8 sy,  2.7 ni, 93.4 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem : 16327140 total,  5895564 free,  1206668 used,  9224908 buff/cache</div><div class="line">KiB Swap: 16676860 total, 16672120 free,     4740 used. 14389608 avail Mem</div></pre></td></tr></table></figure></p>
-<p>先看这一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div></pre></td></tr></table></figure></p>
-<p>注意，这里有些系统会显示10个值， 有些系统只显示8个值， 我们一般也只关注前面8个值，分别对应如下：<br>user，nice, system, idle, wait, irq, softirq, steal<br>后面的两个值我们不关心。（猜测是预留的）<br>所以上面的数据如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">user time = 61136565</div><div class="line">nice time = 57623732</div><div class="line">system time = 17654140</div><div class="line">idel time = 1971752426</div><div class="line">wait time = 2591798</div><div class="line">irq time = 0</div><div class="line">softirq time = 293657</div><div class="line">steal time = 0</div><div class="line"></div><div class="line">CPU总时间 = user + nice + system + idle + wait + irq + softirq + steal = 2111052318</div><div class="line">%us = (user + nice)/cpu = 5.6% ==&gt;???</div><div class="line">%sy = (system + irq + softirq)/CPU = ???</div><div class="line">%id = idel/CPU = 93.4%</div><div class="line">%wa = wait/CPU = 0.1%</div><div class="line">%hi = irq/CPU = 0.0%</div><div class="line">%si = softirq/CPU = 0.0%</div><div class="line">%st = steal/CPU = 0.0%</div></pre></td></tr></table></figure></p>
-<p>==》<font color="#FF0000"><strong> 这里有疑问，sys和us的计算，其实只是直接除，并没有像上面说的，加上了其他参数？？ </strong></font></p>
-<h3 id="CPU占用率的精度"><a href="#CPU占用率的精度" class="headerlink" title="CPU占用率的精度"></a>CPU占用率的精度</h3><p>使用top命令时，可以指定其刷新时间, 如，指定3s刷新一次<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">top -d 3</div></pre></td></tr></table></figure></p>
-<p>根据上面描述， top的计算是根据/proc/stat文件内容：</p>
-<ul>
-<li>/proc/stat文件中的内容单位是什么？</li>
-<li>/proc/stat文件中的内容多久刷新一次？</li>
-</ul>
-<h4 id="精度"><a href="#精度" class="headerlink" title="精度"></a>精度</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cpu  61136565 57623732 17654140 1971752426 2591798 0 293657 0 0 0</div></pre></td></tr></table></figure>
-<p>/proc/stat文件中的值，其单位为ticks。我们知道内核中有个全局变量jeffies，记录了系统起机以来经过的所有ticks数。<br>ticks就是系统时钟中断的数目，该值与HZ有关。HZ的大小在内核编译时是可以配置的。<br>比如， 我的设备中HZ的值为250<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/boot$ uname -a</div><div class="line">Linux Ubuntu 4.15.0-54-generic #58~16.04.1-Ubuntu SMP Mon Jun 24 13:21:41 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux</div><div class="line">dpanic@Ubuntu:/boot$ cat /boot/config-4.15.0-54-generic | grep CONFIG_HZ</div><div class="line"># CONFIG_HZ_PERIODIC is not set</div><div class="line"># CONFIG_HZ_100 is not set</div><div class="line">CONFIG_HZ_250=y</div><div class="line"># CONFIG_HZ_300 is not set</div><div class="line"># CONFIG_HZ_1000 is not set</div><div class="line">CONFIG_HZ=250</div><div class="line">dpanic@Ubuntu:/boot$</div></pre></td></tr></table></figure></p>
-<p>HZ的值就是每秒钟系统中时钟中断的数量。（可以观察/proc/interrupt中时钟中断的数目），当HZ为250时，ticks的单位为1/250，即4ms</p>
-<h4 id="统计周期"><a href="#统计周期" class="headerlink" title="统计周期"></a>统计周期</h4><p>在时钟中断程序中，CPU信息被更新，即每个ticks更新一次。<br>内核中有个kernel_stat变量，用于记录CPU信息（include/linux/kernel_stat.h）。<br>每次时钟中断时，就会更新kernel_stat变量中的各个值。<br>而/proc/stat文件中的值，则是在程序读取时，从内核中获取的， /proc/stat并不会主动定期更新。</p>
-<h4 id="精度分析"><a href="#精度分析" class="headerlink" title="精度分析"></a>精度分析</h4><ul>
-<li>Linux CPU占用率是根据/proc/stat文件中的值计算出来的</li>
-<li>/proc/stat中的数据，其精度为ticks，也就是说， top -d xx 最多只能设置到4ms(举例)，设置再小的值，精度并不能提高</li>
-<li>内核每ticks更新一次kernel_stat变量</li>
-<li>执行top命令，或者直接读取/proc/stat文件时，将从内核中捞取数据</li>
-</ul>
-
+        
+          <a class="article-more-a" href="/2019/08/28/TOP/#more">more >></a>
+        
       
 
       
@@ -317,7 +364,9 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="一些需要滚瓜烂熟的算法代码和思路"><a href="#一些需要滚瓜烂熟的算法代码和思路" class="headerlink" title="一些需要滚瓜烂熟的算法代码和思路"></a>一些需要滚瓜烂熟的算法代码和思路</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>参考《算法导论》第二章 Page15～18描述<br>算法思想：参考抓牌过程（将新抓的牌插入已经有序的队列中）<br>伪代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">INSERT-SORT[A]</div><div class="line">for j ← 2 to length[A]</div><div class="line">  do key ← A[j]</div><div class="line">  i ← j-1</div><div class="line">  while i&gt;0 and A[i]&gt;key</div><div class="line">    A[i+1] ← A[i]</div><div class="line">    i ← i-1</div><div class="line">  A[i+1] ← key</div></pre></td></tr></table></figure></p>
-
+        
+          <a class="article-more-a" href="/2019/08/11/Algorithm - Sort/#more">more >></a>
+        
       
 
       
@@ -415,11 +464,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -824,31 +873,9 @@ var _hmt = _hmt || [];
 <li>一是启动时间长，init进程是串行启动，只有前一个启动完成，才会启动下一个进程</li>
 <li>二是启动脚本复杂，init进程只负责启动脚本，不管其他事情，脚本需要自己处理各种情况，这往往使得脚本变得很长</li>
 </ul>
-<h3 id="systemd基本工具"><a href="#systemd基本工具" class="headerlink" title="systemd基本工具"></a>systemd基本工具</h3><p>监视和控制systemd的主要命令是systemctl，该命令可以用于查看系统状态和管理系统及服务。<br><strong> 在systemctl参数中添加 -H username@hostip 可以实现对其他机器的远程控制 </strong></p>
-<h4 id="分析系统状态"><a href="#分析系统状态" class="headerlink" title="分析系统状态"></a>分析系统状态</h4><p>显示系统状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status</div></pre></td></tr></table></figure></p>
-<p>输出激活的单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemctl</div><div class="line">或者</div><div class="line">systemctl list-units</div></pre></td></tr></table></figure></p>
-<p>输出运行失败的单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl --failed</div></pre></td></tr></table></figure></p>
-<p>查看设备上所有可用单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl list-unit-files</div></pre></td></tr></table></figure></p>
-<p>显示 cgroup slice, 内存和父 PID<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status [pid]</div></pre></td></tr></table></figure></p>
-<h4 id="单元"><a href="#单元" class="headerlink" title="单元"></a>单元</h4><p>跟原来理解的有些出入，不仅仅是service文件，一个单元配置文件可以描述如下内容之一：系统服务（.service）、挂载点（.mount）、sockets（.sockets） 、系统设备（.device）、交换分区（.swap）、文件路径（.path）、启动目标（.target）、由 systemd 管理的计时器（.timer）。</p>
-<p>使用systemctl控制单元时，通常需要使用单元文件的全名，包括扩展名如 sshd.service，但是有些单元可以在systemctl中使用简写方式。</p>
-<ul>
-<li>如无扩展名，systemctl默认把扩展名当作.service。</li>
-<li>挂载点会自动转化为相应的.mount单元</li>
-<li>设备会自动转化为响应的.device单元，所以，/dev/sda2等价于dev-sda2.device<br><strong> 注意， 有一些单元的名称包含一个@标记，如name@string.service 者意味着它是模板单元name@.service的一个实例, string被称作实例标识符，在systemctl调用模板单元时，会将其当作一个参数传递给模板单元，模板单元会使用这个传入的参数代替模板中的%I指示符。 在实例化之前，systemd会先检查name@string.suffix文件是否存在（如果存在，就直接使用这个文件，而不是模板实例化），大多数情况下，包含@标记都意味着这个文件是模板。如果一个模板单元没有实例化就调用，该调用就会返回失败，因为模板单元中的%I指示符没有被替换 </strong></li>
-</ul>
-<p><strong> 下面命令都可以同时跟多个单元名 </strong><br><strong> sustemctl命令在enable、disable和mask子命令中增加了–now选项， 可以实现激活的同时启动服务，取消激活的同时关闭服务 </strong><br><strong> 一个软件包可能提供多个不同的单元，如果你已经安装了软件包，可以通过pacman -Qql package | grep systemd命令检查这个软件包提供了哪些单元 </strong></p>
-<p>立即激活<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>立即停止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl stop &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>重启单元<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl restart &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>重新加载配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl reload &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>输出单元运行状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>检查单元是否配置为自动启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl is-enable &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>开机自启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl enable &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>取消开机自启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl disable &lt;unit1&gt; &lt;unit2&gt;</div></pre></td></tr></table></figure></p>
-<p>重新载入systemd系统配置，扫描单元文件改动。注意，这里并不会重新加载变更的单元文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl daemon-reload</div></pre></td></tr></table></figure></p>
-<h3 id="编写单元文件"><a href="#编写单元文件" class="headerlink" title="编写单元文件"></a>编写单元文件</h3><p>systemd单元文件的语法来源于XDG桌面项配置文件.desktop，最初的源头则是微软的.ini文件。<br>单元文件可以从多个地方加载，使用systemctl show –property=UnitPath可以按优先级从低到高显示加载目录。</p>
-
+        
+          <a class="article-more-a" href="/2018/09/28/Linux-Systemd/#more">more >></a>
+        
       
 
       
@@ -990,87 +1017,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Linux-CLI" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/11/Linux-CLI/">一些有用的Linux命令</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/11/Linux-CLI/" class="archive-article-date">
-  	<time datetime="2018-09-10T23:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文用于记录平时用到的一些Linux命令</p>
-<h4 id="od"><a href="#od" class="headerlink" title="od"></a>od</h4><p>od命令用于输出文件的八进制、十进制、十六进制或其他的编码格式，通常用于显示或查看文件中不能直接显示在终端的字符。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ls -l /etc/localtime | awk -Fzoneinfo/ &apos;&#123;printf &quot;%s&quot;, $2&#125;&apos;</div><div class="line">==&gt;America/New_York</div><div class="line"></div><div class="line">ls -l /etc/localtime | awk -Fzoneinfo/ &apos;&#123;printf &quot;%s&quot;, $2&#125;&apos; | od -An -t dC</div><div class="line">==&gt; 65 109 101 114 105 99 97 47 78 101 119 95 89 111 114 107</div></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/2018/09/11/Linux-CLI/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/11/Linux-CLI/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1173,15 +1122,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1193,15 +1138,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1213,11 +1166,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Network</a>
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1229,11 +1178,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">BMC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Network</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1245,7 +1206,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color2">Linux shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1257,23 +1222,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ONIE</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
               </li>
             
             <div class="clearfix"></div>

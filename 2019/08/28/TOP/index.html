@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://lockless.github.io/2019/08/28/TOP/index.html">
 <meta property="og:site_name" content="拙言">
 <meta property="og:description" content="www.ilinuxkernel.com  概念获取系统CPU的利用率，我们一般使用top命令，如下：12345678dpanic@Ubuntu:/proc$ toptop - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00Tasks: 381 total,   2 running, 286 sleepi">
-<meta property="og:updated_time" content="2019-08-30T01:21:34.995Z">
+<meta property="og:updated_time" content="2019-08-30T01:36:54.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CPU利用率计算机制">
 <meta name="twitter:description" content="www.ilinuxkernel.com  概念获取系统CPU的利用率，我们一般使用top命令，如下：12345678dpanic@Ubuntu:/proc$ toptop - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00Tasks: 381 total,   2 running, 286 sleepi">
@@ -210,6 +210,7 @@ var _hmt = _hmt || [];
 <p>www.ilinuxkernel.com</p>
 </blockquote>
 <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>获取系统CPU的利用率，我们一般使用top命令，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:/proc$ top</div><div class="line">top - 21:30:35 up 40 days, 18:06,  8 users,  load average: 1.07, 1.04, 1.00</div><div class="line">Tasks: 381 total,   2 running, 286 sleeping,  30 stopped,   0 zombie</div><div class="line">%Cpu(s):  2.9 us,  0.8 sy,  2.7 ni, 93.4 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem : 16327140 total,  5898152 free,  1204052 used,  9224936 buff/cache</div><div class="line">KiB Swap: 16676860 total, 16672120 free,     4740 used. 14392180 avail Mem</div><div class="line"></div><div class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>我们定位到第三行，解释一下各个数据的含义：</p>
 <ul>
 <li>us ： user time，表示CPU执行用户进程的时间，<font color="#FF0000">包括nice时间</font>。通常都是希望用户空间CPU越高越好。</li>
@@ -324,6 +325,15 @@ var _hmt = _hmt || [];
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/08/29/Shell/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          整理出自己的shell脚本编码模式
+        
+      </div>
+    </a>
   
   
     <a href="/2019/08/11/Algorithm - Sort/" id="article-nav-older" class="article-nav-link-wrap">
@@ -483,15 +493,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">开源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -503,15 +509,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -523,11 +537,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Network</a>
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,11 +549,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">BMC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Network</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,7 +577,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+                <a href="javascript:void(0)" class="js-tag color2">Linux shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -567,23 +593,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ONIE</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
               </li>
             
             <div class="clearfix"></div>
