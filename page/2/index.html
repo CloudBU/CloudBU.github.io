@@ -187,6 +187,95 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-IPMI-Command" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/17/IPMI-Command/">IPMI命令解析</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/17/IPMI-Command/" class="archive-article-date">
+  	<time datetime="2018-09-16T23:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><a href="https://blog.csdn.net/zuiaituantuan/article/details/5816380" target="_blank" rel="external">https://blog.csdn.net/zuiaituantuan/article/details/5816380</a></p>
+</blockquote>
+<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>IPMItool支持如下三个协议的命令：</p>
+<ul>
+<li>ipmitool [-c|-h|-v|-V] -I open <command></li>
+<li>ipmitool [-c|-h|-v|-V] -I lan -H <hostname> [-p <port>] [-U <username>] [-A <authtype>] [-L <privlvl>] [-a|-E|-P|-f <password>] [-o <oemtype>] <command></oemtype></password></privlvl></authtype></username></port></hostname></li>
+<li>ipmitool [-c|-h|-v|-V] -I lanplus -H <hostname> [-p <port>] [-U <username>] [-L <privlvl>] [-a|-E|-P|-f <password>] [-o <oemtype>] [-C <ciphersuite>] <command></ciphersuite></oemtype></password></privlvl></username></port></hostname></li>
+</ul>
+<p>三个协议分别是open/lan/lanplus。</p>
+        
+          <a class="article-more-a" href="/2018/09/17/IPMI-Command/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">IPMI</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">BMC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/17/IPMI-Command/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux-CLI" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -948,94 +1037,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Bitbake-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/04/Bitbake-1/">Bitbake: User Manual (1)</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/04/Bitbake-1/" class="archive-article-date">
-  	<time datetime="2018-01-04T10:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>参考：<a href="http://www.yoctoproject.org/docs/2.4/bitbake-user-manual/bitbake-user-manual.html" target="_blank" rel="external">http://www.yoctoproject.org/docs/2.4/bitbake-user-manual/bitbake-user-manual.html</a></p>
-</blockquote>
-<h1 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h1><p>欢迎使用Bitbake用户手册。本手册提供Bitbake工具的相关信息。这些信息尽可能独立于使用Bitbake的系统，如OpenEmbedded和Yocto Project。在某些情况下，本手册将使用构建系统中的场景或示例来帮助理解。对于这些情况，手册清楚地说明的使用上下文。</p>
-<h2 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1.介绍"></a>1.1.介绍</h2><p>从根本上说，Bitbake是一个通用任务执行引擎，允许shell和python任务在复杂的任务间依赖约束条件下高效并行运行。Bitbake的主要用户之一，OpenEmbedded，采用Bitbake，并使用面向任务的方法构建嵌入式Linux软件栈。</p>
-        
-          <a class="article-more-a" href="/2018/01/04/Bitbake-1/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Bitbake</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户手册系列</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/04/Bitbake-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1246,6 +1247,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux Docker</a>
               </li>
             
             <div class="clearfix"></div>
