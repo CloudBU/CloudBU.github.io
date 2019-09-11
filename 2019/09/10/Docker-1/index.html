@@ -17,7 +17,8 @@
 <meta property="og:description" content="Bridge模式当Docker进程启动时，会在宿主机上创建一个docker0的虚拟网桥，此宿主机上启动的所有容器会连接到这个虚拟网桥上。虚拟网桥的工作原理等同于物理交换机，这样，在此宿主机上开启的所有容器就通过交换机连在了一个二层网络中。 下面是实验例子">
 <meta property="og:image" content="http://lockless.github.io/assets/blogImg/docker-bridge.png">
 <meta property="og:image" content="http://lockless.github.io/assets/blogImg/docker-host.png">
-<meta property="og:updated_time" content="2019-09-11T03:54:28.433Z">
+<meta property="og:image" content="http://lockless.github.io/assets/blogImg/docker-container.png">
+<meta property="og:updated_time" content="2019-09-11T11:34:42.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker网络分析">
 <meta name="twitter:description" content="Bridge模式当Docker进程启动时，会在宿主机上创建一个docker0的虚拟网桥，此宿主机上启动的所有容器会连接到这个虚拟网桥上。虚拟网桥的工作原理等同于物理交换机，这样，在此宿主机上开启的所有容器就通过交换机连在了一个二层网络中。 下面是实验例子">
@@ -224,6 +225,23 @@ var _hmt = _hmt || [];
 <p>可以看到， docker中看到的网络配置和host一模一样。<br>按照上面的命令显示信息， 可以画出大概的网络连接示意图如下：</p>
 <p><div align="center"><img src="/assets/blogImg/docker-host.png" alt="docker host"></div></p>
 <h3 id="Container模式"><a href="#Container模式" class="headerlink" title="Container模式"></a>Container模式</h3><p>Container模式指定新创建的容器和已经存在的一个容器共享一个 Network Namespace。<br>新创建的容器不会创建自己的网卡，配置自己的IP，而是和一个指定的容器共享 IP、端口范围等。<br>同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。两个容器的进程可以通过lo网卡设备通信。</p>
+<p>我们假设原来创建的docker使用的是bridge模式，新创建的docker指定与原来创建的docker使用同一个Network Namespace。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:~$ docker run -itd --net=bridge --name docker_bridge debian:9.6</div><div class="line">d661b5dd27472b91df8b6b1e1fa088dec5e560120beaea55ac8a109ab7712925</div><div class="line">dpanic@Ubuntu:~$ brctl show</div><div class="line">bridge name     bridge id               STP enabled     interfaces</div><div class="line">docker0         8000.0242e6530e90       no              veth9b6a606</div><div class="line">dpanic@Ubuntu:~$</div><div class="line">dpanic@Ubuntu:~$ docker exec -it docker_bridge bash</div><div class="line">root@d661b5dd2747:/# ip addr show</div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">7: eth0@if8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</div><div class="line">    link/ether 02:42:ac:12:fa:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</div><div class="line">    inet 172.18.250.2/24 brd 172.18.250.255 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@d661b5dd2747:/#</div></pre></td></tr></table></figure></p>
+<p>新创建docker，指定为container模式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:~$</div><div class="line">dpanic@Ubuntu:~$ docker run -tid --net=container:docker_bridge --name docker_container debian</div><div class="line">debian         debian:9.6     debian:jessie</div><div class="line">dpanic@Ubuntu:~$ docker run -tid --net=container:docker_bridge --name docker_container debian</div><div class="line">debian         debian:9.6     debian:jessie</div><div class="line">dpanic@Ubuntu:~$ docker run -tid --net=container:docker_bridge --name docker_container debian:9.6</div><div class="line">6b5cd246b81236e820bc016a9fe0e4261c2af0effe49d32392fa6fd4f3f3681c</div><div class="line">dpanic@Ubuntu:~$ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</div><div class="line">6b5cd246b812        debian:9.6          &quot;bash&quot;              6 seconds ago       Up 4 seconds                            docker_container</div><div class="line">d661b5dd2747        debian:9.6          &quot;bash&quot;              15 minutes ago      Up 15 minutes                           docker_bridge</div><div class="line">dpanic@Ubuntu:~$ brctl show</div><div class="line">bridge name     bridge id               STP enabled     interfaces</div><div class="line">docker0         8000.0242e6530e90       no              veth9b6a606</div><div class="line">dpanic@Ubuntu:~$ docker exec -it docker_container bash</div><div class="line">root@d661b5dd2747:/# ip addr show</div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">7: eth0@if8: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</div><div class="line">    link/ether 02:42:ac:12:fa:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</div><div class="line">    inet 172.18.250.2/24 brd 172.18.250.255 scope global eth0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@d661b5dd2747:/#</div></pre></td></tr></table></figure></p>
+<p>很显然，可以看到，该容器的IP和网卡配置与前面的docker完全一致。<br>按照上面的命令显示信息， 可以画出大概的网络连接示意图如下：</p>
+<p><div align="center"><img src="/assets/blogImg/docker-container.png" alt="docker con"></div></p>
+<font color="#FF0000"> ==》这里再留一个疑问，如果原先创建的容器使用的是host模式，那么现在创建的容器指定为container模式时，会是怎样的结果？</font> 
+
+
+
+
+
+
+
+
+
+
+
+
 
       
 
@@ -405,19 +423,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">开源</a>
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">网络</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">OCP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -429,7 +439,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
+                <a href="javascript:void(0)" class="js-tag color3">开源</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">OCP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">国外博文系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -441,35 +463,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux Docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux Docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,15 +483,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Network</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Tool</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -514,6 +528,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">路由器</a>
               </li>
             
             <div class="clearfix"></div>
