@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>超越BIOS之旅：EFI Developer Kit II 中的开源IA固件平台设计指南 | 拙言</title>
+  <title>Docker入门 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="白皮书原文https://github.com/tianocore/edk2-platforms/blob/devel-MinPlatform/Platform/Intel/MinPlatformPkg/Docs/A_Tour_Beyond_BIOS_Open_Source_IA_Firmware_Platform_Design_Guide_in_EFI_Developer_Kit_II%20-">
-<meta name="keywords" content="开源,网络,OCP,国外博文系列">
+  <meta name="description" content="安装Docker几乎所有的Linux发行版都支持Docker。Docker分为开源免费的CE（Community Edition）版本和收费的EE（Enterprise Edition）版本。下面介绍在Ubuntu 16.04上安装Docker CE版本的步骤。">
+<meta name="keywords" content="Linux Docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="超越BIOS之旅：EFI Developer Kit II 中的开源IA固件平台设计指南">
-<meta property="og:url" content="http://lockless.github.io/2019/07/01/AI Firmware - EDK ii/index.html">
+<meta property="og:title" content="Docker入门">
+<meta property="og:url" content="http://lockless.github.io/2019/09/12/Docker-0/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="白皮书原文https://github.com/tianocore/edk2-platforms/blob/devel-MinPlatform/Platform/Intel/MinPlatformPkg/Docs/A_Tour_Beyond_BIOS_Open_Source_IA_Firmware_Platform_Design_Guide_in_EFI_Developer_Kit_II%20-">
-<meta property="og:updated_time" content="2019-08-16T02:09:00.017Z">
+<meta property="og:description" content="安装Docker几乎所有的Linux发行版都支持Docker。Docker分为开源免费的CE（Community Edition）版本和收费的EE（Enterprise Edition）版本。下面介绍在Ubuntu 16.04上安装Docker CE版本的步骤。">
+<meta property="og:updated_time" content="2019-09-12T00:57:35.365Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="超越BIOS之旅：EFI Developer Kit II 中的开源IA固件平台设计指南">
-<meta name="twitter:description" content="白皮书原文https://github.com/tianocore/edk2-platforms/blob/devel-MinPlatform/Platform/Intel/MinPlatformPkg/Docs/A_Tour_Beyond_BIOS_Open_Source_IA_Firmware_Platform_Design_Guide_in_EFI_Developer_Kit_II%20-">
+<meta name="twitter:title" content="Docker入门">
+<meta name="twitter:description" content="安装Docker几乎所有的Linux发行版都支持Docker。Docker分为开源免费的CE（Community Edition）版本和收费的EE（Enterprise Edition）版本。下面介绍在Ubuntu 16.04上安装Docker CE版本的步骤。">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -186,37 +186,49 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-AI Firmware - EDK ii" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Docker-0" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      超越BIOS之旅：EFI Developer Kit II 中的开源IA固件平台设计指南
+      Docker入门
     </h1>
   
 
         
-        <a href="/2019/07/01/AI Firmware - EDK ii/" class="archive-article-date">
-  	<time datetime="2019-07-01T05:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-01</time>
+        <a href="/2019/09/12/Docker-0/" class="archive-article-date">
+  	<time datetime="2019-09-12T00:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>白皮书原文<br><a href="https://github.com/tianocore/edk2-platforms/blob/devel-MinPlatform/Platform/Intel/MinPlatformPkg/Docs/A_Tour_Beyond_BIOS_Open_Source_IA_Firmware_Platform_Design_Guide_in_EFI_Developer_Kit_II%20-%20V2.pdf" target="_blank" rel="external">https://github.com/tianocore/edk2-platforms/blob/devel-MinPlatform/Platform/Intel/MinPlatformPkg/Docs/A_Tour_Beyond_BIOS_Open_Source_IA_Firmware_Platform_Design_Guide_in_EFI_Developer_Kit_II%20-%20V2.pdf</a></p>
-</blockquote>
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>本文介绍了EDKII开源IA（Intel Arch）固件解决方案的设计指南。<br>为了简化开放式IA固件解决方案，我们展示了具有最少功能的固件设计方法。<br>唯一的要求：</p>
-<ol>
-<li>它可以引导操作系统</li>
-<li>它是安全的</li>
-</ol>
-<p>我们可以删除许多不必要的芯片或平台功能，如Capsule更新，恢复，S3恢复，SMBIOS，嵌入式控制器（EC），超级IO（SIO），I2C，并且只启用ACPI和SMM以支持启动。</p>
-<p>阅读要求：<br>本文假设观众具有EDKII/UEFI固件开发经验。<br>应熟悉UEFI/PI固件基础设施（例如，PEI/DXE）并了解英特尔FSP流程。</p>
+        <h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><p>几乎所有的Linux发行版都支持Docker。Docker分为开源免费的CE（Community Edition）版本和收费的EE（Enterprise Edition）版本。<br>下面介绍在Ubuntu 16.04上安装Docker CE版本的步骤。</p>
 <a id="more"></a>
+<ol>
+<li>安装以下包以允许apt命令通过https使用仓库。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install apt-transport-https ca-certificates curl software-properties-common</div></pre></td></tr></table></figure>
+<ol>
+<li>添加Docker GPG密钥</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</div></pre></td></tr></table></figure>
+<ol>
+<li><p>添加Docker源到/etc/apt/sources.list</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>更新一下apt包索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装最新版本的Docker-ce</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get -y install docker-ce</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Docker设置国内镜像源"><a href="#Docker设置国内镜像源" class="headerlink" title="Docker设置国内镜像源"></a>Docker设置国内镜像源</h4><p>创建或修改/etc/docker/daemon.json文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># vi /etc/docker/daemon.json</div><div class="line">&#123;</div><div class="line">    &quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>修改之后重启docker即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo systemctl daemon-reload</div><div class="line">sudo systemctl restart docker</div></pre></td></tr></table></figure></p>
 
       
 
@@ -230,19 +242,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开源</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">网络</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OCP</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">国外博文系列</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux Docker</a>
         		</li>
       		
 		</ul>
@@ -261,18 +261,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2019/08/11/Algorithm - Sort/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          排序算法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/10/BCM88690-1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">BCM88690芯片学习（一）</div>
+    <a href="/2019/09/10/Docker-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Docker网络分析</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -299,7 +290,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Docker"><span class="toc-number">1.</span> <span class="toc-text">安装Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker设置国内镜像源"><span class="toc-number">1.1.</span> <span class="toc-text">Docker设置国内镜像源</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
