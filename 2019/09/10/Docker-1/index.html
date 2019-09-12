@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://lockless.github.io/assets/blogImg/docker-bridge.png">
 <meta property="og:image" content="http://lockless.github.io/assets/blogImg/docker-host.png">
 <meta property="og:image" content="http://lockless.github.io/assets/blogImg/docker-container.png">
-<meta property="og:updated_time" content="2019-09-11T11:58:59.101Z">
+<meta property="og:updated_time" content="2019-09-12T12:09:21.468Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker网络分析">
 <meta name="twitter:description" content="Bridge模式当Docker进程启动时，会在宿主机上创建一个docker0的虚拟网桥，此宿主机上启动的所有容器会连接到这个虚拟网桥上。虚拟网桥的工作原理等同于物理交换机，这样，在此宿主机上开启的所有容器就通过交换机连在了一个二层网络中。 下面是实验例子">
@@ -232,6 +232,8 @@ var _hmt = _hmt || [];
 <p><font color="#FF0000"> ==》这里再留一个疑问，如果原先创建的容器使用的是host模式，那么现在创建的容器指定为container模式时，会是怎样的结果？</font><br>我们先创建host模式的一个容器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:~$ docker run -itd --net=host --name docker_host debian:9.6</div><div class="line">1e80808bbc3a9492f7145ff1aaae47ab737463cb6832e6af0cd67c378f383f9a</div><div class="line">dpanic@Ubuntu:~$ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</div><div class="line">1e80808bbc3a        debian:9.6          &quot;bash&quot;              59 seconds ago      Up 57 seconds                           docker_host</div><div class="line">dpanic@Ubuntu:~$ brctl show</div><div class="line">bridge name     bridge id               STP enabled     interfaces</div><div class="line">docker0         8000.0242e6530e90       no</div><div class="line">dpanic@Ubuntu:~$ docker exec -it docker_host bash</div><div class="line">root@Ubuntu:/# ip addr show</div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eno1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:6d brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.20.92.74/24 brd 172.20.92.255 scope global eno1</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::1618:77ff:fe33:7b6d/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">3: eno2: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc mq state DOWN group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:6e brd ff:ff:ff:ff:ff:ff</div><div class="line">4: eno3: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc mq state DOWN group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:6f brd ff:ff:ff:ff:ff:ff</div><div class="line">5: eno4: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc mq state DOWN group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:70 brd ff:ff:ff:ff:ff:ff</div><div class="line">6: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default</div><div class="line">    link/ether 02:42:e6:53:0e:90 brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.18.250.1/24 brd 172.18.250.255 scope global docker0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::42:e6ff:fe53:e90/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@Ubuntu:/#</div></pre></td></tr></table></figure></p>
 <p>在创建container模式的容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:~$ docker run -itd --net=container:docker_host --name docker_container debian:9.6</div><div class="line">b4dfc658e1b398f08aecfa73c46048223669cb848fc1a474e10a1ad4e892c37b</div><div class="line">dpanic@Ubuntu:~$ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</div><div class="line">b4dfc658e1b3        debian:9.6          &quot;bash&quot;              5 seconds ago       Up 3 seconds                            docker_container</div><div class="line">1e80808bbc3a        debian:9.6          &quot;bash&quot;              2 minutes ago       Up 2 minutes                            docker_host</div><div class="line">dpanic@Ubuntu:~$ brctl show</div><div class="line">bridge name     bridge id               STP enabled     interfaces</div><div class="line">docker0         8000.0242e6530e90       no</div><div class="line">dpanic@Ubuntu:~$ docker exec -it docker_container bash</div><div class="line">droot@Ubuntu:/# ip addr show</div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">2: eno1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:6d brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.20.92.74/24 brd 172.20.92.255 scope global eno1</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::1618:77ff:fe33:7b6d/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">3: eno2: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc mq state DOWN group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:6e brd ff:ff:ff:ff:ff:ff</div><div class="line">4: eno3: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc mq state DOWN group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:6f brd ff:ff:ff:ff:ff:ff</div><div class="line">5: eno4: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc mq state DOWN group default qlen 1000</div><div class="line">    link/ether 14:18:77:33:7b:70 brd ff:ff:ff:ff:ff:ff</div><div class="line">6: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default</div><div class="line">    link/ether 02:42:e6:53:0e:90 brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 172.18.250.1/24 brd 172.18.250.255 scope global docker0</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::42:e6ff:fe53:e90/64 scope link</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@Ubuntu:/#</div></pre></td></tr></table></figure></p>
 <p>同样的，container模式的网络与参数指定的容器一模一样。</p>
+<h3 id="None模式"><a href="#None模式" class="headerlink" title="None模式"></a>None模式</h3><p>如果启用容器的时候使用None模式，Docker容器拥有自己的Network Namespace，但是初始化时并不为Docker容器配置任何网络。<br>也就是说，这个Docker没有任何的网卡、IP、路由信息等。需要我们自己为Docker添加网卡、配置IP。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dpanic@Ubuntu:~/public$ docker run -it --net=none --name docker_none debian:9.6</div><div class="line">root@69960d7928f5:/# ip addr show</div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">root@69960d7928f5:/#</div></pre></td></tr></table></figure></p>
+<h3 id="Docker跨主机通信"><a href="#Docker跨主机通信" class="headerlink" title="Docker跨主机通信"></a>Docker跨主机通信</h3><p>通过上面的介绍，我们知道，部署在单台主机上的所有Docker可以通过docker0网桥直接通信。<br>而部署在不同主机上的Docker，则需要通过在主机上做端口映射进行通信。容器启动之后，可以通过-p或者-P参数来指定端口映射。<br>注意：<br>宿主机的一个端口只能映射到容器内部的某一个端口上，比如：8080-&gt;80之后，就不能8080-&gt;81<br>容器内部的某个端口可以被宿主机的多个端口映射,比如：8080-&gt;80，8090-&gt;80,8099-&gt;80</p>
 
       
 
@@ -302,7 +304,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridge模式"><span class="toc-number">1.</span> <span class="toc-text">Bridge模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Host模式"><span class="toc-number">2.</span> <span class="toc-text">Host模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Container模式"><span class="toc-number">3.</span> <span class="toc-text">Container模式</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridge模式"><span class="toc-number">1.</span> <span class="toc-text">Bridge模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Host模式"><span class="toc-number">2.</span> <span class="toc-text">Host模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Container模式"><span class="toc-number">3.</span> <span class="toc-text">Container模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#None模式"><span class="toc-number">4.</span> <span class="toc-text">None模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker跨主机通信"><span class="toc-number">5.</span> <span class="toc-text">Docker跨主机通信</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -446,10 +448,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
               </li>
              
@@ -458,11 +456,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
+                <a href="javascript:void(0)" class="js-tag color5">自以为诗</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -479,6 +473,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,6 +505,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
               </li>
              
               <li class="article-tag-list-item">
