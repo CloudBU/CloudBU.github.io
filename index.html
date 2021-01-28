@@ -205,6 +205,118 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Overlay" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/28/Overlay/">Overlay技术</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/28/Overlay/" class="archive-article-date">
+  	<time datetime="2021-01-28T09:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><a href="http://www.h3c.com/cn/d_201603/920927_30003_0.htm" target="_blank" rel="external">http://www.h3c.com/cn/d_201603/920927_30003_0.htm</a><br>原文是H3C SDN Overlay技术白皮书</p>
+</blockquote>
+<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><h3 id="1-1-产生背景"><a href="#1-1-产生背景" class="headerlink" title="1.1 产生背景"></a>1.1 产生背景</h3><p>随着企业业务的快速扩展，IT作为基础设施，其快速部署和高利用率成为主要需求。<br>云计算可以为之提供可用的、便捷的、按需的资源提供，成为当前企业IT建设的常规形态，而在云计算中大量采用和部署的虚拟化几乎成为一个基本的技术模式。<br>部署虚拟机需要在网络中无限制地迁移到目的物理位置，虚机增长的快速性以及虚机迁移成为一个常态性业务。<br>传统的网络已经不能很好满足企业的这种需求，面临着如下挑战：</p>
+<ul>
+<li><p>虚拟机迁移范围受到网络架构限制<br>虚拟机迁移的网络属性要求，当其从一个物理机上迁移到另一个物理机上，虚拟机需要不间断业务，因而需要其IP地址、MAC地址等参数维持不变，如此则要求业务网络是一个二层网络，且要求网络本身具备多路径多链路的冗余和可靠性。<br>传统的网络生成树(STP，Spaning Tree Protocol)技术不仅部署繁琐，且协议复杂，网络规模不宜过大，限制了虚拟化的网络扩展性。<br>基于各厂家私有的IRF/vPC等设备级的（网络N:1）虚拟化技术，虽然可以简化拓扑、具备高可靠性，但是对于网络有强制的拓扑形状，在网络的规模和灵活性上有所欠缺，只适合小规模网络构建，且一般适用于数据中心内部网络。</p>
+</li>
+<li><p>虚拟机规模受网络规格限制<br>在大二层网络环境下，数据流均需要通过明确的网络寻址以保证准确到达目的地，因此网络设备的二层地址表项大小（即MAC地址表），成为决定了云计算环境下虚拟机的规模上限，并且因为表项并非百分之百的有效性，使得可用的虚机数量进一步降低。<br>特别是对于低成本的接入设备而言，因其表项一般规格较小，限制了整个云计算数据中心的虚拟机数量，但如果其地址表项设计为与核心或网关设备在同一档次，则会提升网络建设成本。<br>虽然核心或网关设备的MAC与ARP规格会随着虚拟机增长也面临挑战，但对于此层次设备能力而言，大规格是不可避免的业务支撑要求。减小接入设备规格压力的做法可以是分离网关能力，如采用多个网关来分担虚机的终结和承载，但如此也会带来成本的巨幅上升。</p>
+</li>
+<li><p>网络隔离/分离能力限制<br>当前的主流网络隔离技术为VLAN（或VPN），在大规模虚拟化环境部署会有两大限制：<br>一是VLAN数量在标准定义中只有12个比特单位，即可用的数量为4K，这样的数量级对于公有云或大型虚拟化云计算应用而言微不足道，其网络隔离与分离要求轻而易举会突破4K；<br>二是VLAN技术当前为静态配置型技术，这样使得整个数据中心的网络几乎为所有VLAN被允许通过(核心设备更是如此)，导致任何一个VLAN的未知目的广播数据会在整网泛滥，无节制消耗网络交换能力与带宽。</p>
+</li>
+</ul>
+<p>上述的三大挑战，完全依赖于物理网络设备本身的技术改良，目前看来并不能完全解决大规模云计算环境下的问题，一定程度上还需要更大范围的技术革新来消除这些限制，以满足云计算虚拟化的网络能力需求。在此驱动力基础上，逐步演化出Overlay网络技术。</p>
+<h3 id="1-2-技术优点"><a href="#1-2-技术优点" class="headerlink" title="1.2 技术优点"></a>1.2 技术优点</h3><p>Overlay是一种叠加虚拟化技术，主要具有以下优点：</p>
+<ul>
+<li>基于IP网络构建Fabric。无特殊拓扑限制，IP可达即可；承载网络和业务网络分离；对现有网络改动较小，保护用户现有投资。</li>
+<li>16M多租户共享，极大扩展了隔离数量。</li>
+<li>网络简化、安全。虚拟网络支持L2、L3等，无需运行LAN协议，骨干网络无需大量VLAN Trunk。</li>
+<li>支持多样化的组网部署方式，支持跨域互访。</li>
+<li>支持虚拟机灵活迁移，安全策略动态跟随。</li>
+<li>转发优化和表项容量增大。消除了MAC表项学习泛滥，ARP等泛洪流量可达范围可控，且东西向流量无需经过网关</li>
+</ul>
+<h2 id="2-Overlay技术介绍"><a href="#2-Overlay技术介绍" class="headerlink" title="2 Overlay技术介绍"></a>2 Overlay技术介绍</h2><h3 id="2-1-Overlay概念介绍"><a href="#2-1-Overlay概念介绍" class="headerlink" title="2.1 Overlay概念介绍"></a>2.1 Overlay概念介绍</h3><p>Overlay在网络技术领域，是一种网络架构上叠加的虚拟化技术模式，其大体框架是对基础网络不进行大规模修改的条件下，实现应用在网络上的承载，并能与其它网络业务分离，并且以基于IP的基础网络技术为主（如图1所示）。</p>
+<p><div align="center"><img src="/assets/blogImg/overlay.png" alt="图1 Linux-network-stack"></div></p>
+<ul>
+<li>Overlay网络是指建立在已有网络上的虚拟网，逻辑节点和逻辑链路构成了Overlay网络。</li>
+<li>Overlay网络是具有独立的控制和转发平面，对于连接在overlay边缘设备之外的终端系统来说，物理网络是透明的。</li>
+<li>Overlay网络是物理网络向云和虚拟化的深度延伸，使云资源池化能力可以摆脱物理网络的重重限制，是实现云网融合的关键。</li>
+</ul>
+<h3 id="2-2-Overlay解决方案"><a href="#2-2-Overlay解决方案" class="headerlink" title="2.2 Overlay解决方案"></a>2.2 Overlay解决方案</h3><p>针对前文提到的三大挑战，Overlay给出了完美的解决方法。</p>
+<ul>
+<li><p>针对虚机迁移范围受到网络架构限制的解决方式<br>Overlay把二层报文封装在IP报文之上，因此，只要网络支持IP路由可达就可以部署Overlay网络，而IP路由网络本身已经非常成熟，且在网络结构上没有特殊要求。而且路由网络本身具备良好的扩展能力，很强的故障自愈能力和负载均衡能力。采用Overlay技术后，企业不用改变现有网络架构即可用于支撑新的云计算业务，极方便用户部署。</p>
+</li>
+<li><p>针对虚机规模受网络规格限制的解决方式<br>虚拟机数据封装在IP数据包中后，对网络只表现为封装后的网络参数，即隧道端点的地址，因此，对于承载网络（特别是接入交换机），MAC地址规格需求极大降低，最低规格也就是几十个（每个端口一台物理服务器的隧道端点MAC）。当然，对于核心/网关处的设备表项(MAC/ARP)要求依然极高，当前的解决方案仍然是采用分散方式，通过多个核心/网关设备来分散表项的处理压力。</p>
+</li>
+<li><p>针对网络隔离/分离能力限制的解决方式<br>针对VLAN只能支持数量4K以内的限制，在Overlay技术中扩展了隔离标识的位数，可以支持高达16M的用户，极大扩展了隔离数量。</p>
+</li>
+</ul>
+<h2 id="3-Overlay技术实现"><a href="#3-Overlay技术实现" class="headerlink" title="3 Overlay技术实现"></a>3 Overlay技术实现</h2><h3 id="3-1-Overlay网络基础架构"><a href="#3-1-Overlay网络基础架构" class="headerlink" title="3.1 Overlay网络基础架构"></a>3.1 Overlay网络基础架构</h3><p>VXLAN（Virtual eXtensible LAN，可扩展虚拟局域网络）是基于IP网络、采用“MAC in UDP”封装形式的二层VPN技术，具体封装的报文格式如图2所示。VXLAN可以基于已有的服务提供商或企业IP网络，为分散的物理站点提供二层互联功能，主要应用于数据中心网络。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Network</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/28/Overlay/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-网页访问全过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -902,82 +1014,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Algorithm - Sort" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/11/Algorithm - Sort/">排序算法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/11/Algorithm - Sort/" class="archive-article-date">
-  	<time datetime="2019-08-11T05:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一些需要滚瓜烂熟的算法代码和思路"><a href="#一些需要滚瓜烂熟的算法代码和思路" class="headerlink" title="一些需要滚瓜烂熟的算法代码和思路"></a>一些需要滚瓜烂熟的算法代码和思路</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>参考《算法导论》第二章 Page15～18描述<br>算法思想：参考抓牌过程（将新抓的牌插入已经有序的队列中）<br>伪代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">INSERT-SORT[A]</div><div class="line">for j ← 2 to length[A]</div><div class="line">  do key ← A[j]</div><div class="line">  i ← j-1</div><div class="line">  while i&gt;0 and A[i]&gt;key</div><div class="line">    A[i+1] ← A[i]</div><div class="line">    i ← i-1</div><div class="line">  A[i+1] ← key</div></pre></td></tr></table></figure></p>
-        
-          <a class="article-more-a" href="/2019/08/11/Algorithm - Sort/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/11/Algorithm - Sort/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1083,11 +1119,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">开源</a>
+                <a href="javascript:void(0)" class="js-tag color3">网络</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">网络</a>
+                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">开源</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1099,10 +1139,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">BIOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
@@ -1111,19 +1147,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux Docker</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1131,15 +1155,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux Docker</a>
+                <a href="javascript:void(0)" class="js-tag color5">转发芯片</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+                <a href="javascript:void(0)" class="js-tag color4">交换机</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1155,14 +1175,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">BMC</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Linux NFV</a>
               </li>
              
@@ -1171,7 +1183,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">IPMI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">BMC</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">路由器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">UEFI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">EDK-II</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">用户手册系列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Bitbake</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1183,15 +1219,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据平面</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">DPDK</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Yocto</a>
               </li>
              
               <li class="article-tag-list-item">

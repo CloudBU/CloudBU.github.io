@@ -6,22 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://lockless.github.io">
-  <title>DPDK编程指南（六） | 拙言</title>
+  <title>Overlay技术 | 拙言</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="6.报文缓冲区库报文缓冲区库（Mbuf）提供了申请和释放缓冲区的功能，DPDK应用程序使用这些buffer存储消息缓冲。消息缓冲存储在mempool中，使用内存池库 。 数据结构rte_mbuf可以承载网络数据包buffer或者通用控制消息buffer(由CTRL_MBUF_FLAG指示)。也可以扩展到其他类型。rte_mbuf头部结构尽可能小，目前只使用两个缓存行，最常用的字段位于第一个缓存行中">
-<meta name="keywords" content="数据平面,DPDK">
+  <meta name="description" content="http://www.h3c.com/cn/d_201603/920927_30003_0.htm原文是H3C SDN Overlay技术白皮书  1 概述1.1 产生背景随着企业业务的快速扩展，IT作为基础设施，其快速部署和高利用率成为主要需求。云计算可以为之提供可用的、便捷的、按需的资源提供，成为当前企业IT建设的常规形态，而在云计算中大量采用和部署的虚拟化几乎成为一个基本的技术模式。部署虚">
+<meta name="keywords" content="Network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DPDK编程指南（六）">
-<meta property="og:url" content="http://lockless.github.io/2017/09/06/dpdk-pg-6/index.html">
+<meta property="og:title" content="Overlay技术">
+<meta property="og:url" content="http://lockless.github.io/2021/01/28/Overlay/index.html">
 <meta property="og:site_name" content="拙言">
-<meta property="og:description" content="6.报文缓冲区库报文缓冲区库（Mbuf）提供了申请和释放缓冲区的功能，DPDK应用程序使用这些buffer存储消息缓冲。消息缓冲存储在mempool中，使用内存池库 。 数据结构rte_mbuf可以承载网络数据包buffer或者通用控制消息buffer(由CTRL_MBUF_FLAG指示)。也可以扩展到其他类型。rte_mbuf头部结构尽可能小，目前只使用两个缓存行，最常用的字段位于第一个缓存行中">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-2b4f224d25f344b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7246758-a1af2e04a5e25528.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-11-13T08:28:26.080Z">
+<meta property="og:description" content="http://www.h3c.com/cn/d_201603/920927_30003_0.htm原文是H3C SDN Overlay技术白皮书  1 概述1.1 产生背景随着企业业务的快速扩展，IT作为基础设施，其快速部署和高利用率成为主要需求。云计算可以为之提供可用的、便捷的、按需的资源提供，成为当前企业IT建设的常规形态，而在云计算中大量采用和部署的虚拟化几乎成为一个基本的技术模式。部署虚">
+<meta property="og:image" content="http://lockless.github.io/assets/blogImg/overlay.png">
+<meta property="og:updated_time" content="2021-01-28T09:43:28.921Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DPDK编程指南（六）">
-<meta name="twitter:description" content="6.报文缓冲区库报文缓冲区库（Mbuf）提供了申请和释放缓冲区的功能，DPDK应用程序使用这些buffer存储消息缓冲。消息缓冲存储在mempool中，使用内存池库 。 数据结构rte_mbuf可以承载网络数据包buffer或者通用控制消息buffer(由CTRL_MBUF_FLAG指示)。也可以扩展到其他类型。rte_mbuf头部结构尽可能小，目前只使用两个缓存行，最常用的字段位于第一个缓存行中">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7246758-2b4f224d25f344b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Overlay技术">
+<meta name="twitter:description" content="http://www.h3c.com/cn/d_201603/920927_30003_0.htm原文是H3C SDN Overlay技术白皮书  1 概述1.1 产生背景随着企业业务的快速扩展，IT作为基础设施，其快速部署和高利用率成为主要需求。云计算可以为之提供可用的、便捷的、按需的资源提供，成为当前企业IT建设的常规形态，而在云计算中大量采用和部署的虚拟化几乎成为一个基本的技术模式。部署虚">
+<meta name="twitter:image" content="http://lockless.github.io/assets/blogImg/overlay.png">
   
     <link rel="alternative" href="/atom.xml" title="拙言" type="application/atom+xml">
   
@@ -207,95 +206,65 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-dpdk-pg-6" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Overlay" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      DPDK编程指南（六）
+      Overlay技术
     </h1>
   
 
         
-        <a href="/2017/09/06/dpdk-pg-6/" class="archive-article-date">
-  	<time datetime="2017-09-06T04:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-06</time>
+        <a href="/2021/01/28/Overlay/" class="archive-article-date">
+  	<time datetime="2021-01-28T09:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="6-报文缓冲区库"><a href="#6-报文缓冲区库" class="headerlink" title="6.报文缓冲区库"></a>6.报文缓冲区库</h1><p>报文缓冲区库（Mbuf）提供了申请和释放缓冲区的功能，DPDK应用程序使用这些buffer存储消息缓冲。消息缓冲存储在mempool中，使用内存池库 。</p>
-<p>数据结构rte_mbuf可以承载网络数据包buffer或者通用控制消息buffer(由CTRL_MBUF_FLAG指示)。也可以扩展到其他类型。rte_mbuf头部结构尽可能小，目前只使用两个缓存行，最常用的字段位于第一个缓存行中。</p>
-<a id="more"></a>
-<h2 id="6-1-报文缓冲区设计"><a href="#6-1-报文缓冲区设计" class="headerlink" title="6.1.报文缓冲区设计"></a>6.1.报文缓冲区设计</h2><p>为了存储数据包数据（包括协议头部），考虑了两种方法：</p>
-<ol>
-<li>在单个存储buffer中嵌入metadata，后面跟着数据包数据固定大小区域</li>
-<li>为metadata和报文数据分别使用独立的存储buffer。</li>
-</ol>
-<p>第一种方法的优点是他只需要一个操作来分配/释放数据包的整个存储表示。但是，第二种方法更加灵活，并允许将元数据的分配与报文数据缓冲区的分配完全分离。</p>
-<p>DPDK选择了第一种方法。Metadata包含诸如消息类型，长度，到数据开头的偏移量等控制信息，以及允许缓冲链接的附加mbuf结构指针。</p>
-<p>用于承载网络数据包buffer的消息缓冲可以处理需要多个缓冲区来保存完整数据包的情况。许多通过下一个字段链接在一起的mbuf组成的jumbo帧，就是这种情况。</p>
-<p>对于新分配的mbuf，数据开始的区域是buffer之后 RTE_PKTMBUF_HEADROOM 字节的位置，这是缓存对齐的。 Message buffers可以在系统中的不同实体中携带控制信息，报文，事件等。 Message buffers也可以使用起buffer指针来指向其他消息缓冲的数据字段或其他数据结构。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-2b4f224d25f344b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 6 1 An mbuf with One Segment"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7246758-a1af2e04a5e25528.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Figure 6 2 An mbuf with Three Segments"></p>
-<p>Buffer Manager实现了一组相当标准的buffer访问操作来操纵网络数据包。</p>
-<h2 id="6-2-存储在内存池中的缓冲区"><a href="#6-2-存储在内存池中的缓冲区" class="headerlink" title="6.2.存储在内存池中的缓冲区"></a>6.2.存储在内存池中的缓冲区</h2><p>Buffer Manager使用内存池库来申请buffer。因此确保了数据包头部均衡分布到信道上，有利于L3处理。mbuf中包含一个字段，用于表示它从哪个池中申请出来。当调用 rte_ctrlmbuf_free(m) 或 rte_pktmbuf_free(m)，mbuf被释放到原来的池中。</p>
-<h2 id="6-3-构造函数"><a href="#6-3-构造函数" class="headerlink" title="6.3.构造函数"></a>6.3.构造函数</h2><p>Packet及control mbuf构造函数由API提供。接口rte_pktmbuf_init()及rte_ctrlmbuf_init()初始化mbuf结构中的某些字段，这些字段一旦创建将不会被用户修改（如mbuf类型、源池、缓冲区起始地址等）。此函数在池创建时作为rte_mempool_create()函数的回掉函数给出。</p>
-<h2 id="6-4-缓冲区申请及释放"><a href="#6-4-缓冲区申请及释放" class="headerlink" title="6.4.缓冲区申请及释放"></a>6.4.缓冲区申请及释放</h2><p>分配一个新mbuf需要用户指定从哪个池中申请。对于任意新分配的mbuf，它包含一个段，长度为0。 缓冲区到数据的偏移量被初始化，以便使得buffer具有一些字节（RTE_PKTMBUF_HEADROOM）的headroom。</p>
-<p>释放mbuf意味着将其返回到原始的mempool。当mbuf的内容存储在一个池中（作为一个空闲的mbuf）时，mbuf的内容不会被修改。由构造函数初始化的字段不需要在mbuf分配时重新初始化。</p>
-<p>当释放包含多个段的数据包mbuf时，他们都被释放，并返回到原始mempool。</p>
-<h2 id="6-5-缓冲区操作"><a href="#6-5-缓冲区操作" class="headerlink" title="6.5.缓冲区操作"></a>6.5.缓冲区操作</h2><p>这个库提供了一些操作数据包mbuf中的数据的功能。例如：</p>
+        <blockquote>
+<p><a href="http://www.h3c.com/cn/d_201603/920927_30003_0.htm" target="_blank" rel="external">http://www.h3c.com/cn/d_201603/920927_30003_0.htm</a><br>原文是H3C SDN Overlay技术白皮书</p>
+</blockquote>
+<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><h3 id="1-1-产生背景"><a href="#1-1-产生背景" class="headerlink" title="1.1 产生背景"></a>1.1 产生背景</h3><p>随着企业业务的快速扩展，IT作为基础设施，其快速部署和高利用率成为主要需求。<br>云计算可以为之提供可用的、便捷的、按需的资源提供，成为当前企业IT建设的常规形态，而在云计算中大量采用和部署的虚拟化几乎成为一个基本的技术模式。<br>部署虚拟机需要在网络中无限制地迁移到目的物理位置，虚机增长的快速性以及虚机迁移成为一个常态性业务。<br>传统的网络已经不能很好满足企业的这种需求，面临着如下挑战：</p>
 <ul>
-<li>获取数据长度</li>
-<li>获取指向数据开始位置的指针</li>
-<li>数据前插入数据</li>
-<li>数据之后添加数据</li>
-<li>删除缓冲区开头的数据（rte_pktmbuf_adj()）</li>
-<li>删除缓冲区末尾的数据（rte_pktmbuf_trim()）详细信息请参阅 DPDK API Reference</li>
-</ul>
-<h2 id="6-6-元数据信息"><a href="#6-6-元数据信息" class="headerlink" title="6.6.元数据信息"></a>6.6.元数据信息</h2><p>数据包的一些信息由网络驱动程序检索并存储在mbuf中使得处理更简单。例如，VLAN、RSS哈希结果（参见 Poll Mode Driver）及校验和由硬件计算的标志等。</p>
-<p>一个报文缓冲区中还包含数据源端口和报文链中mbuf数目。对于链接的mbuf，只有链的第一个mbuf存储这个元信息。</p>
-<p>例如，对于IEEE1588数据包，RX侧就是这种情况，时间戳机制，VLAN标记和IP校验和计算。 </p>
-<p>在TX端，应用程序还可以将一些处理委托给硬件。 例如，PKT_TX_IP_CKSUM标志允许卸载IPv4校验和的计算。</p>
-<p>以下示例说明如何在vxlan封装的tcp数据包上配置不同的TX offloads：out_eth/out_ip/out_udp/vxlan/in_eth/in_ip/in_tcp/payload</p>
-<ul>
-<li><p>计算out_ip的校验和:</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mb-&gt;l2_len = len(out_eth)</div><div class="line">mb-&gt;l3_len = len(out_ip)</div><div class="line">mb-&gt;ol_flags |= PKT_TX_IPV4 | PKT_TX_IP_CSUM</div><div class="line">set out_ip checksum to 0 in the packet</div></pre></td></tr></table></figure>
-<p>配置DEV_TX_OFFLOAD_IPV4_CKSUM支持在硬件计算。</p>
+<li><p>虚拟机迁移范围受到网络架构限制<br>虚拟机迁移的网络属性要求，当其从一个物理机上迁移到另一个物理机上，虚拟机需要不间断业务，因而需要其IP地址、MAC地址等参数维持不变，如此则要求业务网络是一个二层网络，且要求网络本身具备多路径多链路的冗余和可靠性。<br>传统的网络生成树(STP，Spaning Tree Protocol)技术不仅部署繁琐，且协议复杂，网络规模不宜过大，限制了虚拟化的网络扩展性。<br>基于各厂家私有的IRF/vPC等设备级的（网络N:1）虚拟化技术，虽然可以简化拓扑、具备高可靠性，但是对于网络有强制的拓扑形状，在网络的规模和灵活性上有所欠缺，只适合小规模网络构建，且一般适用于数据中心内部网络。</p>
 </li>
-<li><p>计算out_ip 和 out_udp的校验和: </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mb-&gt;l2_len = len(out_eth)</div><div class="line">mb-&gt;l3_len = len(out_ip)</div><div class="line">mb-&gt;ol_flags |= PKT_TX_IPV4 | PKT_TX_IP_CSUM | PKT_TX_UDP_CKSUM</div><div class="line">set out_ip checksum to 0 in the packet</div><div class="line">set out_udp checksum to pseudo header using rte_ipv4_phdr_cksum()</div></pre></td></tr></table></figure>
-<p>  配置DEV_TX_OFFLOAD_IPV4_CKSUM 和 DEV_TX_OFFLOAD_UDP_CKSUM支持在硬件上计算。</p>
+<li><p>虚拟机规模受网络规格限制<br>在大二层网络环境下，数据流均需要通过明确的网络寻址以保证准确到达目的地，因此网络设备的二层地址表项大小（即MAC地址表），成为决定了云计算环境下虚拟机的规模上限，并且因为表项并非百分之百的有效性，使得可用的虚机数量进一步降低。<br>特别是对于低成本的接入设备而言，因其表项一般规格较小，限制了整个云计算数据中心的虚拟机数量，但如果其地址表项设计为与核心或网关设备在同一档次，则会提升网络建设成本。<br>虽然核心或网关设备的MAC与ARP规格会随着虚拟机增长也面临挑战，但对于此层次设备能力而言，大规格是不可避免的业务支撑要求。减小接入设备规格压力的做法可以是分离网关能力，如采用多个网关来分担虚机的终结和承载，但如此也会带来成本的巨幅上升。</p>
 </li>
-<li><p>计算in_ip的校验和: </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mb-&gt;l2_len = len(out_eth + out_ip + out_udp + vxlan + in_eth)</div><div class="line">mb-&gt;l3_len = len(in_ip)</div><div class="line">mb-&gt;ol_flags |= PKT_TX_IPV4 | PKT_TX_IP_CSUM</div><div class="line">set in_ip checksum to 0 in the packet</div></pre></td></tr></table></figure>
-<p>  这以情况1类似，但是l2_len不同。 配置DEV_TX_OFFLOAD_IPV4_CKSUM支持硬件计算。 注意，只有外部L4校验和为0时才可以工作。</p>
-</li>
-<li><p>计算in_ip 和 in_tcp的校验和: </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mb-&gt;l2_len = len(out_eth + out_ip + out_udp + vxlan + in_eth)</div><div class="line">mb-&gt;l3_len = len(in_ip)</div><div class="line">mb-&gt;ol_flags |= PKT_TX_IPV4 | PKT_TX_IP_CSUM | PKT_TX_TCP_CKSUM</div><div class="line">在报文中设置in_ip校验和为0</div><div class="line">使用rte_ipv4_phdr_cksum()将in_tcp校验和设置为伪头</div></pre></td></tr></table></figure>
-<p>   这与情况2类似，但是l2_len不同。 配置DEV_TX_OFFLOAD_IPV4_CKSUM 和 DEV_TX_OFFLOAD_TCP_CKSUM支持硬件实现。 注意，只有外部L4校验和为0才能工作。</p>
-</li>
-<li><p>segment inner TCP: </p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mb-&gt;l2_len = len(out_eth + out_ip + out_udp + vxlan + in_eth)</div><div class="line">mb-&gt;l3_len = len(in_ip)</div><div class="line">mb-&gt;l4_len = len(in_tcp)</div><div class="line">mb-&gt;ol_flags |= PKT_TX_IPV4 | PKT_TX_IP_CKSUM | PKT_TX_TCP_CKSUM | PKT_TX_TCP_SEG;</div><div class="line">在报文中设置in_ip校验和为0</div><div class="line">将in_tcp校验和设置为伪头部，而不使用IP载荷长度</div><div class="line">配置DEV_TX_OFFLOAD_TCP_TSO支持硬件实现。 注意，只有L4校验和为0时才能工作。</div></pre></td></tr></table></figure>
+<li><p>网络隔离/分离能力限制<br>当前的主流网络隔离技术为VLAN（或VPN），在大规模虚拟化环境部署会有两大限制：<br>一是VLAN数量在标准定义中只有12个比特单位，即可用的数量为4K，这样的数量级对于公有云或大型虚拟化云计算应用而言微不足道，其网络隔离与分离要求轻而易举会突破4K；<br>二是VLAN技术当前为静态配置型技术，这样使得整个数据中心的网络几乎为所有VLAN被允许通过(核心设备更是如此)，导致任何一个VLAN的未知目的广播数据会在整网泛滥，无节制消耗网络交换能力与带宽。</p>
 </li>
 </ul>
+<p>上述的三大挑战，完全依赖于物理网络设备本身的技术改良，目前看来并不能完全解决大规模云计算环境下的问题，一定程度上还需要更大范围的技术革新来消除这些限制，以满足云计算虚拟化的网络能力需求。在此驱动力基础上，逐步演化出Overlay网络技术。</p>
+<h3 id="1-2-技术优点"><a href="#1-2-技术优点" class="headerlink" title="1.2 技术优点"></a>1.2 技术优点</h3><p>Overlay是一种叠加虚拟化技术，主要具有以下优点：</p>
 <ul>
-<li><p>计算out_ip, in_ip, in_tcp的校验和:</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mb-&gt;outer_l2_len = len(out_eth)</div><div class="line">mb-&gt;outer_l3_len = len(out_ip)</div><div class="line">mb-&gt;l2_len = len(out_udp + vxlan + in_eth)</div><div class="line">mb-&gt;l3_len = len(in_ip)</div><div class="line">mb-&gt;ol_flags|=PKT_TX_OUTER_IPV4|PKT_TX_OUTER_IP_CKSUM | PKT_TX_IP_CKSUM |  PKT_TX_TCP_CKSUM;</div><div class="line">设置 out_ip 校验和为0</div><div class="line">设置 in_ip 校验和为0</div><div class="line">使用rte_ipv4_phdr_cksum()设置in_tcp校验和为伪头部</div></pre></td></tr></table></figure>
-<p>   配置DEV_TX_OFFLOAD_IPV4_CKSUM、DEV_TX_OFFLOAD_UDP_CKSUM、 DEV_TX_OFFLOAD_OUTER_IPV4_CKSUM支持硬件实现。</p>
+<li>基于IP网络构建Fabric。无特殊拓扑限制，IP可达即可；承载网络和业务网络分离；对现有网络改动较小，保护用户现有投资。</li>
+<li>16M多租户共享，极大扩展了隔离数量。</li>
+<li>网络简化、安全。虚拟网络支持L2、L3等，无需运行LAN协议，骨干网络无需大量VLAN Trunk。</li>
+<li>支持多样化的组网部署方式，支持跨域互访。</li>
+<li>支持虚拟机灵活迁移，安全策略动态跟随。</li>
+<li>转发优化和表项容量增大。消除了MAC表项学习泛滥，ARP等泛洪流量可达范围可控，且东西向流量无需经过网关</li>
+</ul>
+<h2 id="2-Overlay技术介绍"><a href="#2-Overlay技术介绍" class="headerlink" title="2 Overlay技术介绍"></a>2 Overlay技术介绍</h2><h3 id="2-1-Overlay概念介绍"><a href="#2-1-Overlay概念介绍" class="headerlink" title="2.1 Overlay概念介绍"></a>2.1 Overlay概念介绍</h3><p>Overlay在网络技术领域，是一种网络架构上叠加的虚拟化技术模式，其大体框架是对基础网络不进行大规模修改的条件下，实现应用在网络上的承载，并能与其它网络业务分离，并且以基于IP的基础网络技术为主（如图1所示）。</p>
+<p><div align="center"><img src="/assets/blogImg/overlay.png" alt="图1 Linux-network-stack"></div></p>
+<ul>
+<li>Overlay网络是指建立在已有网络上的虚拟网，逻辑节点和逻辑链路构成了Overlay网络。</li>
+<li>Overlay网络是具有独立的控制和转发平面，对于连接在overlay边缘设备之外的终端系统来说，物理网络是透明的。</li>
+<li>Overlay网络是物理网络向云和虚拟化的深度延伸，使云资源池化能力可以摆脱物理网络的重重限制，是实现云网融合的关键。</li>
+</ul>
+<h3 id="2-2-Overlay解决方案"><a href="#2-2-Overlay解决方案" class="headerlink" title="2.2 Overlay解决方案"></a>2.2 Overlay解决方案</h3><p>针对前文提到的三大挑战，Overlay给出了完美的解决方法。</p>
+<ul>
+<li><p>针对虚机迁移范围受到网络架构限制的解决方式<br>Overlay把二层报文封装在IP报文之上，因此，只要网络支持IP路由可达就可以部署Overlay网络，而IP路由网络本身已经非常成熟，且在网络结构上没有特殊要求。而且路由网络本身具备良好的扩展能力，很强的故障自愈能力和负载均衡能力。采用Overlay技术后，企业不用改变现有网络架构即可用于支撑新的云计算业务，极方便用户部署。</p>
+</li>
+<li><p>针对虚机规模受网络规格限制的解决方式<br>虚拟机数据封装在IP数据包中后，对网络只表现为封装后的网络参数，即隧道端点的地址，因此，对于承载网络（特别是接入交换机），MAC地址规格需求极大降低，最低规格也就是几十个（每个端口一台物理服务器的隧道端点MAC）。当然，对于核心/网关处的设备表项(MAC/ARP)要求依然极高，当前的解决方案仍然是采用分散方式，通过多个核心/网关设备来分散表项的处理压力。</p>
+</li>
+<li><p>针对网络隔离/分离能力限制的解决方式<br>针对VLAN只能支持数量4K以内的限制，在Overlay技术中扩展了隔离标识的位数，可以支持高达16M的用户，极大扩展了隔离数量。</p>
 </li>
 </ul>
-<p>Flage标记的意义在mbuf API文档(rte_mbuf.h)中有详细描述。 更多详细信息还可以参阅testpmd 源码(特别是csumonly.c)。</p>
-<h2 id="6-7-直接缓冲区和间接缓冲区"><a href="#6-7-直接缓冲区和间接缓冲区" class="headerlink" title="6.7.直接缓冲区和间接缓冲区"></a>6.7.直接缓冲区和间接缓冲区</h2><p>直接缓冲区是指缓冲区完全独立。间接缓冲区的行为类似于直接缓冲区，但缓冲区的指针和数据偏移量指的是另一个直接缓冲区的数据。这在数据包需要复制或分段的情况下是很有用的，因为间接缓冲区提供跨越多个缓冲区重用相同数据包数据的手段。</p>
-<p>当使用接口 rte_pktmbuf_attach() 函数将缓冲区附加到直接缓冲区时，该缓冲区变成间接缓冲区。每个缓冲区有一个引用计数器字段，每当直接缓冲区附加一个间接缓冲区时，直接缓冲区上的引用计数器递增。类似的，每当间接缓冲区被分裂时，直接缓冲区上的引用计数器递减。如果生成的引用计数器为0，则直接缓冲区将被释放，因为它不再使用。</p>
-<p>处理间接缓冲区时需要注意几件事情。首先，间接缓冲区从不附加到另一个间接缓冲区。尝试将缓冲区A附加到间接缓冲区B（且B附加到C上了），将使得rte_pktmbuf_attach() 自动将A附加到C上。其次，为了使缓冲区变成间接缓冲区，其引用计数必须等于1，也就是说它不能被另一个间接缓冲区引用。最后，不可能将间接缓冲区重新链接到直接缓冲区（除非它已经被分离了）。</p>
-<p>虽然可以使用推荐的rte_pktmbuf_attach()和rte_pktmbuf_detach()函数直接调用附加/分离操作，但建议使用更高级的rte_pktmbuf_clone()函数，该函数负责间接缓冲区的正确初始化，并可以克隆具有多个段的缓冲区。</p>
-<p>由于间接缓冲区不应该实际保存任何数据，间接缓冲区的内存池应配置为指示减少的内存消耗。可以在几个示例应用程序中找到用于间接缓冲区的内存池（以及间接缓冲区的用例示例）的初始化示例，例如IPv4组播示例应用程序。</p>
-<h2 id="6-8-调试"><a href="#6-8-调试" class="headerlink" title="6.8.调试"></a>6.8.调试</h2><p>在调试模式（CONFIG_RTE_MBUF_DEBUG使能）下，mbuf库的函数在任何操作之前执行完整性检查(如缓冲区检查、类型错误等)。</p>
-<h2 id="6-9-用例"><a href="#6-9-用例" class="headerlink" title="6.9.用例"></a>6.9.用例</h2><p>所有网络应用程序都应该使用mbufs来传输网络数据包。</p>
+<h2 id="3-Overlay技术实现"><a href="#3-Overlay技术实现" class="headerlink" title="3 Overlay技术实现"></a>3 Overlay技术实现</h2><h3 id="3-1-Overlay网络基础架构"><a href="#3-1-Overlay网络基础架构" class="headerlink" title="3.1 Overlay网络基础架构"></a>3.1 Overlay网络基础架构</h3><p>VXLAN（Virtual eXtensible LAN，可扩展虚拟局域网络）是基于IP网络、采用“MAC in UDP”封装形式的二层VPN技术，具体封装的报文格式如图2所示。VXLAN可以基于已有的服务提供商或企业IP网络，为分散的物理站点提供二层互联功能，主要应用于数据中心网络。</p>
 
       
 
@@ -309,11 +278,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据平面</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">DPDK</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Network</a>
         		</li>
       		
 		</ul>
@@ -369,7 +334,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      < img src="http://b.bshare.cn/barCode?site=weixin&url=http://lockless.github.io/2017/09/06/dpdk-pg-6/" alt="微信分享二维码">
+      < img src="http://b.bshare.cn/barCode?site=weixin&url=http://lockless.github.io/2021/01/28/Overlay/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -383,18 +348,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/06/Do-Not-Go-Gentle-into-That-Good-Night/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          不要温和地走入那个良夜
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/06/dpdk-pg-5/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">DPDK编程指南（五）</div>
+    <a href="/2021/01/12/网页访问全过程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">用户访问网页的完整过程</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -421,7 +377,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#6-报文缓冲区库"><span class="toc-number">1.</span> <span class="toc-text">6.报文缓冲区库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-报文缓冲区设计"><span class="toc-number">1.1.</span> <span class="toc-text">6.1.报文缓冲区设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-存储在内存池中的缓冲区"><span class="toc-number">1.2.</span> <span class="toc-text">6.2.存储在内存池中的缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-构造函数"><span class="toc-number">1.3.</span> <span class="toc-text">6.3.构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-4-缓冲区申请及释放"><span class="toc-number">1.4.</span> <span class="toc-text">6.4.缓冲区申请及释放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-5-缓冲区操作"><span class="toc-number">1.5.</span> <span class="toc-text">6.5.缓冲区操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-6-元数据信息"><span class="toc-number">1.6.</span> <span class="toc-text">6.6.元数据信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-7-直接缓冲区和间接缓冲区"><span class="toc-number">1.7.</span> <span class="toc-text">6.7.直接缓冲区和间接缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-8-调试"><span class="toc-number">1.8.</span> <span class="toc-text">6.8.调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-9-用例"><span class="toc-number">1.9.</span> <span class="toc-text">6.9.用例</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-概述"><span class="toc-number">1.</span> <span class="toc-text">1 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-产生背景"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 产生背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-技术优点"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 技术优点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Overlay技术介绍"><span class="toc-number">2.</span> <span class="toc-text">2 Overlay技术介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Overlay概念介绍"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Overlay概念介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Overlay解决方案"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Overlay解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Overlay技术实现"><span class="toc-number">3.</span> <span class="toc-text">3 Overlay技术实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Overlay网络基础架构"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 Overlay网络基础架构</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
